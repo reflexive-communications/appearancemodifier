@@ -1,6 +1,8 @@
 <?php
 
 use CRM_Appearancemodifier_ExtensionUtil as E;
+use Civi\Api4\UFGroup;
+use Civi\Api4\AppearancemodifierProfile;
 
 /**
  * Form controller class
@@ -9,74 +11,132 @@ use CRM_Appearancemodifier_ExtensionUtil as E;
  */
 class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
 {
-    public function buildQuickForm()
+    private const PROFILE_FIELDS = [
+        'layout_handler',
+        'background_color',
+        'outro',
+        'invert_consent_fields',
+        'hide_form_labels',
+    ];
+    // The uf group, for display some stuff about it on the frontend.
+    private $ufGroup;
+
+    /**
+     * Preprocess form
+     *
+     * @throws CRM_Core_Exception
+     */
+    public function preProcess()
     {
-
-    // add form elements
-        $this->add(
-            'select', // field type
-      'favorite_color', // field name
-      'Favorite Color', // field label
-      $this->getColorOptions(), // list of options
-      true // is required
-        );
-        $this->addButtons(array(
-      array(
-        'type' => 'submit',
-        'name' => E::ts('Submit'),
-        'isDefault' => true,
-      ),
-    ));
-
-        // export form elements
-        $this->assign('elementNames', $this->getRenderableElementNames());
-        parent::buildQuickForm();
-    }
-
-    public function postProcess()
-    {
-        $values = $this->exportValues();
-        $options = $this->getColorOptions();
-        CRM_Core_Session::setStatus(E::ts('You picked color "%1"', array(
-      1 => $options[$values['favorite_color']],
-    )));
-        parent::postProcess();
-    }
-
-    public function getColorOptions()
-    {
-        $options = array(
-      '' => E::ts('- select -'),
-      '#f00' => E::ts('Red'),
-      '#0f0' => E::ts('Green'),
-      '#00f' => E::ts('Blue'),
-      '#f0f' => E::ts('Purple'),
-    );
-        foreach (array('1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e') as $f) {
-            $options["#{$f}{$f}{$f}"] = E::ts('Grey (%1)', array(1 => $f));
+        // Get the profile id query parameter.
+        $ufGroupId = CRM_Utils_Request::retrieve('pid', 'Integer');
+        // validate profile id.
+        $this->ufGroup = $this->getUfGroup($ufGroupId);
+        if ($this->ufGroup === []) {
+            throw new CRM_Core_Exception(ts('The selected profile seems to be deleted. Id: %1', [1=>$ufGroupId]));
         }
-        return $options;
     }
 
     /**
-     * Get the fields/elements defined in this form.
+     * Set default values
      *
-     * @return array (string)
+     * @return array
      */
-    public function getRenderableElementNames()
+    public function setDefaultValues()
     {
-        // The _elements list includes some items which should not be
-        // auto-rendered in the loop -- such as "qfKey" and "buttons".  These
-        // items don't have labels.  We'll identify renderable by filtering on
-        // the 'label'.
-        $elementNames = array();
-        foreach ($this->_elements as $element) {
-            /** @var HTML_QuickForm_Element $element */
-            $label = $element->getLabel();
-            if (!empty($label)) {
-                $elementNames[] = $element->getName();
-            }
+        $modifiedProfile = AppearancemodifierProfile::get()
+            ->addWhere('uf_group_id', '=', $this->ufGroup['id'])
+            ->setLimit(1)
+            ->execute()
+            ->first();
+        // Set defaults
+        foreach (self::PROFILE_FIELDS as $key) {
+            $this->_defaults[$key] = $modifiedProfile[$key];
         }
-        return $elementNames;
+        if ($modifiedProfile['background_color'] == null) {
+            $this->_defaults['original_color'] = 1;
+        }
+        return $this->_defaults;
+    }
+
+    /**
+     * Build form
+     */
+    public function buildQuickForm()
+    {
+        $layoutOptions = [
+        ];
+        // Fire hook event.
+        Civi::dispatcher()->dispatch(
+            "hook_civicrm_appearancemodifierProfileLayoutHandlers",
+            Civi\Core\Event\GenericHookEvent::create([
+                "options" => &$layoutOptions,
+            ])
+        );
+        $this->add('select', 'layout_handler', ts('Form Layout'), array_merge([''=>ts('Default')], $layoutOptions), false);
+        $this->add('color', 'background_color', ts('Background Color'), [], false);
+        $this->add('wysiwyg', 'outro', ts('Outro Text'), [], false);
+        $this->add('checkbox', 'invert_consent_fields', ts('Invert Consent Fields'), [], false);
+        $this->add('checkbox', 'original_color', ts('Original Background Color'), [], false);
+        $this->add('checkbox', 'hide_form_labels', ts('Hide text input labels'), [], false);
+        // Submit button
+        $this->addButtons(
+            [
+                [
+                    'type' => 'done',
+                    'name' => ts('Save'),
+                    'isDefault' => true,
+                ],
+                [
+                    'type' => 'cancel',
+                    'name' => ts('Cancel'),
+                ],
+            ]
+        );
+        $this->setTitle(ts('Customize %1 profile.', [1=>$this->ufGroup['title']]));
+        parent::buildQuickForm();
+    }
+
+    /**
+     * Process post data
+     */
+    public function postProcess()
+    {
+        $submitData = [];
+        foreach (self::PROFILE_FIELDS as $key) {
+            $submitData[$key] = $this->_submitValues[$key];
+        }
+        if ($this->_submitValues['original_color'] === '1') {
+            $submitData['background_color'] = '';
+        }
+        $modifiedProfile = AppearancemodifierProfile::update()
+            ->setLimit(1)
+            ->addWhere('uf_group_id', '=', $this->ufGroup['id']);
+        foreach (self::PROFILE_FIELDS as $key) {
+            $modifiedProfile = $modifiedProfile->addValue($key, $submitData[$key]);
+        }
+        $modifiedProfile = $modifiedProfile->execute();
+        CRM_Core_Session::setStatus(ts('Data has been updated.'), 'Appearancemodifier', 'success', ['expires' => 5000,]);
+
+        parent::postProcess();
+    }
+
+    /*
+     * This function is a wrapper for UFGroup.Get API call.
+     *
+     * @param int $id the ufgroup id.
+     *
+     * @return array the result uf group or empty array.
+     */
+    private function getUfGroup(int $id): array
+    {
+        $ufGroup = UFGroup::get()
+            ->addWhere('id', '=', $id)
+            ->setLimit(1)
+            ->execute();
+        if (count($ufGroup) === 0) {
+            return [];
+        }
+        return $ufGroup->first();
     }
 }
