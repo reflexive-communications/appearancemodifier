@@ -185,3 +185,33 @@ function appearancemodifier_civicrm_themes(&$themes)
 //  ));
 //  _appearancemodifier_civix_navigationMenu($menu);
 //}
+
+// The functions below are implemented by me.
+/**
+ * Implements hook_civicrm_post().
+ * On case of UFGroup create it also creates the Profile entry.
+ * On case of Survey create with activity_type 32 (petition signature)
+ * it also creates the Petition entry.
+ * On case of Event create it also creates the Event entry
+ *
+ * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_post
+ */
+function appearancemodifier_civicrm_post($op, $objectName, $objectId, &$objectRef)
+{
+    if ($op !== 'create') {
+        return;
+    }
+    if ($objectName === 'UFGroup') {
+        \Civi\Api4\AppearancemodifierProfile::create(false)
+            ->addValue('uf_group_id', $objectId)
+            ->execute();
+    } else if ($objectName === 'Survey' && $objectRef->activity_type_id === 32) {
+        \Civi\Api4\AppearancemodifierPetition::create(false)
+            ->addValue('survey_id', $objectId)
+            ->execute();
+    } else if ($objectName === 'Event') {
+        \Civi\Api4\AppearancemodifierEvent::create(false)
+            ->addValue('event_id', $objectId)
+            ->execute();
+    }
+}
