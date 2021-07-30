@@ -1,5 +1,10 @@
 <?php
 use CRM_Appearancemodifier_ExtensionUtil as E;
+use Civi\Api4\UFGroup;
+use Civi\Api4\Event;
+use Civi\Api4\AppearancemodifierProfile;
+use Civi\Api4\AppearancemodifierPetition;
+use Civi\Api4\AppearancemodifierEvent;
 
 /**
  * Collection of upgrade steps.
@@ -7,7 +12,97 @@ use CRM_Appearancemodifier_ExtensionUtil as E;
 class CRM_Appearancemodifier_Upgrader extends CRM_Appearancemodifier_Upgrader_Base
 {
 
-  // By convention, functions that look like "function upgrade_NNNN()" are
+    /**
+     * It creates the modified profile entry for the existing events.
+     */
+    private static function upgradeExistingEvents(): void
+    {
+        $limit = 25;
+        $offset = 0;
+        while ($limit > 0) {
+            $events = Event::get(false)
+                ->setLimit($limit)
+                ->setOffset($offset)
+                ->execute();
+            foreach ($events as $event) {
+                AppearancemodifierEvent::create(false)
+                    ->addValue('event_id', $event['id'])
+                    ->execute();
+            }
+            if ($limit > count($events)) {
+                $limit = 0;
+            }
+            $offset = $offset + count($events);
+        }
+    }
+    /**
+     * It creates the modified profile entry for the existing petitions.
+     * It uses API 3 as the surveys are not available in API 4.
+     */
+    private static function upgradeExistingPetitions(): void
+    {
+        $limit = 25;
+        $offset = 0;
+        while ($limit > 0) {
+            $petitions = civicrm_api3('Survey', 'get', [
+                'sequential' => 1,
+                'activity_type_id' => "Petition",
+                'options' => [
+                    'limit' => $limit,
+                    'offset' => $offset,
+                ],
+            ]);
+            foreach ($petitions['values'] as $petition) {
+                AppearancemodifierPetition::create(false)
+                    ->addValue('survey_id', $petition['id'])
+                    ->execute();
+            }
+            if ($limit > count($petitions['values'])) {
+                $limit = 0;
+            }
+            $offset = $offset + count($petitions['values']);
+        }
+    }
+    /**
+     * It creates the modified profile entry for the existing profiles.
+     */
+    private static function upgradeExistingProfiles(): void
+    {
+        $limit = 25;
+        $offset = 0;
+        while ($limit > 0) {
+            $ufGroups = UFGroup::get(false)
+                ->setLimit($limit)
+                ->setOffset($offset)
+                ->execute();
+            foreach ($ufGroups as $ufGroup) {
+                AppearancemodifierProfile::create(false)
+                    ->addValue('uf_group_id', $ufGroup['id'])
+                    ->execute();
+            }
+            if ($limit > count($ufGroups)) {
+                $limit = 0;
+            }
+            $offset = $offset + count($ufGroups);
+        }
+    }
+
+    /**
+     * Work with entities usually not available during the install step.
+     *
+     * This method can be used for any post-install tasks. For example, if a step
+     * of your installation depends on accessing an entity that is itself
+     * created during the installation (e.g., a setting or a managed entity), do
+     * so here to avoid order of operation problems.
+     */
+    public function postInstall()
+    {
+        self::upgradeExistingProfiles();
+        self::upgradeExistingPetitions();
+        self::upgradeExistingEvents();
+    }
+
+    // By convention, functions that look like "function upgrade_NNNN()" are
   // upgrade tasks. They are executed in order (like Drupal's hook_update_N).
 
   /**
@@ -17,23 +112,6 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Appearancemodifier_Upgrader_Ba
     $this->executeSqlFile('sql/myinstall.sql');
   }
 
-  /**
-   * Example: Work with entities usually not available during the install step.
-   *
-   * This method can be used for any post-install tasks. For example, if a step
-   * of your installation depends on accessing an entity that is itself
-   * created during the installation (e.g., a setting or a managed entity), do
-   * so here to avoid order of operation problems.
-   */
-  // public function postInstall() {
-  //  $customFieldId = civicrm_api3('CustomField', 'getvalue', array(
-  //    'return' => array("id"),
-  //    'name' => "customFieldCreatedViaManagedHook",
-  //  ));
-  //  civicrm_api3('Setting', 'create', array(
-  //    'myWeirdFieldSetting' => array('id' => $customFieldId, 'weirdness' => 1),
-  //  ));
-  // }
 
   /**
    * Example: Run an external SQL script when the module is uninstalled.
