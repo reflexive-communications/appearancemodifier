@@ -215,3 +215,21 @@ function appearancemodifier_civicrm_post($op, $objectName, $objectId, &$objectRe
             ->execute();
     }
 }
+
+/**
+ * Implements hook_civicrm_links().
+ *
+ * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_links
+ */
+function appearancemodifier_civicrm_links($op, $objectName, $objectId, &$links, &$mask, &$values)
+{
+    if ($op === 'ufGroup.row.actions') {
+        $links[] = [
+            'name' => 'Customize',
+            'url' => 'civicrm/admin/appearancemodifier/profile/customize',
+            'qs' => 'pid=%%id%%',
+            'title' => 'Customize form with The Appearance Modifier Extension.',
+            'class' => 'crm-popup',
+        ];
+    }
+}
