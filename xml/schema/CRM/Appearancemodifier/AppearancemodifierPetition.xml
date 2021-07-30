@@ -4,6 +4,7 @@
   <base>CRM/Appearancemodifier</base>
   <class>AppearancemodifierPetition</class>
   <name>civicrm_appearancemodifier_petition</name>
+  <comment>This table contains the settings for the modified petitions.</comment>
   <comment>FIXME</comment>
   <log>true</log>
 
@@ -19,15 +20,60 @@
   </primaryKey>
 
   <field>
-    <name>contact_id</name>
+    <name>survey_id</name>
     <type>int unsigned</type>
-    <comment>FK to Contact</comment>
+    <comment>FK to Survey</comment>
   </field>
   <foreignKey>
-    <name>contact_id</name>
-    <table>civicrm_contact</table>
+    <name>survey_id</name>
+    <table>civicrm_survey</table>
     <key>id</key>
     <onDelete>CASCADE</onDelete>
   </foreignKey>
+  <field>
+    <name>layout_handler</name>
+    <type>text</type>
+    <comment>The alterContent handler function.</comment>
+  </field>
+  <field>
+    <name>background_color</name>
+    <type>text</type>
+    <comment>The color code of the background in #ffffff format.</comment>
+  </field>
+  <field>
+    <name>outro</name>
+    <type>text</type>
+    <comment>The text that will be displayed after the submit button on the edit form.</comment>
+  </field>
+  <field>
+    <name>petition_message</name>
+    <type>text</type>
+    <comment>The text that will be displayed in the petition message input.</comment>
+  </field>
+  <field>
+    <name>invert_consent_fields</name>
+    <type>boolean</type>
+    <comment>This field triggers the invert behaviour of the consent checkboxes.</comment>
+  </field>
+  <field>
+    <name>target_number_of_signers</name>
+    <type>int</type>
+    <comment>The target number of the petition signers.</comment>
+  </field>
+  <field>
+    <name>custom_social_box</name>
+    <type>boolean</type>
+    <comment>This field triggers the custom social sharing layout.</comment>
+  </field>
+  <field>
+    <name>external_share_url</name>
+    <type>text</type>
+    <comment>This link will be shared in the custom social box.</comment>
+  </field>
+  <field>
+    <name>hide_form_labels</name>
+    <type>boolean</type>
+    <comment>Hide the form labels and use only the placeholders.</comment>
+  </field>
 
 </table>
