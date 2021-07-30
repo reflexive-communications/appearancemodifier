@@ -3,6 +3,7 @@
 require_once 'appearancemodifier.civix.php';
 // phpcs:disable
 use CRM_Appearancemodifier_ExtensionUtil as E;
+
 // phpcs:enable
 
 /**
@@ -10,8 +11,9 @@ use CRM_Appearancemodifier_ExtensionUtil as E;
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_config/
  */
-function appearancemodifier_civicrm_config(&$config) {
-  _appearancemodifier_civix_civicrm_config($config);
+function appearancemodifier_civicrm_config(&$config)
+{
+    _appearancemodifier_civix_civicrm_config($config);
 }
 
 /**
@@ -19,8 +21,9 @@ function appearancemodifier_civicrm_config(&$config) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_xmlMenu
  */
-function appearancemodifier_civicrm_xmlMenu(&$files) {
-  _appearancemodifier_civix_civicrm_xmlMenu($files);
+function appearancemodifier_civicrm_xmlMenu(&$files)
+{
+    _appearancemodifier_civix_civicrm_xmlMenu($files);
 }
 
 /**
@@ -28,8 +31,9 @@ function appearancemodifier_civicrm_xmlMenu(&$files) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_install
  */
-function appearancemodifier_civicrm_install() {
-  _appearancemodifier_civix_civicrm_install();
+function appearancemodifier_civicrm_install()
+{
+    _appearancemodifier_civix_civicrm_install();
 }
 
 /**
@@ -37,8 +41,9 @@ function appearancemodifier_civicrm_install() {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_postInstall
  */
-function appearancemodifier_civicrm_postInstall() {
-  _appearancemodifier_civix_civicrm_postInstall();
+function appearancemodifier_civicrm_postInstall()
+{
+    _appearancemodifier_civix_civicrm_postInstall();
 }
 
 /**
@@ -46,8 +51,9 @@ function appearancemodifier_civicrm_postInstall() {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_uninstall
  */
-function appearancemodifier_civicrm_uninstall() {
-  _appearancemodifier_civix_civicrm_uninstall();
+function appearancemodifier_civicrm_uninstall()
+{
+    _appearancemodifier_civix_civicrm_uninstall();
 }
 
 /**
@@ -55,8 +61,9 @@ function appearancemodifier_civicrm_uninstall() {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_enable
  */
-function appearancemodifier_civicrm_enable() {
-  _appearancemodifier_civix_civicrm_enable();
+function appearancemodifier_civicrm_enable()
+{
+    _appearancemodifier_civix_civicrm_enable();
 }
 
 /**
@@ -64,8 +71,9 @@ function appearancemodifier_civicrm_enable() {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_disable
  */
-function appearancemodifier_civicrm_disable() {
-  _appearancemodifier_civix_civicrm_disable();
+function appearancemodifier_civicrm_disable()
+{
+    _appearancemodifier_civix_civicrm_disable();
 }
 
 /**
@@ -73,8 +81,9 @@ function appearancemodifier_civicrm_disable() {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_upgrade
  */
-function appearancemodifier_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
-  return _appearancemodifier_civix_civicrm_upgrade($op, $queue);
+function appearancemodifier_civicrm_upgrade($op, CRM_Queue_Queue $queue = null)
+{
+    return _appearancemodifier_civix_civicrm_upgrade($op, $queue);
 }
 
 /**
@@ -85,8 +94,9 @@ function appearancemodifier_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) 
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_managed
  */
-function appearancemodifier_civicrm_managed(&$entities) {
-  _appearancemodifier_civix_civicrm_managed($entities);
+function appearancemodifier_civicrm_managed(&$entities)
+{
+    _appearancemodifier_civix_civicrm_managed($entities);
 }
 
 /**
@@ -98,8 +108,9 @@ function appearancemodifier_civicrm_managed(&$entities) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_caseTypes
  */
-function appearancemodifier_civicrm_caseTypes(&$caseTypes) {
-  _appearancemodifier_civix_civicrm_caseTypes($caseTypes);
+function appearancemodifier_civicrm_caseTypes(&$caseTypes)
+{
+    _appearancemodifier_civix_civicrm_caseTypes($caseTypes);
 }
 
 /**
@@ -112,8 +123,9 @@ function appearancemodifier_civicrm_caseTypes(&$caseTypes) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_angularModules
  */
-function appearancemodifier_civicrm_angularModules(&$angularModules) {
-  _appearancemodifier_civix_civicrm_angularModules($angularModules);
+function appearancemodifier_civicrm_angularModules(&$angularModules)
+{
+    _appearancemodifier_civix_civicrm_angularModules($angularModules);
 }
 
 /**
@@ -121,8 +133,9 @@ function appearancemodifier_civicrm_angularModules(&$angularModules) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_alterSettingsFolders
  */
-function appearancemodifier_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
-  _appearancemodifier_civix_civicrm_alterSettingsFolders($metaDataFolders);
+function appearancemodifier_civicrm_alterSettingsFolders(&$metaDataFolders = null)
+{
+    _appearancemodifier_civix_civicrm_alterSettingsFolders($metaDataFolders);
 }
 
 /**
@@ -132,15 +145,17 @@ function appearancemodifier_civicrm_alterSettingsFolders(&$metaDataFolders = NUL
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_entityTypes
  */
-function appearancemodifier_civicrm_entityTypes(&$entityTypes) {
-  _appearancemodifier_civix_civicrm_entityTypes($entityTypes);
+function appearancemodifier_civicrm_entityTypes(&$entityTypes)
+{
+    _appearancemodifier_civix_civicrm_entityTypes($entityTypes);
 }
 
 /**
  * Implements hook_civicrm_themes().
  */
-function appearancemodifier_civicrm_themes(&$themes) {
-  _appearancemodifier_civix_civicrm_themes($themes);
+function appearancemodifier_civicrm_themes(&$themes)
+{
+    _appearancemodifier_civix_civicrm_themes($themes);
 }
 
 // --- Functions below this ship commented out. Uncomment as required. ---
