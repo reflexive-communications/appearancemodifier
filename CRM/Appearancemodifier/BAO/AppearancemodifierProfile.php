@@ -1,7 +1,8 @@
 <?php
 use CRM_Appearancemodifier_ExtensionUtil as E;
 
-class CRM_Appearancemodifier_BAO_AppearancemodifierProfile extends CRM_Appearancemodifier_DAO_AppearancemodifierProfile {
+class CRM_Appearancemodifier_BAO_AppearancemodifierProfile extends CRM_Appearancemodifier_DAO_AppearancemodifierProfile
+{
 
   /**
    * Create a new AppearancemodifierProfile based on array-data
@@ -22,5 +23,4 @@ class CRM_Appearancemodifier_BAO_AppearancemodifierProfile extends CRM_Appearanc
 
     return $instance;
   } */
-
 }

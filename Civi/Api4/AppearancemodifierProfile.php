@@ -8,6 +8,6 @@ namespace Civi\Api4;
  *
  * @package Civi\Api4
  */
-class AppearancemodifierProfile extends Generic\DAOEntity {
-
+class AppearancemodifierProfile extends Generic\DAOEntity
+{
 }
