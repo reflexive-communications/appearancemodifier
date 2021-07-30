@@ -1,7 +1,8 @@
 <?php
 use CRM_Appearancemodifier_ExtensionUtil as E;
 
-class CRM_Appearancemodifier_BAO_AppearancemodifierEvent extends CRM_Appearancemodifier_DAO_AppearancemodifierEvent {
+class CRM_Appearancemodifier_BAO_AppearancemodifierEvent extends CRM_Appearancemodifier_DAO_AppearancemodifierEvent
+{
 
   /**
    * Create a new AppearancemodifierEvent based on array-data
@@ -22,5 +23,4 @@ class CRM_Appearancemodifier_BAO_AppearancemodifierEvent extends CRM_Appearancem
 
     return $instance;
   } */
-
 }
