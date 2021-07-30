@@ -205,11 +205,11 @@ function appearancemodifier_civicrm_post($op, $objectName, $objectId, &$objectRe
         \Civi\Api4\AppearancemodifierProfile::create(false)
             ->addValue('uf_group_id', $objectId)
             ->execute();
-    } else if ($objectName === 'Survey' && $objectRef->activity_type_id === 32) {
+    } elseif ($objectName === 'Survey' && $objectRef->activity_type_id === 32) {
         \Civi\Api4\AppearancemodifierPetition::create(false)
             ->addValue('survey_id', $objectId)
             ->execute();
-    } else if ($objectName === 'Event') {
+    } elseif ($objectName === 'Event') {
         \Civi\Api4\AppearancemodifierEvent::create(false)
             ->addValue('event_id', $objectId)
             ->execute();
