@@ -8,6 +8,6 @@ namespace Civi\Api4;
  *
  * @package Civi\Api4
  */
-class AppearancemodifierPetition extends Generic\DAOEntity {
-
+class AppearancemodifierPetition extends Generic\DAOEntity
+{
 }

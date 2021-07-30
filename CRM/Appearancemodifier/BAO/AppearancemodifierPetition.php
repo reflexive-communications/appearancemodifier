@@ -1,7 +1,8 @@
 <?php
 use CRM_Appearancemodifier_ExtensionUtil as E;
 
-class CRM_Appearancemodifier_BAO_AppearancemodifierPetition extends CRM_Appearancemodifier_DAO_AppearancemodifierPetition {
+class CRM_Appearancemodifier_BAO_AppearancemodifierPetition extends CRM_Appearancemodifier_DAO_AppearancemodifierPetition
+{
 
   /**
    * Create a new AppearancemodifierPetition based on array-data
@@ -22,5 +23,4 @@ class CRM_Appearancemodifier_BAO_AppearancemodifierPetition extends CRM_Appearan
 
     return $instance;
   } */
-
 }
