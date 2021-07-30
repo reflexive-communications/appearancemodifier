@@ -239,5 +239,13 @@ function appearancemodifier_civicrm_links($op, $objectName, $objectId, &$links, 
             'title' => 'Customize form with The Appearance Modifier Extension.',
             'class' => 'crm-popup',
         ];
+    } elseif ($op === 'event.manage.list') {
+        $links[] = [
+            'name' => 'Customize',
+            'url' => 'civicrm/admin/appearancemodifier/event/customize',
+            'qs' => 'eid=%%id%%',
+            'title' => 'Customize form with The Appearance Modifier Extension.',
+            'class' => 'crm-popup',
+        ];
     }
 }
