@@ -12,4 +12,10 @@
     <title>Petition</title>
     <access_arguments>access CiviCRM</access_arguments>
   </item>
+  <item>
+    <path>civicrm/admin/appearancemodifier/event/customize</path>
+    <page_callback>CRM_Appearancemodifier_Form_Event</page_callback>
+    <title>Event</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
 </menu>
