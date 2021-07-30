@@ -137,11 +137,11 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
      */
     private function getPetition(int $id): array
     {
-            $petition = civicrm_api3('Survey', 'get', [
-                'sequential' => 1,
-                'activity_type_id' => "Petition",
-                'id' => $id,
-            ]);
+        $petition = civicrm_api3('Survey', 'get', [
+            'sequential' => 1,
+            'activity_type_id' => "Petition",
+            'id' => $id,
+        ]);
         if (count($petition['values']) === 0) {
             return [];
         }
