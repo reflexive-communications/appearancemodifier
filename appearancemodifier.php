@@ -260,5 +260,9 @@ function appearancemodifier_civicrm_alterTemplateFile($formName, &$form, $contex
     // but with an additional style block that will contains the color related updates.
     if ($tplName === 'CRM/Profile/Form/Edit.tpl') {
         $tplName = 'CRM/Appearancemodifier/Profile/edit.tpl';
+    } else if ($tplName === 'CRM/Campaign/Form/Petition/Signature.tpl') {
+        $tplName = 'CRM/Appearancemodifier/Petition/signature.tpl';
+    } else if ($tplName === 'CRM/Campaign/Page/Petition/ThankYou.tpl') {
+        $tplName = 'CRM/Appearancemodifier/Petition/thankyou.tpl';
     }
 }
