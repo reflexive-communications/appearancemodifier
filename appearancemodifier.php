@@ -264,5 +264,13 @@ function appearancemodifier_civicrm_alterTemplateFile($formName, &$form, $contex
         $tplName = 'CRM/Appearancemodifier/Petition/signature.tpl';
     } else if ($tplName === 'CRM/Campaign/Page/Petition/ThankYou.tpl') {
         $tplName = 'CRM/Appearancemodifier/Petition/thankyou.tpl';
+    } else if ($tplName === 'CRM/Event/Page/EventInfo.tpl') {
+        $tplName = 'CRM/Appearancemodifier/Event/info.tpl';
+    } else if ($tplName === 'CRM/Event/Form/Registration/Register.tpl') {
+        $tplName = 'CRM/Appearancemodifier/Event/register.tpl';
+    } else if ($tplName === 'CRM/Event/Form/Registration/Confirm.tpl') {
+        $tplName = 'CRM/Appearancemodifier/Event/confirm.tpl';
+    } else if ($tplName === 'CRM/Event/Form/Registration/ThankYou.tpl') {
+        $tplName = 'CRM/Appearancemodifier/Event/thankyou.tpl';
     }
 }
