@@ -249,3 +249,16 @@ function appearancemodifier_civicrm_links($op, $objectName, $objectId, &$links, 
         ];
     }
 }
+/**
+ * Implements hook_civicrm_alterTemplateFile().
+ *
+ * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_alterTemplateFile
+ */
+function appearancemodifier_civicrm_alterTemplateFile($formName, &$form, $context, &$tplName)
+{
+    // On case of profile edit template, replace with a custom one that also includes the original one,
+    // but with an additional style block that will contains the color related updates.
+    if ($tplName === 'CRM/Profile/Form/Edit.tpl') {
+        $tplName = 'CRM/Appearancemodifier/Profile/edit.tpl';
+    }
+}
