@@ -330,3 +330,39 @@ function appearancemodifier_civicrm_pageRun(&$page)
         }
     }
 }
+/**
+ * Implements hook_civicrm_buildForm().
+ *
+ * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_buildForm
+ */
+function appearancemodifier_civicrm_buildForm($formName, &$form)
+{
+    $eventFormNames = [
+        'CRM_Event_Form_Registration_Register',
+        'CRM_Event_Form_Registration_Confirm',
+        'CRM_Event_Form_Registration_ThankYou',
+    ];
+    if ($formName === 'CRM_Campaign_Form_Petition_Signature') {
+        $modifiedPetition = \Civi\Api4\AppearancemodifierPetition::get(false)
+            ->addWhere('survey_id', '=', $form->getVar('_surveyId'))
+            ->execute()
+            ->first();
+        if ($modifiedPetition['layout_handler'] !== null) {
+            $handler = new $modifiedPetition['layout_handler']();
+            foreach ($handler->getStyleSheets() as $stylesheet) {
+                Civi::resources()->addStyleFile(E::LONG_NAME, $stylesheet);
+            }
+        }
+    } else if (array_search($formName, $eventFormNames) !== false) {
+        $modifiedEvent = \Civi\Api4\AppearancemodifierEvent::get(false)
+            ->addWhere('event_id', '=', $form->getVar('_eventId'))
+            ->execute()
+            ->first();
+        if ($modifiedEvent['layout_handler'] !== null) {
+            $handler = new $modifiedEvent['layout_handler']();
+            foreach ($handler->getStyleSheets() as $stylesheet) {
+                Civi::resources()->addStyleFile(E::LONG_NAME, $stylesheet);
+            }
+        }
+    }
+}
