@@ -274,3 +274,28 @@ function appearancemodifier_civicrm_alterTemplateFile($formName, &$form, $contex
         $tplName = 'CRM/Appearancemodifier/Event/thankyou.tpl';
     }
 }
+/**
+ * Implements hook_civicrm_buildProfile().
+ *
+ * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_buildProfile
+ */
+function appearancemodifier_civicrm_buildProfile($profileName)
+{
+    // get the profile id form ufgroup api, then use the id for the AppearancemodifierProfile get.
+    $uFGroup = \Civi\Api4\UFGroup::get(false)
+        ->addSelect('id')
+        ->addWhere('name', '=', $profileName)
+        ->setLimit(1)
+        ->execute()
+        ->first();
+    $modifiedProfile = \Civi\Api4\AppearancemodifierProfile::get(false)
+        ->addWhere('uf_group_id', '=', $uFGroup['id'])
+        ->execute()
+        ->first();
+    if ($modifiedProfile['layout_handler'] !== null) {
+        $handler = new $modifiedProfile['layout_handler']();
+        foreach ($handler->getStyleSheets() as $stylesheet) {
+            Civi::resources()->addStyleFile(E::LONG_NAME, $stylesheet);
+        }
+    }
+}
