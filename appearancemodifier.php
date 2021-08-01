@@ -366,3 +366,62 @@ function appearancemodifier_civicrm_buildForm($formName, &$form)
         }
     }
 }
+/*
+ * Implements hook_civicrm_alterContent()
+ *
+ * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_alterContent
+ *
+ */
+function appearancemodifier_civicrm_alterContent(&$content, $context, $tplName, &$object)
+{
+    $petitionTemplates = [
+        'CRM/Appearancemodifier/Petition/signature.tpl',
+        'CRM/Appearancemodifier/Petition/thankyou.tpl',
+    ];
+    $eventTemplates = [
+        'CRM/Appearancemodifier/Event/info.tpl',
+        'CRM/Appearancemodifier/Event/register.tpl',
+        'CRM/Appearancemodifier/Event/confirm.tpl',
+        'CRM/Appearancemodifier/Event/thankyou.tpl',
+    ];
+    if ($tplName === 'CRM/Appearancemodifier/Profile/edit.tpl') {
+        $modifiedProfile = \Civi\Api4\AppearancemodifierProfile::get(false)
+            ->addWhere('uf_group_id', '=', $object->getVar('_gid'))
+            ->execute()
+            ->first();
+        if ($modifiedProfile['layout_handler'] !== null) {
+            $handler = new $modifiedProfile['layout_handler']();
+            $handler->alterContent($content);
+        }
+    } else if (array_search($tplName, $petitionTemplates) !== false) {
+        $id = null;
+        if ($tplName === $petitionTemplates[0]) {
+            $id = $object->getVar('_surveyId');
+        } else if ($tplName === $petitionTemplates[1]) {
+            $id = $object->getVar('petition')['id'];
+        }
+        $modifiedPetition = \Civi\Api4\AppearancemodifierPetition::get(false)
+            ->addWhere('survey_id', '=', $id)
+            ->execute()
+            ->first();
+        if ($modifiedPetition['layout_handler'] !== null) {
+            $handler = new $modifiedPetition['layout_handler']();
+            $handler->alterContent($content);
+        }
+    } else if (array_search($tplName, $eventTemplates) !== false) {
+        $id = null;
+        if ($tplName === $eventTemplates[0]) {
+            $id = $object->getVar('_id');
+        } else {
+            $id = $object->getVar('_eventId');
+        }
+        $modifiedEvent = \Civi\Api4\AppearancemodifierEvent::get(false)
+            ->addWhere('event_id', '=', $id)
+            ->execute()
+            ->first();
+        if ($modifiedEvent['layout_handler'] !== null) {
+            $handler = new $modifiedEvent['layout_handler']();
+            $handler->alterContent($content);
+        }
+    }
+}
