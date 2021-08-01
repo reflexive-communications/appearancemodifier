@@ -406,6 +406,37 @@ function appearancemodifier_civicrm_alterContent(&$content, $context, $tplName, 
             }
             $content = $doc->htmlOuter();
         }
+        // Handle the social block here.
+        if ($modifiedPetition['custom_social_box'] !== null) {
+            $doc = phpQuery::newDocument($content);
+            // Update the social block with custom layout.
+            // If not exists, nothing to do with it.
+            if ($doc['.crm-socialnetwork']->size() > 0) {
+                $twitter = '';
+                $facebook = '';
+                // Build the new icons based on the data of the original buttons.
+                // The onclick event is reused as the click handler of the new social links.
+                foreach ($doc['.crm-socialnetwork button'] as $button) {
+                    switch ($button->getAttribute('id')) {
+                    case 'crm-tw':
+                        $twitter = '<div class="social-media-icon"><a href="#" onclick="'.$button->getAttribute('onclick').'" target="_blank" title="'.E::ts('Share on Twitter').'"><div><i aria-hidden="true" class="crm-i fa-twitter"></i></div></a></div>';
+                        break;
+                    case 'crm-fb':
+                        $faceBook = '<div class="social-media-icon"><a href="#" onclick="'.$button->getAttribute('onclick').'" target="_blank" title="'.E::ts('Share on Facebook').'"><div><i aria-hidden="true" class="crm-i fa-facebook"></i></div></a></div>';
+                        break;
+                    }
+                }
+                // Make the update only if the parsing process was successful.
+                if ($twitter !== '' || $facebook !== '') {
+                    // The original block has to be deleted as it is unused.
+                    $doc['.crm-socialnetwork']->remove();
+                    // Build the block and append it to the main content.
+                    $socialTemplate = '<div class="crm-section crm-socialnetwork"><h2>'.E::ts('Please share it').'</h2><div class="appearancemodifier-social-block">'.$faceBook.$twitter.'</div></div>';
+                    $doc['#crm-main-content-wrapper']->append(phpQuery::newDocument($socialTemplate));
+                }
+            }
+            $content = $doc->htmlOuter();
+        }
     } else if (array_search($tplName, $eventTemplates) !== false) {
         $id = null;
         if ($tplName === $eventTemplates[0]) {
@@ -420,6 +451,37 @@ function appearancemodifier_civicrm_alterContent(&$content, $context, $tplName, 
         if ($modifiedEvent['layout_handler'] !== null) {
             $handler = new $modifiedEvent['layout_handler']();
             $handler->alterContent($content);
+        }
+        // Handle the social block here.
+        if ($modifiedEvent['custom_social_box'] !== null) {
+            $doc = phpQuery::newDocument($content);
+            // Update the social block with custom layout.
+            // If not exists, nothing to do with it.
+            if ($doc['.crm-socialnetwork']->size() > 0) {
+                $twitter = '';
+                $facebook = '';
+                // Build the new icons based on the data of the original buttons.
+                // The onclick event is reused as the click handler of the new social links.
+                foreach ($doc['.crm-socialnetwork button'] as $button) {
+                    switch ($button->getAttribute('id')) {
+                    case 'crm-tw':
+                        $twitter = '<div class="social-media-icon"><a href="#" onclick="'.$button->getAttribute('onclick').'" target="_blank" title="'.E::ts('Share on Twitter').'"><div><i aria-hidden="true" class="crm-i fa-twitter"></i></div></a></div>';
+                        break;
+                    case 'crm-fb':
+                        $faceBook = '<div class="social-media-icon"><a href="#" onclick="'.$button->getAttribute('onclick').'" target="_blank" title="'.E::ts('Share on Facebook').'"><div><i aria-hidden="true" class="crm-i fa-facebook"></i></div></a></div>';
+                        break;
+                    }
+                }
+                // Make the update only if the parsing process was successful.
+                if ($twitter !== '' || $facebook !== '') {
+                    // The original block has to be deleted as it is unused.
+                    $doc['.crm-socialnetwork']->remove();
+                    // Build the block and append it to the main content.
+                    $socialTemplate = '<div class="crm-section crm-socialnetwork"><h2>'.E::ts('Please share it').'</h2><div class="appearancemodifier-social-block">'.$faceBook.$twitter.'</div></div>';
+                    $doc['#crm-main-content-wrapper']->append(phpQuery::newDocument($socialTemplate));
+                }
+            }
+            $content = $doc->htmlOuter();
         }
     }
 }
