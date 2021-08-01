@@ -398,6 +398,14 @@ function appearancemodifier_civicrm_alterContent(&$content, $context, $tplName, 
             $handler = new $modifiedPetition['layout_handler']();
             $handler->alterContent($content);
         }
+        // If the petition message is set, add it to the relevant field.
+        if ($modifiedPetition['petition_message'] !== null) {
+            $doc = phpQuery::newDocument($content);
+            if ($doc['.crm-petition-activity-profile']->size() > 0) {
+                $doc['.crm-petition-activity-profile textarea:first']->val(new DOMText($modifiedPetition['petition_message']));
+            }
+            $content = $doc->htmlOuter();
+        }
     } else if (array_search($tplName, $eventTemplates) !== false) {
         $id = null;
         if ($tplName === $eventTemplates[0]) {
