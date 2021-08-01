@@ -299,3 +299,34 @@ function appearancemodifier_civicrm_buildProfile($profileName)
         }
     }
 }
+/**
+ * Implements hook_civicrm_pageRun().
+ *
+ * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_pageRun
+ */
+function appearancemodifier_civicrm_pageRun(&$page)
+{
+    if ($page->getVar('_name') == 'CRM_Campaign_Page_Petition_ThankYou') {
+        $modifiedPetition = \Civi\Api4\AppearancemodifierPetition::get(false)
+            ->addWhere('survey_id', '=', $page->getVar('petition')['id'])
+            ->execute()
+            ->first();
+        if ($modifiedPetition['layout_handler'] !== null) {
+            $handler = new $modifiedPetition['layout_handler']();
+            foreach ($handler->getStyleSheets() as $stylesheet) {
+                Civi::resources()->addStyleFile(E::LONG_NAME, $stylesheet);
+            }
+        }
+    } else if ($page->getVar('_name') == 'CRM_Event_Page_EventInfo') {
+        $modifiedEvent = \Civi\Api4\AppearancemodifierEvent::get(false)
+            ->addWhere('event_id', '=', $page->getVar('_id'))
+            ->execute()
+            ->first();
+        if ($modifiedEvent['layout_handler'] !== null) {
+            $handler = new $modifiedEvent['layout_handler']();
+            foreach ($handler->getStyleSheets() as $stylesheet) {
+                Civi::resources()->addStyleFile(E::LONG_NAME, $stylesheet);
+            }
+        }
+    }
+}
