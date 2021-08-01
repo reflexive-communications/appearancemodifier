@@ -425,3 +425,55 @@ function appearancemodifier_civicrm_alterContent(&$content, $context, $tplName, 
         }
     }
 }
+/**
+ * Implements hook_civicrm_postProcess().
+ *
+ * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_postProcess
+ */
+function appearancemodifier_civicrm_postProcess($formName, $form)
+{
+    $rules = [];
+    if ($formName === 'CRM_Profile_Form_Edit') {
+        $rules = \Civi\Api4\AppearancemodifierProfile::get(false)
+            ->addWhere('uf_group_id', '=', $form->getVar('_gid'))
+            ->execute()
+            ->first();
+    } else if ($formName === 'CRM_Campaign_Form_Petition_Signature') {
+        $rules = \Civi\Api4\AppearancemodifierPetition::get(false)
+            ->addWhere('survey_id', '=', $form->getVar('_surveyId'))
+            ->execute()
+            ->first();
+    } else if ($formName === 'CRM_Event_Form_Registration_Confirm') {
+        $rules = \Civi\Api4\AppearancemodifierEvent::get(false)
+            ->addWhere('event_id', '=', $form->getVar('_eventId'))
+            ->execute()
+            ->first();
+    }
+    if ($rules['invert_consent_fields'] !== null) {
+        updateConsents($form->getVar('_id'), $form->getVar('_submitValues'));
+    }
+}
+/*
+ * This function updates the consent fields of the contact.
+ *
+ * @param int $contactId
+ * @param array $submitValues
+ */
+function updateConsents(int $contactId, array $submitValues): void
+{
+    $contactData = [];
+    // swap the values of the do_not_email, do_not_phone, is_opt_out fields. '' -> '1', '1' -> ''
+    if (array_key_exists('do_not_email', $submitValues)) {
+        $contactData['do_not_email'] = $submitValues['do_not_email'] == '' ? '1' : '';
+    }
+    if (array_key_exists('do_not_phone', $submitValues)) {
+        $contactData['do_not_phone'] = $submitValues['do_not_phone'] == '' ? '1' : '';
+    }
+    if (array_key_exists('is_opt_out', $submitValues)) {
+        $contactData['is_opt_out'] = $submitValues['is_opt_out'] == '' ? '1' : '';
+    }
+    // update only if the we have something contact related change.
+    if (count($contactData) > 0) {
+        CRM_RcBase_Api_Update::contact($contactId, $contactData, false);
+    }
+}
