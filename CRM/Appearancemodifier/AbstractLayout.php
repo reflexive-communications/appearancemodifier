@@ -3,9 +3,9 @@
 abstract class CRM_Appearancemodifier_AbstractLayout
 {
     /*
-     * This function returns an array of filepaths.
+     * This function has to set the style resources if the layout needs it.
      */
-    abstract public function getStyleSheets(): array;
+    abstract public function setStyleSheets(): void;
     /*
      * This function has to modify the html.
      */

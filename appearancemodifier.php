@@ -294,9 +294,7 @@ function appearancemodifier_civicrm_buildProfile($profileName)
         ->first();
     if ($modifiedProfile['layout_handler'] !== null) {
         $handler = new $modifiedProfile['layout_handler']();
-        foreach ($handler->getStyleSheets() as $stylesheet) {
-            Civi::resources()->addStyleFile(E::LONG_NAME, $stylesheet);
-        }
+        $handler->setStyleSheets();
     }
 }
 /**
@@ -313,9 +311,7 @@ function appearancemodifier_civicrm_pageRun(&$page)
             ->first();
         if ($modifiedPetition['layout_handler'] !== null) {
             $handler = new $modifiedPetition['layout_handler']();
-            foreach ($handler->getStyleSheets() as $stylesheet) {
-                Civi::resources()->addStyleFile(E::LONG_NAME, $stylesheet);
-            }
+            $handler->setStyleSheets();
         }
     } else if ($page->getVar('_name') == 'CRM_Event_Page_EventInfo') {
         $modifiedEvent = \Civi\Api4\AppearancemodifierEvent::get(false)
@@ -324,9 +320,7 @@ function appearancemodifier_civicrm_pageRun(&$page)
             ->first();
         if ($modifiedEvent['layout_handler'] !== null) {
             $handler = new $modifiedEvent['layout_handler']();
-            foreach ($handler->getStyleSheets() as $stylesheet) {
-                Civi::resources()->addStyleFile(E::LONG_NAME, $stylesheet);
-            }
+            $handler->setStyleSheets();
         }
     }
 }
@@ -349,9 +343,7 @@ function appearancemodifier_civicrm_buildForm($formName, &$form)
             ->first();
         if ($modifiedPetition['layout_handler'] !== null) {
             $handler = new $modifiedPetition['layout_handler']();
-            foreach ($handler->getStyleSheets() as $stylesheet) {
-                Civi::resources()->addStyleFile(E::LONG_NAME, $stylesheet);
-            }
+            $handler->setStyleSheets();
         }
     } else if (array_search($formName, $eventFormNames) !== false) {
         $modifiedEvent = \Civi\Api4\AppearancemodifierEvent::get(false)
@@ -360,9 +352,7 @@ function appearancemodifier_civicrm_buildForm($formName, &$form)
             ->first();
         if ($modifiedEvent['layout_handler'] !== null) {
             $handler = new $modifiedEvent['layout_handler']();
-            foreach ($handler->getStyleSheets() as $stylesheet) {
-                Civi::resources()->addStyleFile(E::LONG_NAME, $stylesheet);
-            }
+            $handler->setStyleSheets();
         }
     }
 }
