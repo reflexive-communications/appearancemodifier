@@ -1,5 +1,9 @@
 <?php
 
+use Civi\Api4\AppearancemodifierProfile;
+use Civi\Api4\AppearancemodifierPetition;
+use Civi\Api4\AppearancemodifierEvent;
+
 class CRM_Appearancemodifier_Service
 {
     const CONSENT_FIELDS = [
@@ -90,6 +94,37 @@ class CRM_Appearancemodifier_Service
                 'class' => 'crm-popup',
             ];
             break;
+        }
+    }
+
+    /**
+     * On case of UFGroup create it also creates the Profile entry.
+     * On case of Survey create with activity_type 32 (petition signature)
+     * it also creates the Petition entry.
+     * On case of Event create it also creates the Event entry
+     *
+     * @param string $op
+     * @param string $objectName
+     * @param $objectId - the unique identifier for the object.
+     * @param $objectRef - the reference to the object if available.
+     */
+    public static function post(string $op, string $objectName, $objectId, &$objectRef): void
+    {
+        if ($op !== 'create') {
+            return;
+        }
+        if ($objectName === 'UFGroup') {
+            AppearancemodifierProfile::create(false)
+                ->addValue('uf_group_id', $objectId)
+                ->execute();
+        } elseif ($objectName === 'Survey' && $objectRef->activity_type_id === 32) {
+            AppearancemodifierPetition::create(false)
+                ->addValue('survey_id', $objectId)
+                ->execute();
+        } elseif ($objectName === 'Event') {
+            AppearancemodifierEvent::create(false)
+                ->addValue('event_id', $objectId)
+                ->execute();
         }
     }
 }
