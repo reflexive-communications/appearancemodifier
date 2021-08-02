@@ -7,7 +7,7 @@ div#page,
 body,
 body.path-civicrm,
 body.page-civicrm.page-civicrm-profile.page-civicrm-profile-create,
-.appearancemodifier-event .messages.status.no-popup {
+[class*="appearancemodifier-"] .messages.status.no-popup {
     background-color: {/literal}{$backgroundColor}{literal};
 }
 </style>
