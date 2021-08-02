@@ -3,6 +3,7 @@
 use Civi\Api4\AppearancemodifierProfile;
 use Civi\Api4\AppearancemodifierPetition;
 use Civi\Api4\AppearancemodifierEvent;
+use Civi\Api4\UFGroup;
 
 class CRM_Appearancemodifier_Service
 {
@@ -154,6 +155,31 @@ class CRM_Appearancemodifier_Service
                 $handler = new $modifiedEvent['layout_handler']();
                 $handler->setStyleSheets();
             }
+        }
+    }
+
+    /**
+     * This function extends the profile forms with the stylesheets
+     * provided by the layout handler application.
+     *
+     * @param string $profileName
+     */
+    public static function buildProfile(string $profileName): void
+    {
+        // get the profile id form ufgroup api, then use the id for the AppearancemodifierProfile get.
+        $uFGroup = UFGroup::get(false)
+            ->addSelect('id')
+            ->addWhere('name', '=', $profileName)
+            ->setLimit(1)
+            ->execute()
+            ->first();
+        $modifiedProfile = AppearancemodifierProfile::get(false)
+            ->addWhere('uf_group_id', '=', $uFGroup['id'])
+            ->execute()
+            ->first();
+        if ($modifiedProfile['layout_handler'] !== null) {
+            $handler = new $modifiedProfile['layout_handler']();
+            $handler->setStyleSheets();
         }
     }
 }
