@@ -23,27 +23,6 @@ class CRM_Appearancemodifier_Service
     ];
 
     /*
-     * This function updates the consent fields of the contact.
-     *
-     * @param int $contactId
-     * @param array $submitValues
-     */
-    public static function updateConsents(int $contactId, array $submitValues): void
-    {
-        $contactData = [];
-        // swap the values of the do_not_email, do_not_phone, is_opt_out fields. '' -> '1', '1' -> ''
-        foreach (self::CONSENT_FIELDS as $field) {
-            if (array_key_exists($field, $submitValues)) {
-                $contactData[$field] = $submitValues[$field] == '' ? '1' : '';
-            }
-        }
-        // update only if the we have something contact related change.
-        if (count($contactData) > 0) {
-            CRM_RcBase_Api_Update::contact($contactId, $contactData, false);
-        }
-    }
-
-    /*
      * This function updates the template name on the profile, petition, event
      * pages. The new template includes the original one, but also includes a stylesheet
      * for providing the background color. On petition and profile pages it extends the
@@ -215,6 +194,61 @@ class CRM_Appearancemodifier_Service
                 $handler = new $modifiedEvent['layout_handler']();
                 $handler->setStyleSheets();
             }
+        }
+    }
+
+    /**
+     * This function handles the consent invertion rule.
+     *
+     * @param string $formName
+     * @param $form
+     */
+    public static function postProcess(string $formName, $form): void
+    {
+        $rules = [];
+        switch ($formName) {
+        case 'CRM_Profile_Form_Edit':
+            $rules = AppearancemodifierProfile::get(false)
+                ->addWhere('uf_group_id', '=', $form->getVar('_gid'))
+                ->execute()
+                ->first();
+            break;
+        case 'CRM_Campaign_Form_Petition_Signature':
+            $rules = AppearancemodifierPetition::get(false)
+                ->addWhere('survey_id', '=', $form->getVar('_surveyId'))
+                ->execute()
+                ->first();
+            break;
+        case 'CRM_Event_Form_Registration_Confirm':
+            $rules = AppearancemodifierEvent::get(false)
+                ->addWhere('event_id', '=', $form->getVar('_eventId'))
+                ->execute()
+                ->first();
+            break;
+        }
+        if (array_key_exists('invert_consent_fields', $rules) && $rules['invert_consent_fields'] !== null) {
+            self::updateConsents($form->getVar('_id'), $form->getVar('_submitValues'));
+        }
+    }
+
+    /*
+     * This function updates the consent fields of the contact.
+     *
+     * @param int $contactId
+     * @param array $submitValues
+     */
+    private static function updateConsents(int $contactId, array $submitValues): void
+    {
+        $contactData = [];
+        // swap the values of the do_not_email, do_not_phone, is_opt_out fields. '' -> '1', '1' -> ''
+        foreach (self::CONSENT_FIELDS as $field) {
+            if (array_key_exists($field, $submitValues)) {
+                $contactData[$field] = $submitValues[$field] == '' ? '1' : '';
+            }
+        }
+        // update only if the we have something contact related change.
+        if (count($contactData) > 0) {
+            CRM_RcBase_Api_Update::contact($contactId, $contactData, false);
         }
     }
 }
