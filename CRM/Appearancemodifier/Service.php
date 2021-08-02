@@ -7,6 +7,16 @@ class CRM_Appearancemodifier_Service
         'do_not_phone',
         'is_opt_out',
     ];
+    const TEMPLATE_MAP = [
+        'CRM/Profile/Form/Edit.tpl' => 'CRM/Appearancemodifier/Profile/edit.tpl',
+        'CRM/Campaign/Form/Petition/Signature.tpl' => 'CRM/Appearancemodifier/Petition/signature.tpl',
+        'CRM/Campaign/Page/Petition/ThankYou.tpl' => 'CRM/Appearancemodifier/Petition/thankyou.tpl',
+        'CRM/Event/Page/EventInfo.tpl' => 'CRM/Appearancemodifier/Event/info.tpl',
+        'CRM/Event/Form/Registration/Register.tpl' => 'CRM/Appearancemodifier/Event/register.tpl',
+        'CRM/Event/Form/Registration/Confirm.tpl' => 'CRM/Appearancemodifier/Event/confirm.tpl',
+        'CRM/Event/Form/Registration/ThankYou.tpl' => 'CRM/Appearancemodifier/Event/thankyou.tpl',
+    ];
+
     /*
      * This function updates the consent fields of the contact.
      *
@@ -25,6 +35,21 @@ class CRM_Appearancemodifier_Service
         // update only if the we have something contact related change.
         if (count($contactData) > 0) {
             CRM_RcBase_Api_Update::contact($contactId, $contactData, false);
+        }
+    }
+
+    /*
+     * This function updates the template name on the profile, petition, event
+     * pages. The new template includes the original one, but also includes a stylesheet
+     * for providing the background color. On petition and profile pages it extends the
+     * form with the outro block, if that is set.
+     *
+     * @param string $tplName
+     */
+    public static function alterTemplateFile(string &$tplName): void
+    {
+        if (array_search($tplName, self::TEMPLATE_MAP) !== false) {
+            $tplName = self::TEMPLATE_MAP[$tplName];
         }
     }
 }
