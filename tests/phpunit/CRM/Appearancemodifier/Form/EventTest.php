@@ -1,9 +1,16 @@
 <?php
 
+use CRM_Appearancemodifier_ExtensionUtil as E;
+use Civi\Test\HeadlessInterface;
+use Civi\Test\HookInterface;
+use Civi\Test\TransactionalInterface;
+
 /**
- * This is a generic test class for the extension (implemented with PHPUnit).
+ * Testcases for Event Form class.
+ *
+ * @group headless
  */
-class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase
+class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase implements HeadlessInterface, HookInterface, TransactionalInterface
 {
     public function setUpHeadless()
     {
