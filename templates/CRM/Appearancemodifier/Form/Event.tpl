@@ -26,9 +26,15 @@
             </td>
         </tr>
         <tr>
+            <td class="label">{$form.add_placeholder.label}</td>
+            <td class="content">{$form.add_placeholder.html}<br/>
+                <span class="description">{ts}Add placeholders to the text inputs.{/ts}</span>
+            </td>
+        </tr>
+        <tr>
             <td class="label">{$form.hide_form_labels.label}</td>
             <td class="content">{$form.hide_form_labels.html}<br/>
-                <span class="description">{ts}Hide the labels of the text inputs on the petition form.{/ts}</span>
+                <span class="description">{ts}Hide the labels of the text inputs on the event form. Applied only if the placeholders are added.{/ts}</span>
             </td>
         </tr>
         <tr>
