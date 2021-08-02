@@ -82,7 +82,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
         $this->add('checkbox', 'invert_consent_fields', ts('Invert Consent Fields'), [], false);
         $this->add('checkbox', 'original_color', ts('Original Background Color'), [], false);
         $this->add('checkbox', 'hide_form_labels', ts('Hide text input labels'), [], false);
-        $this->add('wysiwyg', 'petition_message', ts('Petition message'), [], false);
+        $this->add('textarea', 'petition_message', ts('Petition message'), [], false);
         $this->add('text', 'target_number_of_signers', ts('Target number of signers'), [], false);
         $this->add('checkbox', 'custom_social_box', ts('Custom social box'), [], false);
         $this->add('text', 'external_share_url', ts('External url to share'), [], false);
