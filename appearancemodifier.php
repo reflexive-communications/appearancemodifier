@@ -260,17 +260,17 @@ function appearancemodifier_civicrm_alterTemplateFile($formName, &$form, $contex
     // but with an additional style block that will contains the color related updates.
     if ($tplName === 'CRM/Profile/Form/Edit.tpl') {
         $tplName = 'CRM/Appearancemodifier/Profile/edit.tpl';
-    } else if ($tplName === 'CRM/Campaign/Form/Petition/Signature.tpl') {
+    } elseif ($tplName === 'CRM/Campaign/Form/Petition/Signature.tpl') {
         $tplName = 'CRM/Appearancemodifier/Petition/signature.tpl';
-    } else if ($tplName === 'CRM/Campaign/Page/Petition/ThankYou.tpl') {
+    } elseif ($tplName === 'CRM/Campaign/Page/Petition/ThankYou.tpl') {
         $tplName = 'CRM/Appearancemodifier/Petition/thankyou.tpl';
-    } else if ($tplName === 'CRM/Event/Page/EventInfo.tpl') {
+    } elseif ($tplName === 'CRM/Event/Page/EventInfo.tpl') {
         $tplName = 'CRM/Appearancemodifier/Event/info.tpl';
-    } else if ($tplName === 'CRM/Event/Form/Registration/Register.tpl') {
+    } elseif ($tplName === 'CRM/Event/Form/Registration/Register.tpl') {
         $tplName = 'CRM/Appearancemodifier/Event/register.tpl';
-    } else if ($tplName === 'CRM/Event/Form/Registration/Confirm.tpl') {
+    } elseif ($tplName === 'CRM/Event/Form/Registration/Confirm.tpl') {
         $tplName = 'CRM/Appearancemodifier/Event/confirm.tpl';
-    } else if ($tplName === 'CRM/Event/Form/Registration/ThankYou.tpl') {
+    } elseif ($tplName === 'CRM/Event/Form/Registration/ThankYou.tpl') {
         $tplName = 'CRM/Appearancemodifier/Event/thankyou.tpl';
     }
 }
@@ -313,7 +313,7 @@ function appearancemodifier_civicrm_pageRun(&$page)
             $handler = new $modifiedPetition['layout_handler']();
             $handler->setStyleSheets();
         }
-    } else if ($page->getVar('_name') == 'CRM_Event_Page_EventInfo') {
+    } elseif ($page->getVar('_name') == 'CRM_Event_Page_EventInfo') {
         $modifiedEvent = \Civi\Api4\AppearancemodifierEvent::get(false)
             ->addWhere('event_id', '=', $page->getVar('_id'))
             ->execute()
@@ -345,7 +345,7 @@ function appearancemodifier_civicrm_buildForm($formName, &$form)
             $handler = new $modifiedPetition['layout_handler']();
             $handler->setStyleSheets();
         }
-    } else if (array_search($formName, $eventFormNames) !== false) {
+    } elseif (array_search($formName, $eventFormNames) !== false) {
         $modifiedEvent = \Civi\Api4\AppearancemodifierEvent::get(false)
             ->addWhere('event_id', '=', $form->getVar('_eventId'))
             ->execute()
@@ -383,11 +383,11 @@ function appearancemodifier_civicrm_alterContent(&$content, $context, $tplName, 
             $handler = new $modifiedProfile['layout_handler']();
             $handler->alterContent($content);
         }
-    } else if (array_search($tplName, $petitionTemplates) !== false) {
+    } elseif (array_search($tplName, $petitionTemplates) !== false) {
         $id = null;
         if ($tplName === $petitionTemplates[0]) {
             $id = $object->getVar('_surveyId');
-        } else if ($tplName === $petitionTemplates[1]) {
+        } elseif ($tplName === $petitionTemplates[1]) {
             $id = $object->getVar('petition')['id'];
         }
         $modifiedPetition = \Civi\Api4\AppearancemodifierPetition::get(false)
@@ -437,7 +437,7 @@ function appearancemodifier_civicrm_alterContent(&$content, $context, $tplName, 
             }
             $content = $doc->htmlOuter();
         }
-    } else if (array_search($tplName, $eventTemplates) !== false) {
+    } elseif (array_search($tplName, $eventTemplates) !== false) {
         $id = null;
         if ($tplName === $eventTemplates[0]) {
             $id = $object->getVar('_id');
@@ -498,12 +498,12 @@ function appearancemodifier_civicrm_postProcess($formName, $form)
             ->addWhere('uf_group_id', '=', $form->getVar('_gid'))
             ->execute()
             ->first();
-    } else if ($formName === 'CRM_Campaign_Form_Petition_Signature') {
+    } elseif ($formName === 'CRM_Campaign_Form_Petition_Signature') {
         $rules = \Civi\Api4\AppearancemodifierPetition::get(false)
             ->addWhere('survey_id', '=', $form->getVar('_surveyId'))
             ->execute()
             ->first();
-    } else if ($formName === 'CRM_Event_Form_Registration_Confirm') {
+    } elseif ($formName === 'CRM_Event_Form_Registration_Confirm') {
         $rules = \Civi\Api4\AppearancemodifierEvent::get(false)
             ->addWhere('event_id', '=', $form->getVar('_eventId'))
             ->execute()
