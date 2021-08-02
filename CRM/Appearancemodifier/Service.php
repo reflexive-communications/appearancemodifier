@@ -32,7 +32,7 @@ class CRM_Appearancemodifier_Service
      */
     public static function alterTemplateFile(string &$tplName): void
     {
-        if (array_search($tplName, self::TEMPLATE_MAP) !== false) {
+        if (array_key_exists($tplName, self::TEMPLATE_MAP) !== false) {
             $tplName = self::TEMPLATE_MAP[$tplName];
         }
     }
