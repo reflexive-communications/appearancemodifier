@@ -44,28 +44,4 @@ class api_v3_AppearancemodifierPetitionTest extends \PHPUnit\Framework\TestCase 
     {
         parent::tearDown();
     }
-
-    /**
-     * Simple example test case.
-     *
-     * Note how the function name begins with the word "test".
-     */
-    public function testCreateGetDelete()
-    {
-        // Boilerplate entity has one data field -- 'contact_id'.
-        // Put some data in, read it back out, and delete it.
-
-        $created = $this->callAPISuccess('AppearancemodifierPetition', 'create', [
-      'contact_id' => 1,
-    ]);
-        $this->assertTrue(is_numeric($created['id']));
-
-        $get = $this->callAPISuccess('AppearancemodifierPetition', 'get', []);
-        $this->assertEquals(1, $get['count']);
-        $this->assertEquals(1, $get['values'][$created['id']]['contact_id']);
-
-        $this->callAPISuccess('AppearancemodifierPetition', 'delete', [
-      'id' => $created['id'],
-    ]);
-    }
 }

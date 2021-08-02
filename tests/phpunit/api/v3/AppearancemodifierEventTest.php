@@ -44,28 +44,4 @@ class api_v3_AppearancemodifierEventTest extends \PHPUnit\Framework\TestCase imp
     {
         parent::tearDown();
     }
-
-    /**
-     * Simple example test case.
-     *
-     * Note how the function name begins with the word "test".
-     */
-    public function testCreateGetDelete()
-    {
-        // Boilerplate entity has one data field -- 'contact_id'.
-        // Put some data in, read it back out, and delete it.
-
-        $created = $this->callAPISuccess('AppearancemodifierEvent', 'create', [
-      'contact_id' => 1,
-    ]);
-        $this->assertTrue(is_numeric($created['id']));
-
-        $get = $this->callAPISuccess('AppearancemodifierEvent', 'get', []);
-        $this->assertEquals(1, $get['count']);
-        $this->assertEquals(1, $get['values'][$created['id']]['contact_id']);
-
-        $this->callAPISuccess('AppearancemodifierEvent', 'delete', [
-      'id' => $created['id'],
-    ]);
-    }
 }
