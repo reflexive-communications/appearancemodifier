@@ -127,4 +127,33 @@ class CRM_Appearancemodifier_Service
                 ->execute();
         }
     }
+
+    /**
+     * This function extends the pages with the stylesheets
+     * provided by the layout handler application.
+     *
+     * @param $page
+     */
+    public static function pageRun(&$page): void
+    {
+        if ($page->getVar('_name') == 'CRM_Campaign_Page_Petition_ThankYou') {
+            $modifiedPetition = AppearancemodifierPetition::get(false)
+                ->addWhere('survey_id', '=', $page->getVar('petition')['id'])
+                ->execute()
+                ->first();
+            if ($modifiedPetition['layout_handler'] !== null) {
+                $handler = new $modifiedPetition['layout_handler']();
+                $handler->setStyleSheets();
+            }
+        } elseif ($page->getVar('_name') == 'CRM_Event_Page_EventInfo') {
+            $modifiedEvent = AppearancemodifierEvent::get(false)
+                ->addWhere('event_id', '=', $page->getVar('_id'))
+                ->execute()
+                ->first();
+            if ($modifiedEvent['layout_handler'] !== null) {
+                $handler = new $modifiedEvent['layout_handler']();
+                $handler->setStyleSheets();
+            }
+        }
+    }
 }
