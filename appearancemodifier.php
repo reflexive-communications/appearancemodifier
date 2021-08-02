@@ -510,30 +510,6 @@ function appearancemodifier_civicrm_postProcess($formName, $form)
             ->first();
     }
     if ($rules['invert_consent_fields'] !== null) {
-        updateConsents($form->getVar('_id'), $form->getVar('_submitValues'));
-    }
-}
-/*
- * This function updates the consent fields of the contact.
- *
- * @param int $contactId
- * @param array $submitValues
- */
-function updateConsents(int $contactId, array $submitValues): void
-{
-    $contactData = [];
-    // swap the values of the do_not_email, do_not_phone, is_opt_out fields. '' -> '1', '1' -> ''
-    if (array_key_exists('do_not_email', $submitValues)) {
-        $contactData['do_not_email'] = $submitValues['do_not_email'] == '' ? '1' : '';
-    }
-    if (array_key_exists('do_not_phone', $submitValues)) {
-        $contactData['do_not_phone'] = $submitValues['do_not_phone'] == '' ? '1' : '';
-    }
-    if (array_key_exists('is_opt_out', $submitValues)) {
-        $contactData['is_opt_out'] = $submitValues['is_opt_out'] == '' ? '1' : '';
-    }
-    // update only if the we have something contact related change.
-    if (count($contactData) > 0) {
-        CRM_RcBase_Api_Update::contact($contactId, $contactData, false);
+        CRM_Appearancemodifier_Service::updateConsents($form->getVar('_id'), $form->getVar('_submitValues'));
     }
 }
