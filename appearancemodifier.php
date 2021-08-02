@@ -198,22 +198,7 @@ function appearancemodifier_civicrm_themes(&$themes)
  */
 function appearancemodifier_civicrm_post($op, $objectName, $objectId, &$objectRef)
 {
-    if ($op !== 'create') {
-        return;
-    }
-    if ($objectName === 'UFGroup') {
-        \Civi\Api4\AppearancemodifierProfile::create(false)
-            ->addValue('uf_group_id', $objectId)
-            ->execute();
-    } elseif ($objectName === 'Survey' && $objectRef->activity_type_id === 32) {
-        \Civi\Api4\AppearancemodifierPetition::create(false)
-            ->addValue('survey_id', $objectId)
-            ->execute();
-    } elseif ($objectName === 'Event') {
-        \Civi\Api4\AppearancemodifierEvent::create(false)
-            ->addValue('event_id', $objectId)
-            ->execute();
-    }
+    CRM_Appearancemodifier_Service::post($op, $objectName, $objectId, $objectRef);
 }
 
 /**
