@@ -54,10 +54,10 @@ CREATE TABLE `civicrm_appearancemodifier_event` (
      `event_id` int unsigned    COMMENT 'FK to Survey',
      `layout_handler` text    COMMENT 'The alterContent handler function.',
      `background_color` text    COMMENT 'The color code of the background in #ffffff format.',
-     `outro` text    COMMENT 'The text that will be displayed after the submit button on the edit form.',
      `invert_consent_fields` tinyint    COMMENT 'This field triggers the invert behaviour of the consent checkboxes.',
      `custom_social_box` tinyint    COMMENT 'This field triggers the custom social sharing layout.',
      `external_share_url` text    COMMENT 'This link will be shared in the custom social box.',
+     `add_placeholder` tinyint    COMMENT 'Set the text input label as placeholder text in the input.',
      `hide_form_labels` tinyint    COMMENT 'Hide the form labels and use only the placeholders.' 
 ,
         PRIMARY KEY (`id`)
@@ -86,6 +86,7 @@ CREATE TABLE `civicrm_appearancemodifier_petition` (
      `target_number_of_signers` int    COMMENT 'The target number of the petition signers.',
      `custom_social_box` tinyint    COMMENT 'This field triggers the custom social sharing layout.',
      `external_share_url` text    COMMENT 'This link will be shared in the custom social box.',
+     `add_placeholder` tinyint    COMMENT 'Set the text input label as placeholder text in the input.',
      `hide_form_labels` tinyint    COMMENT 'Hide the form labels and use only the placeholders.' 
 ,
         PRIMARY KEY (`id`)
@@ -110,6 +111,7 @@ CREATE TABLE `civicrm_appearancemodifier_profile` (
      `background_color` text    COMMENT 'The color code of the background in #ffffff format.',
      `outro` text    COMMENT 'The text that will be displayed after the submit button on the edit form.',
      `invert_consent_fields` tinyint    COMMENT 'This field triggers the invert behaviour of the consent checkboxes.',
+     `add_placeholder` tinyint    COMMENT 'Set the text input label as placeholder text in the input.',
      `hide_form_labels` tinyint    COMMENT 'Hide the form labels and use only the placeholders.' 
 ,
         PRIMARY KEY (`id`)
