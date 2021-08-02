@@ -60,6 +60,11 @@
     <comment>This link will be shared in the custom social box.</comment>
   </field>
   <field>
+    <name>add_placeholder</name>
+    <type>boolean</type>
+    <comment>Set the text input label as placeholder text in the input.</comment>
+  </field>
+  <field>
     <name>hide_form_labels</name>
     <type>boolean</type>
     <comment>Hide the form labels and use only the placeholders.</comment>
