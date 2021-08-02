@@ -18,6 +18,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Core_Form
         'custom_social_box',
         'external_share_url',
         'hide_form_labels',
+        'add_placeholder',
     ];
     // The event, for display some stuff about it on the frontend.
     private $event;
@@ -79,6 +80,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Core_Form
         $this->add('checkbox', 'invert_consent_fields', ts('Invert Consent Fields'), [], false);
         $this->add('checkbox', 'original_color', ts('Original Background Color'), [], false);
         $this->add('checkbox', 'hide_form_labels', ts('Hide text input labels'), [], false);
+        $this->add('checkbox', 'add_placeholder', ts('Add placeholders'), [], false);
         $this->add('checkbox', 'custom_social_box', ts('Custom social box'), [], false);
         $this->add('text', 'external_share_url', ts('External url to share'), [], false);
         // Submit button

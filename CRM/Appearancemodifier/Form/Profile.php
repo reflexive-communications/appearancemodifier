@@ -17,6 +17,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
         'outro',
         'invert_consent_fields',
         'hide_form_labels',
+        'add_placeholder',
     ];
     // The uf group, for display some stuff about it on the frontend.
     private $ufGroup;
@@ -78,6 +79,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
         $this->add('wysiwyg', 'outro', ts('Outro Text'), [], false);
         $this->add('checkbox', 'invert_consent_fields', ts('Invert Consent Fields'), [], false);
         $this->add('checkbox', 'original_color', ts('Original Background Color'), [], false);
+        $this->add('checkbox', 'add_placeholder', ts('Add placeholders'), [], false);
         $this->add('checkbox', 'hide_form_labels', ts('Hide text input labels'), [], false);
         // Submit button
         $this->addButtons(

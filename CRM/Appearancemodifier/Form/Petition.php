@@ -20,6 +20,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
         'custom_social_box',
         'external_share_url',
         'hide_form_labels',
+        'add_placeholder',
     ];
     // The petition, for display some stuff about it on the frontend.
     private $petition;
@@ -82,6 +83,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
         $this->add('checkbox', 'invert_consent_fields', ts('Invert Consent Fields'), [], false);
         $this->add('checkbox', 'original_color', ts('Original Background Color'), [], false);
         $this->add('checkbox', 'hide_form_labels', ts('Hide text input labels'), [], false);
+        $this->add('checkbox', 'add_placeholder', ts('Add placeholders'), [], false);
         $this->add('textarea', 'petition_message', ts('Petition message'), [], false);
         $this->add('text', 'target_number_of_signers', ts('Target number of signers'), [], false);
         $this->add('checkbox', 'custom_social_box', ts('Custom social box'), [], false);
