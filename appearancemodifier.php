@@ -256,23 +256,7 @@ function appearancemodifier_civicrm_links($op, $objectName, $objectId, &$links, 
  */
 function appearancemodifier_civicrm_alterTemplateFile($formName, &$form, $context, &$tplName)
 {
-    // On case of profile edit template, replace with a custom one that also includes the original one,
-    // but with an additional style block that will contains the color related updates.
-    if ($tplName === 'CRM/Profile/Form/Edit.tpl') {
-        $tplName = 'CRM/Appearancemodifier/Profile/edit.tpl';
-    } elseif ($tplName === 'CRM/Campaign/Form/Petition/Signature.tpl') {
-        $tplName = 'CRM/Appearancemodifier/Petition/signature.tpl';
-    } elseif ($tplName === 'CRM/Campaign/Page/Petition/ThankYou.tpl') {
-        $tplName = 'CRM/Appearancemodifier/Petition/thankyou.tpl';
-    } elseif ($tplName === 'CRM/Event/Page/EventInfo.tpl') {
-        $tplName = 'CRM/Appearancemodifier/Event/info.tpl';
-    } elseif ($tplName === 'CRM/Event/Form/Registration/Register.tpl') {
-        $tplName = 'CRM/Appearancemodifier/Event/register.tpl';
-    } elseif ($tplName === 'CRM/Event/Form/Registration/Confirm.tpl') {
-        $tplName = 'CRM/Appearancemodifier/Event/confirm.tpl';
-    } elseif ($tplName === 'CRM/Event/Form/Registration/ThankYou.tpl') {
-        $tplName = 'CRM/Appearancemodifier/Event/thankyou.tpl';
-    }
+    CRM_Appearancemodifier_Service::alterTemplateFile($tplName);
 }
 /**
  * Implements hook_civicrm_buildProfile().
