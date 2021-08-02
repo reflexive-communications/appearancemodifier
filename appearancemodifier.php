@@ -223,31 +223,7 @@ function appearancemodifier_civicrm_post($op, $objectName, $objectId, &$objectRe
  */
 function appearancemodifier_civicrm_links($op, $objectName, $objectId, &$links, &$mask, &$values)
 {
-    if ($op === 'ufGroup.row.actions') {
-        $links[] = [
-            'name' => 'Customize',
-            'url' => 'civicrm/admin/appearancemodifier/profile/customize',
-            'qs' => 'pid=%%id%%',
-            'title' => 'Customize form with The Appearance Modifier Extension.',
-            'class' => 'crm-popup',
-        ];
-    } elseif ($op === 'petition.dashboard.row') {
-        $links[] = [
-            'name' => 'Customize',
-            'url' => 'civicrm/admin/appearancemodifier/petition/customize',
-            'qs' => 'pid=%%id%%',
-            'title' => 'Customize form with The Appearance Modifier Extension.',
-            'class' => 'crm-popup',
-        ];
-    } elseif ($op === 'event.manage.list') {
-        $links[] = [
-            'name' => 'Customize',
-            'url' => 'civicrm/admin/appearancemodifier/event/customize',
-            'qs' => 'eid=%%id%%',
-            'title' => 'Customize form with The Appearance Modifier Extension.',
-            'class' => 'crm-popup',
-        ];
-    }
+    CRM_Appearancemodifier_Service::links($op, $links);
 }
 /**
  * Implements hook_civicrm_alterTemplateFile().
