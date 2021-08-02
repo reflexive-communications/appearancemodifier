@@ -226,21 +226,7 @@ function appearancemodifier_civicrm_alterTemplateFile($formName, &$form, $contex
  */
 function appearancemodifier_civicrm_buildProfile($profileName)
 {
-    // get the profile id form ufgroup api, then use the id for the AppearancemodifierProfile get.
-    $uFGroup = \Civi\Api4\UFGroup::get(false)
-        ->addSelect('id')
-        ->addWhere('name', '=', $profileName)
-        ->setLimit(1)
-        ->execute()
-        ->first();
-    $modifiedProfile = \Civi\Api4\AppearancemodifierProfile::get(false)
-        ->addWhere('uf_group_id', '=', $uFGroup['id'])
-        ->execute()
-        ->first();
-    if ($modifiedProfile['layout_handler'] !== null) {
-        $handler = new $modifiedProfile['layout_handler']();
-        $handler->setStyleSheets();
-    }
+    CRM_Appearancemodifier_Service::buildProfile($profileName);
 }
 /**
  * Implements hook_civicrm_pageRun().
