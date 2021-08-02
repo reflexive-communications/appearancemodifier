@@ -9,7 +9,7 @@ class LayoutImplementation extends CRM_Appearancemodifier_AbstractLayout
     public function setStyleSheets(): void
     {
     }
-    public function alterContent(string &$content): void
+    public function alterContent(&$content): void
     {
     }
 }
