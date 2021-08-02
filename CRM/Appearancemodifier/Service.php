@@ -1,5 +1,6 @@
 <?php
 
+use CRM_Appearancemodifier_ExtensionUtil as E;
 use Civi\Api4\AppearancemodifierProfile;
 use Civi\Api4\AppearancemodifierPetition;
 use Civi\Api4\AppearancemodifierEvent;
@@ -173,6 +174,9 @@ class CRM_Appearancemodifier_Service
             $handler = new $modifiedProfile['layout_handler']();
             $handler->setStyleSheets();
         }
+        if ($modifiedProfile['hide_form_labels'] !== null) {
+            Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
+        }
     }
 
     /**
@@ -198,6 +202,9 @@ class CRM_Appearancemodifier_Service
                 $handler = new $modifiedPetition['layout_handler']();
                 $handler->setStyleSheets();
             }
+            if ($modifiedPetition['hide_form_labels'] !== null) {
+                Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
+            }
         } elseif (array_search($formName, $eventFormNames) !== false) {
             $modifiedEvent = AppearancemodifierEvent::get(false)
                 ->addWhere('event_id', '=', $form->getVar('_eventId'))
@@ -206,6 +213,9 @@ class CRM_Appearancemodifier_Service
             if ($modifiedEvent['layout_handler'] !== null) {
                 $handler = new $modifiedEvent['layout_handler']();
                 $handler->setStyleSheets();
+            }
+            if ($modifiedEvent['hide_form_labels'] !== null) {
+                Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
             }
         }
     }
