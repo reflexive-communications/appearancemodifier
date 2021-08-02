@@ -29,7 +29,7 @@ class api_v3_AppearancemodifierEventTest extends \PHPUnit\Framework\TestCase imp
     /**
      * The setup() method is executed before the test is executed (optional).
      */
-    public function setUp()
+    public function setUp(): void
     {
         $table = CRM_Core_DAO_AllCoreTables::getTableForEntityName('AppearancemodifierEvent');
         $this->assertTrue($table && CRM_Core_DAO::checkTableExists($table), 'There was a problem with extension installation. Table for ' . 'AppearancemodifierEvent' . ' not found.');
@@ -40,7 +40,7 @@ class api_v3_AppearancemodifierEventTest extends \PHPUnit\Framework\TestCase imp
      * The tearDown() method is executed after the test was executed (optional)
      * This can be used for cleanup.
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
     }
