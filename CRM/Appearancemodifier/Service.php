@@ -52,4 +52,44 @@ class CRM_Appearancemodifier_Service
             $tplName = self::TEMPLATE_MAP[$tplName];
         }
     }
+
+    /*
+     * This function provides a link to the customization form on the
+     * ufgroup, petition, event lists.
+     *
+     * @param string $op
+     * @param array $links
+     */
+    public static function links(string $op, array &$links): void
+    {
+        switch ($op) {
+        case 'ufGroup.row.actions':
+            $links[] = [
+                'name' => 'Customize',
+                'url' => 'civicrm/admin/appearancemodifier/profile/customize',
+                'qs' => 'pid=%%id%%',
+                'title' => 'Customize form with The Appearance Modifier Extension.',
+                'class' => 'crm-popup',
+            ];
+            break;
+        case 'petition.dashboard.row':
+            $links[] = [
+                'name' => 'Customize',
+                'url' => 'civicrm/admin/appearancemodifier/petition/customize',
+                'qs' => 'pid=%%id%%',
+                'title' => 'Customize form with The Appearance Modifier Extension.',
+                'class' => 'crm-popup',
+            ];
+            break;
+        case 'event.manage.list':
+            $links[] = [
+                'name' => 'Customize',
+                'url' => 'civicrm/admin/appearancemodifier/event/customize',
+                'qs' => 'eid=%%id%%',
+                'title' => 'Customize form with The Appearance Modifier Extension.',
+                'class' => 'crm-popup',
+            ];
+            break;
+        }
+    }
 }
