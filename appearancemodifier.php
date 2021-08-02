@@ -382,24 +382,5 @@ function appearancemodifier_civicrm_alterContent(&$content, $context, $tplName, 
  */
 function appearancemodifier_civicrm_postProcess($formName, $form)
 {
-    $rules = [];
-    if ($formName === 'CRM_Profile_Form_Edit') {
-        $rules = \Civi\Api4\AppearancemodifierProfile::get(false)
-            ->addWhere('uf_group_id', '=', $form->getVar('_gid'))
-            ->execute()
-            ->first();
-    } elseif ($formName === 'CRM_Campaign_Form_Petition_Signature') {
-        $rules = \Civi\Api4\AppearancemodifierPetition::get(false)
-            ->addWhere('survey_id', '=', $form->getVar('_surveyId'))
-            ->execute()
-            ->first();
-    } elseif ($formName === 'CRM_Event_Form_Registration_Confirm') {
-        $rules = \Civi\Api4\AppearancemodifierEvent::get(false)
-            ->addWhere('event_id', '=', $form->getVar('_eventId'))
-            ->execute()
-            ->first();
-    }
-    if ($rules['invert_consent_fields'] !== null) {
-        CRM_Appearancemodifier_Service::updateConsents($form->getVar('_id'), $form->getVar('_submitValues'));
-    }
+    CRM_Appearancemodifier_Service::postProcess($formName, $form);
 }
