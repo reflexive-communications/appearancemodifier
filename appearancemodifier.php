@@ -244,30 +244,7 @@ function appearancemodifier_civicrm_pageRun(&$page)
  */
 function appearancemodifier_civicrm_buildForm($formName, &$form)
 {
-    $eventFormNames = [
-        'CRM_Event_Form_Registration_Register',
-        'CRM_Event_Form_Registration_Confirm',
-        'CRM_Event_Form_Registration_ThankYou',
-    ];
-    if ($formName === 'CRM_Campaign_Form_Petition_Signature') {
-        $modifiedPetition = \Civi\Api4\AppearancemodifierPetition::get(false)
-            ->addWhere('survey_id', '=', $form->getVar('_surveyId'))
-            ->execute()
-            ->first();
-        if ($modifiedPetition['layout_handler'] !== null) {
-            $handler = new $modifiedPetition['layout_handler']();
-            $handler->setStyleSheets();
-        }
-    } elseif (array_search($formName, $eventFormNames) !== false) {
-        $modifiedEvent = \Civi\Api4\AppearancemodifierEvent::get(false)
-            ->addWhere('event_id', '=', $form->getVar('_eventId'))
-            ->execute()
-            ->first();
-        if ($modifiedEvent['layout_handler'] !== null) {
-            $handler = new $modifiedEvent['layout_handler']();
-            $handler->setStyleSheets();
-        }
-    }
+    CRM_Appearancemodifier_Service::buildForm($formName, $form);
 }
 /*
  * Implements hook_civicrm_alterContent()
