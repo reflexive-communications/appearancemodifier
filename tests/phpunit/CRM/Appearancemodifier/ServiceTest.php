@@ -64,8 +64,8 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
     public function testAlterTemplateFile()
     {
         // mapped files
-        foreach (CRM_Appearancemodifier_Service::TEMPLATE_MAP as $template) {
-            self::assertSame(CRM_Appearancemodifier_Service::TEMPLATE_MAP[$template], CRM_Appearancemodifier_Service::alterTemplateFile($template));
+        foreach (CRM_Appearancemodifier_Service::TEMPLATE_MAP as $template => $value) {
+            self::assertSame($value, CRM_Appearancemodifier_Service::alterTemplateFile($template));
         }
         // not mapped file
         $template = 'not/mapped/template/file.tpl';
