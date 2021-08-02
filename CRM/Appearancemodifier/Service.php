@@ -35,6 +35,27 @@ class CRM_Appearancemodifier_Service
         'CRM/Appearancemodifier/Event/confirm.tpl',
         'CRM/Appearancemodifier/Event/thankyou.tpl',
     ];
+    const LINK_PROFILE = [
+        'name' => 'Customize',
+        'url' => 'civicrm/admin/appearancemodifier/profile/customize',
+        'qs' => 'pid=%%id%%',
+        'title' => 'Customize form with The Appearance Modifier Extension.',
+        'class' => 'crm-popup',
+    ];
+    const LINK_PETITION = [
+        'name' => 'Customize',
+        'url' => 'civicrm/admin/appearancemodifier/petition/customize',
+        'qs' => 'pid=%%id%%',
+        'title' => 'Customize form with The Appearance Modifier Extension.',
+        'class' => 'crm-popup',
+    ];
+    const LINK_EVENT = [
+        'name' => 'Customize',
+        'url' => 'civicrm/admin/appearancemodifier/event/customize',
+        'qs' => 'eid=%%id%%',
+        'title' => 'Customize form with The Appearance Modifier Extension.',
+        'class' => 'crm-popup',
+    ];
 
     /*
      * This function updates the template name on the profile, petition, event
@@ -62,31 +83,13 @@ class CRM_Appearancemodifier_Service
     {
         switch ($op) {
         case 'ufGroup.row.actions':
-            $links[] = [
-                'name' => 'Customize',
-                'url' => 'civicrm/admin/appearancemodifier/profile/customize',
-                'qs' => 'pid=%%id%%',
-                'title' => 'Customize form with The Appearance Modifier Extension.',
-                'class' => 'crm-popup',
-            ];
+            $links[] = self::LINK_PROFILE;
             break;
         case 'petition.dashboard.row':
-            $links[] = [
-                'name' => 'Customize',
-                'url' => 'civicrm/admin/appearancemodifier/petition/customize',
-                'qs' => 'pid=%%id%%',
-                'title' => 'Customize form with The Appearance Modifier Extension.',
-                'class' => 'crm-popup',
-            ];
+            $links[] = self::LINK_PETITION;
             break;
         case 'event.manage.list':
-            $links[] = [
-                'name' => 'Customize',
-                'url' => 'civicrm/admin/appearancemodifier/event/customize',
-                'qs' => 'eid=%%id%%',
-                'title' => 'Customize form with The Appearance Modifier Extension.',
-                'class' => 'crm-popup',
-            ];
+            $links[] = self::LINK_EVENT;
             break;
         }
     }
