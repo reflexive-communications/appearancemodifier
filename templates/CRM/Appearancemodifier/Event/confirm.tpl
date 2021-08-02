@@ -5,7 +5,3 @@
 {/if}
 
 {include file="CRM/Event/Form/Registration/Confirm.tpl"}
-
-{if $modifiedEvent.count eq '1' && isset($modifiedEvent.values[0].outro)}
-    <div class="appearancemodifier-outro">{$modifiedEvent.values[0].outro}</div>
-{/if}

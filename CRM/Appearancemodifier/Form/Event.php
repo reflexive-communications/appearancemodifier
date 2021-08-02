@@ -14,7 +14,6 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Core_Form
     private const EVENT_FIELDS = [
         'layout_handler',
         'background_color',
-        'outro',
         'invert_consent_fields',
         'custom_social_box',
         'external_share_url',
@@ -77,7 +76,6 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Core_Form
         );
         $this->add('select', 'layout_handler', ts('Form Layout'), array_merge([''=>ts('Default')], $layoutOptions), false);
         $this->add('color', 'background_color', ts('Background Color'), [], false);
-        $this->add('wysiwyg', 'outro', ts('Outro Text'), [], false);
         $this->add('checkbox', 'invert_consent_fields', ts('Invert Consent Fields'), [], false);
         $this->add('checkbox', 'original_color', ts('Original Background Color'), [], false);
         $this->add('checkbox', 'hide_form_labels', ts('Hide text input labels'), [], false);
