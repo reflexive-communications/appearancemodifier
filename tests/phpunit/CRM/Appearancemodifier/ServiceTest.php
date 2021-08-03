@@ -100,6 +100,14 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
     /*
      * It tests the pageRun function.
      */
+    public function testPost()
+    {
+        self::markTestIncomplete('This test has not been implemented yet.');
+    }
+
+    /*
+     * It tests the pageRun function.
+     */
     public function testPageRun()
     {
         self::markTestIncomplete('This test has not been implemented yet.');
