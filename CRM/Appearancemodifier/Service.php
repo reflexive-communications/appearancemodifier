@@ -455,36 +455,26 @@ class CRM_Appearancemodifier_Service
     private static function setupPlaceholders(string &$content, $hideLabels)
     {
         $doc = phpQuery::newDocument($content);
-        // Add placeholder attribute to the text inputs. The placeholder text has to be the label of the input.
-        foreach ($doc['.crm-section.form-item .content input[type="text"]'] as $textInput) {
-            // find the label node, that is the first child of the container node.
-            $containerNode = $textInput->parentNode->parentNode;
-            $label = $containerNode->firstChild;
-            if ($label->nodeType === 3) {
-                $label = $label->nextSibling;
-            }
-            // The label needs to be cleared. it contains whitespaces, linebraks (the inner trim function handles them)
-            // and for the required params we have a * sign after the label, that needs to be removed (rtrim).
-            $textInput->setAttribute('placeholder', rtrim(trim($label->nodeValue), " *\n"));
-            // if the hidelabel flag is not null, add the hidden node class to the label to make it hidden.
-            if (!is_null($hideLabels)) {
-                $label->setAttribute('class', $label->getAttribute('class').' hidden-node');
-            }
-        }
-        // Add placeholder attribute to the textarea. The placeholder text has to be the label of the textarea.
-        foreach ($doc['.crm-section.form-item .content textarea'] as $textArea) {
-            // find the label node, that is the first child of the container node.
-            $containerNode = $textArea->parentNode->parentNode;
-            $label = $containerNode->firstChild;
-            if ($label->nodeType === 3) {
-                $label = $label->nextSibling;
-            }
-            // The label needs to be cleared. it contains whitespaces, linebraks (the inner trim function handles them)
-            // and for the required params we have a * sign after the label, that needs to be removed (rtrim).
-            $textArea->setAttribute('placeholder', rtrim(trim($label->nodeValue), " *\n"));
-            // if the hidelabel flag is not null, add the hidden node class to the label to make it hidden.
-            if (!is_null($hideLabels)) {
-                $label->setAttribute('class', $label->getAttribute('class').' hidden-node');
+        $domSelectors = [
+            '.crm-section.form-item .content input[type="text"]',
+            '.crm-section.form-item .content textarea',
+        ];
+        foreach ($domSelectors as $domSelector) {
+            // Add placeholder attribute to the text inputs. The placeholder text has to be the label of the input.
+            foreach ($doc[$domSelector] as $textInput) {
+                // find the label node, that is the first child of the container node.
+                $containerNode = $textInput->parentNode->parentNode;
+                $label = $containerNode->firstChild;
+                if ($label->nodeType === 3) {
+                    $label = $label->nextSibling;
+                }
+                // The label needs to be cleared. it contains whitespaces, linebraks (the inner trim function handles them)
+                // and for the required params we have a * sign after the label, that needs to be removed (rtrim).
+                $textInput->setAttribute('placeholder', rtrim(trim($label->nodeValue), " *\n"));
+                // if the hidelabel flag is not null, add the hidden node class to the label to make it hidden.
+                if (!is_null($hideLabels)) {
+                    $label->setAttribute('class', $label->getAttribute('class').' hidden-node');
+                }
             }
         }
         $content = $doc->htmlOuter();
