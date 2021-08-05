@@ -61,9 +61,29 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
     /*
      * It tests the preProcess function.
      */
-    public function testPreProcess()
+    public function testPreProcessMissingEvent()
     {
-        self::markTestIncomplete('This test has not been implemented yet.');
+        $_REQUEST['eid'] = 2;
+        $_GET['eid'] = 2;
+        $_POST['eid'] = 2;
+        $form = new CRM_Appearancemodifier_Form_Event();
+        self::expectException(CRM_Core_Exception::class);
+        self::expectExceptionMessage('The selected event seems to be deleted. Id: 2');
+        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+    }
+    public function testPreProcessExistingEvent()
+    {
+        $event = \Civi\Api4\Event::create(false)
+            ->addValue('title', 'Test event title')
+            ->addValue('event_type_id', 4)
+            ->addValue('start_date', '2022-01-01')
+            ->execute()
+            ->first();
+        $_REQUEST['eid'] = $event['id'];
+        $_GET['eid'] = $event['id'];
+        $_POST['eid'] = $event['id'];
+        $form = new CRM_Appearancemodifier_Form_Event();
+        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
     }
 
     /*
@@ -71,7 +91,19 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
      */
     public function testSetDefaultValues()
     {
-        self::markTestIncomplete('This test has not been implemented yet.');
+        $event = \Civi\Api4\Event::create(false)
+            ->addValue('title', 'Test event title')
+            ->addValue('event_type_id', 4)
+            ->addValue('start_date', '2022-01-01')
+            ->execute()
+            ->first();
+        $_REQUEST['eid'] = $event['id'];
+        $_GET['eid'] = $event['id'];
+        $_POST['eid'] = $event['id'];
+        $form = new CRM_Appearancemodifier_Form_Event();
+        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        $defaults = $form->setDefaultValues();
+        self::assertSame(1, $defaults['original_color']);
     }
 
     /*
@@ -79,7 +111,18 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
      */
     public function testBuildQuickForm()
     {
-        self::markTestIncomplete('This test has not been implemented yet.');
+        $event = \Civi\Api4\Event::create(false)
+            ->addValue('title', 'Test event title')
+            ->addValue('event_type_id', 4)
+            ->addValue('start_date', '2022-01-01')
+            ->execute()
+            ->first();
+        $_REQUEST['eid'] = $event['id'];
+        $_GET['eid'] = $event['id'];
+        $_POST['eid'] = $event['id'];
+        $form = new CRM_Appearancemodifier_Form_Event();
+        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        self::assertEmpty($form->buildQuickForm(), 'buildQuickForm supposed to be empty.');
     }
 
     /*
@@ -87,6 +130,32 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
      */
     public function testPostProcess()
     {
-        self::markTestIncomplete('This test has not been implemented yet.');
+        $event = \Civi\Api4\Event::create(false)
+            ->addValue('title', 'Test event title')
+            ->addValue('event_type_id', 4)
+            ->addValue('start_date', '2022-01-01')
+            ->execute()
+            ->first();
+        $_REQUEST['eid'] = $event['id'];
+        $_GET['eid'] = $event['id'];
+        $_POST['eid'] = $event['id'];
+        $_POST['original_color'] = '1';
+
+        $_POST['layout_handler'] = '';
+        $_POST['background_color'] = '#ffffff';
+        $_POST['invert_consent_fields'] = '';
+        $_POST['custom_social_box'] = '';
+        $_POST['external_share_url'] = 'my.link.com';
+        $_POST['hide_form_labels'] = '';
+        $_POST['add_placeholder'] = '';
+        $form = new CRM_Appearancemodifier_Form_Event();
+        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
+        $modifiedEvent = \Civi\Api4\AppearancemodifierEvent::get(false)
+            ->addWhere('event_id', '=', $event['id'])
+            ->execute()
+            ->first();
+        self::assertNull($modifiedEvent['background_color']);
+        self::assertSame($_POST['external_share_url'], $modifiedEvent['external_share_url']);
     }
 }
