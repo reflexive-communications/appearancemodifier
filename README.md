@@ -25,12 +25,35 @@ cv en appearancemodifier
 This extension provides hooks, to be able to register further changes on the forms.
 
 **`hook_civicrm_appearancemodifierProfileLayoutHandlers`**
-This hook is fired when the profile admin form is building. The registered handlers will be appeared on the selector menu. The handler class has to extend the `CRM_Appearancemodifier_AbstractLayout` class. Example hook implementation:
+
+This hook is fired when the customize profile admin form is building. The registered handlers will be appeared on the selector menu. The handler class has to extend the `CRM_Appearancemodifier_AbstractLayout` class. Example hook implementation:
 
 ```php
 function myextension_civicrm_appearancemodifierProfileLayoutHandlers(&$handlers)
 {
     $handlers['My_Profile_Handler_Class_Name'] = 'Profile Handler label';
+}
+```
+
+**`hook_civicrm_appearancemodifierPetitionLayoutHandlers`**
+
+This hook is fired when the customize petition admin form is building. The registered handlers will be appeared on the selector menu. The handler class has to extend the `CRM_Appearancemodifier_AbstractLayout` class. Example hook implementation:
+
+```php
+function myextension_civicrm_appearancemodifierPetitionLayoutHandlers(&$handlers)
+{
+    $handlers['My_Petition_Handler_Class_Name'] = 'Petition Handler label';
+}
+```
+
+**`hook_civicrm_appearancemodifierEventLayoutHandlers`**
+
+This hook is fired when the customize event admin form is building. The registered handlers will be appeared on the selector menu. The handler class has to extend the `CRM_Appearancemodifier_AbstractLayout` class. Example hook implementation:
+
+```php
+function myextension_civicrm_appearancemodifierEventLayoutHandlers(&$handlers)
+{
+    $handlers['My_Event_Handler_Class_Name'] = 'Event Handler label';
 }
 ```
 
