@@ -63,7 +63,24 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
      */
     public function testPreProcess()
     {
-        self::markTestIncomplete('This test has not been implemented yet.');
+        // Petition
+        $petition = civicrm_api3('Survey', 'create', [
+            'sequential' => 1,
+            'title' => "Some title",
+            'activity_type_id' => "Petition",
+        ]);
+        $petition = $petition['values'][0];
+        $form = new CRM_Appearancemodifier_Form_Petition();
+        $_REQUEST['pid'] = $petition['id'];
+        $_GET['pid'] = $petition['id'];
+        $_POST['pid'] = $petition['id'];
+        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        // not existing petition
+        $_REQUEST['pid'] = $petition['id']+1;
+        $_GET['pid'] = $petition['id']+1;
+        $_POST['pid'] = $petition['id']+1;
+        self::expectException(CRM_Core_Exception::class);
+        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
     }
 
     /*
@@ -71,7 +88,19 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
      */
     public function testSetDefaultValues()
     {
-        self::markTestIncomplete('This test has not been implemented yet.');
+        $petition = civicrm_api3('Survey', 'create', [
+            'sequential' => 1,
+            'title' => "Some title",
+            'activity_type_id' => "Petition",
+        ]);
+        $petition = $petition['values'][0];
+        $form = new CRM_Appearancemodifier_Form_Petition();
+        $_REQUEST['pid'] = $petition['id'];
+        $_GET['pid'] = $petition['id'];
+        $_POST['pid'] = $petition['id'];
+        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        $defaults = $form->setDefaultValues();
+        self::assertSame(1, $defaults['original_color']);
     }
 
     /*
@@ -79,7 +108,18 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
      */
     public function testBuildQuickForm()
     {
-        self::markTestIncomplete('This test has not been implemented yet.');
+        $petition = civicrm_api3('Survey', 'create', [
+            'sequential' => 1,
+            'title' => "Some title",
+            'activity_type_id' => "Petition",
+        ]);
+        $petition = $petition['values'][0];
+        $form = new CRM_Appearancemodifier_Form_Petition();
+        $_REQUEST['pid'] = $petition['id'];
+        $_GET['pid'] = $petition['id'];
+        $_POST['pid'] = $petition['id'];
+        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        self::assertEmpty($form->buildQuickForm(), 'buildQuickForm supposed to be empty.');
     }
 
     /*
@@ -87,6 +127,36 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
      */
     public function testPostProcess()
     {
-        self::markTestIncomplete('This test has not been implemented yet.');
+        $petition = civicrm_api3('Survey', 'create', [
+            'sequential' => 1,
+            'title' => "Some title",
+            'activity_type_id' => "Petition",
+        ]);
+        $petition = $petition['values'][0];
+        $form = new CRM_Appearancemodifier_Form_Petition();
+        $_REQUEST['pid'] = $petition['id'];
+        $_GET['pid'] = $petition['id'];
+        $_POST['pid'] = $petition['id'];
+        $form->setVar('_submitValues', [
+            'original_color' => '1',
+            'layout_handler' => '',
+            'background_color' => '#ffffff',
+            'outro' => 'My new outro text',
+            'petition_message' => 'My new petition message text',
+            'invert_consent_fields' => '',
+            'target_number_of_signers' => '',
+            'custom_social_box' => '',
+            'external_share_url' => 'my.link.com',
+            'hide_form_labels' => '',
+            'add_placeholder' => '',
+        ]);
+        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
+        $modifiedPetition = \Civi\Api4\AppearancemodifierPetition::get(false)
+            ->addWhere('survey_id', '=', $petition['id'])
+            ->execute()
+            ->first();
+        self::assertNull($modifiedPetition['background_color']);
+        self::assertSame('My new outro text', $modifiedPetition['outro']);
     }
 }
