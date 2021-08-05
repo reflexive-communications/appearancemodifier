@@ -60,9 +60,84 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
 
     /*
      * It tests the postInstall function.
+     * Extension install has to be skipped for this tests.
+     * It creates a profile a petition and an event form.
+     * Calls the postinstall function, then checks the number of
+     * entries.
      */
     public function testPostInstall()
     {
-        self::markTestIncomplete('This test has not been implemented yet.');
+        // Profile
+        $profile = \Civi\Api4\UFGroup::create(false)
+            ->addValue('title', 'Test UFGroup aka Profile')
+            ->addValue('is_active', true)
+            ->execute()
+            ->first();
+        // current number of profiles:
+        $profiles = \Civi\Api4\UFGroup::get(false)
+            ->addSelect('id')
+            ->execute();
+        // Petition
+        $petition = civicrm_api3('Survey', 'create', [
+            'sequential' => 1,
+            'title' => "Some title",
+            'activity_type_id' => "Petition",
+        ]);
+        // current number of petitions ($petition['result']):
+        $petitions = civicrm_api3('Survey', 'getcount', [
+            'activity_type_id' => "Petition",
+        ]);
+        // Event
+        $event = \Civi\Api4\Event::create(false)
+            ->addValue('title', 'Test event title')
+            ->addValue('event_type_id', 4)
+            ->addValue('start_date', '2022-01-01')
+            ->execute();
+        // current number of events:
+        $events = \Civi\Api4\Event::get(false)
+            ->addSelect('id')
+            ->execute();
+        // Cleanup the current database.
+        $modifiedEvents = \Civi\Api4\AppearancemodifierEvent::get(false)
+            ->addSelect('id')
+            ->execute();
+        foreach ($modifiedEvents as $event) {
+            \Civi\Api4\AppearancemodifierEvent::delete(false)
+                ->addWhere('id', '=', $event['id'])
+                ->execute();
+        }
+        $modifiedPetitions = \Civi\Api4\AppearancemodifierPetition::get(false)
+            ->addSelect('id')
+            ->execute();
+        foreach ($modifiedPetitions as $petition) {
+            \Civi\Api4\AppearancemodifierPetition::delete(false)
+                ->addWhere('id', '=', $petition['id'])
+                ->execute();
+        }
+        $modifiedProfiles = \Civi\Api4\AppearancemodifierProfile::get(false)
+            ->addSelect('id')
+            ->execute();
+        foreach ($modifiedProfiles as $profile) {
+            \Civi\Api4\AppearancemodifierProfile::delete(false)
+                ->addWhere('id', '=', $profile['id'])
+                ->execute();
+        }
+        // call postinstall.
+        $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
+        $installer->postInstall();
+        // check the number of the modified configs. it has to be the same
+        // as gathered above.
+        $modifiedEvents = \Civi\Api4\AppearancemodifierEvent::get(false)
+            ->addSelect('id', 'event_id')
+            ->execute();
+        $modifiedPetitions = \Civi\Api4\AppearancemodifierPetition::get(false)
+            ->addSelect('id', 'survey_id')
+            ->execute();
+        $modifiedProfiles = \Civi\Api4\AppearancemodifierProfile::get(false)
+            ->addSelect('id', 'uf_group_id')
+            ->execute();
+        self::assertSame(count($modifiedEvents), count($events), 'Invalid number of events.'.var_export($modifiedEvents, true).' - '.var_export($events, true));
+        self::assertSame(count($modifiedPetitions), $petitions, 'Invalid number of petitions.'.var_export($modifiedPetitions, true).' - '.var_export($petitions, true));
+        self::assertSame(count($modifiedProfiles), count($profiles), 'Invalid number of profiles.'.var_export($modifiedProfiles, true).' - '.var_export($profiles, true));
     }
 }
