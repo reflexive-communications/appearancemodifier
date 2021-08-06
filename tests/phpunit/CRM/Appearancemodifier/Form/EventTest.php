@@ -5,6 +5,22 @@ use Civi\Test\HeadlessInterface;
 use Civi\Test\HookInterface;
 use Civi\Test\TransactionalInterface;
 
+class DummyEventPresetProviderClass
+{
+    public static function getPresets(): array
+    {
+        return [
+            'layout_handler' => '',
+            'background_color' => '#ffffff',
+            'invert_consent_fields' => '',
+            'target_number_of_signers' => '',
+            'custom_social_box' => '',
+            'external_share_url' => 'my.updated.link.com',
+            'hide_form_labels' => '',
+            'add_placeholder' => '',
+        ];
+    }
+}
 /**
  * Testcases for Event Form class.
  *
@@ -128,7 +144,7 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
     /*
      * It tests the postProcess function.
      */
-    public function testPostProcess()
+    public function testPostProcessWithoutPresets()
     {
         $event = \Civi\Api4\Event::create(false)
             ->addValue('title', 'Test event title')
@@ -148,6 +164,7 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
         $_POST['external_share_url'] = 'my.link.com';
         $_POST['hide_form_labels'] = '';
         $_POST['add_placeholder'] = '';
+        $_POST['preset_handler'] = '';
         $form = new CRM_Appearancemodifier_Form_Event();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
@@ -157,5 +174,36 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
             ->first();
         self::assertNull($modifiedEvent['background_color']);
         self::assertSame($_POST['external_share_url'], $modifiedEvent['external_share_url']);
+    }
+    public function testPostProcessWithPresets()
+    {
+        $event = \Civi\Api4\Event::create(false)
+            ->addValue('title', 'Test event title')
+            ->addValue('event_type_id', 4)
+            ->addValue('start_date', '2022-01-01')
+            ->execute()
+            ->first();
+        $_REQUEST['eid'] = $event['id'];
+        $_GET['eid'] = $event['id'];
+        $_POST['eid'] = $event['id'];
+        $_POST['original_color'] = '1';
+
+        $_POST['layout_handler'] = '';
+        $_POST['background_color'] = '#ffffff';
+        $_POST['invert_consent_fields'] = '';
+        $_POST['custom_social_box'] = '';
+        $_POST['external_share_url'] = 'my.link.com';
+        $_POST['hide_form_labels'] = '';
+        $_POST['add_placeholder'] = '';
+        $_POST['preset_handler'] = 'DummyEventPresetProviderClass';
+        $form = new CRM_Appearancemodifier_Form_Event();
+        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
+        $modifiedEvent = \Civi\Api4\AppearancemodifierEvent::get(false)
+            ->addWhere('event_id', '=', $event['id'])
+            ->execute()
+            ->first();
+        self::assertNull($modifiedEvent['background_color']);
+        self::assertSame('my.updated.link.com', $modifiedEvent['external_share_url']);
     }
 }

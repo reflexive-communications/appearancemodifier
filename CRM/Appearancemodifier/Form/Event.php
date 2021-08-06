@@ -58,6 +58,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Core_Form
         if ($modifiedEvent['background_color'] == null) {
             $this->_defaults['original_color'] = 1;
         }
+        $this->_defaults['preset_handler'] = '';
         return $this->_defaults;
     }
 
@@ -116,16 +117,30 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Core_Form
         if ($this->_submitValues['original_color'] === '1') {
             $submitData['background_color'] = '';
         }
+        if ($this->_submitValues['preset_handler'] !== '') {
+            $this->saveCustomEvent($this->_submitValues['preset_handler']::get());
+        } else {
+            $this->saveCustomEvent($submitData);
+        }
+        CRM_Core_Session::setStatus(ts('Data has been updated.'), 'Appearancemodifier', 'success', ['expires' => 5000,]);
+
+        parent::postProcess();
+    }
+
+    /**
+     * This function is a wrapper for AppearancemodifierEvent.update API call.
+     *
+     * @param array $data the new values.
+     */
+    private function saveCustomEvent(array $data)
+    {
         $modifiedEvent = AppearancemodifierEvent::update()
             ->setLimit(1)
             ->addWhere('event_id', '=', $this->event['id']);
         foreach (self::EVENT_FIELDS as $key) {
-            $modifiedEvent = $modifiedEvent->addValue($key, $submitData[$key]);
+            $modifiedEvent = $modifiedEvent->addValue($key, $data[$key]);
         }
         $modifiedEvent = $modifiedEvent->execute();
-        CRM_Core_Session::setStatus(ts('Data has been updated.'), 'Appearancemodifier', 'success', ['expires' => 5000,]);
-
-        parent::postProcess();
     }
 
     /*
