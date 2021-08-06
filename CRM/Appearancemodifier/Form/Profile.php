@@ -66,15 +66,18 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
     public function buildQuickForm()
     {
         $layoutOptions = [
+            'handlers' => [],
+            'presets' => [],
         ];
         // Fire hook event.
         Civi::dispatcher()->dispatch(
-            "hook_civicrm_appearancemodifierProfileLayoutHandlers",
+            "hook_civicrm_appearancemodifierProfileSettings",
             Civi\Core\Event\GenericHookEvent::create([
                 "options" => &$layoutOptions,
             ])
         );
-        $this->add('select', 'layout_handler', ts('Form Layout'), array_merge([''=>ts('Default')], $layoutOptions), false);
+        $this->add('radio', 'preset_handler', ts('Presets'), array_merge([''=>ts('Custom')], $layoutOptions['presets']), false);
+        $this->add('select', 'layout_handler', ts('Form Layout'), array_merge([''=>ts('Default')], $layoutOptions['handlers']), false);
         $this->add('color', 'background_color', ts('Background Color'), [], false);
         $this->add('wysiwyg', 'outro', ts('Outro Text'), [], false);
         $this->add('checkbox', 'invert_consent_fields', ts('Invert Consent Fields'), [], false);
