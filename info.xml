@@ -14,8 +14,8 @@
         <url desc="Support">https://github.com/reflexive-communications/appearancemodifier/issues</url>
         <url desc="Licensing">http://www.gnu.org/licenses/agpl-3.0.html</url>
     </urls>
-    <releaseDate>2021-07-30</releaseDate>
-    <version>0.1.0</version>
+    <releaseDate>2021-08-06</releaseDate>
+    <version>0.1.1</version>
     <develStage>alpha</develStage>
     <compatibility>
         <ver>5.0</ver>
