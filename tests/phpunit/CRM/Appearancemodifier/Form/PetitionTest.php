@@ -5,6 +5,24 @@ use Civi\Test\HeadlessInterface;
 use Civi\Test\HookInterface;
 use Civi\Test\TransactionalInterface;
 
+class DummyPetitionPresetProviderClass
+{
+    public static function getPresets(): array
+    {
+        return [
+            'layout_handler' => '',
+            'background_color' => '#ffffff',
+            'outro' => 'My default outro text',
+            'petition_message' => 'My new petition message text',
+            'invert_consent_fields' => '',
+            'target_number_of_signers' => '',
+            'custom_social_box' => '',
+            'external_share_url' => 'my.link.com',
+            'hide_form_labels' => '',
+            'add_placeholder' => '',
+        ];
+    }
+}
 /**
  * Testcases for Petition Form class.
  *
@@ -125,7 +143,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
     /*
      * It tests the postProcess function.
      */
-    public function testPostProcess()
+    public function testPostProcessWithoutPresets()
     {
         $petition = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
@@ -149,6 +167,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
             'external_share_url' => 'my.link.com',
             'hide_form_labels' => '',
             'add_placeholder' => '',
+            'preset_handler' => '',
         ]);
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
@@ -158,5 +177,40 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
             ->first();
         self::assertNull($modifiedPetition['background_color']);
         self::assertSame('My new outro text', $modifiedPetition['outro']);
+    }
+    public function testPostProcessWithPresets()
+    {
+        $petition = civicrm_api3('Survey', 'create', [
+            'sequential' => 1,
+            'title' => "Some title",
+            'activity_type_id' => "Petition",
+        ]);
+        $petition = $petition['values'][0];
+        $form = new CRM_Appearancemodifier_Form_Petition();
+        $_REQUEST['pid'] = $petition['id'];
+        $_GET['pid'] = $petition['id'];
+        $_POST['pid'] = $petition['id'];
+        $form->setVar('_submitValues', [
+            'original_color' => '1',
+            'layout_handler' => '',
+            'background_color' => '#ffffff',
+            'outro' => 'My new outro text',
+            'petition_message' => 'My new petition message text',
+            'invert_consent_fields' => '',
+            'target_number_of_signers' => '',
+            'custom_social_box' => '',
+            'external_share_url' => 'my.link.com',
+            'hide_form_labels' => '',
+            'add_placeholder' => '',
+            'preset_handler' => 'DummyPetitionPresetProviderClass',
+        ]);
+        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
+        $modifiedPetition = \Civi\Api4\AppearancemodifierPetition::get(false)
+            ->addWhere('survey_id', '=', $petition['id'])
+            ->execute()
+            ->first();
+        self::assertNull($modifiedPetition['background_color']);
+        self::assertSame('My default outro text', $modifiedPetition['outro']);
     }
 }

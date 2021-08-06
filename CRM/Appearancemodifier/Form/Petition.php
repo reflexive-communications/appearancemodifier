@@ -60,6 +60,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
         if ($modifiedPetition['background_color'] == null) {
             $this->_defaults['original_color'] = 1;
         }
+        $this->_defaults['preset_handler'] = '';
         return $this->_defaults;
     }
 
@@ -121,16 +122,30 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
         if ($this->_submitValues['original_color'] === '1') {
             $submitData['background_color'] = '';
         }
+        if ($this->_submitValues['preset_handler'] !== '') {
+            $this->saveCustomPetition($this->_submitValues['preset_handler']::get());
+        } else {
+            $this->saveCustomPetition($submitData);
+        }
+        CRM_Core_Session::setStatus(ts('Data has been updated.'), 'Appearancemodifier', 'success', ['expires' => 5000,]);
+
+        parent::postProcess();
+    }
+
+    /**
+     * This function is a wrapper for AppearancemodifierPetition.update API call.
+     *
+     * @param array $data the new values.
+     */
+    private function saveCustomPetition(array $data)
+    {
         $modifiedPetition = AppearancemodifierPetition::update()
             ->setLimit(1)
             ->addWhere('survey_id', '=', $this->petition['id']);
         foreach (self::PETITION_FIELDS as $key) {
-            $modifiedPetition = $modifiedPetition->addValue($key, $submitData[$key]);
+            $modifiedPetition = $modifiedPetition->addValue($key, $data[$key]);
         }
         $modifiedPetition = $modifiedPetition->execute();
-        CRM_Core_Session::setStatus(ts('Data has been updated.'), 'Appearancemodifier', 'success', ['expires' => 5000,]);
-
-        parent::postProcess();
     }
 
     /*
