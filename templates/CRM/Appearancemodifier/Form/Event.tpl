@@ -1,6 +1,12 @@
 <div class="crm-block crm-form-block">
     <table class="form-layout">
         <tr>
+            <td class="label">{$form.preset_handler.label}</td>
+            <td class="content">{$form.preset_handler.html}<br/>
+                <span class="description">{ts}Use the saved settings or customize form scratch.{/ts}</span>
+            </td>
+        </tr>
+        <tr>
             <td class="label">{$form.layout_handler.label}</td>
             <td class="content">{$form.layout_handler.html}<br/>
                 <span class="description">{ts}Layout manipulation.{/ts}</span>
