@@ -77,7 +77,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Core_Form
                 "options" => &$layoutOptions,
             ])
         );
-        $this->add('radio', 'preset_handler', ts('Presets'), array_merge([''=>ts('Custom')], $layoutOptions['presets']), false);
+        $this->addRadio('preset_handler',  ts('Presets'), array_merge([''=>ts('Custom')], $layoutOptions['presets']), [], null, false);
         $this->add('select', 'layout_handler', ts('Form Layout'), array_merge([''=>ts('Default')], $layoutOptions)['handlers'], false);
         $this->add('color', 'background_color', ts('Background Color'), [], false);
         $this->add('checkbox', 'invert_consent_fields', ts('Invert Consent Fields'), [], false);
