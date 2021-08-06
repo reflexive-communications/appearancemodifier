@@ -210,7 +210,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
             ->addWhere('survey_id', '=', $petition['id'])
             ->execute()
             ->first();
-        self::assertNull($modifiedPetition['background_color']);
+        self::assertSame('#ffffff', $modifiedPetition['background_color']);
         self::assertSame('My default outro text', $modifiedPetition['outro']);
     }
 }

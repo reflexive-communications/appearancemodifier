@@ -203,7 +203,7 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
             ->addWhere('event_id', '=', $event['id'])
             ->execute()
             ->first();
-        self::assertNull($modifiedEvent['background_color']);
+        self::assertSame('#ffffff', $modifiedEvent['background_color']);
         self::assertSame('my.updated.link.com', $modifiedEvent['external_share_url']);
     }
 }

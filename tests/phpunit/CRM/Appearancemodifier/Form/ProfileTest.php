@@ -191,7 +191,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
             ->addWhere('uf_group_id', '=', $profile['id'])
             ->execute()
             ->first();
-        self::assertNull($modifiedProfile['background_color']);
+        self::assertSame('#ffffff', $modifiedProfile['background_color']);
         self::assertSame('My default outro text', $modifiedProfile['outro']);
     }
 }
