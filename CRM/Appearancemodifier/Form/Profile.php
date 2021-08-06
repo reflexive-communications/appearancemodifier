@@ -57,6 +57,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
         if ($modifiedProfile['background_color'] == null) {
             $this->_defaults['original_color'] = 1;
         }
+        $this->_defaults['preset_handler'] = '';
         return $this->_defaults;
     }
 
@@ -114,16 +115,30 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
         if ($this->_submitValues['original_color'] === '1') {
             $submitData['background_color'] = '';
         }
+        if ($this->_submitValues['preset_handler'] !== '') {
+            $this->saveCustomProfile($this->_submitValues['preset_handler']::get());
+        } else {
+            $this->saveCustomProfile($submitData);
+        }
+        CRM_Core_Session::setStatus(ts('Data has been updated.'), 'Appearancemodifier', 'success', ['expires' => 5000,]);
+
+        parent::postProcess();
+    }
+
+    /**
+     * This function is a wrapper for AppearancemodifierProfile.update API call.
+     *
+     * @param array $data the new values.
+     */
+    private function saveCustomProfile(array $data)
+    {
         $modifiedProfile = AppearancemodifierProfile::update()
             ->setLimit(1)
             ->addWhere('uf_group_id', '=', $this->ufGroup['id']);
         foreach (self::PROFILE_FIELDS as $key) {
-            $modifiedProfile = $modifiedProfile->addValue($key, $submitData[$key]);
+            $modifiedProfile = $modifiedProfile->addValue($key, $data[$key]);
         }
         $modifiedProfile = $modifiedProfile->execute();
-        CRM_Core_Session::setStatus(ts('Data has been updated.'), 'Appearancemodifier', 'success', ['expires' => 5000,]);
-
-        parent::postProcess();
     }
 
     /*

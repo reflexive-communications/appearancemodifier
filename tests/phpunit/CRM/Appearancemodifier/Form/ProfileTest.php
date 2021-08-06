@@ -5,6 +5,20 @@ use Civi\Test\HeadlessInterface;
 use Civi\Test\HookInterface;
 use Civi\Test\TransactionalInterface;
 
+class DummyProfilePresetProviderClass
+{
+    public static function getPresets(): array
+    {
+        return [
+            'layout_handler' => '',
+            'background_color' => '#ffffff',
+            'outro' => 'My default outro text',
+            'invert_consent_fields' => '',
+            'hide_form_labels' => '',
+            'add_placeholder' => '',
+        ];
+    }
+}
 /**
  * Testcases for Profile Form class.
  *
@@ -122,7 +136,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
     /*
      * It tests the postProcess function.
      */
-    public function testPostProcess()
+    public function testPostProcessWithoutPresets()
     {
         $profile = \Civi\Api4\UFGroup::create(false)
             ->addValue('title', 'Test UFGroup aka Profile')
@@ -140,6 +154,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
         $_POST['invert_consent_fields'] = '';
         $_POST['hide_form_labels'] = '';
         $_POST['add_placeholder'] = '';
+        $_POST['preset_handler'] = '';
         $form = new CRM_Appearancemodifier_Form_Profile();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
@@ -149,5 +164,34 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
             ->first();
         self::assertNull($modifiedProfile['background_color']);
         self::assertSame($_POST['outro'], $modifiedProfile['outro']);
+    }
+    public function testPostProcessWithPresets()
+    {
+        $profile = \Civi\Api4\UFGroup::create(false)
+            ->addValue('title', 'Test UFGroup aka Profile')
+            ->addValue('is_active', true)
+            ->execute()
+            ->first();
+        $_REQUEST['pid'] = $profile['id'];
+        $_GET['pid'] = $profile['id'];
+        $_POST['pid'] = $profile['id'];
+        $_POST['original_color'] = '1';
+
+        $_POST['layout_handler'] = '';
+        $_POST['background_color'] = '#ffffff';
+        $_POST['outro'] = 'My new outro text';
+        $_POST['invert_consent_fields'] = '';
+        $_POST['hide_form_labels'] = '';
+        $_POST['add_placeholder'] = '';
+        $_POST['preset_handler'] = 'DummyProfilePresetProviderClass';
+        $form = new CRM_Appearancemodifier_Form_Profile();
+        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
+        $modifiedProfile = \Civi\Api4\AppearancemodifierProfile::get(false)
+            ->addWhere('uf_group_id', '=', $profile['id'])
+            ->execute()
+            ->first();
+        self::assertNull($modifiedProfile['background_color']);
+        self::assertSame('My default outro text', $modifiedProfile['outro']);
     }
 }
