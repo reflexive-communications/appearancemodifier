@@ -142,6 +142,7 @@ class CRM_Appearancemodifier_Service
                 $handler = new $modifiedPetition['layout_handler']();
                 $handler->setStyleSheets();
             }
+            Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
         } elseif ($page->getVar('_name') == 'CRM_Event_Page_EventInfo') {
             $modifiedEvent = AppearancemodifierEvent::get(false)
                 ->addWhere('event_id', '=', $page->getVar('_id'))
@@ -151,6 +152,7 @@ class CRM_Appearancemodifier_Service
                 $handler = new $modifiedEvent['layout_handler']();
                 $handler->setStyleSheets();
             }
+            Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
         }
     }
 
@@ -177,9 +179,7 @@ class CRM_Appearancemodifier_Service
             $handler = new $modifiedProfile['layout_handler']();
             $handler->setStyleSheets();
         }
-        if ($modifiedProfile['hide_form_labels'] !== null) {
-            Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
-        }
+        Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
     }
 
     /**
@@ -205,9 +205,7 @@ class CRM_Appearancemodifier_Service
                 $handler = new $modifiedPetition['layout_handler']();
                 $handler->setStyleSheets();
             }
-            if ($modifiedPetition['hide_form_labels'] !== null) {
-                Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
-            }
+            Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
         } elseif (array_search($formName, $eventFormNames) !== false) {
             $modifiedEvent = AppearancemodifierEvent::get(false)
                 ->addWhere('event_id', '=', $form->getVar('_eventId'))
@@ -217,9 +215,7 @@ class CRM_Appearancemodifier_Service
                 $handler = new $modifiedEvent['layout_handler']();
                 $handler->setStyleSheets();
             }
-            if ($modifiedEvent['hide_form_labels'] !== null) {
-                Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
-            }
+            Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
         }
     }
 
