@@ -118,7 +118,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Core_Form
             $submitData['background_color'] = '';
         }
         if ($this->_submitValues['preset_handler'] !== '') {
-            $this->saveCustomEvent($this->_submitValues['preset_handler']::get());
+            $this->saveCustomEvent($this->_submitValues['preset_handler']::getPresets());
         } else {
             $this->saveCustomEvent($submitData);
         }

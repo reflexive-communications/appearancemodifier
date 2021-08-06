@@ -123,7 +123,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
             $submitData['background_color'] = '';
         }
         if ($this->_submitValues['preset_handler'] !== '') {
-            $this->saveCustomPetition($this->_submitValues['preset_handler']::get());
+            $this->saveCustomPetition($this->_submitValues['preset_handler']::getPresets());
         } else {
             $this->saveCustomPetition($submitData);
         }

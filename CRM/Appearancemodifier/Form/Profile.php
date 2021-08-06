@@ -116,7 +116,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
             $submitData['background_color'] = '';
         }
         if ($this->_submitValues['preset_handler'] !== '') {
-            $this->saveCustomProfile($this->_submitValues['preset_handler']::get());
+            $this->saveCustomProfile($this->_submitValues['preset_handler']::getPresets());
         } else {
             $this->saveCustomProfile($submitData);
         }
