@@ -1,3 +1,39 @@
 .hidden-node {
     display: none;
 }
+/* Outro text the is displayed after the submit button. */
+.appearancemodifier-outro {
+    margin-top: 35px;
+}
+/* Social blocks: header has to be centered and uppercase */
+.crm-section.crm-socialnetwork h2 {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+/* Social blocks: main container for the icons, border for top and bottom */
+div.appearancemodifier-social-block {
+    font-size: 50px;
+    color: black;
+    text-align: center;
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+/* Social blocks: container for the icon links, postion them inline with a distance */
+div.appearancemodifier-social-block div.social-media-icon {
+    display: inline-block;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+/* Social blocks: container for the icon, postion them inline with black font color */
+div.appearancemodifier-social-block a div {
+    display: inline-block;
+    color: black;
+}
+/* Social blocks: size and position of the icons */
+div.appearancemodifier-social-block a div i {
+    width: 60px;
+    text-align: center;
+}
