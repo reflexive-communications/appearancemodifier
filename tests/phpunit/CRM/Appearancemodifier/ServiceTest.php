@@ -386,7 +386,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->addValue('do_not_phone', false)
             ->execute()
             ->first();
-        $form->setVar('_id', $contact['id']);
+        $form->setVar('_contactId', $contact['id']);
         $submit = [
             'is_opt_out' => '',
             'do_not_email' => '',
@@ -443,13 +443,13 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->addValue('do_not_phone', false)
             ->execute()
             ->first();
-        $form->setVar('_id', $contact['id']);
+        $form->setVar('_values', ['participant' => ['contact_id' => $contact['id']]]);
         $submit = [
             'is_opt_out' => '',
             'do_not_email' => '',
             'do_not_phone' => '',
         ];
-        $form->setVar('_submitValues', $submit);
+        $form->setVar('_params', $submit);
         self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Event_Form_Registration_Confirm::class, $form));
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
@@ -464,7 +464,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             'do_not_email' => '1',
             'do_not_phone' => '1',
         ];
-        $form->setVar('_submitValues', $submit);
+        $form->setVar('_params', $submit);
         self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Event_Form_Registration_Confirm::class, $form));
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
