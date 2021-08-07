@@ -442,7 +442,7 @@ class CRM_Appearancemodifier_Service
                 switch ($button->getAttribute('id')) {
                 case 'crm-tw':
                     $shareUrl = '';
-                    if (!is_null($externalUrl)){
+                    if (!is_null($externalUrl)) {
                         $shareUrl = "window.open('https://twitter.com/intent/tweet?url=".urlencode($externalUrl)."&amp;text=".$eventTitle."', '_blank')";
                     } else {
                         $shareUrl = $button->getAttribute('onclick');
@@ -451,7 +451,7 @@ class CRM_Appearancemodifier_Service
                     break;
                 case 'crm-fb':
                     $shareUrl = '';
-                    if (!is_null($externalUrl)){
+                    if (!is_null($externalUrl)) {
                         $shareUrl = "window.open('https://facebook.com/sharer/sharer.php?u=".urlencode($externalUrl)."', '_blank')";
                     } else {
                         $shareUrl = $button->getAttribute('onclick');
