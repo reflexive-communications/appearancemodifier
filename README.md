@@ -137,7 +137,8 @@ The functionality of this extension could be extended with further custom layout
 
 ### Abstract layout
 
-The setStyleSheets method is called at that points when the pages could be extended with further css resources.
+The constructor receives the class name of the given page or form and stores it in a class variable.
+The setStyleSheets method is called at that points when the pages could be extended with further css resources. If you need a specific rule on a specific page, use the currentClassName variable for detecting the page.
 The alterContent method is called after the SSR process of a template and ready for the manipulation.
 The className method is a handy helper class that provides you a classname prefix, that could be used for writing css rules.
 
