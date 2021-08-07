@@ -38,7 +38,7 @@ class CRM_Appearancemodifier_AbstractLayoutTest extends \PHPUnit\Framework\TestC
      */
     public function testClassName()
     {
-        $impl = new LayoutImplementation();
+        $impl = new LayoutImplementation('Some_Class_Name');
         self::assertSame('appearancemodifier-', $impl->className());
     }
 }

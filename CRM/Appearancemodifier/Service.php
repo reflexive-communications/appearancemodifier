@@ -140,7 +140,7 @@ class CRM_Appearancemodifier_Service
                 ->execute()
                 ->first();
             if ($modifiedPetition['layout_handler'] !== null) {
-                $handler = new $modifiedPetition['layout_handler']();
+                $handler = new $modifiedPetition['layout_handler']('CRM_Campaign_Page_Petition_ThankYou');
                 $handler->setStyleSheets();
             }
             Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
@@ -150,7 +150,7 @@ class CRM_Appearancemodifier_Service
                 ->execute()
                 ->first();
             if ($modifiedEvent['layout_handler'] !== null) {
-                $handler = new $modifiedEvent['layout_handler']();
+                $handler = new $modifiedEvent['layout_handler']('CRM_Event_Page_EventInfo');
                 $handler->setStyleSheets();
             }
             Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
@@ -177,7 +177,7 @@ class CRM_Appearancemodifier_Service
             ->execute()
             ->first();
         if ($modifiedProfile['layout_handler'] !== null) {
-            $handler = new $modifiedProfile['layout_handler']();
+            $handler = new $modifiedProfile['layout_handler']('CRM_Profile_Form_Edit');
             $handler->setStyleSheets();
         }
         Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
@@ -203,7 +203,7 @@ class CRM_Appearancemodifier_Service
                 ->execute()
                 ->first();
             if ($modifiedPetition['layout_handler'] !== null) {
-                $handler = new $modifiedPetition['layout_handler']();
+                $handler = new $modifiedPetition['layout_handler']($formName);
                 $handler->setStyleSheets();
             }
             Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
@@ -213,7 +213,7 @@ class CRM_Appearancemodifier_Service
                 ->execute()
                 ->first();
             if ($modifiedEvent['layout_handler'] !== null) {
-                $handler = new $modifiedEvent['layout_handler']();
+                $handler = new $modifiedEvent['layout_handler']($formName);
                 $handler->setStyleSheets();
             }
             Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
@@ -314,7 +314,7 @@ class CRM_Appearancemodifier_Service
             ->execute()
             ->first();
         if ($modifiedProfile['layout_handler'] !== null) {
-            $handler = new $modifiedProfile['layout_handler']();
+            $handler = new $modifiedProfile['layout_handler']('CRM_Profile_Form_Edit');
             $handler->alterContent($content);
         }
         if ($modifiedProfile['add_placeholder'] !== null) {
@@ -353,7 +353,7 @@ class CRM_Appearancemodifier_Service
             ->execute()
             ->first();
         if ($modifiedPetition['layout_handler'] !== null) {
-            $handler = new $modifiedPetition['layout_handler']();
+            $handler = new $modifiedPetition['layout_handler']($object->getVar('_name'));
             $handler->alterContent($content);
         }
         // If the petition message is set, add it to the relevant field.
@@ -404,7 +404,7 @@ class CRM_Appearancemodifier_Service
             ->execute()
             ->first();
         if ($modifiedEvent['layout_handler'] !== null) {
-            $handler = new $modifiedEvent['layout_handler']();
+            $handler = new $modifiedEvent['layout_handler']($object->getVar('_name'));
             $handler->alterContent($content);
         }
         // Handle the social block.

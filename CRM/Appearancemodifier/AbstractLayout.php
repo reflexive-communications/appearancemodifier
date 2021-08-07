@@ -2,6 +2,16 @@
 
 abstract class CRM_Appearancemodifier_AbstractLayout
 {
+    protected $currentClassName;
+
+    /*
+     * constructor class, that receives the classname and stores
+     * it in the class variable.
+     */
+    public function __construct(string $currentClassName)
+    {
+        $this->currentClassName = $currentClassName;
+    }
     /*
      * This function has to set the style resources if the layout needs it.
      */
