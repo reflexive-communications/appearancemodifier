@@ -711,16 +711,42 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->addWhere('event_id', '=', $results[0]['id'])
             ->execute()
             ->first();
-        $defaultMessage='My default message.';
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
             ->addValue('layout_handler', LayoutImplementationTest::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
-            ->addValue('petition_message', $defaultMessage)
             ->addValue('custom_social_box', 1)
             ->execute();
         $expectedContent = "<div id=\"crm-main-content-wrapper\"><div class=\"crm-section crm-socialnetwork\">\n<h2>Please share it</h2>\n<div class=\"appearancemodifier-social-block\">\n<div class=\"social-media-icon\"><a href=\"#\" onclick=\"console.log('fb')\" target=\"_blank\" title=\"Share on Facebook\"><div><i aria-hidden=\"true\" class=\"crm-i fa-facebook\"></i></div></a></div>\n<div class=\"social-media-icon\"><a href=\"#\" onclick=\"console.log('tw')\" target=\"_blank\" title=\"Share on Twitter\"><div><i aria-hidden=\"true\" class=\"crm-i fa-twitter\"></i></div></a></div>\n</div>\n</div></div>";
+        $content = '<div id="crm-main-content-wrapper"><div class="crm-socialnetwork"><button id="crm-tw" onclick="console.log(\'tw\')"></button><button id="crm-fb" onclick="console.log(\'fb\')"></button></div></div>';
+        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::EVENT_TEMPLATES[0], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::EVENT_TEMPLATES[0].'. '.$content);
+    }
+    public function testAlterContentEventCustomSocialContainerBoxExternalUrl()
+    {
+        $externalUrl = 'https://www.internet.com/myarticle.html';
+        $eventTitle = 'Test event title';
+        $results = \Civi\Api4\Event::create(false)
+            ->addValue('title', $eventTitle)
+            ->addValue('event_type_id', 4)
+            ->addValue('start_date', '2022-01-01')
+            ->execute();
+        $form = new CRM_Event_Page_EventInfo();
+        $form->setVar('_id', $results[0]['id']);
+        $modifiedConfig = AppearancemodifierEvent::get(false)
+            ->addWhere('event_id', '=', $results[0]['id'])
+            ->execute()
+            ->first();
+        AppearancemodifierEvent::update(false)
+            ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('add_placeholder', 1)
+            ->addValue('hide_form_labels', 1)
+            ->addValue('custom_social_box', 1)
+            ->addValue('external_share_url', $externalUrl)
+            ->execute();
+        $expectedContent = "<div id=\"crm-main-content-wrapper\"><div class=\"crm-section crm-socialnetwork\">\n<h2>Please share it</h2>\n<div class=\"appearancemodifier-social-block\">\n<div class=\"social-media-icon\"><a href=\"#\" onclick=\"window.open('https://facebook.com/sharer/sharer.php?u=".urlencode($externalUrl)."', '_blank')\" target=\"_blank\" title=\"Share on Facebook\"><div><i aria-hidden=\"true\" class=\"crm-i fa-facebook\"></i></div></a></div>\n<div class=\"social-media-icon\"><a href=\"#\" onclick=\"window.open('https://twitter.com/intent/tweet?url=".urlencode($externalUrl)."&amp;text=".$eventTitle."', '_blank')\" target=\"_blank\" title=\"Share on Twitter\"><div><i aria-hidden=\"true\" class=\"crm-i fa-twitter\"></i></div></a></div>\n</div>\n</div></div>";
         $content = '<div id="crm-main-content-wrapper"><div class="crm-socialnetwork"><button id="crm-tw" onclick="console.log(\'tw\')"></button><button id="crm-fb" onclick="console.log(\'fb\')"></button></div></div>';
         self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::EVENT_TEMPLATES[0], $form));
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::EVENT_TEMPLATES[0].'. '.$content);
@@ -737,13 +763,11 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->addWhere('event_id', '=', $results[0]['id'])
             ->execute()
             ->first();
-        $defaultMessage='My default message.';
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
             ->addValue('layout_handler', LayoutImplementationTest::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
-            ->addValue('petition_message', $defaultMessage)
             ->addValue('custom_social_box', 1)
             ->execute();
         $expectedContent = '<div id="crm-main-content-wrapper"><div class="crm-socialnetwork"><button id="crm-tw" onclick="console.log(\'tw\')"></button><button id="crm-fb" onclick="console.log(\'fb\')"></button></div></div>';

@@ -5,6 +5,7 @@ use Civi\Api4\AppearancemodifierProfile;
 use Civi\Api4\AppearancemodifierPetition;
 use Civi\Api4\AppearancemodifierEvent;
 use Civi\Api4\UFGroup;
+use Civi\Api4\Event;
 
 class CRM_Appearancemodifier_Service
 {
@@ -404,7 +405,12 @@ class CRM_Appearancemodifier_Service
         }
         // Handle the social block.
         if ($modifiedEvent['custom_social_box'] !== null) {
-            self::customSocialBlock($content, $modifiedEvent['external_share_url']);
+            $title = Event::get(false)
+                ->addSelect('title')
+                ->addWhere('id', '=', $id)
+                ->execute()
+                ->first()['title'];
+            self::customSocialBlock($content, $modifiedEvent['external_share_url'], $title);
         }
         if ($modifiedEvent['add_placeholder'] !== null) {
             self::setupPlaceholders($content, $modifiedEvent['hide_form_labels']);
@@ -433,7 +439,7 @@ class CRM_Appearancemodifier_Service
                 case 'crm-tw':
                     $shareUrl = '';
                     if (!is_null($externalUrl)){
-                        $shareUrl = "window.open('https://twitter.com/intent/tweet?url=".urlencode($externalUrl)."&text=".$eventTitle."', '_blank')";
+                        $shareUrl = "window.open('https://twitter.com/intent/tweet?url=".urlencode($externalUrl)."&amp;text=".$eventTitle."', '_blank')";
                     } else {
                         $shareUrl = $button->getAttribute('onclick');
                     }
