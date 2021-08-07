@@ -104,7 +104,7 @@ The AppearancemodifierPetition entity stores the settings for a petition.
 - Petition Message - This text will be added as default text in the petition message field in the activity profile.
 - Target number of signers - Currently unused. Needed in the progressbar feature.
 - Custom social box - The sharing options will be replaced with a custom one, that only contans twitter and facebook share option.
-- External url to share - Currently unused. Needed in the custom social box share external page feature.
+- External url to share - This url will be shared from the social boxes. Only applied when the custom social box also applied.
 
 **Petition Settings Example**
 ![Petition Settings Example](./assets/docs/petition-admin-example.png)
@@ -123,7 +123,7 @@ The AppearancemodifierEvent entity stores the settings for an event.
 ![Event Customization Form](./assets/docs/event-admin-form.png)
 
 - Custom social box - The sharing options will be replaced with a custom one, that only contans twitter and facebook share option.
-- External url to share - Currently unused. Needed in the custom social box share external page feature.
+- External url to share - This url will be shared from the social boxes. Only applied when the custom social box also applied.
 
 **Event Settings Example**
 ![Event Settings Example](./assets/docs/event-admin-example.png)
