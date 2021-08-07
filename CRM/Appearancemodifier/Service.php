@@ -228,28 +228,36 @@ class CRM_Appearancemodifier_Service
     public static function postProcess(string $formName, $form): void
     {
         $rules = [];
+        $id = 0;
+        $parameters = [];
         switch ($formName) {
         case 'CRM_Profile_Form_Edit':
             $rules = AppearancemodifierProfile::get(false)
                 ->addWhere('uf_group_id', '=', $form->getVar('_gid'))
                 ->execute()
                 ->first();
+            $id = $form->getVar('_id');
+            $parameters = $form->getVar('_submitValues');
             break;
         case 'CRM_Campaign_Form_Petition_Signature':
             $rules = AppearancemodifierPetition::get(false)
                 ->addWhere('survey_id', '=', $form->getVar('_surveyId'))
                 ->execute()
                 ->first();
+            $id = $form->getVar('_contactId');
+            $parameters = $form->getVar('_submitValues');
             break;
         case 'CRM_Event_Form_Registration_Confirm':
             $rules = AppearancemodifierEvent::get(false)
                 ->addWhere('event_id', '=', $form->getVar('_eventId'))
                 ->execute()
                 ->first();
+            $id = $form->getVar('_values')['participant']['contact_id'];
+            $parameters = $form->getVar('_params');
             break;
         }
         if (array_key_exists('invert_consent_fields', $rules) && $rules['invert_consent_fields'] !== null) {
-            self::updateConsents($form->getVar('_id'), $form->getVar('_submitValues'));
+            self::updateConsents($id, $parameters);
         }
     }
 
