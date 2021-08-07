@@ -407,9 +407,10 @@ class CRM_Appearancemodifier_Service
      * This function handles the layout changes of the social block.
      *
      * @param string $content
-     * @param mixed $extenralUrl
+     * @param mixed $externalUrl
+     * @param string $eventTitle
      */
-    private static function customSocialBlock(string &$content, $extenralUrl): void
+    private static function customSocialBlock(string &$content, $externalUrl, $eventTitle = ''): void
     {
         $doc = phpQuery::newDocument($content);
         // Update the social block with custom layout.
@@ -422,10 +423,22 @@ class CRM_Appearancemodifier_Service
             foreach ($doc['.crm-socialnetwork button'] as $button) {
                 switch ($button->getAttribute('id')) {
                 case 'crm-tw':
-                    $twitter = '<div class="social-media-icon"><a href="#" onclick="'.$button->getAttribute('onclick').'" target="_blank" title="'.E::ts('Share on Twitter').'"><div><i aria-hidden="true" class="crm-i fa-twitter"></i></div></a></div>';
+                    $shareUrl = '';
+                    if (!is_null($externalUrl)){
+                        $shareUrl = "window.open('https://twitter.com/intent/tweet?url=".urlencode($externalUrl)."&text=".$eventTitle."', '_blank')";
+                    } else {
+                        $shareUrl = $button->getAttribute('onclick');
+                    }
+                    $twitter = '<div class="social-media-icon"><a href="#" onclick="'.$shareUrl.'" target="_blank" title="'.E::ts('Share on Twitter').'"><div><i aria-hidden="true" class="crm-i fa-twitter"></i></div></a></div>';
                     break;
                 case 'crm-fb':
-                    $facebook = '<div class="social-media-icon"><a href="#" onclick="'.$button->getAttribute('onclick').'" target="_blank" title="'.E::ts('Share on Facebook').'"><div><i aria-hidden="true" class="crm-i fa-facebook"></i></div></a></div>';
+                    $shareUrl = '';
+                    if (!is_null($externalUrl)){
+                        $shareUrl = "window.open('https://facebook.com/sharer/sharer.php?u=".urlencode($externalUrl)."', '_blank')";
+                    } else {
+                        $shareUrl = $button->getAttribute('onclick');
+                    }
+                    $facebook = '<div class="social-media-icon"><a href="#" onclick="'.$shareUrl.'" target="_blank" title="'.E::ts('Share on Facebook').'"><div><i aria-hidden="true" class="crm-i fa-facebook"></i></div></a></div>';
                     break;
                 }
             }
