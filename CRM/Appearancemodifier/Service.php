@@ -366,7 +366,11 @@ class CRM_Appearancemodifier_Service
         }
         // Handle the social block.
         if ($modifiedPetition['custom_social_box'] !== null) {
-            self::customSocialBlock($content, $modifiedPetition['external_share_url']);
+            $petitions = civicrm_api3('Survey', 'get', [
+                'sequential' => 1,
+                'id' => $id,
+            ]);
+            self::customSocialBlock($content, $modifiedPetition['external_share_url'], $petitions['values'][0]['title']);
         }
         if ($modifiedPetition['add_placeholder'] !== null) {
             self::setupPlaceholders($content, $modifiedPetition['hide_form_labels']);

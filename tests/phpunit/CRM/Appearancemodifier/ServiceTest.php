@@ -671,6 +671,36 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
         self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0], $form));
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0].'. '.$content);
     }
+    public function testAlterContentPetitionCustomSocialContainerBoxExternalShareUrl()
+    {
+        $petitionTitle = 'Some title';
+        $externalUrl = 'https://www.internet.com/myarticle.html';
+        $result = civicrm_api3('Survey', 'create', [
+            'sequential' => 1,
+            'title' => $petitionTitle,
+            'activity_type_id' => "Petition",
+        ]);
+        $form = new CRM_Campaign_Form_Petition_Signature();
+        $form->setVar('petition', ['id' =>$result['values'][0]['id']]);
+        $modifiedConfig = AppearancemodifierPetition::get(false)
+            ->addWhere('survey_id', '=', $result['values'][0]['id'])
+            ->execute()
+            ->first();
+        $defaultMessage='My default message.';
+        AppearancemodifierPetition::update(false)
+            ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('add_placeholder', 1)
+            ->addValue('hide_form_labels', 1)
+            ->addValue('petition_message', $defaultMessage)
+            ->addValue('custom_social_box', 1)
+            ->addValue('external_share_url', $externalUrl)
+            ->execute();
+        $expectedContent = "<div id=\"crm-main-content-wrapper\"><div class=\"crm-section crm-socialnetwork\">\n<h2>Please share it</h2>\n<div class=\"appearancemodifier-social-block\">\n<div class=\"social-media-icon\"><a href=\"#\" onclick=\"window.open('https://facebook.com/sharer/sharer.php?u=".urlencode($externalUrl)."', '_blank')\" target=\"_blank\" title=\"Share on Facebook\"><div><i aria-hidden=\"true\" class=\"crm-i fa-facebook\"></i></div></a></div>\n<div class=\"social-media-icon\"><a href=\"#\" onclick=\"window.open('https://twitter.com/intent/tweet?url=".urlencode($externalUrl)."&amp;text=".$petitionTitle."', '_blank')\" target=\"_blank\" title=\"Share on Twitter\"><div><i aria-hidden=\"true\" class=\"crm-i fa-twitter\"></i></div></a></div>\n</div>\n</div></div>";
+        $content = '<div id="crm-main-content-wrapper"><div class="crm-socialnetwork"><button id="crm-tw" onclick="console.log(\'tw\')"></button><button id="crm-fb" onclick="console.log(\'fb\')"></button></div></div>';
+        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::PETITION_TEMPLATES[1], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PETITION_TEMPLATES[1].'. '.$content);
+    }
     public function testAlterContentEventCustomSocialContainerBox()
     {
         $results = \Civi\Api4\Event::create(false)
