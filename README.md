@@ -82,7 +82,7 @@ The AppearancemodifierProfile entity stores the settings for a profile.
 **Profile Customization Form**
 ![Profile Customization Form](./assets/docs/profile-admin-form.png)
 
-- Outro Text - This text will be displayed below the submit button.
+- Additional Note Text - This text will be displayed below the submit button.
 
 **Profile Settings Example**
 ![Profile Settings Example](./assets/docs/profile-admin-example.png)
@@ -100,7 +100,7 @@ The AppearancemodifierPetition entity stores the settings for a petition.
 **Petition Customization Form**
 ![Petition Customization Form](./assets/docs/petition-admin-form.png)
 
-- Outro Text - This text will be displayed below the submit button.
+- Additional Note Text - This text will be displayed below the submit button.
 - Petition Message - This text will be added as default text in the petition message field in the activity profile.
 - Target number of signers - Currently unused. Needed in the progressbar feature.
 - Custom social box - The sharing options will be replaced with a custom one, that only contans twitter and facebook share option.
