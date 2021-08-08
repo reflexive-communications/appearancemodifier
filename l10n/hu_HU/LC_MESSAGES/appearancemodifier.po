@@ -1,0 +1,276 @@
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php
+msgid "Appearancemodifier Events"
+msgstr "Megjelenés Módosított Események"
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php
+msgid "Appearancemodifier Event"
+msgstr "Megjelenés Módosított Esemény"
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php
+msgid "Unique AppearancemodifierEvent ID"
+msgstr "Megjelenés módosított esemény egyedi azonosító"
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "FK to Survey"
+msgstr "FK to Survey"
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "Layout Handler"
+msgstr "Elrendezés kezelő"
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "The alterContent handler function."
+msgstr "Az alterContent kezelő funkció."
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Background Color"
+msgstr "Háttér Szín"
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "The color code of the background in #ffffff format."
+msgstr "A háttér szín kódja #ffffff formátumban."
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Invert Consent Fields"
+msgstr "Hozzájárulási mezők fordított működése"
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "This field triggers the invert behaviour of the consent checkboxes."
+msgstr "Ez a mező a hozzájárulási checkboxok fordított működését biztosítja."
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "Custom Social Box"
+msgstr "Egyedi Megosztás Doboz"
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "This field triggers the custom social sharing layout."
+msgstr "Ez a mező egyedi kinézetet biztosít a közösségi megosztás doboznak."
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "External Share Url"
+msgstr "Megosztási Url"
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "This link will be shared in the custom social box."
+msgstr "Ez a link lesz megosztva az egyedi megosztás dobozban."
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "Add Placeholder"
+msgstr "Placeholder Hozzáadása"
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "Set the text input label as placeholder text in the input."
+msgstr "Beállítja a szöveges bemeneti mezők cimkéjét a placeholder szövegének."
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "Hide Form Labels"
+msgstr "Űrlap Cimkék Elrejtése"
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "Hide the form labels and use only the placeholders."
+msgstr "Elrejti az űrlapok szöveges mezőinke cimkéit, ha a placeholderek alkalmazva vannak."
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "Appearancemodifier Petitions"
+msgstr "Megjelenés Módosított Petíciók"
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "Appearancemodifier Petition"
+msgstr "Megjelenés Módosított Petíció"
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "Unique AppearancemodifierPetition ID"
+msgstr "Megjelenés módosított petíció egyedi azonosító"
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "Additional Note"
+msgstr "Kiegészítő Megjegyzés"
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "The text that will be displayed after the submit button on the edit form."
+msgstr "A szöveg, ami meg lesz jelenítve a submit gomb után az űrlapon."
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "Petition Message"
+msgstr "Petíció Szövege"
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "The text that will be displayed in the petition message input."
+msgstr "A szöveg, ami meg lesz jelenítve a petíció szövege bemeneti mezőben."
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "Target Number Of Signers"
+msgstr "Aláírók Célszáma."
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./templates/CRM/Appearancemodifier/Form/Petition.tpl
+msgid "The target number of the petition signers."
+msgstr "A petíció aláíróinak a célszáma."
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "Appearancemodifier Profiles"
+msgstr "Megjelenés Módosított Profilok"
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "Appearancemodifier Profile"
+msgstr "Megjelenés Módosított Profil"
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "Unique AppearancemodifierProfile ID"
+msgstr "Megjelenés módosított profil egyedi azonosító"
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "FK to UFGroup"
+msgstr "FK to UFGroup"
+
+#: ./CRM/Appearancemodifier/Form/Event.php
+msgid "The selected event seems to be deleted. Id: %1"
+msgstr "A kiválasztott esemény töröltnek tűnik. Azonosító: %1"
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Presets"
+msgstr "Előre beállított konfigurációk"
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Custom"
+msgstr "Egyedi"
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Form Layout"
+msgstr "Űrlap elrendezése"
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Default"
+msgstr "Alapértelmezett"
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Original Background Color"
+msgstr "Alapértelmezett Háttér Szín"
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Hide text input labels"
+msgstr "Szöveges bemeneti címke elrejtése"
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Add placeholders"
+msgstr "Placeholder alkalmazása"
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php
+msgid "Custom social box"
+msgstr "Egyedi Megosztás Doboz"
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php
+msgid "External url to share"
+msgstr "Külső megosztási link"
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Save"
+msgstr "Mentés"
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Cancel"
+msgstr "Elvetés"
+
+#: ./CRM/Appearancemodifier/Form/Event.php
+msgid "Customize %1 event."
+msgstr "%1 esemény testreszabása."
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Data has been updated."
+msgstr "Az adat mentése sikeres volt."
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "The selected petition seems to be deleted. Id: %1"
+msgstr "A kiválasztott petíció töröltnek tűnik. Azonosító: %1"
+
+#: ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Additional Note Text"
+msgstr "Kiegészítő Megjegyzés Szövege"
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "Petition message"
+msgstr "Petíció Szövege"
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "Target number of signers"
+msgstr "Aláírók Célszáma"
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "Customize %1 petition."
+msgstr "%1 petíció testreszabása."
+
+#: ./CRM/Appearancemodifier/Form/Profile.php
+msgid "The selected profile seems to be deleted. Id: %1"
+msgstr "A kiválasztott profil töröltnek tűnik. Azonosító: %1"
+
+#: ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Customize %1 profile."
+msgstr "%1 profil testreszabása."
+
+#: ./CRM/Appearancemodifier/Service.php
+msgid "Share on Twitter"
+msgstr "Megosztás Twitteren"
+
+#: ./CRM/Appearancemodifier/Service.php
+msgid "Share on Facebook"
+msgstr "Megosztás Facebookon"
+
+#: ./CRM/Appearancemodifier/Service.php
+msgid "Please share it"
+msgstr "Kérlek oszd meg"
+
+#: ./CRM/Appearancemodifier/Upgrader/Base.php
+msgid "Upgrade %1 to revision %2"
+msgstr "Upgrade %1 to revision %2"
+
+#: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+msgid "Use the saved settings or customize from scratch."
+msgstr "Mentett beállítások használata, vagy testreszabhás az alapoktól."
+
+#: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+msgid "Layout manipulation."
+msgstr "Elrendezés módosítása."
+
+#: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+msgid "Background color manipulation."
+msgstr "Háttér színének módosítása."
+
+#: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+msgid "Invert the behaviour of consent fields. (opt-out vs opt in)"
+msgstr "Hozzájárulási checkboxok fordított működése. (opt-out vs opt in)"
+
+#: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+msgid "Add placeholders to the text inputs."
+msgstr "Placeholder alkalmazása a szöveges bemeneteknél."
+
+#: ./templates/CRM/Appearancemodifier/Form/Event.tpl
+msgid "Hide the labels of the text inputs on the event form. Applied only if the placeholders are added."
+msgstr "Elrejti az esemény űrlapok szöveges mezőinek cimkéit, ha a placeholderek alkalmazva vannak."
+
+#: ./templates/CRM/Appearancemodifier/Form/Event.tpl
+msgid "Customized box for sharing the event on social network."
+msgstr "Testreszabott felület az esemény közösségi hálózaton történő megosztására."
+
+#: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl
+msgid "The external url that will be shared from the custom social box."
+msgstr "Ez a külső link lesz megosztva az egyedi megosztás dobozból."
+
+#: ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+msgid "The text after the submit button."
+msgstr "A szöveg, ami meg lesz jelenítve a submit gomb után az űrlapon."
+
+#: ./templates/CRM/Appearancemodifier/Form/Petition.tpl
+msgid "Hide the labels of the text inputs on the petition form. Applied only if the placeholders are added."
+msgstr "Elrejti a petíció űrlapok szöveges mezőinek cimkéit, ha a placeholderek alkalmazva vannak."
+
+#: ./templates/CRM/Appearancemodifier/Form/Petition.tpl
+msgid "The petition message that will displayed in the message input field."
+msgstr "A petíció szövege amely alapértelmezett érték lesz az űrlap megfelelő mezőjében."
+
+#: ./templates/CRM/Appearancemodifier/Form/Petition.tpl
+msgid "Customized box for sharing the petition on social network."
+msgstr "Testreszabott felület a petíció közösségi hálózaton történő megosztására."
+
+#: ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+msgid "Hide the labels of the text inputs on the profile form. Applied only if the placeholders are added."
+msgstr "Elrejti a profil űrlapok szöveges mezőinek cimkéit, ha a placeholderek alkalmazva vannak."
+

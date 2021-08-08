@@ -1,0 +1,276 @@
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php
+msgid "Appearancemodifier Events"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php
+msgid "Appearancemodifier Event"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php
+msgid "Unique AppearancemodifierEvent ID"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "FK to Survey"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "Layout Handler"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "The alterContent handler function."
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Background Color"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "The color code of the background in #ffffff format."
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Invert Consent Fields"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "This field triggers the invert behaviour of the consent checkboxes."
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "Custom Social Box"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "This field triggers the custom social sharing layout."
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "External Share Url"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "This link will be shared in the custom social box."
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "Add Placeholder"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "Set the text input label as placeholder text in the input."
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "Hide Form Labels"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "Hide the form labels and use only the placeholders."
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "Appearancemodifier Petitions"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "Appearancemodifier Petition"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "Unique AppearancemodifierPetition ID"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "Additional Note"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "The text that will be displayed after the submit button on the edit form."
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "Petition Message"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "The text that will be displayed in the petition message input."
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "Target Number Of Signers"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./templates/CRM/Appearancemodifier/Form/Petition.tpl
+msgid "The target number of the petition signers."
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "Appearancemodifier Profiles"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "Appearancemodifier Profile"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "Unique AppearancemodifierProfile ID"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "FK to UFGroup"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Event.php
+msgid "The selected event seems to be deleted. Id: %1"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Presets"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Custom"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Form Layout"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Default"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Original Background Color"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Hide text input labels"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Add placeholders"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php
+msgid "Custom social box"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php
+msgid "External url to share"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Save"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Cancel"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Event.php
+msgid "Customize %1 event."
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Data has been updated."
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "The selected petition seems to be deleted. Id: %1"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Additional Note Text"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "Petition message"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "Target number of signers"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "Customize %1 petition."
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Profile.php
+msgid "The selected profile seems to be deleted. Id: %1"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Customize %1 profile."
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Service.php
+msgid "Share on Twitter"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Service.php
+msgid "Share on Facebook"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Service.php
+msgid "Please share it"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Upgrader/Base.php
+msgid "Upgrade %1 to revision %2"
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+msgid "Use the saved settings or customize from scratch."
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+msgid "Layout manipulation."
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+msgid "Background color manipulation."
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+msgid "Invert the behaviour of consent fields. (opt-out vs opt in)"
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+msgid "Add placeholders to the text inputs."
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Form/Event.tpl
+msgid "Hide the labels of the text inputs on the event form. Applied only if the placeholders are added."
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Form/Event.tpl
+msgid "Customized box for sharing the event on social network."
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl
+msgid "The external url that will be shared from the custom social box."
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+msgid "The text after the submit button."
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Form/Petition.tpl
+msgid "Hide the labels of the text inputs on the petition form. Applied only if the placeholders are added."
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Form/Petition.tpl
+msgid "The petition message that will displayed in the message input field."
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Form/Petition.tpl
+msgid "Customized box for sharing the petition on social network."
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+msgid "Hide the labels of the text inputs on the profile form. Applied only if the placeholders are added."
+msgstr ""
+
