@@ -20,12 +20,6 @@
             </td>
         </tr>
         <tr>
-            <td class="label">{$form.outro.label}</td>
-            <td class="content">{$form.outro.html}<br/>
-                <span class="description">{ts}The text after the submit button.{/ts}</span>
-            </td>
-        </tr>
-        <tr>
             <td class="label">{$form.invert_consent_fields.label}</td>
             <td class="content">{$form.invert_consent_fields.html}<br/>
                 <span class="description">{ts}Invert the behaviour of consent fields. (opt-out vs opt in){/ts}</span>

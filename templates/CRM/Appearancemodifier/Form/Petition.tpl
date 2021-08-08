@@ -20,8 +20,8 @@
             </td>
         </tr>
         <tr>
-            <td class="label">{$form.outro.label}</td>
-            <td class="content">{$form.outro.html}<br/>
+            <td class="label">{$form.additional_note.label}</td>
+            <td class="content">{$form.additional_note.html}<br/>
                 <span class="description">{ts}The text after the submit button.{/ts}</span>
             </td>
         </tr>

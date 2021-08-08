@@ -1,8 +1,8 @@
 .hidden-node {
     display: none;
 }
-/* Outro text the is displayed after the submit button. */
-.appearancemodifier-outro {
+/* Additional Note text the is displayed after the submit button. */
+.appearancemodifier-additional-note {
     margin-top: 35px;
 }
 /* Social blocks: header has to be centered and uppercase */

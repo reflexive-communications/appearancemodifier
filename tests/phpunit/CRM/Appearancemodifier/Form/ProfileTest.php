@@ -12,7 +12,7 @@ class DummyProfilePresetProviderClass
         return [
             'layout_handler' => '',
             'background_color' => '#ffffff',
-            'outro' => 'My default outro text',
+            'additional_note' => 'My default additional note text',
             'invert_consent_fields' => '',
             'hide_form_labels' => '',
             'add_placeholder' => '',
@@ -150,7 +150,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
 
         $_POST['layout_handler'] = '';
         $_POST['background_color'] = '#ffffff';
-        $_POST['outro'] = 'My new outro text';
+        $_POST['additional_note'] = 'My new additional note text';
         $_POST['invert_consent_fields'] = '';
         $_POST['hide_form_labels'] = '';
         $_POST['add_placeholder'] = '';
@@ -163,7 +163,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
             ->execute()
             ->first();
         self::assertNull($modifiedProfile['background_color']);
-        self::assertSame($_POST['outro'], $modifiedProfile['outro']);
+        self::assertSame($_POST['additional_note'], $modifiedProfile['additional_note']);
     }
     public function testPostProcessWithPresets()
     {
@@ -179,7 +179,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
 
         $_POST['layout_handler'] = '';
         $_POST['background_color'] = '#ffffff';
-        $_POST['outro'] = 'My new outro text';
+        $_POST['additional_note'] = 'My new additional note text';
         $_POST['invert_consent_fields'] = '';
         $_POST['hide_form_labels'] = '';
         $_POST['add_placeholder'] = '';
@@ -192,6 +192,6 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
             ->execute()
             ->first();
         self::assertSame('#ffffff', $modifiedProfile['background_color']);
-        self::assertSame('My default outro text', $modifiedProfile['outro']);
+        self::assertSame('My default additional note text', $modifiedProfile['additional_note']);
     }
 }

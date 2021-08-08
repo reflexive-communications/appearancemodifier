@@ -6,6 +6,6 @@
 
 {include file="CRM/Profile/Form/Edit.tpl"}
 
-{if $modifiedProfile.count eq '1' && isset($modifiedProfile.values[0].outro)}
-    <div class="appearancemodifier-outro">{$modifiedProfile.values[0].outro}</div>
+{if $modifiedProfile.count eq '1' && isset($modifiedProfile.values[0].additional_note)}
+    <div class="appearancemodifier-additional-note">{$modifiedProfile.values[0].additional_note}</div>
 {/if}

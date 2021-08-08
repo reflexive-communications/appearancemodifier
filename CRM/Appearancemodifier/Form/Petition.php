@@ -13,7 +13,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
     private const PETITION_FIELDS = [
         'layout_handler',
         'background_color',
-        'outro',
+        'additional_note',
         'petition_message',
         'invert_consent_fields',
         'target_number_of_signers',
@@ -83,7 +83,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
         $this->addRadio('preset_handler', ts('Presets'), array_merge([''=>ts('Custom')], $layoutOptions['presets']), [], null, false);
         $this->add('select', 'layout_handler', ts('Form Layout'), array_merge([''=>ts('Default')], $layoutOptions['handlers']), false);
         $this->add('color', 'background_color', ts('Background Color'), [], false);
-        $this->add('wysiwyg', 'outro', ts('Outro Text'), [], false);
+        $this->add('wysiwyg', 'additional_note', ts('Additional Note Text'), [], false);
         $this->add('checkbox', 'invert_consent_fields', ts('Invert Consent Fields'), [], false);
         $this->add('checkbox', 'original_color', ts('Original Background Color'), [], false);
         $this->add('checkbox', 'hide_form_labels', ts('Hide text input labels'), [], false);

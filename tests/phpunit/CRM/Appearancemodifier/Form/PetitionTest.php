@@ -12,7 +12,7 @@ class DummyPetitionPresetProviderClass
         return [
             'layout_handler' => '',
             'background_color' => '#ffffff',
-            'outro' => 'My default outro text',
+            'additional_note' => 'My default additional note text',
             'petition_message' => 'My new petition message text',
             'invert_consent_fields' => '',
             'target_number_of_signers' => '',
@@ -159,7 +159,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
             'original_color' => '1',
             'layout_handler' => '',
             'background_color' => '#ffffff',
-            'outro' => 'My new outro text',
+            'additional_note' => 'My new additional note text',
             'petition_message' => 'My new petition message text',
             'invert_consent_fields' => '',
             'target_number_of_signers' => '',
@@ -176,7 +176,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
             ->execute()
             ->first();
         self::assertNull($modifiedPetition['background_color']);
-        self::assertSame('My new outro text', $modifiedPetition['outro']);
+        self::assertSame('My new additional note text', $modifiedPetition['additional_note']);
     }
     public function testPostProcessWithPresets()
     {
@@ -194,7 +194,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
             'original_color' => '1',
             'layout_handler' => '',
             'background_color' => '#ffffff',
-            'outro' => 'My new outro text',
+            'additional_note' => 'My new additional note text',
             'petition_message' => 'My new petition message text',
             'invert_consent_fields' => '',
             'target_number_of_signers' => '',
@@ -211,6 +211,6 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
             ->execute()
             ->first();
         self::assertSame('#ffffff', $modifiedPetition['background_color']);
-        self::assertSame('My default outro text', $modifiedPetition['outro']);
+        self::assertSame('My default additional note text', $modifiedPetition['additional_note']);
     }
 }

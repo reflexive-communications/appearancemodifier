@@ -6,6 +6,6 @@
 
 {include file="CRM/Campaign/Form/Petition/Signature.tpl"}
 
-{if $modifiedPetition.count eq '1' && isset($modifiedPetition.values[0].outro)}
-    <div class="appearancemodifier-outro">{$modifiedPetition.values[0].outro}</div>
+{if $modifiedPetition.count eq '1' && isset($modifiedPetition.values[0].additional_note)}
+    <div class="appearancemodifier-additional-note">{$modifiedPetition.values[0].additional_note}</div>
 {/if}

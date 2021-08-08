@@ -62,7 +62,7 @@ class CRM_Appearancemodifier_Service
      * This function updates the template name on the profile, petition, event
      * pages. The new template includes the original one, but also includes a stylesheet
      * for providing the background color. On petition and profile pages it extends the
-     * form with the outro block, if that is set.
+     * form with the additional note block, if that is set.
      *
      * @param string $tplName
      */
