@@ -120,6 +120,7 @@ The AppearancemodifierEvent entity stores the settings for an event.
 ![Event Customization Menu](./assets/docs/event-admin-link.png)
 
 **Event Customization Form**
+
 ![Event Customization Form](./assets/docs/event-admin-form.png)
 
 - Custom social box - The sharing options will be replaced with a custom one, that only contans twitter and facebook share option.
