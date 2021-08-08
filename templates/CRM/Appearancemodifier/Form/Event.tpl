@@ -3,7 +3,7 @@
         <tr>
             <td class="label">{$form.preset_handler.label}</td>
             <td class="content">{$form.preset_handler.html}<br/>
-                <span class="description">{ts}Use the saved settings or customize form scratch.{/ts}</span>
+                <span class="description">{ts}Use the saved settings or customize from scratch.{/ts}</span>
             </td>
         </tr>
         <tr>
@@ -40,13 +40,13 @@
         <tr>
             <td class="label">{$form.custom_social_box.label}</td>
             <td class="content">{$form.custom_social_box.html}<br/>
-                <span class="description">{ts}Customized box for sharing the petition on social network.{/ts}</span>
+                <span class="description">{ts}Customized box for sharing the event on social network.{/ts}</span>
             </td>
         </tr>
         <tr>
             <td class="label">{$form.external_share_url.label}</td>
             <td class="content">{$form.external_share_url.html}<br/>
-                <span class="description">{ts}The external url that will bw shared from the custom social box.{/ts}</span>
+                <span class="description">{ts}The external url that will be shared from the custom social box.{/ts}</span>
             </td>
         </tr>
     </table>

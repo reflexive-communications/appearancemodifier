@@ -3,7 +3,7 @@
         <tr>
             <td class="label">{$form.preset_handler.label}</td>
             <td class="content">{$form.preset_handler.html}<br/>
-                <span class="description">{ts}Use the saved settings or customize form scratch.{/ts}</span>
+                <span class="description">{ts}Use the saved settings or customize from scratch.{/ts}</span>
             </td>
         </tr>
         <tr>
