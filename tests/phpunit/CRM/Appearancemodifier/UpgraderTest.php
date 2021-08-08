@@ -140,4 +140,16 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
         self::assertSame(count($modifiedPetitions), $petitions, 'Invalid number of petitions.'.var_export($modifiedPetitions, true).' - '.var_export($petitions, true));
         self::assertSame(count($modifiedProfiles), count($profiles), 'Invalid number of profiles.'.var_export($modifiedProfiles, true).' - '.var_export($profiles, true));
     }
+
+    /*
+     * It tests the upgrader function.
+     * First it alters the tables to the old version, then executes upgrader;
+     */
+    public function testUpgrader5300()
+    {
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile CHANGE additional_note outro text;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition CHANGE additional_note outro text;');
+        $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
+        self::assertTrue($installer->upgrade_5300());
+    }
 }
