@@ -35,7 +35,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Core_Form
         // validate event id.
         $this->event = $this->getEvent($eventId);
         if ($this->event === []) {
-            throw new CRM_Core_Exception(ts('The selected event seems to be deleted. Id: %1', [1=>$eventId]));
+            throw new CRM_Core_Exception(E::ts('The selected event seems to be deleted. Id: %1', [1=>$eventId]));
         }
     }
 
@@ -78,30 +78,30 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Core_Form
                 "options" => &$layoutOptions,
             ])
         );
-        $this->addRadio('preset_handler', ts('Presets'), array_merge([''=>ts('Custom')], $layoutOptions['presets']), [], null, false);
-        $this->add('select', 'layout_handler', ts('Form Layout'), array_merge([''=>ts('Default')], $layoutOptions['handlers']), false);
-        $this->add('color', 'background_color', ts('Background Color'), [], false);
-        $this->add('checkbox', 'invert_consent_fields', ts('Invert Consent Fields'), [], false);
-        $this->add('checkbox', 'original_color', ts('Original Background Color'), [], false);
-        $this->add('checkbox', 'hide_form_labels', ts('Hide text input labels'), [], false);
-        $this->add('checkbox', 'add_placeholder', ts('Add placeholders'), [], false);
-        $this->add('checkbox', 'custom_social_box', ts('Custom social box'), [], false);
-        $this->add('text', 'external_share_url', ts('External url to share'), [], false);
+        $this->addRadio('preset_handler', E::ts('Presets'), array_merge([''=>E::ts('Custom')], $layoutOptions['presets']), [], null, false);
+        $this->add('select', 'layout_handler', E::ts('Form Layout'), array_merge([''=>E::ts('Default')], $layoutOptions['handlers']), false);
+        $this->add('color', 'background_color', E::ts('Background Color'), [], false);
+        $this->add('checkbox', 'invert_consent_fields', E::ts('Invert Consent Fields'), [], false);
+        $this->add('checkbox', 'original_color', E::ts('Original Background Color'), [], false);
+        $this->add('checkbox', 'hide_form_labels', E::ts('Hide text input labels'), [], false);
+        $this->add('checkbox', 'add_placeholder', E::ts('Add placeholders'), [], false);
+        $this->add('checkbox', 'custom_social_box', E::ts('Custom social box'), [], false);
+        $this->add('text', 'external_share_url', E::ts('External url to share'), [], false);
         // Submit button
         $this->addButtons(
             [
                 [
                     'type' => 'done',
-                    'name' => ts('Save'),
+                    'name' => E::ts('Save'),
                     'isDefault' => true,
                 ],
                 [
                     'type' => 'cancel',
-                    'name' => ts('Cancel'),
+                    'name' => E::ts('Cancel'),
                 ],
             ]
         );
-        $this->setTitle(ts('Customize %1 event.', [1=>$this->event['title']]));
+        $this->setTitle(E::ts('Customize %1 event.', [1=>$this->event['title']]));
         parent::buildQuickForm();
     }
 
@@ -122,7 +122,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Core_Form
         } else {
             $this->saveCustomEvent($submitData);
         }
-        CRM_Core_Session::setStatus(ts('Data has been updated.'), 'Appearancemodifier', 'success', ['expires' => 5000,]);
+        CRM_Core_Session::setStatus(E::ts('Data has been updated.'), 'Appearancemodifier', 'success', ['expires' => 5000,]);
 
         parent::postProcess();
     }
