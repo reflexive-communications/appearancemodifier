@@ -103,14 +103,27 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Appearancemodifier_Upgrader_Ba
     }
 
     // By convention, functions that look like "function upgrade_NNNN()" are
-  // upgrade tasks. They are executed in order (like Drupal's hook_update_N).
+    // upgrade tasks. They are executed in order (like Drupal's hook_update_N).
 
-  /**
-   * Example: Run an external SQL script when the module is installed.
-   *
-  public function install() {
-    $this->executeSqlFile('sql/myinstall.sql');
-  }
+    /**
+     * Alter the table if necessary.
+     *
+     * @return TRUE on success
+     * @throws Exception
+     */
+    public function upgrade_5300()
+    {
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile CHANGE outro additional_note text;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition CHANGE outro additional_note text;');
+        return true;
+    }
+
+    /**
+     * Example: Run an external SQL script when the module is installed.
+     */
+   // public function install() {
+   //   $this->executeSqlFile('sql/myinstall.sql');
+   // }
 
 
   /**
