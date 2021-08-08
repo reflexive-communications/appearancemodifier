@@ -41,7 +41,7 @@
     <comment>The color code of the background in #ffffff format.</comment>
   </field>
   <field>
-    <name>outro</name>
+    <name>additional_note</name>
     <type>text</type>
     <comment>The text that will be displayed after the submit button on the edit form.</comment>
   </field>
