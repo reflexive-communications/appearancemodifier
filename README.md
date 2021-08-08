@@ -128,8 +128,17 @@ The AppearancemodifierEvent entity stores the settings for an event.
 **Event Settings Example**
 ![Event Settings Example](./assets/docs/event-admin-example.png)
 
+**Event Info Example**
+![Event Info Example](./assets/docs/event-info-example.png)
+
 **Event Form Example**
 ![Event Form Example](./assets/docs/event-form-example.png)
+
+**Event Confirm Example**
+![Event Confirm Example](./assets/docs/event-confirm-example.png)
+
+**Event Thank You Example**
+![Event Thank You Example](./assets/docs/event-thankyou-example.png)
 
 ## Layouts
 
