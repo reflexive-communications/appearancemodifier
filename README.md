@@ -157,3 +157,7 @@ The className method is a handy helper class that provides you a classname prefi
 - Extend your class from the `CRM_Appearancemodifier_AbstractLayout` class.
 - Implement the setStyleSheets method. It can be empty if you don't need additional css rules to be applied.
 - Implement the alterContent method. Manipulate the DOM as you want. The phpQuery is a handy tool for it. If you have custom css rules, don't forget to apply the uniq classname on the main element (#crm-container).
+
+### Possible manual fixes
+
+If someone creates a profile, petition or event during the install process, it is possible thai it will be skipped from the update process. In this case the appearance modified entity entry has to be created manually (eg: api explorer).

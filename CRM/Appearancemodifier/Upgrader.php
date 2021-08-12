@@ -19,7 +19,8 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Appearancemodifier_Upgrader_Ba
     {
         $limit = 25;
         $offset = 0;
-        while ($limit > 0) {
+        $currentNumberOfEvents = civicrm_api3('Event', 'getcount');
+        while ($offset < $currentNumberOfEvents) {
             $events = Event::get(false)
                 ->setLimit($limit)
                 ->setOffset($offset)
@@ -28,9 +29,6 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Appearancemodifier_Upgrader_Ba
                 AppearancemodifierEvent::create(false)
                     ->addValue('event_id', $event['id'])
                     ->execute();
-            }
-            if ($limit > count($events)) {
-                $limit = 0;
             }
             $offset = $offset + count($events);
         }
@@ -43,7 +41,8 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Appearancemodifier_Upgrader_Ba
     {
         $limit = 25;
         $offset = 0;
-        while ($limit > 0) {
+        $currentNumberOfPetitions = civicrm_api3('Survey', 'getcount', ['activity_type_id' => "Petition"]);
+        while ($offset < $currentNumberOfPetitions) {
             $petitions = civicrm_api3('Survey', 'get', [
                 'sequential' => 1,
                 'activity_type_id' => "Petition",
@@ -57,9 +56,6 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Appearancemodifier_Upgrader_Ba
                     ->addValue('survey_id', $petition['id'])
                     ->execute();
             }
-            if ($limit > count($petitions['values'])) {
-                $limit = 0;
-            }
             $offset = $offset + count($petitions['values']);
         }
     }
@@ -70,7 +66,8 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Appearancemodifier_Upgrader_Ba
     {
         $limit = 25;
         $offset = 0;
-        while ($limit > 0) {
+        $currentNumberOfUFGroups = civicrm_api3('UFGroup', 'getcount');
+        while ($offset < $currentNumberOfUFGroups) {
             $ufGroups = UFGroup::get(false)
                 ->setLimit($limit)
                 ->setOffset($offset)
@@ -79,9 +76,6 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Appearancemodifier_Upgrader_Ba
                 AppearancemodifierProfile::create(false)
                     ->addValue('uf_group_id', $ufGroup['id'])
                     ->execute();
-            }
-            if ($limit > count($ufGroups)) {
-                $limit = 0;
             }
             $offset = $offset + count($ufGroups);
         }
