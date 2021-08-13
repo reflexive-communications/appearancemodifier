@@ -16,6 +16,7 @@
             <td class="label">{$form.background_color.label}</td>
             <td class="content">{$form.background_color.html}<br/>
                 <span class="label">{$form.original_color.label}{$form.original_color.html}</span><br/>
+                <span class="label">{$form.transparent_background.label}{$form.transparent_background.html}</span><br/>
                 <span class="description">{ts}Background color manipulation.{/ts}</span>
             </td>
         </tr>

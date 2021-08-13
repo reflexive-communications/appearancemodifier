@@ -56,6 +56,9 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
         }
         if ($modifiedProfile['background_color'] == null) {
             $this->_defaults['original_color'] = 1;
+        } else if ($modifiedProfile['background_color'] === 'transparent') {
+            $this->_defaults['transparent_background'] = 1;
+            $this->_defaults['background_color'] = null;
         }
         $this->_defaults['preset_handler'] = '';
         return $this->_defaults;
@@ -83,6 +86,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
         $this->add('wysiwyg', 'additional_note', E::ts('Additional Note Text'), [], false);
         $this->add('checkbox', 'invert_consent_fields', E::ts('Invert Consent Fields'), [], false);
         $this->add('checkbox', 'original_color', E::ts('Original Background Color'), [], false);
+        $this->add('checkbox', 'transparent_background', E::ts('Transparent Background Color'), [], false);
         $this->add('checkbox', 'add_placeholder', E::ts('Add placeholders'), [], false);
         $this->add('checkbox', 'hide_form_labels', E::ts('Hide text input labels'), [], false);
         // Submit button
@@ -114,6 +118,8 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
         }
         if ($this->_submitValues['original_color'] === '1') {
             $submitData['background_color'] = '';
+        } else if ($this->_submitValues['transparent_background'] === '1') {
+            $submitData['background_color'] = 'transparent';
         }
         if ($this->_submitValues['preset_handler'] !== '') {
             $this->saveCustomProfile($this->_submitValues['preset_handler']::getPresets());
