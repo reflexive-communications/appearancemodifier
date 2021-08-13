@@ -1,7 +1,7 @@
 {if $backgroundColor == 'transparent' }
 {literal}
 <style>
-* {
+*:not(select, option) {
     color: white;
 }
 ::placeholder {
