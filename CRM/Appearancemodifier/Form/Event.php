@@ -57,7 +57,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Core_Form
         }
         if ($modifiedEvent['background_color'] == null) {
             $this->_defaults['original_color'] = 1;
-        } else if ($modifiedEvent['background_color'] === 'transparent') {
+        } elseif ($modifiedEvent['background_color'] === 'transparent') {
             $this->_defaults['transparent_background'] = 1;
             $this->_defaults['background_color'] = null;
         }
@@ -120,7 +120,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Core_Form
         }
         if ($this->_submitValues['original_color'] === '1') {
             $submitData['background_color'] = '';
-        } else if ($this->_submitValues['transparent_background'] === '1') {
+        } elseif ($this->_submitValues['transparent_background'] === '1') {
             $submitData['background_color'] = 'transparent';
         }
         if ($this->_submitValues['preset_handler'] !== '') {
