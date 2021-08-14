@@ -1,21 +1,10 @@
 {if $backgroundColor == 'transparent' }
 {literal}
 <style>
-*:not(select, option) {
-    color: white;
-}
-::placeholder {
-    color: white;
-}
-/* overwrite the color of the custom field checkboxes */
-.crm-container td.labels label {
-    color: white;
-}
 .crm-container textarea.crm-form-textarea,
 .crm-container input.crm-form-text {
     background: transparent;
     background-image: none;
-    color: white;
 }
 .crm-container textarea.crm-form-textarea:focus,
 .crm-container input.crm-form-text:focus {
