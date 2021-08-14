@@ -99,7 +99,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
     /*
      * It tests the setDefaultValues function.
      */
-    public function testSetDefaultValues()
+    public function testSetDefaultValuesOriginalColor()
     {
         $profile = \Civi\Api4\UFGroup::create(false)
             ->addValue('title', 'Test UFGroup aka Profile')
@@ -113,6 +113,26 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         $defaults = $form->setDefaultValues();
         self::assertSame(1, $defaults['original_color']);
+    }
+    public function testSetDefaultValuesTransparentColor()
+    {
+        $profile = \Civi\Api4\UFGroup::create(false)
+            ->addValue('title', 'Test UFGroup aka Profile')
+            ->addValue('is_active', true)
+            ->execute()
+            ->first();
+        \Civi\Api4\AppearancemodifierProfile::update(false)
+            ->addWhere('uf_group_id', '=', $profile['id'])
+            ->addValue('background_color', 'transparent')
+            ->execute();
+        $_REQUEST['pid'] = $profile['id'];
+        $_GET['pid'] = $profile['id'];
+        $_POST['pid'] = $profile['id'];
+        $form = new CRM_Appearancemodifier_Form_Profile();
+        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        $defaults = $form->setDefaultValues();
+        self::assertSame(1, $defaults['transparent_background']);
+        self::assertNull($defaults['background_color']);
     }
 
     /*
@@ -193,5 +213,35 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
             ->first();
         self::assertSame('#ffffff', $modifiedProfile['background_color']);
         self::assertSame('My default additional note text', $modifiedProfile['additional_note']);
+    }
+    public function testPostProcessTransparentBackground()
+    {
+        $profile = \Civi\Api4\UFGroup::create(false)
+            ->addValue('title', 'Test UFGroup aka Profile')
+            ->addValue('is_active', true)
+            ->execute()
+            ->first();
+        $_REQUEST['pid'] = $profile['id'];
+        $_GET['pid'] = $profile['id'];
+        $_POST['pid'] = $profile['id'];
+        $_POST['original_color'] = '0';
+        $_POST['transparent_background'] = '1';
+
+        $_POST['layout_handler'] = '';
+        $_POST['background_color'] = '#ffffff';
+        $_POST['additional_note'] = 'My new additional note text';
+        $_POST['invert_consent_fields'] = '';
+        $_POST['hide_form_labels'] = '';
+        $_POST['add_placeholder'] = '';
+        $_POST['preset_handler'] = '';
+        $form = new CRM_Appearancemodifier_Form_Profile();
+        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
+        $modifiedProfile = \Civi\Api4\AppearancemodifierProfile::get(false)
+            ->addWhere('uf_group_id', '=', $profile['id'])
+            ->execute()
+            ->first();
+        self::assertSame('transparent', $modifiedProfile['background_color']);
+        self::assertSame($_POST['additional_note'], $modifiedProfile['additional_note']);
     }
 }
