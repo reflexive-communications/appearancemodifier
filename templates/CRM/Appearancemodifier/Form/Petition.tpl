@@ -21,6 +21,13 @@
             </td>
         </tr>
         <tr>
+            <td class="label">{$form.font_color.label}</td>
+            <td class="content">{$form.font_color.html}<br/>
+                <span class="label">{$form.original_font_color.label}{$form.original_font_color.html}</span><br/>
+                <span class="description">{ts}Font color manipulation.{/ts}</span>
+            </td>
+        </tr>
+        <tr>
             <td class="label">{$form.additional_note.label}</td>
             <td class="content">{$form.additional_note.html}<br/>
                 <span class="description">{ts}The text after the submit button.{/ts}</span>

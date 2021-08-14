@@ -21,6 +21,13 @@
             </td>
         </tr>
         <tr>
+            <td class="label">{$form.font_color.label}</td>
+            <td class="content">{$form.font_color.html}<br/>
+                <span class="label">{$form.original_font_color.label}{$form.original_font_color.html}</span><br/>
+                <span class="description">{ts}Font color manipulation.{/ts}</span>
+            </td>
+        </tr>
+        <tr>
             <td class="label">{$form.invert_consent_fields.label}</td>
             <td class="content">{$form.invert_consent_fields.html}<br/>
                 <span class="description">{ts}Invert the behaviour of consent fields. (opt-out vs opt in){/ts}</span>
