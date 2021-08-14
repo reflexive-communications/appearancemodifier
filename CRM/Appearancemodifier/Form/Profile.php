@@ -61,7 +61,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
             $this->_defaults['transparent_background'] = 1;
             $this->_defaults['background_color'] = null;
         }
-        if ($modifiedEvent['font_color'] == null) {
+        if ($modifiedProfile['font_color'] == null) {
             $this->_defaults['original_font_color'] = 1;
         }
         $this->_defaults['preset_handler'] = '';
