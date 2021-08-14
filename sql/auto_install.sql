@@ -58,7 +58,8 @@ CREATE TABLE `civicrm_appearancemodifier_event` (
      `custom_social_box` tinyint    COMMENT 'This field triggers the custom social sharing layout.',
      `external_share_url` text    COMMENT 'This link will be shared in the custom social box.',
      `add_placeholder` tinyint    COMMENT 'Set the text input label as placeholder text in the input.',
-     `hide_form_labels` tinyint    COMMENT 'Hide the form labels and use only the placeholders.' 
+     `hide_form_labels` tinyint    COMMENT 'Hide the form labels and use only the placeholders.',
+     `font_color` text    COMMENT 'The color code of the fonts in #ffffff format.' 
 ,
         PRIMARY KEY (`id`)
  
@@ -87,7 +88,8 @@ CREATE TABLE `civicrm_appearancemodifier_petition` (
      `custom_social_box` tinyint    COMMENT 'This field triggers the custom social sharing layout.',
      `external_share_url` text    COMMENT 'This link will be shared in the custom social box.',
      `add_placeholder` tinyint    COMMENT 'Set the text input label as placeholder text in the input.',
-     `hide_form_labels` tinyint    COMMENT 'Hide the form labels and use only the placeholders.' 
+     `hide_form_labels` tinyint    COMMENT 'Hide the form labels and use only the placeholders.',
+     `font_color` text    COMMENT 'The color code of the fonts in #ffffff format.' 
 ,
         PRIMARY KEY (`id`)
  
@@ -112,7 +114,8 @@ CREATE TABLE `civicrm_appearancemodifier_profile` (
      `additional_note` text    COMMENT 'The text that will be displayed after the submit button on the edit form.',
      `invert_consent_fields` tinyint    COMMENT 'This field triggers the invert behaviour of the consent checkboxes.',
      `add_placeholder` tinyint    COMMENT 'Set the text input label as placeholder text in the input.',
-     `hide_form_labels` tinyint    COMMENT 'Hide the form labels and use only the placeholders.' 
+     `hide_form_labels` tinyint    COMMENT 'Hide the form labels and use only the placeholders.',
+     `font_color` text    COMMENT 'The color code of the fonts in #ffffff format.' 
 ,
         PRIMARY KEY (`id`)
  
