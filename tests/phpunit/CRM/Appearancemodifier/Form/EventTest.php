@@ -12,6 +12,7 @@ class DummyEventPresetProviderClass
         return [
             'layout_handler' => '',
             'background_color' => '#ffffff',
+            'font_color' => '#000000',
             'invert_consent_fields' => '',
             'target_number_of_signers' => '',
             'custom_social_box' => '',
@@ -120,6 +121,7 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         $defaults = $form->setDefaultValues();
         self::assertSame(1, $defaults['original_color']);
+        self::assertSame(1, $defaults['original_font_color']);
     }
     public function testSetDefaultValuesTransparentColor()
     {
@@ -141,6 +143,7 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
         $defaults = $form->setDefaultValues();
         self::assertSame(1, $defaults['transparent_background']);
         self::assertNull($defaults['background_color']);
+        self::assertSame(1, $defaults['original_font_color']);
     }
 
     /*
@@ -177,9 +180,11 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
         $_GET['eid'] = $event['id'];
         $_POST['eid'] = $event['id'];
         $_POST['original_color'] = '1';
+        $_POST['original_font_color'] = '1';
 
         $_POST['layout_handler'] = '';
         $_POST['background_color'] = '#ffffff';
+        $_POST['font_color'] = '#ffffff';
         $_POST['invert_consent_fields'] = '';
         $_POST['custom_social_box'] = '';
         $_POST['external_share_url'] = 'my.link.com';
@@ -194,6 +199,7 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
             ->execute()
             ->first();
         self::assertNull($modifiedEvent['background_color']);
+        self::assertNull($modifiedEvent['font_color']);
         self::assertSame($_POST['external_share_url'], $modifiedEvent['external_share_url']);
     }
     public function testPostProcessWithPresets()
@@ -226,6 +232,7 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
             ->first();
         self::assertSame('#ffffff', $modifiedEvent['background_color']);
         self::assertSame('my.updated.link.com', $modifiedEvent['external_share_url']);
+        self::assertSame('#000000', $modifiedEvent['font_color']);
     }
     public function testPostProcessTransparentBackground()
     {
@@ -258,5 +265,6 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
             ->first();
         self::assertSame('transparent', $modifiedEvent['background_color']);
         self::assertSame($_POST['external_share_url'], $modifiedEvent['external_share_url']);
+        self::assertNull($modifiedEvent['font_color']);
     }
 }

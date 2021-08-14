@@ -12,6 +12,7 @@ class DummyProfilePresetProviderClass
         return [
             'layout_handler' => '',
             'background_color' => '#ffffff',
+            'font_color' => '#000000',
             'additional_note' => 'My default additional note text',
             'invert_consent_fields' => '',
             'hide_form_labels' => '',
@@ -113,6 +114,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         $defaults = $form->setDefaultValues();
         self::assertSame(1, $defaults['original_color']);
+        self::assertSame(1, $defaults['original_font_color']);
     }
     public function testSetDefaultValuesTransparentColor()
     {
@@ -133,6 +135,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
         $defaults = $form->setDefaultValues();
         self::assertSame(1, $defaults['transparent_background']);
         self::assertNull($defaults['background_color']);
+        self::assertSame(1, $defaults['original_font_color']);
     }
 
     /*
@@ -167,9 +170,11 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
         $_GET['pid'] = $profile['id'];
         $_POST['pid'] = $profile['id'];
         $_POST['original_color'] = '1';
+        $_POST['original_font_color'] = '1';
 
         $_POST['layout_handler'] = '';
         $_POST['background_color'] = '#ffffff';
+        $_POST['font_color'] = '#ffffff';
         $_POST['additional_note'] = 'My new additional note text';
         $_POST['invert_consent_fields'] = '';
         $_POST['hide_form_labels'] = '';
@@ -184,6 +189,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
             ->first();
         self::assertNull($modifiedProfile['background_color']);
         self::assertSame($_POST['additional_note'], $modifiedProfile['additional_note']);
+        self::assertNull($modifiedProfile['font_color']);
     }
     public function testPostProcessWithPresets()
     {
@@ -213,6 +219,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
             ->first();
         self::assertSame('#ffffff', $modifiedProfile['background_color']);
         self::assertSame('My default additional note text', $modifiedProfile['additional_note']);
+        self::assertSame('#000000', $modifiedProfile['font_color']);
     }
     public function testPostProcessTransparentBackground()
     {
@@ -243,5 +250,6 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
             ->first();
         self::assertSame('transparent', $modifiedProfile['background_color']);
         self::assertSame($_POST['additional_note'], $modifiedProfile['additional_note']);
+        self::assertNull($modifiedProfile['font_color']);
     }
 }

@@ -12,6 +12,7 @@ class DummyPetitionPresetProviderClass
         return [
             'layout_handler' => '',
             'background_color' => '#ffffff',
+            'font_color' => '#000000',
             'additional_note' => 'My default additional note text',
             'petition_message' => 'My new petition message text',
             'invert_consent_fields' => '',
@@ -119,6 +120,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         $defaults = $form->setDefaultValues();
         self::assertSame(1, $defaults['original_color']);
+        self::assertSame(1, $defaults['original_font_color']);
     }
     public function testSetDefaultValuesTransparentColor()
     {
@@ -140,6 +142,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
         $defaults = $form->setDefaultValues();
         self::assertSame(1, $defaults['transparent_background']);
         self::assertNull($defaults['background_color']);
+        self::assertSame(1, $defaults['original_font_color']);
     }
 
     /*
@@ -178,8 +181,10 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
         $_POST['pid'] = $petition['id'];
         $form->setVar('_submitValues', [
             'original_color' => '1',
+            'original_font_color' => '1',
             'layout_handler' => '',
             'background_color' => '#ffffff',
+            'font_color' => '#ffffff',
             'additional_note' => 'My new additional note text',
             'petition_message' => 'My new petition message text',
             'invert_consent_fields' => '',
@@ -198,6 +203,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
             ->first();
         self::assertNull($modifiedPetition['background_color']);
         self::assertSame('My new additional note text', $modifiedPetition['additional_note']);
+        self::assertNull($modifiedPetition['font_color']);
     }
     public function testPostProcessWithPresets()
     {
@@ -213,8 +219,10 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
         $_POST['pid'] = $petition['id'];
         $form->setVar('_submitValues', [
             'original_color' => '1',
+            'original_font_color' => '0',
             'layout_handler' => '',
             'background_color' => '#ffffff',
+            'font_color' => '#000000',
             'additional_note' => 'My new additional note text',
             'petition_message' => 'My new petition message text',
             'invert_consent_fields' => '',
@@ -233,6 +241,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
             ->first();
         self::assertSame('#ffffff', $modifiedPetition['background_color']);
         self::assertSame('My default additional note text', $modifiedPetition['additional_note']);
+        self::assertSame('#000000', $modifiedPetition['font_color']);
     }
     public function testPostProcessTransparentBackground()
     {
@@ -248,9 +257,11 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
         $_POST['pid'] = $petition['id'];
         $form->setVar('_submitValues', [
             'original_color' => '0',
+            'original_font_color' => '0',
             'transparent_background' => '1',
             'layout_handler' => '',
             'background_color' => '#ffffff',
+            'font_color' => '#000000',
             'additional_note' => 'My new additional note text',
             'petition_message' => 'My new petition message text',
             'invert_consent_fields' => '',
@@ -269,5 +280,6 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
             ->first();
         self::assertSame('transparent', $modifiedPetition['background_color']);
         self::assertSame('My new additional note text', $modifiedPetition['additional_note']);
+        self::assertSame('#000000', $modifiedPetition['font_color']);
     }
 }
