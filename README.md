@@ -67,7 +67,8 @@ The form customization is based on additional settings that could be reached fro
 ### Common settings
 
 - Form Layout - It is the option for extending the template resources and implementing the alterContent for creating further custom changes on the forms.
-- Background Color - If the Original Background Color is unchecked, this value will be used as background color on the form.
+- Background Color - If the Original Background Color is unchecked, this value will be used as background color on the form. If the Original Background Color is unchecked and the Transparent Background Color is checked, then transparent background will be applied on the form (included the text inputs, their background color will be set to white and color to black on case of focus state).
+- Font Color - If the Original Font Color is unchecked, this value will be used as font color on the form.
 - Invert Consent Fields - If it is checked, the consent fields (`do_not_email`, `do_not_phone`, `is_opt_out`) will behave as opt in fields.
 - Add placeholders - If checked, the text inputs will contain placeholder attributes. The value of the placeholder will be the same as the label of the text input.
 - Hide text input labels - Only applied when the Add placeholder also applied. If checked the labels of the text inputs will be hidden.
