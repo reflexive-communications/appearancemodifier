@@ -13,5 +13,8 @@
 table.ui-datepicker-calendar th[scope="col"] > span {
     color: #222222;
 }
+div.ui-datepicker-title select {
+    color: #222222;
+}
 </style>
 {/literal}
