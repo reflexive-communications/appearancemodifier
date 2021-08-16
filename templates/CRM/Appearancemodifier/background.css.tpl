@@ -34,7 +34,8 @@ tbody tr:focus td.labels label {
 }
 
 /* The help block has background color that has to be overwritten. Also its border needs to be removed */
-div#crm-profile-block.crm-container > div.messages.help {
+div#crm-profile-block.crm-container > div.messages.help,
+div.crm-petition-contact-profile > div.messages.help {
     background: transparent;
     border: none;
 }
