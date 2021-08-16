@@ -80,5 +80,11 @@
     <type>boolean</type>
     <comment>Hide the form labels and use only the placeholders.</comment>
   </field>
+  <field>
+    <name>font_color</name>
+    <type>text</type>
+    <comment>The color code of the fonts in #ffffff format.</comment>
+    <add>3.1</add>
+  </field>
 
 </table>

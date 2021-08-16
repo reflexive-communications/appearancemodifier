@@ -18,6 +18,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
         'invert_consent_fields',
         'hide_form_labels',
         'add_placeholder',
+        'font_color',
     ];
     // The uf group, for display some stuff about it on the frontend.
     private $ufGroup;
@@ -56,6 +57,12 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
         }
         if ($modifiedProfile['background_color'] == null) {
             $this->_defaults['original_color'] = 1;
+        } elseif ($modifiedProfile['background_color'] === 'transparent') {
+            $this->_defaults['transparent_background'] = 1;
+            $this->_defaults['background_color'] = null;
+        }
+        if ($modifiedProfile['font_color'] == null) {
+            $this->_defaults['original_font_color'] = 1;
         }
         $this->_defaults['preset_handler'] = '';
         return $this->_defaults;
@@ -83,8 +90,11 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
         $this->add('wysiwyg', 'additional_note', E::ts('Additional Note Text'), [], false);
         $this->add('checkbox', 'invert_consent_fields', E::ts('Invert Consent Fields'), [], false);
         $this->add('checkbox', 'original_color', E::ts('Original Background Color'), [], false);
+        $this->add('checkbox', 'transparent_background', E::ts('Transparent Background Color'), [], false);
         $this->add('checkbox', 'add_placeholder', E::ts('Add placeholders'), [], false);
         $this->add('checkbox', 'hide_form_labels', E::ts('Hide text input labels'), [], false);
+        $this->add('color', 'font_color', E::ts('Font Color'), [], false);
+        $this->add('checkbox', 'original_font_color', E::ts('Original Font Color'), [], false);
         // Submit button
         $this->addButtons(
             [
@@ -114,6 +124,11 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
         }
         if ($this->_submitValues['original_color'] === '1') {
             $submitData['background_color'] = '';
+        } elseif ($this->_submitValues['transparent_background'] === '1') {
+            $submitData['background_color'] = 'transparent';
+        }
+        if ($this->_submitValues['original_font_color'] === '1') {
+            $submitData['font_color'] = '';
         }
         if ($this->_submitValues['preset_handler'] !== '') {
             $this->saveCustomProfile($this->_submitValues['preset_handler']::getPresets());

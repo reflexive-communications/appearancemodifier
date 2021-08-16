@@ -21,6 +21,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
         'external_share_url',
         'hide_form_labels',
         'add_placeholder',
+        'font_color',
     ];
     // The petition, for display some stuff about it on the frontend.
     private $petition;
@@ -59,6 +60,12 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
         }
         if ($modifiedPetition['background_color'] == null) {
             $this->_defaults['original_color'] = 1;
+        } elseif ($modifiedPetition['background_color'] === 'transparent') {
+            $this->_defaults['transparent_background'] = 1;
+            $this->_defaults['background_color'] = null;
+        }
+        if ($modifiedPetition['font_color'] == null) {
+            $this->_defaults['original_font_color'] = 1;
         }
         $this->_defaults['preset_handler'] = '';
         return $this->_defaults;
@@ -86,12 +93,15 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
         $this->add('wysiwyg', 'additional_note', E::ts('Additional Note Text'), [], false);
         $this->add('checkbox', 'invert_consent_fields', E::ts('Invert Consent Fields'), [], false);
         $this->add('checkbox', 'original_color', E::ts('Original Background Color'), [], false);
+        $this->add('checkbox', 'transparent_background', E::ts('Transparent Background Color'), [], false);
         $this->add('checkbox', 'hide_form_labels', E::ts('Hide text input labels'), [], false);
         $this->add('checkbox', 'add_placeholder', E::ts('Add placeholders'), [], false);
         $this->add('textarea', 'petition_message', E::ts('Petition message'), [], false);
         $this->add('text', 'target_number_of_signers', E::ts('Target number of signers'), [], false);
         $this->add('checkbox', 'custom_social_box', E::ts('Custom social box'), [], false);
         $this->add('text', 'external_share_url', E::ts('External url to share'), [], false);
+        $this->add('color', 'font_color', E::ts('Font Color'), [], false);
+        $this->add('checkbox', 'original_font_color', E::ts('Original Font Color'), [], false);
         // Submit button
         $this->addButtons(
             [
@@ -121,6 +131,11 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
         }
         if ($this->_submitValues['original_color'] === '1') {
             $submitData['background_color'] = '';
+        } elseif ($this->_submitValues['transparent_background'] === '1') {
+            $submitData['background_color'] = 'transparent';
+        }
+        if ($this->_submitValues['original_font_color'] === '1') {
+            $submitData['font_color'] = '';
         }
         if ($this->_submitValues['preset_handler'] !== '') {
             $this->saveCustomPetition($this->_submitValues['preset_handler']::getPresets());

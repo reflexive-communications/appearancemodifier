@@ -3,5 +3,9 @@
     {assign var=backgroundColor value=$modifiedEvent.values[0].background_color}
     {include file="CRM/Appearancemodifier/background.css.tpl"}
 {/if}
+{if $modifiedEvent.count eq '1' && isset($modifiedEvent.values[0].font_color)}
+    {assign var=fontColor value=$modifiedEvent.values[0].font_color}
+    {include file="CRM/Appearancemodifier/font.css.tpl"}
+{/if}
 
 {include file="CRM/Event/Page/EventInfo.tpl"}

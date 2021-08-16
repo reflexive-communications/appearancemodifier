@@ -12,6 +12,7 @@ class DummyPetitionPresetProviderClass
         return [
             'layout_handler' => '',
             'background_color' => '#ffffff',
+            'font_color' => '#000000',
             'additional_note' => 'My default additional note text',
             'petition_message' => 'My new petition message text',
             'invert_consent_fields' => '',
@@ -104,7 +105,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
     /*
      * It tests the setDefaultValues function.
      */
-    public function testSetDefaultValues()
+    public function testSetDefaultValuesOriginalColor()
     {
         $petition = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
@@ -119,6 +120,29 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         $defaults = $form->setDefaultValues();
         self::assertSame(1, $defaults['original_color']);
+        self::assertSame(1, $defaults['original_font_color']);
+    }
+    public function testSetDefaultValuesTransparentColor()
+    {
+        $petition = civicrm_api3('Survey', 'create', [
+            'sequential' => 1,
+            'title' => "Some title",
+            'activity_type_id' => "Petition",
+        ]);
+        $petition = $petition['values'][0];
+        \Civi\Api4\AppearancemodifierPetition::update(false)
+            ->addWhere('survey_id', '=', $petition['id'])
+            ->addValue('background_color', 'transparent')
+            ->execute();
+        $form = new CRM_Appearancemodifier_Form_Petition();
+        $_REQUEST['pid'] = $petition['id'];
+        $_GET['pid'] = $petition['id'];
+        $_POST['pid'] = $petition['id'];
+        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        $defaults = $form->setDefaultValues();
+        self::assertSame(1, $defaults['transparent_background']);
+        self::assertNull($defaults['background_color']);
+        self::assertSame(1, $defaults['original_font_color']);
     }
 
     /*
@@ -157,8 +181,10 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
         $_POST['pid'] = $petition['id'];
         $form->setVar('_submitValues', [
             'original_color' => '1',
+            'original_font_color' => '1',
             'layout_handler' => '',
             'background_color' => '#ffffff',
+            'font_color' => '#ffffff',
             'additional_note' => 'My new additional note text',
             'petition_message' => 'My new petition message text',
             'invert_consent_fields' => '',
@@ -177,6 +203,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
             ->first();
         self::assertNull($modifiedPetition['background_color']);
         self::assertSame('My new additional note text', $modifiedPetition['additional_note']);
+        self::assertNull($modifiedPetition['font_color']);
     }
     public function testPostProcessWithPresets()
     {
@@ -192,8 +219,10 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
         $_POST['pid'] = $petition['id'];
         $form->setVar('_submitValues', [
             'original_color' => '1',
+            'original_font_color' => '0',
             'layout_handler' => '',
             'background_color' => '#ffffff',
+            'font_color' => '#000000',
             'additional_note' => 'My new additional note text',
             'petition_message' => 'My new petition message text',
             'invert_consent_fields' => '',
@@ -212,5 +241,45 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
             ->first();
         self::assertSame('#ffffff', $modifiedPetition['background_color']);
         self::assertSame('My default additional note text', $modifiedPetition['additional_note']);
+        self::assertSame('#000000', $modifiedPetition['font_color']);
+    }
+    public function testPostProcessTransparentBackground()
+    {
+        $petition = civicrm_api3('Survey', 'create', [
+            'sequential' => 1,
+            'title' => "Some title",
+            'activity_type_id' => "Petition",
+        ]);
+        $petition = $petition['values'][0];
+        $form = new CRM_Appearancemodifier_Form_Petition();
+        $_REQUEST['pid'] = $petition['id'];
+        $_GET['pid'] = $petition['id'];
+        $_POST['pid'] = $petition['id'];
+        $form->setVar('_submitValues', [
+            'original_color' => '0',
+            'original_font_color' => '0',
+            'transparent_background' => '1',
+            'layout_handler' => '',
+            'background_color' => '#ffffff',
+            'font_color' => '#000000',
+            'additional_note' => 'My new additional note text',
+            'petition_message' => 'My new petition message text',
+            'invert_consent_fields' => '',
+            'target_number_of_signers' => '',
+            'custom_social_box' => '',
+            'external_share_url' => 'my.link.com',
+            'hide_form_labels' => '',
+            'add_placeholder' => '',
+            'preset_handler' => '',
+        ]);
+        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
+        $modifiedPetition = \Civi\Api4\AppearancemodifierPetition::get(false)
+            ->addWhere('survey_id', '=', $petition['id'])
+            ->execute()
+            ->first();
+        self::assertSame('transparent', $modifiedPetition['background_color']);
+        self::assertSame('My new additional note text', $modifiedPetition['additional_note']);
+        self::assertSame('#000000', $modifiedPetition['font_color']);
     }
 }

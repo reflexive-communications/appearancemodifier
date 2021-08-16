@@ -111,6 +111,19 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Appearancemodifier_Upgrader_Ba
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition CHANGE outro additional_note text;');
         return true;
     }
+    /**
+     * Alter the table if necessary.
+     *
+     * @return TRUE on success
+     * @throws Exception
+     */
+    public function upgrade_5301()
+    {
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile ADD COLUMN font_color text;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN font_color text;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_event ADD COLUMN font_color text;');
+        return true;
+    }
 
     /**
      * Example: Run an external SQL script when the module is installed.

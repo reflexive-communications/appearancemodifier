@@ -3,6 +3,10 @@
     {assign var=backgroundColor value=$modifiedPetition.values[0].background_color}
     {include file="CRM/Appearancemodifier/background.css.tpl"}
 {/if}
+{if $modifiedPetition.count eq '1' && isset($modifiedPetition.values[0].font_color)}
+    {assign var=fontColor value=$modifiedPetition.values[0].font_color}
+    {include file="CRM/Appearancemodifier/font.css.tpl"}
+{/if}
 
 {include file="CRM/Campaign/Form/Petition/Signature.tpl"}
 
