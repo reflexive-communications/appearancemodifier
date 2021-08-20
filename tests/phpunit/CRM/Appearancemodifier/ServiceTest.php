@@ -205,6 +205,23 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->addValue('layout_handler', LayoutImplementationTest::class)
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
+        // Profile view
+        $results = UFGroup::create()
+            ->addValue('title', 'Test UFGroup aka Profile')
+            ->addValue('name', 'test_ufgroup_name')
+            ->addValue('is_active', true)
+            ->execute();
+        $page = new CRM_Profile_Page_View();
+        $page->setVar('_gid', $results[0]['id']);
+        $modifiedConfig = AppearancemodifierProfile::get(false)
+            ->addWhere('uf_group_id', '=', $results[0]['id'])
+            ->execute()
+            ->first();
+        AppearancemodifierProfile::update(false)
+            ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->execute();
+        self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
     }
 
     /*
