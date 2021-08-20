@@ -26,6 +26,7 @@ class CRM_Appearancemodifier_Service
     ];
     const PROFILE_TEMPLATES = [
         'CRM/Appearancemodifier/Profile/edit.tpl',
+        'CRM/Appearancemodifier/Profile/view.tpl',
     ];
     const PETITION_TEMPLATES = [
         'CRM/Appearancemodifier/Petition/signature.tpl',
