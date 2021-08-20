@@ -154,6 +154,16 @@ class CRM_Appearancemodifier_Service
                 $handler->setStyleSheets();
             }
             Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
+        } elseif ($page->getVar('_name') == 'CRM_Profile_Page_View') {
+            $modifiedProfile = AppearancemodifierProfile::get(false)
+                ->addWhere('uf_group_id', '=', $page->getVar('_gid'))
+                ->execute()
+                ->first();
+            if ($modifiedProfile['layout_handler'] !== null) {
+                $handler = new $modifiedProfile['layout_handler']('CRM_Profile_Page_View');
+                $handler->setStyleSheets();
+            }
+            Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
         }
     }
 
