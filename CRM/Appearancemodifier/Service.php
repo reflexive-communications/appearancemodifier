@@ -15,6 +15,7 @@ class CRM_Appearancemodifier_Service
         'is_opt_out',
     ];
     const TEMPLATE_MAP = [
+        'CRM/Profile/Page/View.tpl' => 'CRM/Appearancemodifier/Profile/view.tpl',
         'CRM/Profile/Form/Edit.tpl' => 'CRM/Appearancemodifier/Profile/edit.tpl',
         'CRM/Campaign/Form/Petition/Signature.tpl' => 'CRM/Appearancemodifier/Petition/signature.tpl',
         'CRM/Campaign/Page/Petition/ThankYou.tpl' => 'CRM/Appearancemodifier/Petition/thankyou.tpl',
@@ -25,6 +26,7 @@ class CRM_Appearancemodifier_Service
     ];
     const PROFILE_TEMPLATES = [
         'CRM/Appearancemodifier/Profile/edit.tpl',
+        'CRM/Appearancemodifier/Profile/view.tpl',
     ];
     const PETITION_TEMPLATES = [
         'CRM/Appearancemodifier/Petition/signature.tpl',
@@ -151,6 +153,16 @@ class CRM_Appearancemodifier_Service
                 ->first();
             if ($modifiedEvent['layout_handler'] !== null) {
                 $handler = new $modifiedEvent['layout_handler']('CRM_Event_Page_EventInfo');
+                $handler->setStyleSheets();
+            }
+            Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
+        } elseif ($page->getVar('_name') == 'CRM_Profile_Page_View') {
+            $modifiedProfile = AppearancemodifierProfile::get(false)
+                ->addWhere('uf_group_id', '=', $page->getVar('_gid'))
+                ->execute()
+                ->first();
+            if ($modifiedProfile['layout_handler'] !== null) {
+                $handler = new $modifiedProfile['layout_handler']('CRM_Profile_Page_View');
                 $handler->setStyleSheets();
             }
             Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
