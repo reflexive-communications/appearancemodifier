@@ -4,6 +4,8 @@
 ::placeholder,
 /* overwrite the page-title color for d8 adminimal */
 .adminimal h1.page-title,
+/* overwrite the page-title color for d7 adminimal */
+.adminimal-theme #branding h1.page-title,
 /* overwrite the color of the custom field checkboxes */
 .crm-container td.labels label,
 /* The font color of the textareas has to be also updated */
