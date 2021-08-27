@@ -22,6 +22,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
         'hide_form_labels',
         'add_placeholder',
         'font_color',
+        'signers_block_position',
     ];
     // The petition, for display some stuff about it on the frontend.
     private $petition;
