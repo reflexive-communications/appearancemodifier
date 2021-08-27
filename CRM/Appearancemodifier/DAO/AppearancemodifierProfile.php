@@ -13,158 +13,153 @@ use CRM_Appearancemodifier_ExtensionUtil as E;
 /**
  * Database access object for the AppearancemodifierProfile entity.
  */
-class CRM_Appearancemodifier_DAO_AppearancemodifierProfile extends CRM_Core_DAO
-{
-    const EXT = E::LONG_NAME;
-    const TABLE_ADDED = '';
+class CRM_Appearancemodifier_DAO_AppearancemodifierProfile extends CRM_Core_DAO {
+  const EXT = E::LONG_NAME;
+  const TABLE_ADDED = '';
 
-    /**
-     * Static instance to hold the table name.
-     *
-     * @var string
-     */
-    public static $_tableName = 'civicrm_appearancemodifier_profile';
+  /**
+   * Static instance to hold the table name.
+   *
+   * @var string
+   */
+  public static $_tableName = 'civicrm_appearancemodifier_profile';
 
-    /**
-     * Should CiviCRM log any modifications to this table in the civicrm_log table.
-     *
-     * @var bool
-     */
-    public static $_log = true;
+  /**
+   * Should CiviCRM log any modifications to this table in the civicrm_log table.
+   *
+   * @var bool
+   */
+  public static $_log = TRUE;
 
-    /**
-     * Unique AppearancemodifierProfile ID
-     *
-     * @var int
-     */
-    public $id;
+  /**
+   * Unique AppearancemodifierProfile ID
+   *
+   * @var int
+   */
+  public $id;
 
-    /**
-     * FK to UFGroup
-     *
-     * @var int
-     */
-    public $uf_group_id;
+  /**
+   * FK to UFGroup
+   *
+   * @var int
+   */
+  public $uf_group_id;
 
-    /**
-     * The alterContent handler function.
-     *
-     * @var text
-     */
-    public $layout_handler;
+  /**
+   * The alterContent handler function.
+   *
+   * @var text
+   */
+  public $layout_handler;
 
-    /**
-     * The color code of the background in #ffffff format.
-     *
-     * @var text
-     */
-    public $background_color;
+  /**
+   * The color code of the background in #ffffff format.
+   *
+   * @var text
+   */
+  public $background_color;
 
-    /**
-     * The text that will be displayed after the submit button on the edit form.
-     *
-     * @var text
-     */
-    public $additional_note;
+  /**
+   * The text that will be displayed after the submit button on the edit form.
+   *
+   * @var text
+   */
+  public $additional_note;
 
-    /**
-     * This field triggers the invert behaviour of the consent checkboxes.
-     *
-     * @var bool
-     */
-    public $invert_consent_fields;
+  /**
+   * This field triggers the invert behaviour of the consent checkboxes.
+   *
+   * @var bool
+   */
+  public $invert_consent_fields;
 
-    /**
-     * Set the text input label as placeholder text in the input.
-     *
-     * @var bool
-     */
-    public $add_placeholder;
+  /**
+   * Set the text input label as placeholder text in the input.
+   *
+   * @var bool
+   */
+  public $add_placeholder;
 
-    /**
-     * Hide the form labels and use only the placeholders.
-     *
-     * @var bool
-     */
-    public $hide_form_labels;
+  /**
+   * Hide the form labels and use only the placeholders.
+   *
+   * @var bool
+   */
+  public $hide_form_labels;
 
-    /**
-     * The color code of the fonts in #ffffff format.
-     *
-     * @var text
-     */
-    public $font_color;
+  /**
+   * The color code of the fonts in #ffffff format.
+   *
+   * @var text
+   */
+  public $font_color;
 
-    /**
-     * Class constructor.
-     */
-    public function __construct()
-    {
-        $this->__table = 'civicrm_appearancemodifier_profile';
-        parent::__construct();
+  /**
+   * Class constructor.
+   */
+  public function __construct() {
+    $this->__table = 'civicrm_appearancemodifier_profile';
+    parent::__construct();
+  }
+
+  /**
+   * Returns localized title of this entity.
+   *
+   * @param bool $plural
+   *   Whether to return the plural version of the title.
+   */
+  public static function getEntityTitle($plural = FALSE) {
+    return $plural ? E::ts('Appearancemodifier Profiles') : E::ts('Appearancemodifier Profile');
+  }
+
+  /**
+   * Returns foreign keys and entity references.
+   *
+   * @return array
+   *   [CRM_Core_Reference_Interface]
+   */
+  public static function getReferenceColumns() {
+    if (!isset(Civi::$statics[__CLASS__]['links'])) {
+      Civi::$statics[__CLASS__]['links'] = static::createReferenceColumns(__CLASS__);
+      Civi::$statics[__CLASS__]['links'][] = new CRM_Core_Reference_Basic(self::getTableName(), 'uf_group_id', 'civicrm_uf_group', 'id');
+      CRM_Core_DAO_AllCoreTables::invoke(__CLASS__, 'links_callback', Civi::$statics[__CLASS__]['links']);
     }
+    return Civi::$statics[__CLASS__]['links'];
+  }
 
-    /**
-     * Returns localized title of this entity.
-     *
-     * @param bool $plural
-     *   Whether to return the plural version of the title.
-     */
-    public static function getEntityTitle($plural = false)
-    {
-        return $plural ? E::ts('Appearancemodifier Profiles') : E::ts('Appearancemodifier Profile');
-    }
-
-    /**
-     * Returns foreign keys and entity references.
-     *
-     * @return array
-     *   [CRM_Core_Reference_Interface]
-     */
-    public static function getReferenceColumns()
-    {
-        if (!isset(Civi::$statics[__CLASS__]['links'])) {
-            Civi::$statics[__CLASS__]['links'] = static::createReferenceColumns(__CLASS__);
-            Civi::$statics[__CLASS__]['links'][] = new CRM_Core_Reference_Basic(self::getTableName(), 'uf_group_id', 'civicrm_uf_group', 'id');
-            CRM_Core_DAO_AllCoreTables::invoke(__CLASS__, 'links_callback', Civi::$statics[__CLASS__]['links']);
-        }
-        return Civi::$statics[__CLASS__]['links'];
-    }
-
-    /**
-     * Returns all the column names of this table
-     *
-     * @return array
-     */
-    public static function &fields()
-    {
-        if (!isset(Civi::$statics[__CLASS__]['fields'])) {
-            Civi::$statics[__CLASS__]['fields'] = [
+  /**
+   * Returns all the column names of this table
+   *
+   * @return array
+   */
+  public static function &fields() {
+    if (!isset(Civi::$statics[__CLASS__]['fields'])) {
+      Civi::$statics[__CLASS__]['fields'] = [
         'id' => [
           'name' => 'id',
           'type' => CRM_Utils_Type::T_INT,
           'description' => E::ts('Unique AppearancemodifierProfile ID'),
-          'required' => true,
+          'required' => TRUE,
           'where' => 'civicrm_appearancemodifier_profile.id',
           'table_name' => 'civicrm_appearancemodifier_profile',
           'entity' => 'AppearancemodifierProfile',
           'bao' => 'CRM_Appearancemodifier_DAO_AppearancemodifierProfile',
           'localizable' => 0,
-          'readonly' => true,
-          'add' => null,
+          'readonly' => TRUE,
+          'add' => NULL,
         ],
         'uf_group_id' => [
           'name' => 'uf_group_id',
           'type' => CRM_Utils_Type::T_INT,
           'description' => E::ts('FK to UFGroup'),
-          'required' => true,
+          'required' => TRUE,
           'where' => 'civicrm_appearancemodifier_profile.uf_group_id',
           'table_name' => 'civicrm_appearancemodifier_profile',
           'entity' => 'AppearancemodifierProfile',
           'bao' => 'CRM_Appearancemodifier_DAO_AppearancemodifierProfile',
           'localizable' => 0,
           'FKClassName' => 'CRM_Core_DAO_UFGroup',
-          'add' => null,
+          'add' => NULL,
         ],
         'layout_handler' => [
           'name' => 'layout_handler',
@@ -176,7 +171,7 @@ class CRM_Appearancemodifier_DAO_AppearancemodifierProfile extends CRM_Core_DAO
           'entity' => 'AppearancemodifierProfile',
           'bao' => 'CRM_Appearancemodifier_DAO_AppearancemodifierProfile',
           'localizable' => 0,
-          'add' => null,
+          'add' => NULL,
         ],
         'background_color' => [
           'name' => 'background_color',
@@ -188,7 +183,7 @@ class CRM_Appearancemodifier_DAO_AppearancemodifierProfile extends CRM_Core_DAO
           'entity' => 'AppearancemodifierProfile',
           'bao' => 'CRM_Appearancemodifier_DAO_AppearancemodifierProfile',
           'localizable' => 0,
-          'add' => null,
+          'add' => NULL,
         ],
         'additional_note' => [
           'name' => 'additional_note',
@@ -200,7 +195,7 @@ class CRM_Appearancemodifier_DAO_AppearancemodifierProfile extends CRM_Core_DAO
           'entity' => 'AppearancemodifierProfile',
           'bao' => 'CRM_Appearancemodifier_DAO_AppearancemodifierProfile',
           'localizable' => 0,
-          'add' => null,
+          'add' => NULL,
         ],
         'invert_consent_fields' => [
           'name' => 'invert_consent_fields',
@@ -212,7 +207,7 @@ class CRM_Appearancemodifier_DAO_AppearancemodifierProfile extends CRM_Core_DAO
           'entity' => 'AppearancemodifierProfile',
           'bao' => 'CRM_Appearancemodifier_DAO_AppearancemodifierProfile',
           'localizable' => 0,
-          'add' => null,
+          'add' => NULL,
         ],
         'add_placeholder' => [
           'name' => 'add_placeholder',
@@ -224,7 +219,7 @@ class CRM_Appearancemodifier_DAO_AppearancemodifierProfile extends CRM_Core_DAO
           'entity' => 'AppearancemodifierProfile',
           'bao' => 'CRM_Appearancemodifier_DAO_AppearancemodifierProfile',
           'localizable' => 0,
-          'add' => null,
+          'add' => NULL,
         ],
         'hide_form_labels' => [
           'name' => 'hide_form_labels',
@@ -236,7 +231,7 @@ class CRM_Appearancemodifier_DAO_AppearancemodifierProfile extends CRM_Core_DAO
           'entity' => 'AppearancemodifierProfile',
           'bao' => 'CRM_Appearancemodifier_DAO_AppearancemodifierProfile',
           'localizable' => 0,
-          'add' => null,
+          'add' => NULL,
         ],
         'font_color' => [
           'name' => 'font_color',
@@ -251,81 +246,76 @@ class CRM_Appearancemodifier_DAO_AppearancemodifierProfile extends CRM_Core_DAO
           'add' => '3.1',
         ],
       ];
-            CRM_Core_DAO_AllCoreTables::invoke(__CLASS__, 'fields_callback', Civi::$statics[__CLASS__]['fields']);
-        }
-        return Civi::$statics[__CLASS__]['fields'];
+      CRM_Core_DAO_AllCoreTables::invoke(__CLASS__, 'fields_callback', Civi::$statics[__CLASS__]['fields']);
     }
+    return Civi::$statics[__CLASS__]['fields'];
+  }
 
-    /**
-     * Return a mapping from field-name to the corresponding key (as used in fields()).
-     *
-     * @return array
-     *   Array(string $name => string $uniqueName).
-     */
-    public static function &fieldKeys()
-    {
-        if (!isset(Civi::$statics[__CLASS__]['fieldKeys'])) {
-            Civi::$statics[__CLASS__]['fieldKeys'] = array_flip(CRM_Utils_Array::collect('name', self::fields()));
-        }
-        return Civi::$statics[__CLASS__]['fieldKeys'];
+  /**
+   * Return a mapping from field-name to the corresponding key (as used in fields()).
+   *
+   * @return array
+   *   Array(string $name => string $uniqueName).
+   */
+  public static function &fieldKeys() {
+    if (!isset(Civi::$statics[__CLASS__]['fieldKeys'])) {
+      Civi::$statics[__CLASS__]['fieldKeys'] = array_flip(CRM_Utils_Array::collect('name', self::fields()));
     }
+    return Civi::$statics[__CLASS__]['fieldKeys'];
+  }
 
-    /**
-     * Returns the names of this table
-     *
-     * @return string
-     */
-    public static function getTableName()
-    {
-        return self::$_tableName;
-    }
+  /**
+   * Returns the names of this table
+   *
+   * @return string
+   */
+  public static function getTableName() {
+    return self::$_tableName;
+  }
 
-    /**
-     * Returns if this table needs to be logged
-     *
-     * @return bool
-     */
-    public function getLog()
-    {
-        return self::$_log;
-    }
+  /**
+   * Returns if this table needs to be logged
+   *
+   * @return bool
+   */
+  public function getLog() {
+    return self::$_log;
+  }
 
-    /**
-     * Returns the list of fields that can be imported
-     *
-     * @param bool $prefix
-     *
-     * @return array
-     */
-    public static function &import($prefix = false)
-    {
-        $r = CRM_Core_DAO_AllCoreTables::getImports(__CLASS__, 'appearancemodifier_profile', $prefix, []);
-        return $r;
-    }
+  /**
+   * Returns the list of fields that can be imported
+   *
+   * @param bool $prefix
+   *
+   * @return array
+   */
+  public static function &import($prefix = FALSE) {
+    $r = CRM_Core_DAO_AllCoreTables::getImports(__CLASS__, 'appearancemodifier_profile', $prefix, []);
+    return $r;
+  }
 
-    /**
-     * Returns the list of fields that can be exported
-     *
-     * @param bool $prefix
-     *
-     * @return array
-     */
-    public static function &export($prefix = false)
-    {
-        $r = CRM_Core_DAO_AllCoreTables::getExports(__CLASS__, 'appearancemodifier_profile', $prefix, []);
-        return $r;
-    }
+  /**
+   * Returns the list of fields that can be exported
+   *
+   * @param bool $prefix
+   *
+   * @return array
+   */
+  public static function &export($prefix = FALSE) {
+    $r = CRM_Core_DAO_AllCoreTables::getExports(__CLASS__, 'appearancemodifier_profile', $prefix, []);
+    return $r;
+  }
 
-    /**
-     * Returns the list of indices
-     *
-     * @param bool $localize
-     *
-     * @return array
-     */
-    public static function indices($localize = true)
-    {
-        $indices = [];
-        return ($localize && !empty($indices)) ? CRM_Core_DAO_AllCoreTables::multilingualize(__CLASS__, $indices) : $indices;
-    }
+  /**
+   * Returns the list of indices
+   *
+   * @param bool $localize
+   *
+   * @return array
+   */
+  public static function indices($localize = TRUE) {
+    $indices = [];
+    return ($localize && !empty($indices)) ? CRM_Core_DAO_AllCoreTables::multilingualize(__CLASS__, $indices) : $indices;
+  }
+
 }
