@@ -86,5 +86,11 @@
     <comment>The color code of the fonts in #ffffff format.</comment>
     <add>3.1</add>
   </field>
+  <field>
+    <name>signers_block_position</name>
+    <type>text</type>
+    <comment>The position where the number of petition signers is displayed.</comment>
+    <add>3.2</add>
+  </field>
 
 </table>
