@@ -70,6 +70,14 @@ msgstr "Űrlap Cimkék Elrejtése"
 msgid "Hide the form labels and use only the placeholders."
 msgstr "Elrejti az űrlapok szöveges mezőinke cimkéit, ha a placeholderek alkalmazva vannak."
 
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Font Color"
+msgstr "Betű színe"
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "The color code of the fonts in #ffffff format."
+msgstr "A színkódja a betűknek #ffffff formátumban."
+
 #: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
 msgid "Appearancemodifier Petitions"
 msgstr "Megjelenés Módosított Petíciók"
@@ -105,6 +113,14 @@ msgstr "Aláírók Célszáma."
 #: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./templates/CRM/Appearancemodifier/Form/Petition.tpl
 msgid "The target number of the petition signers."
 msgstr "A petíció aláíróinak a célszáma."
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "Signers Block Position"
+msgstr "Aláírók Blokkjának Helye"
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "The position where the number of petition signers is displayed."
+msgstr "A pozíció ahol az aláírók blokkja megjelenik."
 
 #: ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
 msgid "Appearancemodifier Profiles"
@@ -147,6 +163,10 @@ msgid "Original Background Color"
 msgstr "Alapértelmezett Háttér Szín"
 
 #: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Transparent Background Color"
+msgstr "Transzparens Háttér Szín"
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
 msgid "Hide text input labels"
 msgstr "Szöveges bemeneti címke elrejtése"
 
@@ -161,6 +181,10 @@ msgstr "Egyedi Megosztás Doboz"
 #: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php
 msgid "External url to share"
 msgstr "Külső megosztási link"
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Original Font Color"
+msgstr "Alapértelmezett Betű Szín"
 
 #: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
 msgid "Save"
@@ -193,6 +217,30 @@ msgstr "Petíció Szövege"
 #: ./CRM/Appearancemodifier/Form/Petition.php
 msgid "Target number of signers"
 msgstr "Aláírók Célszáma"
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "Display Signers Block"
+msgstr "Aláírók Megjelenítése"
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "None"
+msgstr "Nem"
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "Above only the current number"
+msgstr "Fent, csak a számuk"
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "Above progressbar"
+msgstr "Fent, progressbar"
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "Below only the current number"
+msgstr "Alul, csak a számuk"
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "Below progressbar"
+msgstr "Alul, progressbar"
 
 #: ./CRM/Appearancemodifier/Form/Petition.php
 msgid "Customize %1 petition."
@@ -235,6 +283,10 @@ msgid "Background color manipulation."
 msgstr "Háttér színének módosítása."
 
 #: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+msgid "Font color manipulation."
+msgstr "Betűk színének módosítása."
+
+#: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
 msgid "Invert the behaviour of consent fields. (opt-out vs opt in)"
 msgstr "Hozzájárulási checkboxok fordított működése. (opt-out vs opt in)"
 
@@ -273,4 +325,12 @@ msgstr "Testreszabott felület a petíció közösségi hálózaton történő m
 #: ./templates/CRM/Appearancemodifier/Form/Profile.tpl
 msgid "Hide the labels of the text inputs on the profile form. Applied only if the placeholders are added."
 msgstr "Elrejti a profil űrlapok szöveges mezőinek cimkéit, ha a placeholderek alkalmazva vannak."
+
+#: ./templates/CRM/Appearancemodifier/Petition/signersnumber.tpl
+msgid "Already signed by %1 people."
+msgstr "Már %1 ember támogatta."
+
+#: ./templates/CRM/Appearancemodifier/Petition/signersprogressbar.tpl
+msgid "Already signed by %1 people. Let's make %2 signatures!"
+msgstr "%1 ember már aláírta. Jöjjön össze %2 alárás!"
 
