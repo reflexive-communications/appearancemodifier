@@ -103,7 +103,8 @@ The AppearancemodifierPetition entity stores the settings for a petition.
 
 - Additional Note Text - This text will be displayed below the submit button.
 - Petition Message - This text will be added as default text in the petition message field in the activity profile.
-- Target number of signers - Currently unused. Needed in the progressbar feature.
+- Target number of signers - This value is used in the progressbar as maximum.
+- Display signers block - How to display the current number of signers (just the number, or progressbar when the target number is also set) and where (top, bottom, don't display).
 - Custom social box - The sharing options will be replaced with a custom one, that only contans twitter and facebook share option.
 - External url to share - This url will be shared from the social boxes. Only applied when the custom social box also applied.
 
@@ -162,3 +163,9 @@ The className method is a handy helper class that provides you a classname prefi
 ### Possible manual fixes
 
 If someone creates a profile, petition or event during the install process, it is possible thai it will be skipped from the update process. In this case the appearance modified entity entry has to be created manually (eg: api explorer).
+
+## Changes
+
+Log of the changesets since v3.1.2. To be able to see when do we need to execute database updates.
+
+- In v.3.2.0 the display of the petition signers feature has been implemented. The signers block could be displayed on the top or on the bottom position of the petition. It could display the current number of the signers or a progress bar with the current number and the expected number of signers.
