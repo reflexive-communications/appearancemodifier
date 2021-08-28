@@ -126,6 +126,19 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Appearancemodifier_Upgrader_Ba
     }
 
     /**
+     * Alter the table if necessary.
+     * Add the signers_block_position column to the custom petitions table.
+     *
+     * @return TRUE on success
+     * @throws Exception
+     */
+    public function upgrade_5302()
+    {
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN signers_block_position text;');
+        return true;
+    }
+
+    /**
      * Example: Run an external SQL script when the module is installed.
      */
    // public function install() {
