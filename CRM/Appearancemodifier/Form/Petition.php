@@ -22,6 +22,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
         'hide_form_labels',
         'add_placeholder',
         'font_color',
+        'signers_block_position',
     ];
     // The petition, for display some stuff about it on the frontend.
     private $petition;
@@ -102,6 +103,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
         $this->add('text', 'external_share_url', E::ts('External url to share'), [], false);
         $this->add('color', 'font_color', E::ts('Font Color'), [], false);
         $this->add('checkbox', 'original_font_color', E::ts('Original Font Color'), [], false);
+        $this->add('select', 'signers_block_position', E::ts('Display Signers Block'), [''=>E::ts('None'), 'top_number' => E::ts('Above only the current number'), 'top_progress' => E::ts('Above progressbar'), 'bottom_number' => E::ts('Below only the current number'), 'bottom_progress' => E::ts('Below progressbar')], false);
         // Submit button
         $this->addButtons(
             [

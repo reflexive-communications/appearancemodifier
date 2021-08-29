@@ -70,6 +70,14 @@ msgstr ""
 msgid "Hide the form labels and use only the placeholders."
 msgstr ""
 
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Font Color"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "The color code of the fonts in #ffffff format."
+msgstr ""
+
 #: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
 msgid "Appearancemodifier Petitions"
 msgstr ""
@@ -104,6 +112,14 @@ msgstr ""
 
 #: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./templates/CRM/Appearancemodifier/Form/Petition.tpl
 msgid "The target number of the petition signers."
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "Signers Block Position"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
+msgid "The position where the number of petition signers is displayed."
 msgstr ""
 
 #: ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
@@ -147,6 +163,10 @@ msgid "Original Background Color"
 msgstr ""
 
 #: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Transparent Background Color"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
 msgid "Hide text input labels"
 msgstr ""
 
@@ -160,6 +180,10 @@ msgstr ""
 
 #: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php
 msgid "External url to share"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Original Font Color"
 msgstr ""
 
 #: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
@@ -192,6 +216,30 @@ msgstr ""
 
 #: ./CRM/Appearancemodifier/Form/Petition.php
 msgid "Target number of signers"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "Display Signers Block"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "None"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "Above only the current number"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "Above progressbar"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "Below only the current number"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "Below progressbar"
 msgstr ""
 
 #: ./CRM/Appearancemodifier/Form/Petition.php
@@ -235,6 +283,10 @@ msgid "Background color manipulation."
 msgstr ""
 
 #: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+msgid "Font color manipulation."
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
 msgid "Invert the behaviour of consent fields. (opt-out vs opt in)"
 msgstr ""
 
@@ -272,5 +324,13 @@ msgstr ""
 
 #: ./templates/CRM/Appearancemodifier/Form/Profile.tpl
 msgid "Hide the labels of the text inputs on the profile form. Applied only if the placeholders are added."
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Petition/signersnumber.tpl
+msgid "Already signed by %1 people."
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Petition/signersprogressbar.tpl
+msgid "Already signed by %1 people. Let's make %2 signatures!"
 msgstr ""
 

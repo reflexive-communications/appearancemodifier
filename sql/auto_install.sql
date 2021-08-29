@@ -89,7 +89,8 @@ CREATE TABLE `civicrm_appearancemodifier_petition` (
      `external_share_url` text    COMMENT 'This link will be shared in the custom social box.',
      `add_placeholder` tinyint    COMMENT 'Set the text input label as placeholder text in the input.',
      `hide_form_labels` tinyint    COMMENT 'Hide the form labels and use only the placeholders.',
-     `font_color` text    COMMENT 'The color code of the fonts in #ffffff format.' 
+     `font_color` text    COMMENT 'The color code of the fonts in #ffffff format.',
+     `signers_block_position` text    COMMENT 'The position where the number of petition signers is displayed.' 
 ,
         PRIMARY KEY (`id`)
  

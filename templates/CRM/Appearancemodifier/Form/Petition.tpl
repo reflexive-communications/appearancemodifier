@@ -60,6 +60,7 @@
         <tr>
             <td class="label">{$form.target_number_of_signers.label}</td>
             <td class="content">{$form.target_number_of_signers.html}<br/>
+                <span class="label">{$form.signers_block_position.label}{$form.signers_block_position.html}</span><br/>
                 <span class="description">{ts}The target number of the petition signers.{/ts}</span>
             </td>
         </tr>

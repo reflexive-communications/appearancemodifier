@@ -164,4 +164,15 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
         $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
         self::assertTrue($installer->upgrade_5301());
     }
+
+    /*
+     * It tests the upgrader function.
+     * First it alters the tables to the old version, then executes upgrader;
+     */
+    public function testUpgrader5302()
+    {
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition DROP COLUMN signers_block_position;');
+        $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
+        self::assertTrue($installer->upgrade_5302());
+    }
 }
