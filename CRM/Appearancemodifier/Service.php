@@ -117,7 +117,7 @@ class CRM_Appearancemodifier_Service
             AppearancemodifierProfile::create(false)
                 ->addValue('uf_group_id', $objectId)
                 ->execute();
-        } elseif ($objectName === 'Survey' && $objectRef->activity_type_id === 32) {
+        } elseif ($objectName === 'Survey' && intval($objectRef->activity_type_id, 10) === 32) {
             AppearancemodifierPetition::create(false)
                 ->addValue('survey_id', $objectId)
                 ->execute();
