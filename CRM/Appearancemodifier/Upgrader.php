@@ -137,6 +137,40 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Appearancemodifier_Upgrader_Ba
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN signers_block_position text;');
         return true;
     }
+    /**
+     * It creates the modified profile entry for the missing petitions.
+     * #24
+     * It uses API 3 as the surveys are not available in API 4.
+     */
+    public function upgrade_5303()
+    {
+        $limit = 25;
+        $offset = 0;
+        $currentNumberOfPetitions = civicrm_api3('Survey', 'getcount', ['activity_type_id' => "Petition"]);
+        while ($offset < $currentNumberOfPetitions) {
+            $petitions = civicrm_api3('Survey', 'get', [
+                'sequential' => 1,
+                'activity_type_id' => "Petition",
+                'options' => [
+                    'limit' => $limit,
+                    'offset' => $offset,
+                ],
+            ]);
+            foreach ($petitions['values'] as $petition) {
+                $current = AppearancemodifierPetition::get(false)
+                    ->addWhere('survey_id', '=', $petition['id'])
+                    ->execute();
+                if (count($current) > 0) {
+                    continue;
+                }
+                AppearancemodifierPetition::create(false)
+                    ->addValue('survey_id', $petition['id'])
+                    ->execute();
+            }
+            $offset = $offset + count($petitions['values']);
+        }
+        return true;
+    }
 
     /**
      * Example: Run an external SQL script when the module is installed.

@@ -175,4 +175,37 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
         $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
         self::assertTrue($installer->upgrade_5302());
     }
+
+    /*
+     * It tests the upgrader function.
+     * First it creates a petition, then deletes the entry from the modified profiles.
+     * After the upgrader execution, it has to be there again.
+     */
+    public function testUpgrader5303()
+    {
+        // Petition
+        $petition = civicrm_api3('Survey', 'create', [
+            'sequential' => 1,
+            'title' => "Some title",
+            'activity_type_id' => "Petition",
+        ]);
+        $petition = civicrm_api3('Survey', 'create', [
+            'sequential' => 1,
+            'title' => "Some title",
+            'activity_type_id' => "Petition",
+        ]);
+        // current number of petitions ($petition['result']):
+        $petitions = civicrm_api3('Survey', 'getcount', [
+            'activity_type_id' => "Petition",
+        ]);
+        \Civi\Api4\AppearancemodifierPetition::delete(false)
+            ->addWhere('survey_id', '=', $petition['id'])
+            ->execute();
+        $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
+        self::assertTrue($installer->upgrade_5303());
+        $modifiedPetitions = \Civi\Api4\AppearancemodifierPetition::get(false)
+            ->addSelect('id', 'survey_id')
+            ->execute();
+        self::assertSame(count($modifiedPetitions), $petitions, 'Invalid number of petitions.'.var_export($modifiedPetitions, true).' - '.var_export($petitions, true));
+    }
 }

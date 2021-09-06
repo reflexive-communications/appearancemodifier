@@ -169,3 +169,4 @@ If someone creates a profile, petition or event during the install process, it i
 Log of the changesets since v3.1.2. To be able to see when do we need to execute database updates.
 
 - In v.3.2.0 the display of the petition signers feature has been implemented. The signers block could be displayed on the top or on the bottom position of the petition. It could display the current number of the signers or a progress bar with the current number and the expected number of signers.
+- In v3.2.1 the fix for the skipped modified profile entries has been implemented, an upgrader process is provided for creating the missing entries.

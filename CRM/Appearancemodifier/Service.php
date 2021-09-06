@@ -117,7 +117,7 @@ class CRM_Appearancemodifier_Service
             AppearancemodifierProfile::create(false)
                 ->addValue('uf_group_id', $objectId)
                 ->execute();
-        } elseif ($objectName === 'Survey' && $objectRef->activity_type_id === 32) {
+        } elseif ($objectName === 'Survey' && intval($objectRef->activity_type_id, 10) === 32) {
             AppearancemodifierPetition::create(false)
                 ->addValue('survey_id', $objectId)
                 ->execute();
@@ -325,12 +325,12 @@ class CRM_Appearancemodifier_Service
             ->addWhere('uf_group_id', '=', $ufGroupId)
             ->execute()
             ->first();
+        if ($modifiedProfile['add_placeholder'] !== null) {
+            self::setupPlaceholders($content, $modifiedProfile['hide_form_labels']);
+        }
         if ($modifiedProfile['layout_handler'] !== null) {
             $handler = new $modifiedProfile['layout_handler']('CRM_Profile_Form_Edit');
             $handler->alterContent($content);
-        }
-        if ($modifiedProfile['add_placeholder'] !== null) {
-            self::setupPlaceholders($content, $modifiedProfile['hide_form_labels']);
         }
     }
 
@@ -364,10 +364,6 @@ class CRM_Appearancemodifier_Service
             ->addWhere('survey_id', '=', $id)
             ->execute()
             ->first();
-        if ($modifiedPetition['layout_handler'] !== null) {
-            $handler = new $modifiedPetition['layout_handler']($object->getVar('_name'));
-            $handler->alterContent($content);
-        }
         // If the petition message is set, add it to the relevant field.
         if ($modifiedPetition['petition_message'] !== null) {
             $doc = phpQuery::newDocument($content);
@@ -386,6 +382,10 @@ class CRM_Appearancemodifier_Service
         }
         if ($modifiedPetition['add_placeholder'] !== null) {
             self::setupPlaceholders($content, $modifiedPetition['hide_form_labels']);
+        }
+        if ($modifiedPetition['layout_handler'] !== null) {
+            $handler = new $modifiedPetition['layout_handler']($object->getVar('_name'));
+            $handler->alterContent($content);
         }
     }
 
@@ -415,10 +415,6 @@ class CRM_Appearancemodifier_Service
             ->addWhere('event_id', '=', $id)
             ->execute()
             ->first();
-        if ($modifiedEvent['layout_handler'] !== null) {
-            $handler = new $modifiedEvent['layout_handler']($object->getVar('_name'));
-            $handler->alterContent($content);
-        }
         // Handle the social block.
         if ($modifiedEvent['custom_social_box'] !== null) {
             $title = Event::get(false)
@@ -430,6 +426,10 @@ class CRM_Appearancemodifier_Service
         }
         if ($modifiedEvent['add_placeholder'] !== null) {
             self::setupPlaceholders($content, $modifiedEvent['hide_form_labels']);
+        }
+        if ($modifiedEvent['layout_handler'] !== null) {
+            $handler = new $modifiedEvent['layout_handler']($object->getVar('_name'));
+            $handler->alterContent($content);
         }
     }
 

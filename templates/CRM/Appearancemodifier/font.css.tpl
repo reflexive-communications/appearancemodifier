@@ -8,6 +8,8 @@
 .adminimal-theme #branding h1.page-title,
 /* overwrite the color of the custom field checkboxes */
 .crm-container td.labels label,
+/* The pre help message is overwritten on d7 + adminimal */
+div.crm-section div.content.description,
 /* The font color of the textareas has to be also updated */
 .crm-container textarea.crm-form-textarea,
 .crm-container input.crm-form-text {
