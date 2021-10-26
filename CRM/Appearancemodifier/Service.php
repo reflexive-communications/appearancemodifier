@@ -6,6 +6,7 @@ use Civi\Api4\AppearancemodifierPetition;
 use Civi\Api4\AppearancemodifierEvent;
 use Civi\Api4\UFGroup;
 use Civi\Api4\Event;
+use Civi\Api4\Contact;
 
 class CRM_Appearancemodifier_Service
 {
@@ -269,8 +270,15 @@ class CRM_Appearancemodifier_Service
             $parameters = $form->getVar('_params');
             break;
         }
-        if (array_key_exists('invert_consent_fields', $rules) && $rules['invert_consent_fields'] !== null) {
-            self::updateConsents($id, $parameters);
+        if (array_key_exists('consent_field_behaviour', $rules) && $rules['consent_field_behaviour'] !== null) {
+            // on case of invert, is used, use the flow that was provided for the invert_consent_fields.
+            // on case of apply on submit, the implied consent flow is used.
+            // on case of default value the original process is kept.
+            if ($rules['consent_field_behaviour'] === 'invert') {
+                self::updateConsents($id, $parameters);
+            } elseif ($rules['consent_field_behaviour'] === 'apply_on_submit') {
+                self::impliedConsentForContact($id);
+            }
         }
     }
 
@@ -303,6 +311,34 @@ class CRM_Appearancemodifier_Service
         foreach (self::CONSENT_FIELDS as $field) {
             if (array_key_exists($field, $submitValues)) {
                 $contactData[$field] = $submitValues[$field] == '' ? '1' : '';
+            }
+        }
+        // update only if the we have something contact related change.
+        if (count($contactData) > 0) {
+            CRM_RcBase_Api_Update::contact($contactId, $contactData, false);
+        }
+    }
+
+    /*
+     * This function sets the consent fields of the contact to consent is given state.
+     * First it gathers the current values of the do_not_phone and is_opt_out privacy
+     * fields.
+     * It updates the values only if necessary, so civirules could be based of the
+     * change event of this value.
+     *
+     * @param int $contactId
+     */
+    private static function impliedConsentForContact(int $contactId): void
+    {
+        $contact = Contact::get(false)
+            ->addSelect('is_opt_out', 'do_not_phone')
+            ->addWhere('id', '=', $contactId)
+            ->execute()
+            ->first();
+        $contactData = [];
+        foreach (['is_opt_out', 'do_not_phone'] as $field) {
+            if ($contact[$field]) {
+                $contactData[$field] = '';
             }
         }
         // update only if the we have something contact related change.
