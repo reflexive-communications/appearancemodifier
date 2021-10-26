@@ -145,6 +145,26 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
         self::assertNull($defaults['background_color']);
         self::assertSame(1, $defaults['original_font_color']);
     }
+    public function testSetDefaultValuesConsentFieldBehaviour()
+    {
+        $event = \Civi\Api4\Event::create(false)
+            ->addValue('title', 'Test event title')
+            ->addValue('event_type_id', 4)
+            ->addValue('start_date', '2022-01-01')
+            ->execute()
+            ->first();
+        \Civi\Api4\AppearancemodifierEvent::update(false)
+            ->addWhere('event_id', '=', $event['id'])
+            ->addValue('background_color', 'transparent')
+            ->execute();
+        $_REQUEST['eid'] = $event['id'];
+        $_GET['eid'] = $event['id'];
+        $_POST['eid'] = $event['id'];
+        $form = new CRM_Appearancemodifier_Form_Event();
+        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        $defaults = $form->setDefaultValues();
+        self::assertSame('default', $defaults['consent_field_behaviour']);
+    }
 
     /*
      * It tests the buildQuickForm function.
@@ -233,6 +253,7 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
         self::assertSame('#ffffff', $modifiedEvent['background_color']);
         self::assertSame('my.updated.link.com', $modifiedEvent['external_share_url']);
         self::assertSame('#000000', $modifiedEvent['font_color']);
+        self::assertSame('default', $modifiedEvent['consent_field_behaviour']);
     }
     public function testPostProcessTransparentBackground()
     {
