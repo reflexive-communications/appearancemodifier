@@ -145,6 +145,26 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
         self::assertNull($defaults['background_color']);
         self::assertSame(1, $defaults['original_font_color']);
     }
+    public function testSetDefaultValuesConsentFieldBehaviour()
+    {
+        $petition = civicrm_api3('Survey', 'create', [
+            'sequential' => 1,
+            'title' => "Some title",
+            'activity_type_id' => "Petition",
+        ]);
+        $petition = $petition['values'][0];
+        \Civi\Api4\AppearancemodifierPetition::update(false)
+            ->addWhere('survey_id', '=', $petition['id'])
+            ->addValue('background_color', 'transparent')
+            ->execute();
+        $form = new CRM_Appearancemodifier_Form_Petition();
+        $_REQUEST['pid'] = $petition['id'];
+        $_GET['pid'] = $petition['id'];
+        $_POST['pid'] = $petition['id'];
+        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        $defaults = $form->setDefaultValues();
+        self::assertSame('default', $defaults['consent_field_behaviour']);
+    }
 
     /*
      * It tests the buildQuickForm function.
@@ -245,6 +265,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
         self::assertSame('#ffffff', $modifiedPetition['background_color']);
         self::assertSame('My default additional note text', $modifiedPetition['additional_note']);
         self::assertSame('#000000', $modifiedPetition['font_color']);
+        self::assertSame('default', $modifiedPetition['consent_field_behaviour']);
     }
     public function testPostProcessTransparentBackground()
     {
