@@ -216,7 +216,7 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
     public function testUpgrader5304()
     {
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile DROP COLUMN consent_field_behaviour;');
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile DROP COLUMN consent_field_behaviour;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition DROP COLUMN consent_field_behaviour;');
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_event DROP COLUMN consent_field_behaviour;');
         $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
         self::assertTrue($installer->upgrade_5304());
@@ -238,13 +238,13 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
             ->addValue('consent_field_behaviour', 'wathever')
             ->execute();
         $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
-        self::assertTrue($installer->upgradeExistingProfilesForBehaviour(25));
+        self::assertTrue($installer->upgradeExistingProfilesForBehaviour(0));
         $modifiedProfile = \Civi\Api4\AppearancemodifierProfile::get(false)
             ->addWhere('uf_group_id', '=', $profile['id'])
             ->setLimit(1)
             ->execute()
             ->first();
-        self::assertTrue('invert', $modifiedProfile['consent_field_behaviour']);
+        self::assertSame('invert', $modifiedProfile['consent_field_behaviour']);
     }
     /*
      * It tests the upgrader function - petition.
@@ -263,13 +263,13 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
             ->addValue('consent_field_behaviour', 'wathever')
             ->execute();
         $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
-        self::assertTrue($installer->upgradeExistingPetitionsForBehaviour(25));
+        self::assertTrue($installer->upgradeExistingPetitionsForBehaviour(0));
         $modifiedPetition = \Civi\Api4\AppearancemodifierPetition::get(false)
             ->addWhere('survey_id', '=', $petition['id'])
             ->setLimit(1)
             ->execute()
             ->first();
-        self::assertTrue('invert', $modifiedPetition['consent_field_behaviour']);
+        self::assertSame('invert', $modifiedPetition['consent_field_behaviour']);
     }
     /*
      * It tests the upgrader function - event.
@@ -289,12 +289,12 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
             ->addValue('consent_field_behaviour', 'wathever')
             ->execute();
         $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
-        self::assertTrue($installer->upgradeExistingEventsForBehaviour(25));
+        self::assertTrue($installer->upgradeExistingEventsForBehaviour(0));
         $modifiedEvent = \Civi\Api4\AppearancemodifierEvent::get(false)
             ->addWhere('event_id', '=', $event['id'])
             ->setLimit(1)
             ->execute()
             ->first();
-        self::assertTrue('invert', $modifiedEvent['consent_field_behaviour']);
+        self::assertSame('invert', $modifiedEvent['consent_field_behaviour']);
     }
 }
