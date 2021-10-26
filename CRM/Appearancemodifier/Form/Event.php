@@ -93,7 +93,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Core_Form
         $this->addRadio('preset_handler', E::ts('Presets'), array_merge([''=>E::ts('Custom')], $layoutOptions['presets']), [], null, false);
         $this->add('select', 'layout_handler', E::ts('Form Layout'), array_merge([''=>E::ts('Default')], $layoutOptions['handlers']), false);
         $this->add('color', 'background_color', E::ts('Background Color'), [], false);
-        $this->add('radio', 'consent_field_behaviour', E::ts('Manage Consent Behaviour'), ['default' => E::ts('Default'), 'invert' => E::ts('Invert'), 'apply_on_submit' => E::ts('Submit Implied')], false);
+        $this->addRadio('consent_field_behaviour', E::ts('Manage Consent Behaviour'), ['default' => E::ts('Default'), 'invert' => E::ts('Invert'), 'apply_on_submit' => E::ts('Submit Implied')], [], null, false);
         $this->add('checkbox', 'original_color', E::ts('Original Background Color'), [], false);
         $this->add('checkbox', 'transparent_background', E::ts('Transparent Background Color'), [], false);
         $this->add('checkbox', 'hide_form_labels', E::ts('Hide text input labels'), [], false);

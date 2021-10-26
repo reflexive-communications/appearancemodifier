@@ -93,7 +93,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
         $this->add('select', 'layout_handler', E::ts('Form Layout'), array_merge([''=>E::ts('Default')], $layoutOptions['handlers']), false);
         $this->add('color', 'background_color', E::ts('Background Color'), [], false);
         $this->add('wysiwyg', 'additional_note', E::ts('Additional Note Text'), [], false);
-        $this->add('radio', 'consent_field_behaviour', E::ts('Manage Consent Behaviour'), ['default' => E::ts('Default'), 'invert' => E::ts('Invert'), 'apply_on_submit' => E::ts('Submit Implied')], false);
+        $this->addRadio('consent_field_behaviour', E::ts('Manage Consent Behaviour'), ['default' => E::ts('Default'), 'invert' => E::ts('Invert'), 'apply_on_submit' => E::ts('Submit Implied')], [], null, false);
         $this->add('checkbox', 'original_color', E::ts('Original Background Color'), [], false);
         $this->add('checkbox', 'transparent_background', E::ts('Transparent Background Color'), [], false);
         $this->add('checkbox', 'add_placeholder', E::ts('Add placeholders'), [], false);
