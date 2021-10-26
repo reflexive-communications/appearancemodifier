@@ -208,4 +208,93 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
             ->execute();
         self::assertSame(count($modifiedPetitions), $petitions, 'Invalid number of petitions.'.var_export($modifiedPetitions, true).' - '.var_export($petitions, true));
     }
+
+    /*
+     * It tests the upgrader function.
+     * First it alters the tables to the old version, then executes upgrader;
+     */
+    public function testUpgrader5304()
+    {
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile DROP COLUMN consent_field_behaviour;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile DROP COLUMN consent_field_behaviour;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_event DROP COLUMN consent_field_behaviour;');
+        $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
+        self::assertTrue($installer->upgrade_5304());
+    }
+    /*
+     * It tests the upgrader function - profile.
+     */
+    public function testUpgrader5304ProfileData()
+    {
+        // Profile
+        $profile = \Civi\Api4\UFGroup::create(false)
+            ->addValue('title', 'Test UFGroup aka Profile')
+            ->addValue('is_active', true)
+            ->execute()
+            ->first();
+        \Civi\Api4\AppearancemodifierProfile::update(false)
+            ->addWhere('uf_group_id', '=', $profile['id'])
+            ->addValue('invert_consent_fields', true)
+            ->addValue('consent_field_behaviour', 'wathever')
+            ->execute();
+        $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
+        self::assertTrue($installer->upgradeExistingProfilesForBehaviour(25));
+        $modifiedProfile = \Civi\Api4\AppearancemodifierProfile::get(false)
+            ->addWhere('uf_group_id', '=', $profile['id'])
+            ->setLimit(1)
+            ->execute()
+            ->first();
+        self::assertTrue('invert', $modifiedProfile['consent_field_behaviour']);
+    }
+    /*
+     * It tests the upgrader function - petition.
+     */
+    public function testUpgrader5304PetitionData()
+    {
+        // Petition
+        $petition = civicrm_api3('Survey', 'create', [
+            'sequential' => 1,
+            'title' => "Some title",
+            'activity_type_id' => "Petition",
+        ]);
+        \Civi\Api4\AppearancemodifierPetition::update(false)
+            ->addWhere('survey_id', '=', $petition['id'])
+            ->addValue('invert_consent_fields', true)
+            ->addValue('consent_field_behaviour', 'wathever')
+            ->execute();
+        $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
+        self::assertTrue($installer->upgradeExistingPetitionsForBehaviour(25));
+        $modifiedPetition = \Civi\Api4\AppearancemodifierPetition::get(false)
+            ->addWhere('survey_id', '=', $petition['id'])
+            ->setLimit(1)
+            ->execute()
+            ->first();
+        self::assertTrue('invert', $modifiedPetition['consent_field_behaviour']);
+    }
+    /*
+     * It tests the upgrader function - event.
+     */
+    public function testUpgrader5304EventData()
+    {
+        // Event
+        $event = \Civi\Api4\Event::create(false)
+            ->addValue('title', 'Test event title')
+            ->addValue('event_type_id', 4)
+            ->addValue('start_date', '2022-01-01')
+            ->execute()
+            ->first();
+        \Civi\Api4\AppearancemodifierEvent::update(false)
+            ->addWhere('event_id', '=', $event['id'])
+            ->addValue('invert_consent_fields', true)
+            ->addValue('consent_field_behaviour', 'wathever')
+            ->execute();
+        $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
+        self::assertTrue($installer->upgradeExistingEventsForBehaviour(25));
+        $modifiedEvent = \Civi\Api4\AppearancemodifierEvent::get(false)
+            ->addWhere('event_id', '=', $event['id'])
+            ->setLimit(1)
+            ->execute()
+            ->first();
+        self::assertTrue('invert', $modifiedEvent['consent_field_behaviour']);
+    }
 }
