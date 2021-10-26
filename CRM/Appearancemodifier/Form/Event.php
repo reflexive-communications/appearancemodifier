@@ -14,7 +14,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Core_Form
     private const EVENT_FIELDS = [
         'layout_handler',
         'background_color',
-        'invert_consent_fields',
+        'consent_field_behaviour',
         'custom_social_box',
         'external_share_url',
         'hide_form_labels',
@@ -65,6 +65,11 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Core_Form
         if ($modifiedEvent['font_color'] == null) {
             $this->_defaults['original_font_color'] = 1;
         }
+        // consent field behaviour. on case of null,
+        // set it based on the consent invert field.
+        if ($modifiedEvent['consent_field_behaviour'] == null) {
+            $this->_defaults['consent_field_behaviour'] = $modifiedEvent['invert_consent_fields'] == null ? 'default' : 'invert' ;
+        }
         $this->_defaults['preset_handler'] = '';
         return $this->_defaults;
     }
@@ -88,7 +93,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Core_Form
         $this->addRadio('preset_handler', E::ts('Presets'), array_merge([''=>E::ts('Custom')], $layoutOptions['presets']), [], null, false);
         $this->add('select', 'layout_handler', E::ts('Form Layout'), array_merge([''=>E::ts('Default')], $layoutOptions['handlers']), false);
         $this->add('color', 'background_color', E::ts('Background Color'), [], false);
-        $this->add('checkbox', 'invert_consent_fields', E::ts('Invert Consent Fields'), [], false);
+        $this->add('radio', 'consent_field_behaviour', E::ts('Manage Consent Behaviour'), ['default' => E::ts('Default'), 'invert' => E::ts('Invert'), 'apply_on_submit' => E::ts('Submit Implied')], false);
         $this->add('checkbox', 'original_color', E::ts('Original Background Color'), [], false);
         $this->add('checkbox', 'transparent_background', E::ts('Transparent Background Color'), [], false);
         $this->add('checkbox', 'hide_form_labels', E::ts('Hide text input labels'), [], false);
@@ -133,7 +138,12 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Core_Form
             $submitData['font_color'] = '';
         }
         if ($this->_submitValues['preset_handler'] !== '') {
-            $this->saveCustomEvent($this->_submitValues['preset_handler']::getPresets());
+            // Handle the invert_consent_field key from the old presets.
+            $presets = $this->_submitValues['preset_handler']::getPresets();
+            if (!array_key_exists('consent_field_behaviour', $presets)) {
+                $preset['consent_field_behaviour'] = (array_key_exists('invert_consent_fields', $presets) && !empty($presets['invert_consent_fields'])) ? 'invert' : 'default';
+            }
+            $this->saveCustomEvent($preset);
         } else {
             $this->saveCustomEvent($submitData);
         }
