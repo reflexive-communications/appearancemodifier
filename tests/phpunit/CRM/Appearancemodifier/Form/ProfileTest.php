@@ -137,6 +137,25 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
         self::assertNull($defaults['background_color']);
         self::assertSame(1, $defaults['original_font_color']);
     }
+    public function testSetDefaultValuesConsentFieldBehaviour()
+    {
+        $profile = \Civi\Api4\UFGroup::create(false)
+            ->addValue('title', 'Test UFGroup aka Profile')
+            ->addValue('is_active', true)
+            ->execute()
+            ->first();
+        \Civi\Api4\AppearancemodifierProfile::update(false)
+            ->addWhere('uf_group_id', '=', $profile['id'])
+            ->addValue('background_color', 'transparent')
+            ->execute();
+        $_REQUEST['pid'] = $profile['id'];
+        $_GET['pid'] = $profile['id'];
+        $_POST['pid'] = $profile['id'];
+        $form = new CRM_Appearancemodifier_Form_Profile();
+        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        $defaults = $form->setDefaultValues();
+        self::assertSame('default', $defaults['consent_field_behaviour']);
+    }
 
     /*
      * It tests the buildQuickForm function.
@@ -220,6 +239,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
         self::assertSame('#ffffff', $modifiedProfile['background_color']);
         self::assertSame('My default additional note text', $modifiedProfile['additional_note']);
         self::assertSame('#000000', $modifiedProfile['font_color']);
+        self::assertSame('default', $modifiedProfile['consent_field_behaviour']);
     }
     public function testPostProcessTransparentBackground()
     {
