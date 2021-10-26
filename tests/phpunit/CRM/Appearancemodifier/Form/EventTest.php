@@ -205,7 +205,7 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
         $_POST['layout_handler'] = '';
         $_POST['background_color'] = '#ffffff';
         $_POST['font_color'] = '#ffffff';
-        $_POST['invert_consent_fields'] = '';
+        $_POST['consent_field_behaviour'] = 'default';
         $_POST['custom_social_box'] = '';
         $_POST['external_share_url'] = 'my.link.com';
         $_POST['hide_form_labels'] = '';
@@ -237,7 +237,7 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
 
         $_POST['layout_handler'] = '';
         $_POST['background_color'] = '#ffffff';
-        $_POST['invert_consent_fields'] = '';
+        $_POST['consent_field_behaviour'] = 'default';
         $_POST['custom_social_box'] = '';
         $_POST['external_share_url'] = 'my.link.com';
         $_POST['hide_form_labels'] = '';
@@ -271,7 +271,7 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
 
         $_POST['layout_handler'] = '';
         $_POST['background_color'] = '#ffffff';
-        $_POST['invert_consent_fields'] = '';
+        $_POST['consent_field_behaviour'] = 'default';
         $_POST['custom_social_box'] = '';
         $_POST['external_share_url'] = 'my.link.com';
         $_POST['hide_form_labels'] = '';

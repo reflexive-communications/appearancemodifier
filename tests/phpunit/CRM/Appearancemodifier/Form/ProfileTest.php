@@ -195,7 +195,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
         $_POST['background_color'] = '#ffffff';
         $_POST['font_color'] = '#ffffff';
         $_POST['additional_note'] = 'My new additional note text';
-        $_POST['invert_consent_fields'] = '';
+        $_POST['consent_field_behaviour'] = 'default';
         $_POST['hide_form_labels'] = '';
         $_POST['add_placeholder'] = '';
         $_POST['preset_handler'] = '';
@@ -225,7 +225,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
         $_POST['layout_handler'] = '';
         $_POST['background_color'] = '#ffffff';
         $_POST['additional_note'] = 'My new additional note text';
-        $_POST['invert_consent_fields'] = '';
+        $_POST['consent_field_behaviour'] = 'default';
         $_POST['hide_form_labels'] = '';
         $_POST['add_placeholder'] = '';
         $_POST['preset_handler'] = 'DummyProfilePresetProviderClass';
@@ -257,7 +257,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends \PHPUnit\Framework\TestCas
         $_POST['layout_handler'] = '';
         $_POST['background_color'] = '#ffffff';
         $_POST['additional_note'] = 'My new additional note text';
-        $_POST['invert_consent_fields'] = '';
+        $_POST['consent_field_behaviour'] = 'default';
         $_POST['hide_form_labels'] = '';
         $_POST['add_placeholder'] = '';
         $_POST['preset_handler'] = '';
