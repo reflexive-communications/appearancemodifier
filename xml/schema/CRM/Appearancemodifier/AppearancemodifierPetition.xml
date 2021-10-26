@@ -95,6 +95,7 @@
   <field>
     <name>consent_field_behaviour</name>
     <type>text</type>
+    <default>default</default>
     <comment>This field describes the behaviour of the consent logic.</comment>
     <add>3.3</add>
   </field>
