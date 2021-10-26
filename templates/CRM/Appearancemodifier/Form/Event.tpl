@@ -28,9 +28,9 @@
             </td>
         </tr>
         <tr>
-            <td class="label">{$form.invert_consent_fields.label}</td>
-            <td class="content">{$form.invert_consent_fields.html}<br/>
-                <span class="description">{ts}Invert the behaviour of consent fields. (opt-out vs opt in){/ts}</span>
+            <td class="label">{$form.consent_field_behaviour.label}</td>
+            <td class="content">{$form.consent_field_behaviour.html}<br/>
+                <span class="description">{ts}Set the behaviour of consent fields. (opt-out vs opt in vs implied){/ts}</span>
             </td>
         </tr>
         <tr>
