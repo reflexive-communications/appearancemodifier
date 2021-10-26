@@ -148,9 +148,9 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
             // Handle the invert_consent_field key from the old presets.
             $presets = $this->_submitValues['preset_handler']::getPresets();
             if (!array_key_exists('consent_field_behaviour', $presets)) {
-                $preset['consent_field_behaviour'] = (array_key_exists('invert_consent_fields', $presets) && !empty($presets['invert_consent_fields'])) ? 'invert' : 'default';
+                $presets['consent_field_behaviour'] = (array_key_exists('invert_consent_fields', $presets) && !empty($presets['invert_consent_fields'])) ? 'invert' : 'default';
             }
-            $this->saveCustomPetition($preset);
+            $this->saveCustomPetition($presets);
         } else {
             $this->saveCustomPetition($submitData);
         }
