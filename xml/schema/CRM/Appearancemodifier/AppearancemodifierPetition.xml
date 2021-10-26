@@ -92,5 +92,11 @@
     <comment>The position where the number of petition signers is displayed.</comment>
     <add>3.2</add>
   </field>
+  <field>
+    <name>consent_field_behaviour</name>
+    <type>text</type>
+    <comment>This field describes the behaviour of the consent logic.</comment>
+    <add>3.3</add>
+  </field>
 
 </table>
