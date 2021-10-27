@@ -218,7 +218,32 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile DROP COLUMN consent_field_behaviour;');
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition DROP COLUMN consent_field_behaviour;');
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_event DROP COLUMN consent_field_behaviour;');
+        // Profile
+        $profile = \Civi\Api4\UFGroup::create(false)
+            ->addValue('title', 'Test UFGroup aka Profile')
+            ->addValue('is_active', true)
+            ->execute()
+            ->first();
+        // Petition
+        $petition = civicrm_api3('Survey', 'create', [
+            'sequential' => 1,
+            'title' => "Some title",
+            'activity_type_id' => "Petition",
+        ]);
+        // Event
+        $event = \Civi\Api4\Event::create(false)
+            ->addValue('title', 'Test event title')
+            ->addValue('event_type_id', 4)
+            ->addValue('start_date', '2022-01-01')
+            ->execute()
+            ->first();
         $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
+        // Undefined property: CRM_Appearancemodifier_Upgrader::$queue
+        $installer->queue = CRM_Queue_Service::singleton()->create([
+            'type'  => 'Sql',
+            'name'  => 'my-own-queue',
+            'reset' => true,
+        ]);
         self::assertTrue($installer->upgrade_5304());
     }
     /*
