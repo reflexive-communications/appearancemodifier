@@ -243,6 +243,7 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
         $_POST['hide_form_labels'] = '';
         $_POST['add_placeholder'] = '';
         $_POST['preset_handler'] = 'DummyEventPresetProviderClass';
+        $_POST['consent_field_behaviour'] = 'default';
         $form = new CRM_Appearancemodifier_Form_Event();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');

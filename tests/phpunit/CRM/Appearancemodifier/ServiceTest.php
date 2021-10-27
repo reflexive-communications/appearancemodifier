@@ -411,7 +411,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->execute()
             ->first();
         self::assertFalse($updatedContact['is_opt_out']);
-        self::assertFalse($updatedContact['do_not_phone']);
+        self::assertNull($updatedContact['do_not_phone']);
     }
     public function testPostProcessChangesTheConsentFieldsPetitionInvert()
     {
@@ -503,7 +503,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->execute()
             ->first();
         self::assertFalse($updatedContact['is_opt_out']);
-        self::assertFalse($updatedContact['do_not_phone']);
+        self::assertNull($updatedContact['do_not_phone']);
     }
     public function testPostProcessChangesTheConsentFieldsEventInvert()
     {
@@ -582,8 +582,8 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->execute();
         $contact = Contact::create(false)
             ->addValue('contact_type', 'Individual')
-            ->addValue('is_opt_out', false)
-            ->addValue('do_not_phone', false)
+            ->addValue('is_opt_out', true)
+            ->addValue('do_not_phone', true)
             ->execute()
             ->first();
         $form->setVar('_values', ['participant' => ['contact_id' => $contact['id']]]);
@@ -595,7 +595,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->execute()
             ->first();
         self::assertFalse($updatedContact['is_opt_out']);
-        self::assertFalse($updatedContact['do_not_phone']);
+        self::assertNull($updatedContact['do_not_phone']);
     }
 
     /**
