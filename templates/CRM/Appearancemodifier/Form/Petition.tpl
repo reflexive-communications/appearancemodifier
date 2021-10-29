@@ -76,6 +76,12 @@
                 <span class="description">{ts}The external url that will be shared from the custom social box.{/ts}</span>
             </td>
         </tr>
+{foreach from=$consentActivityFieldNames item=FieldName}
+        <tr>
+            <td class="label">{$form.$FieldName.label}</td>
+            <td class="content">{$form.$FieldName.html}</td>
+        </tr>
+{/foreach}
     </table>
     <div class="crm-submit-buttons">
         {include file="CRM/common/formButtons.tpl" location="bottom"}

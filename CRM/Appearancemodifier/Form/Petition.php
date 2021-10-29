@@ -26,6 +26,10 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
     ];
     // The petition, for display some stuff about it on the frontend.
     private $petition;
+    // The modified petition
+    private $modifiedPetition;
+    // consentactivity related configurations
+    private $consentFieldNames;
 
     /**
      * Preprocess form
@@ -41,6 +45,15 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
         if ($this->petition === []) {
             throw new CRM_Core_Exception(E::ts('The selected petition seems to be deleted. Id: %1', [1=>$petitionId]));
         }
+        $this->modifiedPetition = AppearancemodifierPetition::get()
+            ->addWhere('survey_id', '=', $this->petition['id'])
+            ->setLimit(1)
+            ->execute()
+            ->first();
+        $manager = CRM_Extension_System::singleton()->getManager();
+        if ($manager->getStatus('consentactivity') === CRM_Extension_Manager::STATUS_INSTALLED) {
+            $this->consentActivityCustomFields();
+        }
     }
 
     /**
@@ -50,30 +63,33 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
      */
     public function setDefaultValues()
     {
-        $modifiedPetition = AppearancemodifierPetition::get()
-            ->addWhere('survey_id', '=', $this->petition['id'])
-            ->setLimit(1)
-            ->execute()
-            ->first();
         // Set defaults
         foreach (self::PETITION_FIELDS as $key) {
-            $this->_defaults[$key] = $modifiedPetition[$key];
+            $this->_defaults[$key] = $this->modifiedPetition[$key];
         }
-        if ($modifiedPetition['background_color'] == null) {
+        if ($this->modifiedPetition['background_color'] == null) {
             $this->_defaults['original_color'] = 1;
-        } elseif ($modifiedPetition['background_color'] === 'transparent') {
+        } elseif ($this->modifiedPetition['background_color'] === 'transparent') {
             $this->_defaults['transparent_background'] = 1;
             $this->_defaults['background_color'] = null;
         }
-        if ($modifiedPetition['font_color'] == null) {
+        if ($this->modifiedPetition['font_color'] == null) {
             $this->_defaults['original_font_color'] = 1;
         }
         // consent field behaviour. on case of null,
         // set it based on the consent invert field.
-        if ($modifiedPetition['consent_field_behaviour'] == null) {
-            $this->_defaults['consent_field_behaviour'] = $modifiedPetition['invert_consent_fields'] == null ? 'default' : 'invert' ;
+        if ($this->modifiedPetition['consent_field_behaviour'] == null) {
+            $this->_defaults['consent_field_behaviour'] = $this->modifiedPetition['invert_consent_fields'] == null ? 'default' : 'invert' ;
         }
         $this->_defaults['preset_handler'] = '';
+        // defaults for the consentactivity extension related config.
+        if (count($this->consentFieldNames) > 0 && $this->modifiedPetition['custom_settings'] !== null && isset($this->modifiedPetition['custom_settings']['consentactivity'])) {
+            foreach ($this->consentFieldNames as $field) {
+                if (isset($this->modifiedPetition['custom_settings']['consentactivity'][$field])) {
+                    $this->_defaults['consentactivity_'.$field] = $this->modifiedPetition['custom_settings']['consentactivity'][$field];
+                }
+            }
+        }
         return $this->_defaults;
     }
 
@@ -109,6 +125,17 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
         $this->add('color', 'font_color', E::ts('Font Color'), [], false);
         $this->add('checkbox', 'original_font_color', E::ts('Original Font Color'), [], false);
         $this->add('select', 'signers_block_position', E::ts('Display Signers Block'), [''=>E::ts('None'), 'top_number' => E::ts('Above only the current number'), 'top_progress' => E::ts('Above progressbar'), 'bottom_number' => E::ts('Below only the current number'), 'bottom_progress' => E::ts('Below progressbar')], false);
+        // If the consentactivity extension is installed, the custom consent field -> activity mapping has to be provided
+        // defaults for the consentactivity extension related config.
+        if (count($this->consentFieldNames) > 0) {
+            $consentActivityFieldNames = [];
+            $labels = CRM_Consentactivity_Service::customCheckboxFields();
+            foreach ($this->consentFieldNames as $field) {
+                $this->add('select', 'consentactivity_'.$field, E::ts('Activity for %1', [ 1 => $labels[$field]]), [''=>E::ts('No Activity')] + CRM_Activity_BAO_Activity::buildOptions('activity_type_id', 'get'), false);
+                $consentActivityFieldNames[] = 'consentactivity_'.$field;
+            }
+            $this->assign('consentActivityFieldNames', $consentActivityFieldNames);
+        }
         // Submit button
         $this->addButtons(
             [
@@ -132,7 +159,9 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
      */
     public function postProcess()
     {
-        $submitData = [];
+        $submitData = [
+            'custom_settings' => $this->modifiedPetition['custom_settings'],
+        ];
         foreach (self::PETITION_FIELDS as $key) {
             $submitData[$key] = $this->_submitValues[$key];
         }
@@ -144,11 +173,21 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
         if ($this->_submitValues['original_font_color'] === '1') {
             $submitData['font_color'] = '';
         }
+        // consentactivity fields has to be set here.
+        if (count($this->consentFieldNames) > 0) {
+            $submitData['custom_settings']['consentactivity'] = [];
+            foreach ($this->consentFieldNames as $field) {
+                $submitData['custom_settings']['consentactivity'][$field] = $this->_submitValues['consentactivity_'.$field];
+            }
+        }
         if ($this->_submitValues['preset_handler'] !== '') {
             // Handle the invert_consent_field key from the old presets.
             $presets = $this->_submitValues['preset_handler']::getPresets();
             if (!array_key_exists('consent_field_behaviour', $presets)) {
                 $presets['consent_field_behaviour'] = (array_key_exists('invert_consent_fields', $presets) && !empty($presets['invert_consent_fields'])) ? 'invert' : 'default';
+            }
+            if (!array_key_exists('custom_settings', $presets)) {
+                $presets['custom_settings'] = [];
             }
             $this->saveCustomPetition($presets);
         } else {
@@ -172,6 +211,9 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
         foreach (self::PETITION_FIELDS as $key) {
             $modifiedPetition = $modifiedPetition->addValue($key, $data[$key]);
         }
+        if (array_key_exists('custom_settings', $data)) {
+            $modifiedPetition = $modifiedPetition->addValue('custom_settings', $data['custom_settings']);
+        }
         $modifiedPetition = $modifiedPetition->execute();
     }
 
@@ -193,5 +235,49 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Core_Form
             return [];
         }
         return $petition['values'][0];
+    }
+
+    /*
+     * This function gathers the consent custom fields that
+     * are present in this petition form.
+     */
+    private function consentActivityCustomFields(): void
+    {
+        // gather the custom fields from the service.
+        $consentActivityConfig = new CRM_Consentactivity_Config('consentactivity');
+        $consentActivityConfig->load();
+        $config = $consentActivityConfig->get();
+        if (array_key_exists('custom-field-map', $config)) {
+            $map = $config['custom-field-map'];
+            $labels = CRM_Consentactivity_Service::customCheckboxFields();
+            $uFJoins = \Civi\Api4\UFJoin::get()
+                ->addSelect('uf_group_id')
+                ->addWhere('module', '=', 'CiviCampaign')
+                ->addWhere('entity_table', '=', 'civicrm_survey')
+                ->addWhere('entity_id', '=', $this->petition['id'])
+                ->setLimit(2)
+                ->execute();
+            $profileIds = [];
+            foreach ($uFJoins as $profile) {
+                $profileIds[] = $profile['uf_group_id'];
+            }
+            foreach ($map as $rule) {
+                // If the current rule field is missing from the profile, continue
+                $ufFields = \Civi\Api4\UFField::get()
+                    ->addWhere('uf_group_id', 'IN', $profileIds)
+                    ->addWhere('field_name', '=', $rule['custom-field-id'])
+                    ->setLimit(1)
+                    ->execute()
+                    ->first();
+                if (is_null($ufFields)) {
+                    continue;
+                }
+                // add select of activities with a meaningful label that
+                // contains the label as it used in the custom checkbox
+                // field select.
+                $this->add('select', 'consentactivity_'.$rule['custom-field-id'], E::ts('Activity for %1', [ 1 => $labels[$rule['custom-field-id']]]), [''=>E::ts('No Activity')] + CRM_Activity_BAO_Activity::buildOptions('activity_type_id', 'get'), false);
+                $this->consentFieldNames[] = $rule['custom-field-id'];
+            }
+        }
     }
 }
