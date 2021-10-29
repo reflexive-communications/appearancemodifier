@@ -170,4 +170,4 @@ Log of the changesets since v3.1.2. To be able to see when do we need to execute
 
 - In v.3.2.0 the display of the petition signers feature has been implemented. The signers block could be displayed on the top or on the bottom position of the petition. It could display the current number of the signers or a progress bar with the current number and the expected number of signers.
 - In v3.2.1 the fix for the skipped modified profile entries has been implemented, an upgrader process is provided for creating the missing entries.
-- In v3.3.0 The consent field behaviour has been extended, so that a new database field were applied on the entities that stores it (consent\_field\_behaviour). The bool option has to be removed later.
+- In v3.3.0 The consent field behaviour has been extended. 2 new database fields were applied on the entities that stores it (consent\_field\_behaviour, custom\_settings). The invert\_consent\_fields bool option has to be removed later as the behaviour field is getting used.

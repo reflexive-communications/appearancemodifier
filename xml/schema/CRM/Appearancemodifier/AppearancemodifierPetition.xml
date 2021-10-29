@@ -98,5 +98,12 @@
     <comment>This field describes the behaviour of the consent logic.</comment>
     <add>3.3</add>
   </field>
+  <field>
+    <name>custom_settings</name>
+    <type>text</type>
+    <comment>Serialized data for PHP usage</comment>
+    <serialize>PHP</serialize>
+    <add>3.3</add>
+  </field>
 
 </table>
