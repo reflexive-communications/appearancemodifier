@@ -247,6 +247,10 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Appearancemodifier_Upgrader_Ba
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile ADD COLUMN consent_field_behaviour text;');
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN consent_field_behaviour text;');
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_event ADD COLUMN consent_field_behaviour text;');
+
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile ADD COLUMN custom_settings text;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN custom_settings text;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_event ADD COLUMN custom_settings text;');
         $offset = 0;
         $currentNumber = count(AppearancemodifierProfile::get(false)
             ->selectRowCount()
