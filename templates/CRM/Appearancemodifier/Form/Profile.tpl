@@ -51,6 +51,12 @@
                 <span class="description">{ts}Hide the labels of the text inputs on the profile form. Applied only if the placeholders are added.{/ts}</span>
             </td>
         </tr>
+{foreach from=$consentActivityFieldNames item=FieldName}
+        <tr>
+            <td class="label">{$form.$FieldName.label}</td>
+            <td class="content">{$form.$FieldName.html}</td>
+        </tr>
+{/foreach}
     </table>
     <div class="crm-submit-buttons">
         {include file="CRM/common/formButtons.tpl" location="bottom"}
