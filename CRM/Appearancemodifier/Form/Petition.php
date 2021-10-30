@@ -109,7 +109,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
      *
      * @param array $data the new values.
      */
-    protected function updateCustom(array $data)
+    protected function updateCustom(array $data): void
     {
         $modifiedPetition = AppearancemodifierPetition::update()
             ->setLimit(1)

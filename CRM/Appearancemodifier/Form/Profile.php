@@ -100,7 +100,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
      *
      * @param array $data the new values.
      */
-    protected function updateCustom(array $data)
+    protected function updateCustom(array $data): void
     {
         $modifiedProfile = AppearancemodifierProfile::update()
             ->setLimit(1)
