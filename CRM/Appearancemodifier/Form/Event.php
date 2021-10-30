@@ -48,6 +48,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Core_Form
             ->execute()
             ->first();
         $manager = CRM_Extension_System::singleton()->getManager();
+        $this->consentFieldNames = [];
         if ($manager->getStatus('consentactivity') === CRM_Extension_Manager::STATUS_INSTALLED) {
             $this->consentActivityCustomFields();
         }
@@ -153,7 +154,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Core_Form
     public function postProcess()
     {
         $submitData = [
-            'custom_settings' => $this->modifiedPetition['custom_settings'],
+            'custom_settings' => $this->modifiedEvent['custom_settings'],
         ];
         foreach (self::EVENT_FIELDS as $key) {
             $submitData[$key] = $this->_submitValues[$key];

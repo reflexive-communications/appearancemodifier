@@ -46,6 +46,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
             ->setLimit(1)
             ->execute()
             ->first();
+        $this->consentFieldNames = [];
         $manager = CRM_Extension_System::singleton()->getManager();
         if ($manager->getStatus('consentactivity') === CRM_Extension_Manager::STATUS_INSTALLED) {
             $this->consentActivityCustomFields();
