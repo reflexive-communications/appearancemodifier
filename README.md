@@ -69,9 +69,21 @@ The form customization is based on additional settings that could be reached fro
 - Form Layout - It is the option for extending the template resources and implementing the alterContent for creating further custom changes on the forms.
 - Background Color - If the Original Background Color is unchecked, this value will be used as background color on the form. If the Original Background Color is unchecked and the Transparent Background Color is checked, then transparent background will be applied on the form (included the text inputs, their background color will be set to white and color to black on case of focus state).
 - Font Color - If the Original Font Color is unchecked, this value will be used as font color on the form.
-- Invert Consent Fields - If it is checked, the consent fields (`do_not_email`, `do_not_phone`, `is_opt_out`) will behave as opt in fields.
+- Invert Consent Fields - If it is checked, the consent fields (`do_not_email`, `do_not_phone`, `is_opt_out`) will behave as opt in fields. **Deprecated!**
+- Consent Field Behaviour - It provides 3 options. Default (opt-out consent fields), invert (opt-in consent fields), submit implied (set do\_not\_phone and is\_opt\_out to false after form submit).
 - Add placeholders - If checked, the text inputs will contain placeholder attributes. The value of the placeholder will be the same as the label of the text input.
 - Hide text input labels - Only applied when the Add placeholder also applied. If checked the labels of the text inputs will be hidden.
+
+### Consent activity extension
+
+If the consentactivity extension is also installed, an additional feature also available on the admin forms. You can trigger activities if a pseudo privacy field is checked on the form. The pseudo privacy field - activity map settings is visible if the following conditions met:
+
+- The consentactivity extension is installed and enabled.
+- At least one pseudo privacy field is configured on the consentactivity settings form.
+- The current form contans at least one pseudo privacy field on the connected profiles.
+
+**Activity map**
+![activity map](./assets/docs/common-admin-activity-map.png)
 
 ### Profile
 
