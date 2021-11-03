@@ -11,7 +11,8 @@ use Civi\Api4\AppearancemodifierEvent;
  */
 class CRM_Appearancemodifier_Upgrader extends CRM_Appearancemodifier_Upgrader_Base
 {
-
+    // The limit parameter for the API calls.
+    const QUERY_LIMIT = 25;
     /**
      * It creates the modified profile entry for the existing events.
      */
@@ -79,6 +80,66 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Appearancemodifier_Upgrader_Ba
             }
             $offset = $offset + count($ufGroups);
         }
+    }
+    /**
+     * It updates the modified profile entry for the existing profiles.
+     * Set the values for each entity. On case of the invert consent field value
+     * is true, set the 'invert' value, otherwise set 'default'.
+     */
+    public function upgradeExistingProfilesForBehaviour($offset): bool
+    {
+        $profiles = AppearancemodifierProfile::get(false)
+            ->setLimit(self::QUERY_LIMIT)
+            ->setOffset($offset)
+            ->execute();
+        foreach ($profiles as $profile) {
+            $behaviour = (array_key_exists('invert_consent_fields', $profile) && $profile['invert_consent_fields'] !== null) ? 'invert' : 'default';
+            AppearancemodifierProfile::update(false)
+                ->addWhere('id', '=', $profile['id'])
+                ->addValue('consent_field_behaviour', $behaviour)
+                ->execute();
+        }
+        return true;
+    }
+    /**
+     * It updates the modified petition entry for the existing petition.
+     * Set the values for each entity. On case of the invert consent field value
+     * is true, set the 'invert' value, otherwise set 'default'.
+     */
+    public function upgradeExistingPetitionsForBehaviour($offset): bool
+    {
+        $petitions = AppearancemodifierPetition::get(false)
+            ->setLimit(self::QUERY_LIMIT)
+            ->setOffset($offset)
+            ->execute();
+        foreach ($petitions as $petition) {
+            $behaviour = (array_key_exists('invert_consent_fields', $petition) && $petition['invert_consent_fields'] !== null) ? 'invert' : 'default';
+            AppearancemodifierPetition::update(false)
+                ->addWhere('id', '=', $petition['id'])
+                ->addValue('consent_field_behaviour', $behaviour)
+                ->execute();
+        }
+        return true;
+    }
+    /**
+     * It updates the modified event entry for the existing event.
+     * Set the values for each entity. On case of the invert consent field value
+     * is true, set the 'invert' value, otherwise set 'default'.
+     */
+    public function upgradeExistingEventsForBehaviour($offset): bool
+    {
+        $events = AppearancemodifierEvent::get(false)
+            ->setLimit(self::QUERY_LIMIT)
+            ->setOffset($offset)
+            ->execute();
+        foreach ($events as $event) {
+            $behaviour = (array_key_exists('invert_consent_fields', $event) && $event['invert_consent_fields'] !== null) ? 'invert' : 'default';
+            AppearancemodifierEvent::update(false)
+                ->addWhere('id', '=', $event['id'])
+                ->addValue('consent_field_behaviour', $behaviour)
+                ->execute();
+        }
+        return true;
     }
 
     /**
@@ -168,6 +229,54 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Appearancemodifier_Upgrader_Ba
                     ->execute();
             }
             $offset = $offset + count($petitions['values']);
+        }
+        return true;
+    }
+
+    /**
+     * Alter the table if necessary.
+     * Add the consent_field_behaviour column to the custom tables.
+     * Set the values for each entity. On case of the invert consent field value
+     * is true, set the 'invert' value, otherwise set 'default'.
+     *
+     * @return TRUE on success
+     * @throws Exception
+     */
+    public function upgrade_5304()
+    {
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile ADD COLUMN consent_field_behaviour text;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN consent_field_behaviour text;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_event ADD COLUMN consent_field_behaviour text;');
+
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile ADD COLUMN custom_settings text;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN custom_settings text;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_event ADD COLUMN custom_settings text;');
+        $offset = 0;
+        $currentNumber = count(AppearancemodifierProfile::get(false)
+            ->selectRowCount()
+            ->setLimit(1)
+            ->execute());
+        while ($offset < $currentNumber) {
+            $this->addTask(E::ts('Process Profiles'), 'upgradeExistingProfilesForBehaviour', $offset);
+            $offset = $offset + self::QUERY_LIMIT;
+        }
+        $offset = 0;
+        $currentNumber = count(AppearancemodifierPetition::get(false)
+            ->selectRowCount()
+            ->setLimit(1)
+            ->execute());
+        while ($offset < $currentNumber) {
+            $this->addTask(E::ts('Process Petitions'), 'upgradeExistingPetitionsForBehaviour', $offset);
+            $offset = $offset + self::QUERY_LIMIT;
+        }
+        $offset = 0;
+        $currentNumber = count(AppearancemodifierEvent::get(false)
+            ->selectRowCount()
+            ->setLimit(1)
+            ->execute());
+        while ($offset < $currentNumber) {
+            $this->addTask(E::ts('Process Events'), 'upgradeExistingEventsForBehaviour', $offset);
+            $offset = $offset + self::QUERY_LIMIT;
         }
         return true;
     }

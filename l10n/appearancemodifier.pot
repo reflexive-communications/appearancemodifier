@@ -22,7 +22,7 @@ msgstr ""
 msgid "The alterContent handler function."
 msgstr ""
 
-#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php ./CRM/Appearancemodifier/Form/AbstractBase.php
 msgid "Background Color"
 msgstr ""
 
@@ -30,7 +30,7 @@ msgstr ""
 msgid "The color code of the background in #ffffff format."
 msgstr ""
 
-#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
 msgid "Invert Consent Fields"
 msgstr ""
 
@@ -70,12 +70,28 @@ msgstr ""
 msgid "Hide the form labels and use only the placeholders."
 msgstr ""
 
-#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php ./CRM/Appearancemodifier/Form/AbstractBase.php
 msgid "Font Color"
 msgstr ""
 
 #: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
 msgid "The color code of the fonts in #ffffff format."
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "Consent Field Behaviour"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "This field describes the behaviour of the consent logic."
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "Custom Settings"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
+msgid "Serialized data for PHP usage"
 msgstr ""
 
 #: ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php
@@ -138,40 +154,72 @@ msgstr ""
 msgid "FK to UFGroup"
 msgstr ""
 
-#: ./CRM/Appearancemodifier/Form/Event.php
-msgid "The selected event seems to be deleted. Id: %1"
-msgstr ""
-
-#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+#: ./CRM/Appearancemodifier/Form/AbstractBase.php
 msgid "Presets"
 msgstr ""
 
-#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+#: ./CRM/Appearancemodifier/Form/AbstractBase.php
 msgid "Custom"
 msgstr ""
 
-#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+#: ./CRM/Appearancemodifier/Form/AbstractBase.php
 msgid "Form Layout"
 msgstr ""
 
-#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+#: ./CRM/Appearancemodifier/Form/AbstractBase.php
 msgid "Default"
 msgstr ""
 
-#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+#: ./CRM/Appearancemodifier/Form/AbstractBase.php
+msgid "Manage Consent Behaviour"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/AbstractBase.php
+msgid "Invert"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/AbstractBase.php
+msgid "Submit Implied"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/AbstractBase.php
 msgid "Original Background Color"
 msgstr ""
 
-#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+#: ./CRM/Appearancemodifier/Form/AbstractBase.php
 msgid "Transparent Background Color"
 msgstr ""
 
-#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+#: ./CRM/Appearancemodifier/Form/AbstractBase.php
 msgid "Hide text input labels"
 msgstr ""
 
-#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+#: ./CRM/Appearancemodifier/Form/AbstractBase.php
 msgid "Add placeholders"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/AbstractBase.php
+msgid "Original Font Color"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/AbstractBase.php ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Activity for %1"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/AbstractBase.php ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "No Activity"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/AbstractBase.php
+msgid "Save"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/AbstractBase.php
+msgid "Cancel"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Event.php
+msgid "The selected event seems to be deleted. Id: %1"
 msgstr ""
 
 #: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php
@@ -180,18 +228,6 @@ msgstr ""
 
 #: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php
 msgid "External url to share"
-msgstr ""
-
-#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
-msgid "Original Font Color"
-msgstr ""
-
-#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
-msgid "Save"
-msgstr ""
-
-#: ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
-msgid "Cancel"
 msgstr ""
 
 #: ./CRM/Appearancemodifier/Form/Event.php
@@ -206,16 +242,16 @@ msgstr ""
 msgid "The selected petition seems to be deleted. Id: %1"
 msgstr ""
 
-#: ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
-msgid "Additional Note Text"
-msgstr ""
-
 #: ./CRM/Appearancemodifier/Form/Petition.php
 msgid "Petition message"
 msgstr ""
 
 #: ./CRM/Appearancemodifier/Form/Petition.php
 msgid "Target number of signers"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Additional Note Text"
 msgstr ""
 
 #: ./CRM/Appearancemodifier/Form/Petition.php
@@ -270,6 +306,18 @@ msgstr ""
 msgid "Upgrade %1 to revision %2"
 msgstr ""
 
+#: ./CRM/Appearancemodifier/Upgrader.php
+msgid "Process Profiles"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Upgrader.php
+msgid "Process Petitions"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Upgrader.php
+msgid "Process Events"
+msgstr ""
+
 #: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
 msgid "Use the saved settings or customize from scratch."
 msgstr ""
@@ -287,7 +335,7 @@ msgid "Font color manipulation."
 msgstr ""
 
 #: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
-msgid "Invert the behaviour of consent fields. (opt-out vs opt in)"
+msgid "Set the behaviour of consent fields. (opt-out vs opt in vs implied)"
 msgstr ""
 
 #: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl

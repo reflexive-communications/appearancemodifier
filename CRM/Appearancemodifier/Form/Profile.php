@@ -9,19 +9,21 @@ use Civi\Api4\AppearancemodifierProfile;
  *
  * @see https://docs.civicrm.org/dev/en/latest/framework/quickform/
  */
-class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
+class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_AbstractBase
 {
     private const PROFILE_FIELDS = [
         'layout_handler',
         'background_color',
         'additional_note',
-        'invert_consent_fields',
+        'consent_field_behaviour',
         'hide_form_labels',
         'add_placeholder',
         'font_color',
     ];
     // The uf group, for display some stuff about it on the frontend.
     private $ufGroup;
+    // The modified profile
+    private $modifiedProfile;
 
     /**
      * Preprocess form
@@ -37,6 +39,12 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
         if ($this->ufGroup === []) {
             throw new CRM_Core_Exception(E::ts('The selected profile seems to be deleted. Id: %1', [1=>$ufGroupId]));
         }
+        $this->modifiedProfile = AppearancemodifierProfile::get()
+            ->addWhere('uf_group_id', '=', $this->ufGroup['id'])
+            ->setLimit(1)
+            ->execute()
+            ->first();
+        parent::preProcess();
     }
 
     /**
@@ -46,25 +54,11 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
      */
     public function setDefaultValues()
     {
-        $modifiedProfile = AppearancemodifierProfile::get()
-            ->addWhere('uf_group_id', '=', $this->ufGroup['id'])
-            ->setLimit(1)
-            ->execute()
-            ->first();
         // Set defaults
         foreach (self::PROFILE_FIELDS as $key) {
-            $this->_defaults[$key] = $modifiedProfile[$key];
+            $this->_defaults[$key] = $this->modifiedProfile[$key];
         }
-        if ($modifiedProfile['background_color'] == null) {
-            $this->_defaults['original_color'] = 1;
-        } elseif ($modifiedProfile['background_color'] === 'transparent') {
-            $this->_defaults['transparent_background'] = 1;
-            $this->_defaults['background_color'] = null;
-        }
-        if ($modifiedProfile['font_color'] == null) {
-            $this->_defaults['original_font_color'] = 1;
-        }
-        $this->_defaults['preset_handler'] = '';
+        parent::commondDefaultValues($this->modifiedProfile);
         return $this->_defaults;
     }
 
@@ -84,31 +78,8 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
                 "options" => &$layoutOptions,
             ])
         );
-        $this->addRadio('preset_handler', E::ts('Presets'), array_merge([''=>E::ts('Custom')], $layoutOptions['presets']), [], null, false);
-        $this->add('select', 'layout_handler', E::ts('Form Layout'), array_merge([''=>E::ts('Default')], $layoutOptions['handlers']), false);
-        $this->add('color', 'background_color', E::ts('Background Color'), [], false);
         $this->add('wysiwyg', 'additional_note', E::ts('Additional Note Text'), [], false);
-        $this->add('checkbox', 'invert_consent_fields', E::ts('Invert Consent Fields'), [], false);
-        $this->add('checkbox', 'original_color', E::ts('Original Background Color'), [], false);
-        $this->add('checkbox', 'transparent_background', E::ts('Transparent Background Color'), [], false);
-        $this->add('checkbox', 'add_placeholder', E::ts('Add placeholders'), [], false);
-        $this->add('checkbox', 'hide_form_labels', E::ts('Hide text input labels'), [], false);
-        $this->add('color', 'font_color', E::ts('Font Color'), [], false);
-        $this->add('checkbox', 'original_font_color', E::ts('Original Font Color'), [], false);
-        // Submit button
-        $this->addButtons(
-            [
-                [
-                    'type' => 'done',
-                    'name' => E::ts('Save'),
-                    'isDefault' => true,
-                ],
-                [
-                    'type' => 'cancel',
-                    'name' => E::ts('Cancel'),
-                ],
-            ]
-        );
+        parent::commonBuildQuickForm($layoutOptions);
         $this->setTitle(E::ts('Customize %1 profile.', [1=>$this->ufGroup['title']]));
         parent::buildQuickForm();
     }
@@ -118,23 +89,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
      */
     public function postProcess()
     {
-        $submitData = [];
-        foreach (self::PROFILE_FIELDS as $key) {
-            $submitData[$key] = $this->_submitValues[$key];
-        }
-        if ($this->_submitValues['original_color'] === '1') {
-            $submitData['background_color'] = '';
-        } elseif ($this->_submitValues['transparent_background'] === '1') {
-            $submitData['background_color'] = 'transparent';
-        }
-        if ($this->_submitValues['original_font_color'] === '1') {
-            $submitData['font_color'] = '';
-        }
-        if ($this->_submitValues['preset_handler'] !== '') {
-            $this->saveCustomProfile($this->_submitValues['preset_handler']::getPresets());
-        } else {
-            $this->saveCustomProfile($submitData);
-        }
+        parent::commonPostProcess(self::PROFILE_FIELDS, $this->modifiedProfile['custom_settings']);
         CRM_Core_Session::setStatus(E::ts('Data has been updated.'), 'Appearancemodifier', 'success', ['expires' => 5000,]);
 
         parent::postProcess();
@@ -145,13 +100,16 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
      *
      * @param array $data the new values.
      */
-    private function saveCustomProfile(array $data)
+    protected function updateCustom(array $data): void
     {
         $modifiedProfile = AppearancemodifierProfile::update()
             ->setLimit(1)
             ->addWhere('uf_group_id', '=', $this->ufGroup['id']);
         foreach (self::PROFILE_FIELDS as $key) {
             $modifiedProfile = $modifiedProfile->addValue($key, $data[$key]);
+        }
+        if (array_key_exists('custom_settings', $data)) {
+            $modifiedProfile = $modifiedProfile->addValue('custom_settings', $data['custom_settings']);
         }
         $modifiedProfile = $modifiedProfile->execute();
     }
@@ -173,5 +131,38 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Core_Form
             return [];
         }
         return $ufGroup->first();
+    }
+
+    /*
+     * This function gathers the consent custom fields that
+     * are present in this profile.
+     */
+    protected function consentActivityCustomFields(): void
+    {
+        // gather the custom fields from the service.
+        $consentActivityConfig = new CRM_Consentactivity_Config('consentactivity');
+        $consentActivityConfig->load();
+        $config = $consentActivityConfig->get();
+        if (array_key_exists('custom-field-map', $config)) {
+            $map = $config['custom-field-map'];
+            $labels = CRM_Consentactivity_Service::customCheckboxFields();
+            foreach ($map as $rule) {
+                // If the current rule field is missing from the profile, continue
+                $ufFields = \Civi\Api4\UFField::get()
+                    ->addWhere('uf_group_id', '=', $this->ufGroup['id'])
+                    ->addWhere('field_name', '=', $rule['custom-field-id'])
+                    ->setLimit(1)
+                    ->execute()
+                    ->first();
+                if (is_null($ufFields)) {
+                    continue;
+                }
+                // add select of activities with a meaningful label that
+                // contains the label as it used in the custom checkbox
+                // field select.
+                $this->add('select', 'consentactivity_'.$rule['custom-field-id'], E::ts('Activity for %1', [ 1 => $labels[$rule['custom-field-id']]]), [''=>E::ts('No Activity')] + CRM_Activity_BAO_Activity::buildOptions('activity_type_id', 'get'), false);
+                $this->consentFieldNames[] = $rule['custom-field-id'];
+            }
+        }
     }
 }

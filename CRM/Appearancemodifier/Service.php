@@ -6,6 +6,8 @@ use Civi\Api4\AppearancemodifierPetition;
 use Civi\Api4\AppearancemodifierEvent;
 use Civi\Api4\UFGroup;
 use Civi\Api4\Event;
+use Civi\Api4\Contact;
+use Civi\Api4\Activity;
 
 class CRM_Appearancemodifier_Service
 {
@@ -269,9 +271,17 @@ class CRM_Appearancemodifier_Service
             $parameters = $form->getVar('_params');
             break;
         }
-        if (array_key_exists('invert_consent_fields', $rules) && $rules['invert_consent_fields'] !== null) {
-            self::updateConsents($id, $parameters);
+        if (array_key_exists('consent_field_behaviour', $rules) && $rules['consent_field_behaviour'] !== null) {
+            // on case of invert, is used, use the flow that was provided for the invert_consent_fields.
+            // on case of apply on submit, the implied consent flow is used.
+            // on case of default value the original process is kept.
+            if ($rules['consent_field_behaviour'] === 'invert') {
+                self::updateConsents($id, $parameters);
+            } elseif ($rules['consent_field_behaviour'] === 'apply_on_submit') {
+                self::impliedConsentForContact($id);
+            }
         }
+        self::consentactivityCustomFieldActivities($id, $parameters, $rules);
     }
 
     public static function alterContent(&$content, $tplName, &$object): void
@@ -291,6 +301,51 @@ class CRM_Appearancemodifier_Service
     }
 
     /*
+     * Create the activities based on the consentactivity configuration.
+     * Only apply the activity if the extenstion is installed.
+     * Also double check that the given fields still appeares in the configurations.
+     *
+     * @param int $contactId
+     * @param array $submitValues
+     * @param array $ruleset
+     */
+    private static function consentactivityCustomFieldActivities(int $contactId, array $submitValues, array $ruleset): void
+    {
+        $manager = CRM_Extension_System::singleton()->getManager();
+        if ($manager->getStatus('consentactivity') !== CRM_Extension_Manager::STATUS_INSTALLED) {
+            return;
+        }
+        if (!array_key_exists('custom_settings', $ruleset) || !is_array($ruleset['custom_settings']) || !array_key_exists('consentactivity', $ruleset['custom_settings']) || !is_array($ruleset['custom_settings']['consentactivity']) || count($ruleset['custom_settings']['consentactivity']) === 0) {
+            return;
+        }
+        // gather the custom fields from the service.
+        $consentActivityConfig = new CRM_Consentactivity_Config('consentactivity');
+        $consentActivityConfig->load();
+        $config = $consentActivityConfig->get();
+        if (!array_key_exists('custom-field-map', $config)) {
+            return;
+        }
+        $caConfigMap = $config['custom-field-map'];
+        $activityRules = $ruleset['custom_settings']['consentactivity'];
+        foreach ($caConfigMap as $caConfigSet) {
+            if (array_key_exists($caConfigSet['custom-field-id'], $activityRules) && is_array($submitValues[$caConfigSet['custom-field-id']]) && count($submitValues[$caConfigSet['custom-field-id']])) {
+                // allow only the first value in the checkbox array.
+                $keys = array_keys($submitValues[$caConfigSet['custom-field-id']]);
+                if (empty($submitValues[$caConfigSet['custom-field-id']][$keys[0]])) {
+                    continue;
+                }
+                Activity::create(false)
+                    ->addValue('activity_type_id', $activityRules[$caConfigSet['custom-field-id']])
+                    ->addValue('source_contact_id', $contactId)
+                    ->addValue('target_contact_id', $contactId)
+                    ->addValue('status_id:name', 'Completed')
+                    ->addValue('skipRecentView', true)
+                    ->execute();
+            }
+        }
+    }
+
+    /*
      * This function updates the consent fields of the contact.
      *
      * @param int $contactId
@@ -303,6 +358,34 @@ class CRM_Appearancemodifier_Service
         foreach (self::CONSENT_FIELDS as $field) {
             if (array_key_exists($field, $submitValues)) {
                 $contactData[$field] = $submitValues[$field] == '' ? '1' : '';
+            }
+        }
+        // update only if the we have something contact related change.
+        if (count($contactData) > 0) {
+            CRM_RcBase_Api_Update::contact($contactId, $contactData, false);
+        }
+    }
+
+    /*
+     * This function sets the consent fields of the contact to consent is given state.
+     * First it gathers the current values of the do_not_phone and is_opt_out privacy
+     * fields.
+     * It updates the values only if necessary, so civirules could be based of the
+     * change event of this value.
+     *
+     * @param int $contactId
+     */
+    private static function impliedConsentForContact(int $contactId): void
+    {
+        $contact = Contact::get(false)
+            ->addSelect('is_opt_out', 'do_not_phone')
+            ->addWhere('id', '=', $contactId)
+            ->execute()
+            ->first();
+        $contactData = [];
+        foreach (['is_opt_out', 'do_not_phone'] as $field) {
+            if ($contact[$field]) {
+                $contactData[$field] = '';
             }
         }
         // update only if the we have something contact related change.

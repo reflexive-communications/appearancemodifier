@@ -92,11 +92,18 @@ jobs:
           repository: reflexive-communications/rc-base
           path: rc-base
 
-    - name: Move rc-base to the extensions directory.
+    - name: Get consentactivity as it is required for tests.
+      uses: actions/checkout@v2
+      with:
+          repository: reflexive-communications/consentactivity
+          path: consentactivity
+
+    - name: Move dependencies to the extensions directory.
       run: |
           sudo mv rc-base ${{ env.LOCAL_DEPLOY_TARGET }}"/"${{ env.SITE_NAME }}"/web/sites/default/files/civicrm/ext"
+          sudo mv consentactivity ${{ env.LOCAL_DEPLOY_TARGET }}"/"${{ env.SITE_NAME }}"/web/sites/default/files/civicrm/ext"
           cd ${{ env.LOCAL_DEPLOY_TARGET }}"/"${{ env.SITE_NAME }}
-          cv --no-interaction --cwd=${{ env.LOCAL_DEPLOY_TARGET }}/${{ env.SITE_NAME }} ext:enable rc-base
+          cv --no-interaction --cwd=${{ env.LOCAL_DEPLOY_TARGET }}/${{ env.SITE_NAME }} ext:enable rc-base consentactivity
 
     - name: Check out the code
       uses: actions/checkout@v2

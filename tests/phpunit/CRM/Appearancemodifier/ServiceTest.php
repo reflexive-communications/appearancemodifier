@@ -321,7 +321,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->first();
         self::assertSame($contact['is_opt_out'], $updatedContact['is_opt_out']);
     }
-    public function testPostProcessChangesTheConsentFieldsProfile()
+    public function testPostProcessChangesTheConsentFieldsProfileInvert()
     {
         $profile = UFGroup::create()
             ->addValue('title', 'Test UFGroup aka Profile')
@@ -351,7 +351,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
         AppearancemodifierProfile::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
             ->addValue('layout_handler', LayoutImplementationTest::class)
-            ->addValue('invert_consent_fields', 1)
+            ->addValue('consent_field_behaviour', 'invert')
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Profile_Form_Edit::class, $form));
         $updatedContact = Contact::get(false)
@@ -378,7 +378,42 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
         self::assertTrue(is_null($updatedContact['do_not_email']));
         self::assertTrue(is_null($updatedContact['do_not_phone']));
     }
-    public function testPostProcessChangesTheConsentFieldsPetition()
+    public function testPostProcessChangesTheConsentFieldsProfileApply()
+    {
+        $profile = UFGroup::create()
+            ->addValue('title', 'Test UFGroup aka Profile')
+            ->addValue('is_active', true)
+            ->execute()
+            ->first();
+        $form = new CRM_Profile_Form_Edit();
+        $contact = Contact::create(false)
+            ->addValue('contact_type', 'Individual')
+            ->addValue('is_opt_out', true)
+            ->addValue('do_not_phone', true)
+            ->execute()
+            ->first();
+        $form->setVar('_id', $contact['id']);
+        $form->setVar('_gid', $profile['id']);
+        $form->setVar('_submitValues', []);
+        $modifiedConfig = AppearancemodifierProfile::get(false)
+            ->addWhere('uf_group_id', '=', $profile['id'])
+            ->execute()
+            ->first();
+        AppearancemodifierProfile::update(false)
+            ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('consent_field_behaviour', 'apply_on_submit')
+            ->execute();
+        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Profile_Form_Edit::class, $form));
+        $updatedContact = Contact::get(false)
+            ->addSelect('is_opt_out', 'do_not_phone')
+            ->addWhere('id', '=', $contact['id'])
+            ->execute()
+            ->first();
+        self::assertFalse($updatedContact['is_opt_out']);
+        self::assertNull($updatedContact['do_not_phone']);
+    }
+    public function testPostProcessChangesTheConsentFieldsPetitionInvert()
     {
         $result = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
@@ -394,7 +429,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
             ->addValue('layout_handler', LayoutImplementationTest::class)
-            ->addValue('invert_consent_fields', 1)
+            ->addValue('consent_field_behaviour', 'invert')
             ->execute();
         $contact = Contact::create(false)
             ->addValue('contact_type', 'Individual')
@@ -435,7 +470,42 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
         self::assertTrue(is_null($updatedContact['do_not_email']));
         self::assertTrue(is_null($updatedContact['do_not_phone']));
     }
-    public function testPostProcessChangesTheConsentFieldsEvent()
+    public function testPostProcessChangesTheConsentFieldsPetitionApply()
+    {
+        $result = civicrm_api3('Survey', 'create', [
+            'sequential' => 1,
+            'title' => "Some title",
+            'activity_type_id' => "Petition",
+        ]);
+        $form = new CRM_Campaign_Form_Petition_Signature();
+        $form->setVar('_surveyId', $result['values'][0]['id']);
+        $modifiedConfig = AppearancemodifierPetition::get(false)
+            ->addWhere('survey_id', '=', $result['values'][0]['id'])
+            ->execute()
+            ->first();
+        AppearancemodifierPetition::update(false)
+            ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('consent_field_behaviour', 'apply_on_submit')
+            ->execute();
+        $contact = Contact::create(false)
+            ->addValue('contact_type', 'Individual')
+            ->addValue('is_opt_out', true)
+            ->addValue('do_not_phone', true)
+            ->execute()
+            ->first();
+        $form->setVar('_contactId', $contact['id']);
+        $form->setVar('_submitValues', []);
+        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Campaign_Form_Petition_Signature::class, $form));
+        $updatedContact = Contact::get(false)
+            ->addSelect('is_opt_out', 'do_not_phone')
+            ->addWhere('id', '=', $contact['id'])
+            ->execute()
+            ->first();
+        self::assertFalse($updatedContact['is_opt_out']);
+        self::assertNull($updatedContact['do_not_phone']);
+    }
+    public function testPostProcessChangesTheConsentFieldsEventInvert()
     {
         $results = \Civi\Api4\Event::create(false)
             ->addValue('title', 'Test event title')
@@ -451,7 +521,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
             ->addValue('layout_handler', LayoutImplementationTest::class)
-            ->addValue('invert_consent_fields', 1)
+            ->addValue('consent_field_behaviour', 'invert')
             ->execute();
         $contact = Contact::create(false)
             ->addValue('contact_type', 'Individual')
@@ -491,6 +561,41 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
         self::assertFalse($updatedContact['is_opt_out']);
         self::assertTrue(is_null($updatedContact['do_not_email']));
         self::assertTrue(is_null($updatedContact['do_not_phone']));
+    }
+    public function testPostProcessChangesTheConsentFieldsEventApply()
+    {
+        $results = \Civi\Api4\Event::create(false)
+            ->addValue('title', 'Test event title')
+            ->addValue('event_type_id', 4)
+            ->addValue('start_date', '2022-01-01')
+            ->execute();
+        $form = new CRM_Event_Form_Registration_Confirm();
+        $form->setVar('_eventId', $results[0]['id']);
+        $modifiedConfig = AppearancemodifierEvent::get(false)
+            ->addWhere('event_id', '=', $results[0]['id'])
+            ->execute()
+            ->first();
+        AppearancemodifierEvent::update(false)
+            ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('consent_field_behaviour', 'apply_on_submit')
+            ->execute();
+        $contact = Contact::create(false)
+            ->addValue('contact_type', 'Individual')
+            ->addValue('is_opt_out', true)
+            ->addValue('do_not_phone', true)
+            ->execute()
+            ->first();
+        $form->setVar('_values', ['participant' => ['contact_id' => $contact['id']]]);
+        $form->setVar('_params', []);
+        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Event_Form_Registration_Confirm::class, $form));
+        $updatedContact = Contact::get(false)
+            ->addSelect('is_opt_out', 'do_not_phone')
+            ->addWhere('id', '=', $contact['id'])
+            ->execute()
+            ->first();
+        self::assertFalse($updatedContact['is_opt_out']);
+        self::assertNull($updatedContact['do_not_phone']);
     }
 
     /**

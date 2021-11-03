@@ -59,7 +59,9 @@ CREATE TABLE `civicrm_appearancemodifier_event` (
      `external_share_url` text    COMMENT 'This link will be shared in the custom social box.',
      `add_placeholder` tinyint    COMMENT 'Set the text input label as placeholder text in the input.',
      `hide_form_labels` tinyint    COMMENT 'Hide the form labels and use only the placeholders.',
-     `font_color` text    COMMENT 'The color code of the fonts in #ffffff format.' 
+     `font_color` text    COMMENT 'The color code of the fonts in #ffffff format.',
+     `consent_field_behaviour` text    COMMENT 'This field describes the behaviour of the consent logic.',
+     `custom_settings` text    COMMENT 'Serialized data for PHP usage' 
 ,
         PRIMARY KEY (`id`)
  
@@ -90,7 +92,9 @@ CREATE TABLE `civicrm_appearancemodifier_petition` (
      `add_placeholder` tinyint    COMMENT 'Set the text input label as placeholder text in the input.',
      `hide_form_labels` tinyint    COMMENT 'Hide the form labels and use only the placeholders.',
      `font_color` text    COMMENT 'The color code of the fonts in #ffffff format.',
-     `signers_block_position` text    COMMENT 'The position where the number of petition signers is displayed.' 
+     `signers_block_position` text    COMMENT 'The position where the number of petition signers is displayed.',
+     `consent_field_behaviour` text    COMMENT 'This field describes the behaviour of the consent logic.',
+     `custom_settings` text    COMMENT 'Serialized data for PHP usage' 
 ,
         PRIMARY KEY (`id`)
  
@@ -116,7 +120,9 @@ CREATE TABLE `civicrm_appearancemodifier_profile` (
      `invert_consent_fields` tinyint    COMMENT 'This field triggers the invert behaviour of the consent checkboxes.',
      `add_placeholder` tinyint    COMMENT 'Set the text input label as placeholder text in the input.',
      `hide_form_labels` tinyint    COMMENT 'Hide the form labels and use only the placeholders.',
-     `font_color` text    COMMENT 'The color code of the fonts in #ffffff format.' 
+     `font_color` text    COMMENT 'The color code of the fonts in #ffffff format.',
+     `consent_field_behaviour` text    COMMENT 'This field describes the behaviour of the consent logic.',
+     `custom_settings` text    COMMENT 'Serialized data for PHP usage' 
 ,
         PRIMARY KEY (`id`)
  
