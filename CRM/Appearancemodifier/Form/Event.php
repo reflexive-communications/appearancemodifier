@@ -152,7 +152,6 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
                 ->addWhere('module', '=', 'CiviEvent')
                 ->addWhere('entity_table', '=', 'civicrm_event')
                 ->addWhere('entity_id', '=', $this->event['id'])
-                ->setLimit(25)
                 ->execute();
             $profileIds = [];
             foreach ($uFJoins as $profile) {
