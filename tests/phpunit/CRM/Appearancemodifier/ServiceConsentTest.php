@@ -48,15 +48,18 @@ class CRM_Appearancemodifier_ServiceConsentTest extends CRM_Appearancemodifier_F
         $form->setVar('_gid', $profile['id']);
         $submit = ['custom_'.$customField['id'] => [1 => '1']];
         $form->setVar('_submitValues', $submit);
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Profile_Form_Edit::class, $form));
-        $activityContacts = ActivityContact::get()
-            ->addWhere('activity.activity_type_id', '=', 1)
-            ->addWhere('activity.status_id', '=', 2)
+        $activityContactsBefore = ActivityContact::get()
+            ->selectRowCount()
             ->addWhere('contact_id', '=', $contact['id'])
             ->addWhere('record_type_id', '=', 3)
-            ->setLimit(25)
             ->execute();
-        self::assertCount(0, $activityContacts);
+        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Profile_Form_Edit::class, $form));
+        $activityContactsAfter = ActivityContact::get()
+            ->selectRowCount()
+            ->addWhere('contact_id', '=', $contact['id'])
+            ->addWhere('record_type_id', '=', 3)
+            ->execute();
+        self::assertCount(count($activityContactsBefore), $activityContactsAfter);
     }
     public function testPostProcessNoConsentActivitySettings()
     {
@@ -91,15 +94,18 @@ class CRM_Appearancemodifier_ServiceConsentTest extends CRM_Appearancemodifier_F
             ->setLimit(1)
             ->execute()
             ->first();
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Profile_Form_Edit::class, $form));
-        $activityContacts = ActivityContact::get()
-            ->addWhere('activity.activity_type_id', '=', 1)
-            ->addWhere('activity.status_id', '=', 2)
+        $activityContactsBefore = ActivityContact::get()
+            ->selectRowCount()
             ->addWhere('contact_id', '=', $contact['id'])
             ->addWhere('record_type_id', '=', 3)
-            ->setLimit(25)
             ->execute();
-        self::assertCount(0, $activityContacts);
+        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Profile_Form_Edit::class, $form));
+        $activityContactsAfter = ActivityContact::get()
+            ->selectRowCount()
+            ->addWhere('contact_id', '=', $contact['id'])
+            ->addWhere('record_type_id', '=', 3)
+            ->execute();
+        self::assertCount(count($activityContactsBefore), $activityContactsAfter);
     }
     public function testPostProcessValueNotSet()
     {
@@ -138,15 +144,18 @@ class CRM_Appearancemodifier_ServiceConsentTest extends CRM_Appearancemodifier_F
             ->setLimit(1)
             ->execute()
             ->first();
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Profile_Form_Edit::class, $form));
-        $activityContacts = ActivityContact::get()
-            ->addWhere('activity.activity_type_id', '=', 1)
-            ->addWhere('activity.status_id', '=', 2)
+        $activityContactsBefore = ActivityContact::get()
+            ->selectRowCount()
             ->addWhere('contact_id', '=', $contact['id'])
             ->addWhere('record_type_id', '=', 3)
-            ->setLimit(25)
             ->execute();
-        self::assertCount(0, $activityContacts);
+        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Profile_Form_Edit::class, $form));
+        $activityContactsAfter = ActivityContact::get()
+            ->selectRowCount()
+            ->addWhere('contact_id', '=', $contact['id'])
+            ->addWhere('record_type_id', '=', 3)
+            ->execute();
+        self::assertCount(count($activityContactsBefore), $activityContactsAfter);
     }
     public function testPostProcessValueSet()
     {
@@ -185,14 +194,17 @@ class CRM_Appearancemodifier_ServiceConsentTest extends CRM_Appearancemodifier_F
             ->setLimit(1)
             ->execute()
             ->first();
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Profile_Form_Edit::class, $form));
-        $activityContacts = ActivityContact::get()
-            ->addWhere('activity.activity_type_id', '=', 1)
-            ->addWhere('activity.status_id', '=', 2)
+        $activityContactsBefore = ActivityContact::get()
+            ->selectRowCount()
             ->addWhere('contact_id', '=', $contact['id'])
             ->addWhere('record_type_id', '=', 3)
-            ->setLimit(25)
             ->execute();
-        self::assertCount(1, $activityContacts);
+        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Profile_Form_Edit::class, $form));
+        $activityContactsAfter = ActivityContact::get()
+            ->selectRowCount()
+            ->addWhere('contact_id', '=', $contact['id'])
+            ->addWhere('record_type_id', '=', 3)
+            ->execute();
+        self::assertCount(count($activityContactsBefore) + 1, $activityContactsAfter);
     }
 }
