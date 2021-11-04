@@ -1,3 +1,4 @@
+{crmScope extensionKey='appearancemodifier'}
 <div class="crm-block crm-form-block">
     <table class="form-layout">
         <tr>
@@ -87,3 +88,4 @@
         {include file="CRM/common/formButtons.tpl" location="bottom"}
     </div>
 </div>
+{/crmScope}
