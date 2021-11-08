@@ -788,7 +788,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->addValue('petition_message', $defaultMessage)
             ->addValue('custom_settings', ['disable_petition_message_edit' => '1'])
             ->execute();
-        $expectedContent = "<div><div class=\"crm-petition-activity-profile\">\n<textarea disabled=\"disabled\">".$defaultMessage."</textarea><textarea></textarea>\n</div></div>";
+        $expectedContent = "<div><div class=\"crm-petition-activity-profile\">\n<textarea disabled>".$defaultMessage."</textarea><textarea></textarea>\n</div></div>";
         $content = '<div><div class="crm-petition-activity-profile"><textarea></textarea><textarea></textarea></div></div>';
         self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0], $form));
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0].'. '.$content);
