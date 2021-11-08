@@ -258,6 +258,7 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends CRM_Appearancemodi
             'font_color' => '#000000',
             'additional_note' => 'My new additional note text',
             'petition_message' => 'My new petition message text',
+            'disable_petition_message_edit' => '0',
             'consent_field_behaviour' => 'default',
             'target_number_of_signers' => '',
             'signers_block_position' => '',

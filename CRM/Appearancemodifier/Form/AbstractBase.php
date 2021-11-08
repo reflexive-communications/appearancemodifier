@@ -112,14 +112,15 @@ abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
      * This function sets the common fields on the quick form.
      *
      * @param array $fieldNames the fields that are managed by the entity.
-     * @param array|null $customSettings the custom settings for the entity.
+     * @param array|null $currenCustomSettings the custom settings for the entity.
+     * @param array $defaultCustomSettings the default custom settings for the entity for presets.
      *
      * @throws CRM_Core_Exception
      */
-    protected function commonPostProcess(array $fieldNames, ?array $customSettings): void
+    protected function commonPostProcess(array $fieldNames, ?array $currenCustomSettings, array $defaultCustomSettings = []): void
     {
         $submitData = [
-            'custom_settings' => $customSettings,
+            'custom_settings' => $currenCustomSettings,
         ];
         foreach ($fieldNames as $key) {
             $submitData[$key] = $this->_submitValues[$key];
@@ -146,7 +147,7 @@ abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
                 $presets['consent_field_behaviour'] = (array_key_exists('invert_consent_fields', $presets) && !empty($presets['invert_consent_fields'])) ? 'invert' : 'default';
             }
             if (!array_key_exists('custom_settings', $presets)) {
-                $presets['custom_settings'] = [];
+                $presets['custom_settings'] = $defaultCustomSettings;
             }
             $this->updateCustom($presets);
         } else {

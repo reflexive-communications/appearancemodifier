@@ -55,7 +55,8 @@
         <tr>
             <td class="label">{$form.petition_message.label}</td>
             <td class="content">{$form.petition_message.html}<br/>
-                <span class="description">{ts}The petition message that will displayed in the message input field.{/ts}</span>
+                <span class="label">{$form.disable_petition_message_edit.label}{$form.disable_petition_message_edit.html}</span><br/>
+                <span class="description">{ts}The petition message that will displayed in the message input field. If you disable the edit option, the petition message has to be an optional field.{/ts}</span>
             </td>
         </tr>
         <tr>

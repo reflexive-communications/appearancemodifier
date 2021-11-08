@@ -247,6 +247,10 @@ msgid "Petition message"
 msgstr ""
 
 #: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "Disable edit"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
 msgid "Target number of signers"
 msgstr ""
 
@@ -363,7 +367,7 @@ msgid "Hide the labels of the text inputs on the petition form. Applied only if 
 msgstr ""
 
 #: ./templates/CRM/Appearancemodifier/Form/Petition.tpl
-msgid "The petition message that will displayed in the message input field."
+msgid "The petition message that will displayed in the message input field. If you disable the edit option, the petition message has to be an optional field."
 msgstr ""
 
 #: ./templates/CRM/Appearancemodifier/Form/Petition.tpl

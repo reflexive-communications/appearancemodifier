@@ -115,6 +115,7 @@ The AppearancemodifierPetition entity stores the settings for a petition.
 
 - Additional Note Text - This text will be displayed below the submit button.
 - Petition Message - This text will be added as default text in the petition message field in the activity profile.
+- Disable petition message edit - This prevents the contacts to edit the petition message input field. In this case the petition message has to be optional in the form.
 - Target number of signers - This value is used in the progressbar as maximum.
 - Display signers block - How to display the current number of signers (just the number, or progressbar when the target number is also set) and where (top, bottom, don't display).
 - Custom social box - The sharing options will be replaced with a custom one, that only contans twitter and facebook share option.
