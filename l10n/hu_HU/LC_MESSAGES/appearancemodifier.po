@@ -247,6 +247,10 @@ msgid "Petition message"
 msgstr "Petíció Szövege"
 
 #: ./CRM/Appearancemodifier/Form/Petition.php
+msgid "Disable edit"
+msgstr "Módosítás letiltása"
+
+#: ./CRM/Appearancemodifier/Form/Petition.php
 msgid "Target number of signers"
 msgstr "Aláírók Célszáma"
 
@@ -363,8 +367,8 @@ msgid "Hide the labels of the text inputs on the petition form. Applied only if 
 msgstr "Elrejti a petíció űrlapok szöveges mezőinek cimkéit, ha a placeholderek alkalmazva vannak."
 
 #: ./templates/CRM/Appearancemodifier/Form/Petition.tpl
-msgid "The petition message that will displayed in the message input field."
-msgstr "A petíció szövege amely alapértelmezett érték lesz az űrlap megfelelő mezőjében."
+msgid "The petition message that will displayed in the message input field. If you disable the edit option, the petition message has to be an optional field."
+msgstr "A petíció szövege amely alapértelmezett érték lesz az űrlap megfelelő mezőjében. A módosítás letiltásához a petíció szövege mezőnek opcionálisnak kell lennie."
 
 #: ./templates/CRM/Appearancemodifier/Form/Petition.tpl
 msgid "Customized box for sharing the petition on social network."
