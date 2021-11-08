@@ -27,6 +27,10 @@ div.appearancemodifier-social-block div.social-media-icon {
     margin-left: 50px;
     margin-right: 50px;
 }
+/* Social blocks: the cursor on the link has to be pointer */
+div.appearancemodifier-social-block div.social-media-icon a {
+    cursor: pointer;
+}
 /* Social blocks: container for the icon, postion them inline with black font color */
 div.appearancemodifier-social-block a div {
     display: inline-block;
