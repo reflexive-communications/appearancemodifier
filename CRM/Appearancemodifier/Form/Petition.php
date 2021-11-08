@@ -63,6 +63,10 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
             $this->_defaults[$key] = $this->modifiedPetition[$key];
         }
         parent::commondDefaultValues($this->modifiedPetition);
+        // default for the petition message edition.
+        if ($this->modifiedPetition['custom_settings'] !== null && isset($this->modifiedPetition['custom_settings']['disable_petition_message_edit'])) {
+            $this->_defaults['disable_petition_message_edit'] = $this->modifiedPetition['custom_settings']['disable_petition_message_edit'];
+        }
         return $this->_defaults;
     }
 
@@ -82,7 +86,8 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
                 "options" => &$layoutOptions,
             ])
         );
-        $this->add('textarea', 'petition_message', E::ts('Petition message'), [], false);
+        $this->add('textarea', 'petition_message', E::ts('Petition message'), ['rows' => '4', 'cols' => '60'], false);
+        $this->add('checkbox', 'disable_petition_message_edit', E::ts('Disable edit'), [], false);
         $this->add('text', 'target_number_of_signers', E::ts('Target number of signers'), [], false);
         $this->add('checkbox', 'custom_social_box', E::ts('Custom social box'), [], false);
         $this->add('text', 'external_share_url', E::ts('External url to share'), [], false);
@@ -98,7 +103,9 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
      */
     public function postProcess()
     {
-        parent::commonPostProcess(self::PETITION_FIELDS, $this->modifiedPetition['custom_settings']);
+        $customSettings = $this->modifiedPetition['custom_settings'];
+        $customSettings['disable_petition_message_edit'] = $this->_submitValues['disable_petition_message_edit'];
+        parent::commonPostProcess(self::PETITION_FIELDS, $customSettings, ['disable_petition_message_edit' => '']);
         CRM_Core_Session::setStatus(E::ts('Data has been updated.'), 'Appearancemodifier', 'success', ['expires' => 5000,]);
 
         parent::postProcess();
