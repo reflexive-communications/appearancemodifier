@@ -452,6 +452,10 @@ class CRM_Appearancemodifier_Service
             $doc = phpQuery::newDocument($content);
             if ($doc['.crm-petition-activity-profile']->size() > 0) {
                 $doc['.crm-petition-activity-profile textarea:first']->val(new DOMText($modifiedPetition['petition_message']));
+                // disable the textarea on case of the config is set.
+                if ($modifiedPetition['custom_settings'] !== null && !empty($modifiedPetition['custom_settings']['disable_petition_message_edit'])) {
+                    $doc['.crm-petition-activity-profile textarea:first']->attr('disabled', 'disabled');
+                }
             }
             $content = $doc->htmlOuter();
         }
