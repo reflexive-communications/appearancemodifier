@@ -165,6 +165,26 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
         $defaults = $form->setDefaultValues();
         self::assertSame('default', $defaults['consent_field_behaviour']);
     }
+    public function testSetDefaultValuesDisabledMessageEdition()
+    {
+        $petition = civicrm_api3('Survey', 'create', [
+            'sequential' => 1,
+            'title' => "Some title",
+            'activity_type_id' => "Petition",
+        ]);
+        $petition = $petition['values'][0];
+        \Civi\Api4\AppearancemodifierPetition::update(false)
+            ->addWhere('survey_id', '=', $petition['id'])
+            ->addValue('custom_settings', ['disable_petition_message_edit' => '1'])
+            ->execute();
+        $form = new CRM_Appearancemodifier_Form_Petition();
+        $_REQUEST['pid'] = $petition['id'];
+        $_GET['pid'] = $petition['id'];
+        $_POST['pid'] = $petition['id'];
+        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        $defaults = $form->setDefaultValues();
+        self::assertSame('1', $defaults['disable_petition_message_edit']);
+    }
 
     /*
      * It tests the buildQuickForm function.
