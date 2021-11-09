@@ -546,7 +546,7 @@ class CRM_Appearancemodifier_Service
                     } else {
                         $shareUrl = $button->getAttribute('onclick');
                     }
-                    $twitter = '<div class="social-media-icon"><a href="#" onclick="'.$shareUrl.'" target="_blank" title="'.E::ts('Share on Twitter').'"><div><i aria-hidden="true" class="crm-i fa-twitter"></i></div></a></div>';
+                    $twitter = '<div class="social-media-icon"><a onclick="'.$shareUrl.'" target="_blank" title="'.E::ts('Share on Twitter').'"><div><i aria-hidden="true" class="crm-i fa-twitter"></i></div></a></div>';
                     break;
                 case 'crm-fb':
                     $shareUrl = '';
@@ -555,7 +555,7 @@ class CRM_Appearancemodifier_Service
                     } else {
                         $shareUrl = $button->getAttribute('onclick');
                     }
-                    $facebook = '<div class="social-media-icon"><a href="#" onclick="'.$shareUrl.'" target="_blank" title="'.E::ts('Share on Facebook').'"><div><i aria-hidden="true" class="crm-i fa-facebook"></i></div></a></div>';
+                    $facebook = '<div class="social-media-icon"><a onclick="'.$shareUrl.'" target="_blank" title="'.E::ts('Share on Facebook').'"><div><i aria-hidden="true" class="crm-i fa-facebook"></i></div></a></div>';
                     break;
                 }
             }
