@@ -169,6 +169,9 @@ class CRM_Appearancemodifier_Service
         }
         if ($modifiedConfig !== null) {
             Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
+            if ($modifiedConfig['custom_settings'] !== null && $modifiedConfig['custom_settings']['hide_form_title'] === '1') {
+                Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/hiddentitle.css');
+            }
         }
     }
 
@@ -196,6 +199,9 @@ class CRM_Appearancemodifier_Service
             $handler->setStyleSheets();
         }
         Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
+        if ($modifiedProfile['custom_settings'] !== null && $modifiedProfile['custom_settings']['hide_form_title'] === '1') {
+            Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/hiddentitle.css');
+        }
     }
 
     /**
@@ -234,6 +240,9 @@ class CRM_Appearancemodifier_Service
         }
         if ($modifiedConfig !== null) {
             Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
+            if ($modifiedConfig['custom_settings'] !== null && $modifiedConfig['custom_settings']['hide_form_title'] === '1') {
+                Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/hiddentitle.css');
+            }
         }
     }
 
