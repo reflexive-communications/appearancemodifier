@@ -63,6 +63,26 @@ abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
     }
 
     /**
+     * This function sets the default values for the fields that are present
+     * in the customization.
+     *
+     * @param array $customFormData the entity data.
+     * @param array $variables the custom data.
+     *
+     * @throws CRM_Core_Exception
+     */
+    protected function customDefaultValues(array $customFormData, array $variables): void
+    {
+        if ($customFormData['custom_settings'] !== null) {
+            foreach ($variables as $key => $defaultValue) {
+                if (isset($customFormData['custom_settings'][$key])) {
+                    $this->_defaults[$key] = $customFormData['custom_settings'][$key];
+                }
+            }
+        }
+    }
+
+    /**
      * This function sets the common fields on the quick form.
      *
      * @param array $customOptions the data provided by the hooks.
