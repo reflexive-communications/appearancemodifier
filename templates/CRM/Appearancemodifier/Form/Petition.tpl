@@ -53,6 +53,12 @@
             </td>
         </tr>
         <tr>
+            <td class="label">{$form.hide_form_title.label}</td>
+            <td class="content">{$form.hide_form_title.html}<br/>
+                <span class="description">{ts}Hide the title of the form.{/ts}</span>
+            </td>
+        </tr>
+        <tr>
             <td class="label">{$form.petition_message.label}</td>
             <td class="content">{$form.petition_message.html}<br/>
                 <span class="label">{$form.disable_petition_message_edit.label}{$form.disable_petition_message_edit.html}</span><br/>
