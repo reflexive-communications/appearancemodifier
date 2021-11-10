@@ -116,7 +116,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
     }
 
     /*
-     * It tests the pageRun function.
+     * It tests the post function.
      */
     public function testPost()
     {
@@ -223,6 +223,61 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
     }
+    public function testPageRunHiddenTitle()
+    {
+        // petition thankyou
+        $result = civicrm_api3('Survey', 'create', [
+            'sequential' => 1,
+            'title' => "Some title",
+            'activity_type_id' => "Petition",
+        ]);
+        self::assertCount(1, $result['values'], 'Invalid count. '.var_export($result, true));
+        $page = new CRM_Campaign_Page_Petition_ThankYou();
+        $page->setVar('petition', ['id' => $result['values'][0]['id']]);
+        $modifiedConfig = AppearancemodifierPetition::get(false)
+            ->addWhere('survey_id', '=', $result['values'][0]['id'])
+            ->execute()
+            ->first();
+        AppearancemodifierPetition::update(false)
+            ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('custom_settings', ['hide_form_title' => '1', 'disable_petition_message_edit' => '1'])
+            ->execute();
+        self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
+        // event info
+        $results = \Civi\Api4\Event::create(false)
+            ->addValue('title', 'Test event title')
+            ->addValue('event_type_id', 4)
+            ->addValue('start_date', '2022-01-01')
+            ->execute();
+        $page = new CRM_Event_Page_EventInfo();
+        $page->setVar('_id', $results[0]['id']);
+        $modifiedConfig = AppearancemodifierEvent::get(false)
+            ->addWhere('event_id', '=', $results[0]['id'])
+            ->execute()
+            ->first();
+        AppearancemodifierEvent::update(false)
+            ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('custom_settings', ['hide_form_title' => '1'])
+            ->execute();
+        self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
+        // Profile view
+        $results = UFGroup::create()
+            ->addValue('title', 'Test UFGroup aka Profile')
+            ->addValue('name', 'test_ufgroup_name')
+            ->addValue('is_active', true)
+            ->execute();
+        $page = new CRM_Profile_Page_View();
+        $page->setVar('_gid', $results[0]['id']);
+        $modifiedConfig = AppearancemodifierProfile::get(false)
+            ->addWhere('uf_group_id', '=', $results[0]['id'])
+            ->execute()
+            ->first();
+        AppearancemodifierProfile::update(false)
+            ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('custom_settings', ['hide_form_title' => '1'])
+            ->execute();
+        self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
+    }
 
     /*
      * It tests the buildProfile function.
@@ -244,6 +299,27 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->addWhere('id', '=', $modifiedConfig['id'])
             ->addValue('layout_handler', LayoutImplementationTest::class)
             ->addValue('hide_form_labels', 1)
+            ->execute();
+        self::assertEmpty(CRM_Appearancemodifier_Service::buildProfile($profileName));
+    }
+    public function testBuildProfileHiddenTitle()
+    {
+        $profileName = 'test_ufgroup_name';
+        $profile = UFGroup::create()
+            ->addValue('title', 'Test UFGroup aka Profile')
+            ->addValue('name', $profileName)
+            ->addValue('is_active', true)
+            ->execute()
+            ->first();
+        $modifiedConfig = AppearancemodifierProfile::get(false)
+            ->addWhere('uf_group_id', '=', $profile['id'])
+            ->execute()
+            ->first();
+        AppearancemodifierProfile::update(false)
+            ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('hide_form_labels', 1)
+            ->addValue('custom_settings', ['hide_form_title' => '1'])
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::buildProfile($profileName));
     }
@@ -287,6 +363,47 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->addWhere('id', '=', $modifiedConfig['id'])
             ->addValue('layout_handler', LayoutImplementationTest::class)
             ->addValue('hide_form_labels', 1)
+            ->execute();
+        self::assertEmpty(CRM_Appearancemodifier_Service::buildForm(CRM_Event_Form_Registration_Register::class, $form));
+    }
+    public function testBuildFormHiddenTitle()
+    {
+        // petition
+        $result = civicrm_api3('Survey', 'create', [
+            'sequential' => 1,
+            'title' => "Some title",
+            'activity_type_id' => "Petition",
+        ]);
+        $form = new CRM_Campaign_Form_Petition_Signature();
+        $form->setVar('_surveyId', $result['values'][0]['id']);
+        $modifiedConfig = AppearancemodifierPetition::get(false)
+            ->addWhere('survey_id', '=', $result['values'][0]['id'])
+            ->execute()
+            ->first();
+        AppearancemodifierPetition::update(false)
+            ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('hide_form_labels', 1)
+            ->addValue('custom_settings', ['hide_form_title' => '1', 'disable_petition_message_edit' => '1'])
+            ->execute();
+        self::assertEmpty(CRM_Appearancemodifier_Service::buildForm(CRM_Campaign_Form_Petition_Signature::class, $form));
+        // event
+        $results = \Civi\Api4\Event::create(false)
+            ->addValue('title', 'Test event title')
+            ->addValue('event_type_id', 4)
+            ->addValue('start_date', '2022-01-01')
+            ->execute();
+        $form = new CRM_Event_Form_Registration_Register();
+        $form->setVar('_eventId', $results[0]['id']);
+        $modifiedConfig = AppearancemodifierEvent::get(false)
+            ->addWhere('event_id', '=', $results[0]['id'])
+            ->execute()
+            ->first();
+        AppearancemodifierEvent::update(false)
+            ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('hide_form_labels', 1)
+            ->addValue('custom_settings', ['hide_form_title' => '1'])
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::buildForm(CRM_Event_Form_Registration_Register::class, $form));
     }
