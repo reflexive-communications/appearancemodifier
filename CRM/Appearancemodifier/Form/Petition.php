@@ -90,7 +90,6 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
         );
         $this->add('textarea', 'petition_message', E::ts('Petition message'), ['rows' => '4', 'cols' => '60'], false);
         $this->add('checkbox', 'disable_petition_message_edit', E::ts('Disable edit'), [], false);
-        $this->add('checkbox', 'hide_form_title', E::ts('Hide form title'), [], false);
         $this->add('text', 'target_number_of_signers', E::ts('Target number of signers'), [], false);
         $this->add('checkbox', 'custom_social_box', E::ts('Custom social box'), [], false);
         $this->add('text', 'external_share_url', E::ts('External url to share'), [], false);

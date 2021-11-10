@@ -101,6 +101,7 @@ abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
         $this->add('checkbox', 'add_placeholder', E::ts('Add placeholders'), [], false);
         $this->add('color', 'font_color', E::ts('Font Color'), [], false);
         $this->add('checkbox', 'original_font_color', E::ts('Original Font Color'), [], false);
+        $this->add('checkbox', 'hide_form_title', E::ts('Hide form title'), [], false);
         // If the consentactivity extension is installed, the custom consent field -> activity mapping has to be provided
         // defaults for the consentactivity extension related config.
         if (count($this->consentFieldNames) > 0) {
