@@ -73,6 +73,7 @@ The form customization is based on additional settings that could be reached fro
 - Consent Field Behaviour - It provides 3 options. Default (opt-out consent fields), invert (opt-in consent fields), submit implied (set do\_not\_phone and is\_opt\_out to false after form submit).
 - Add placeholders - If checked, the text inputs will contain placeholder attributes. The value of the placeholder will be the same as the label of the text input.
 - Hide text input labels - Only applied when the Add placeholder also applied. If checked the labels of the text inputs will be hidden.
+- Hide form title - If this flag is set, the titles will be hidden on the forms and pages.
 
 ### Consent activity extension
 
