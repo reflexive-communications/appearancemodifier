@@ -269,7 +269,7 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends CRM_Appearancemodi
             'preset_handler' => '',
             'hide_form_title' => '',
             'send_size_when_embedded' => '',
-            'send_size_to_when_embedded' => '',
+            'send_size_to_when_embedded' => '*',
             'consentactivity_custom_'.$customField['id'] => '1',
         ]);
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');

@@ -152,7 +152,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends CRM_Appearancemodifier_For
         $_POST['preset_handler'] = '';
         $_POST['hide_form_title'] = '';
         $_POST['send_size_when_embedded'] = '';
-        $_POST['send_size_to_when_embedded'] = '';
+        $_POST['send_size_to_when_embedded'] = '*';
         $_POST['base_target_is_the_parent'] = '';
         $form = new CRM_Appearancemodifier_Form_Profile();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
@@ -186,7 +186,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends CRM_Appearancemodifier_For
         $_POST['preset_handler'] = 'DummyProfilePresetProviderClass';
         $_POST['hide_form_title'] = '';
         $_POST['send_size_when_embedded'] = '';
-        $_POST['send_size_to_when_embedded'] = '';
+        $_POST['send_size_to_when_embedded'] = '*';
         $_POST['base_target_is_the_parent'] = '';
         $form = new CRM_Appearancemodifier_Form_Profile();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
@@ -222,7 +222,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends CRM_Appearancemodifier_For
         $_POST['preset_handler'] = '';
         $_POST['hide_form_title'] = '';
         $_POST['send_size_when_embedded'] = '';
-        $_POST['send_size_to_when_embedded'] = '';
+        $_POST['send_size_to_when_embedded'] = '*';
         $_POST['base_target_is_the_parent'] = '';
         $form = new CRM_Appearancemodifier_Form_Profile();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');

@@ -164,7 +164,7 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
         $_POST['preset_handler'] = '';
         $_POST['hide_form_title'] = '';
         $_POST['send_size_when_embedded'] = '';
-        $_POST['send_size_to_when_embedded'] = '';
+        $_POST['send_size_to_when_embedded'] = '*';
         $form = new CRM_Appearancemodifier_Form_Event();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
@@ -200,7 +200,7 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
         $_POST['consent_field_behaviour'] = 'default';
         $_POST['hide_form_title'] = '';
         $_POST['send_size_when_embedded'] = '';
-        $_POST['send_size_to_when_embedded'] = '';
+        $_POST['send_size_to_when_embedded'] = '*';
         $form = new CRM_Appearancemodifier_Form_Event();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
@@ -237,7 +237,7 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
         $_POST['preset_handler'] = '';
         $_POST['hide_form_title'] = '';
         $_POST['send_size_when_embedded'] = '';
-        $_POST['send_size_to_when_embedded'] = '';
+        $_POST['send_size_to_when_embedded'] = '*';
         $form = new CRM_Appearancemodifier_Form_Event();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
