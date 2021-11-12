@@ -75,7 +75,7 @@ abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
     {
         if ($customFormData['custom_settings'] !== null) {
             foreach ($variables as $key => $defaultValue) {
-                $this->_defaults[$key] = $customFormData['custom_settings'][$key] ?? $defaultValue;
+                $this->_defaults[$key] = empty($customFormData['custom_settings'][$key]) ? $defaultValue : $customFormData['custom_settings'][$key];
             }
         }
     }
@@ -101,7 +101,7 @@ abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
         $this->add('checkbox', 'original_font_color', E::ts('Original Font Color'), [], false);
         $this->add('checkbox', 'hide_form_title', E::ts('Hide form title'), [], false);
         $this->add('checkbox', 'send_size_when_embedded', E::ts('Send size to parent frame'), [], false);
-        $this->add('text', 'send_size_to_when_embedded', E::ts('Parent frame'), [], false);
+        $this->add('text', 'send_size_to_when_embedded', E::ts('Parent frame'), [], true);
         // If the consentactivity extension is installed, the custom consent field -> activity mapping has to be provided
         // defaults for the consentactivity extension related config.
         if (count($this->consentFieldNames) > 0) {
