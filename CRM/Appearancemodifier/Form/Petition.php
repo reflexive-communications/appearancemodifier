@@ -10,6 +10,10 @@ use Civi\Api4\AppearancemodifierPetition;
  */
 class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_AbstractBase
 {
+    public const DEFAULT_CUSTOM_SETTINGS = [
+        'hide_form_title' => '',
+        'disable_petition_message_edit' => ''
+    ];
     private const PETITION_FIELDS = [
         'layout_handler',
         'background_color',
@@ -63,10 +67,8 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
             $this->_defaults[$key] = $this->modifiedPetition[$key];
         }
         parent::commondDefaultValues($this->modifiedPetition);
-        // default for the petition message edition.
-        if ($this->modifiedPetition['custom_settings'] !== null && isset($this->modifiedPetition['custom_settings']['disable_petition_message_edit'])) {
-            $this->_defaults['disable_petition_message_edit'] = $this->modifiedPetition['custom_settings']['disable_petition_message_edit'];
-        }
+        // default for the custom settings.
+        parent::customDefaultValues($this->modifiedPetition, self::DEFAULT_CUSTOM_SETTINGS);
         return $this->_defaults;
     }
 
@@ -104,8 +106,10 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
     public function postProcess()
     {
         $customSettings = $this->modifiedPetition['custom_settings'];
-        $customSettings['disable_petition_message_edit'] = $this->_submitValues['disable_petition_message_edit'];
-        parent::commonPostProcess(self::PETITION_FIELDS, $customSettings, ['disable_petition_message_edit' => '']);
+        foreach (self::DEFAULT_CUSTOM_SETTINGS as $key => $v) {
+            $customSettings[$key] = $this->_submitValues[$key];
+        }
+        parent::commonPostProcess(self::PETITION_FIELDS, $customSettings, self::DEFAULT_CUSTOM_SETTINGS);
         CRM_Core_Session::setStatus(E::ts('Data has been updated.'), 'Appearancemodifier', 'success', ['expires' => 5000,]);
 
         parent::postProcess();

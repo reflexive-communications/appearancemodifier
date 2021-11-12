@@ -258,6 +258,7 @@ class CRM_Appearancemodifier_Form_EventConsentTest extends CRM_Appearancemodifie
             'hide_form_labels' => '',
             'add_placeholder' => '',
             'preset_handler' => '',
+            'hide_form_title' => '',
             'consentactivity_custom_'.$customField['id'] => '1',
         ]);
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');

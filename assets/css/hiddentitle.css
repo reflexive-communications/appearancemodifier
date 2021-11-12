@@ -1,0 +1,7 @@
+/* Page header has to be hidden */
+.adminimal h1.page-title,
+div#branding h1.page-title,
+div#block-stark-page-title h1,
+h1.page-title {
+    display: none;
+}

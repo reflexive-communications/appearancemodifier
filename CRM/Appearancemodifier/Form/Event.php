@@ -11,6 +11,9 @@ use Civi\Api4\AppearancemodifierEvent;
  */
 class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_AbstractBase
 {
+    public const DEFAULT_CUSTOM_SETTINGS = [
+        'hide_form_title' => '',
+    ];
     private const EVENT_FIELDS = [
         'layout_handler',
         'background_color',
@@ -60,6 +63,8 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
             $this->_defaults[$key] = $this->modifiedEvent[$key];
         }
         parent::commondDefaultValues($this->modifiedEvent);
+        // default for the custom settings.
+        parent::customDefaultValues($this->modifiedEvent, self::DEFAULT_CUSTOM_SETTINGS);
         return $this->_defaults;
     }
 
@@ -91,7 +96,11 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
      */
     public function postProcess()
     {
-        parent::commonPostProcess(self::EVENT_FIELDS, $this->modifiedEvent['custom_settings']);
+        $customSettings = $this->modifiedEvent['custom_settings'];
+        foreach (self::DEFAULT_CUSTOM_SETTINGS as $key => $v) {
+            $customSettings[$key] = $this->_submitValues[$key];
+        }
+        parent::commonPostProcess(self::EVENT_FIELDS, $customSettings, self::DEFAULT_CUSTOM_SETTINGS);
         CRM_Core_Session::setStatus(E::ts('Data has been updated.'), 'Appearancemodifier', 'success', ['expires' => 5000,]);
 
         parent::postProcess();

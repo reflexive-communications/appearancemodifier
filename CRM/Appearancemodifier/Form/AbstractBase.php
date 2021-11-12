@@ -63,6 +63,26 @@ abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
     }
 
     /**
+     * This function sets the default values for the fields that are present
+     * in the customization.
+     *
+     * @param array $customFormData the entity data.
+     * @param array $variables the custom data.
+     *
+     * @throws CRM_Core_Exception
+     */
+    protected function customDefaultValues(array $customFormData, array $variables): void
+    {
+        if ($customFormData['custom_settings'] !== null) {
+            foreach ($variables as $key => $defaultValue) {
+                if (isset($customFormData['custom_settings'][$key])) {
+                    $this->_defaults[$key] = $customFormData['custom_settings'][$key];
+                }
+            }
+        }
+    }
+
+    /**
      * This function sets the common fields on the quick form.
      *
      * @param array $customOptions the data provided by the hooks.
@@ -81,6 +101,7 @@ abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
         $this->add('checkbox', 'add_placeholder', E::ts('Add placeholders'), [], false);
         $this->add('color', 'font_color', E::ts('Font Color'), [], false);
         $this->add('checkbox', 'original_font_color', E::ts('Original Font Color'), [], false);
+        $this->add('checkbox', 'hide_form_title', E::ts('Hide form title'), [], false);
         // If the consentactivity extension is installed, the custom consent field -> activity mapping has to be provided
         // defaults for the consentactivity extension related config.
         if (count($this->consentFieldNames) > 0) {

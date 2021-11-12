@@ -237,6 +237,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
             'hide_form_labels' => '',
             'add_placeholder' => '',
             'preset_handler' => '',
+            'hide_form_title' => '',
         ]);
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
@@ -277,6 +278,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
             'hide_form_labels' => '',
             'add_placeholder' => '',
             'preset_handler' => 'DummyPetitionPresetProviderClass',
+            'hide_form_title' => '',
         ]);
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
@@ -319,6 +321,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends \PHPUnit\Framework\TestCa
             'hide_form_labels' => '',
             'add_placeholder' => '',
             'preset_handler' => '',
+            'hide_form_title' => '',
         ]);
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');

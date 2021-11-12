@@ -138,36 +138,40 @@ class CRM_Appearancemodifier_Service
      */
     public static function pageRun(&$page): void
     {
+        $modifiedConfig = null;
         if ($page->getVar('_name') == 'CRM_Campaign_Page_Petition_ThankYou') {
-            $modifiedPetition = AppearancemodifierPetition::get(false)
+            $modifiedConfig = AppearancemodifierPetition::get(false)
                 ->addWhere('survey_id', '=', $page->getVar('petition')['id'])
                 ->execute()
                 ->first();
-            if ($modifiedPetition['layout_handler'] !== null) {
-                $handler = new $modifiedPetition['layout_handler']('CRM_Campaign_Page_Petition_ThankYou');
+            if ($modifiedConfig['layout_handler'] !== null) {
+                $handler = new $modifiedConfig['layout_handler']('CRM_Campaign_Page_Petition_ThankYou');
                 $handler->setStyleSheets();
             }
-            Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
         } elseif ($page->getVar('_name') == 'CRM_Event_Page_EventInfo') {
-            $modifiedEvent = AppearancemodifierEvent::get(false)
+            $modifiedConfig = AppearancemodifierEvent::get(false)
                 ->addWhere('event_id', '=', $page->getVar('_id'))
                 ->execute()
                 ->first();
-            if ($modifiedEvent['layout_handler'] !== null) {
-                $handler = new $modifiedEvent['layout_handler']('CRM_Event_Page_EventInfo');
+            if ($modifiedConfig['layout_handler'] !== null) {
+                $handler = new $modifiedConfig['layout_handler']('CRM_Event_Page_EventInfo');
                 $handler->setStyleSheets();
             }
-            Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
         } elseif ($page->getVar('_name') == 'CRM_Profile_Page_View') {
-            $modifiedProfile = AppearancemodifierProfile::get(false)
+            $modifiedConfig = AppearancemodifierProfile::get(false)
                 ->addWhere('uf_group_id', '=', $page->getVar('_gid'))
                 ->execute()
                 ->first();
-            if ($modifiedProfile['layout_handler'] !== null) {
-                $handler = new $modifiedProfile['layout_handler']('CRM_Profile_Page_View');
+            if ($modifiedConfig['layout_handler'] !== null) {
+                $handler = new $modifiedConfig['layout_handler']('CRM_Profile_Page_View');
                 $handler->setStyleSheets();
             }
+        }
+        if ($modifiedConfig !== null) {
             Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
+            if ($modifiedConfig['custom_settings'] !== null && $modifiedConfig['custom_settings']['hide_form_title'] === '1') {
+                Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/hiddentitle.css');
+            }
         }
     }
 
@@ -195,6 +199,9 @@ class CRM_Appearancemodifier_Service
             $handler->setStyleSheets();
         }
         Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
+        if ($modifiedProfile['custom_settings'] !== null && $modifiedProfile['custom_settings']['hide_form_title'] === '1') {
+            Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/hiddentitle.css');
+        }
     }
 
     /**
@@ -211,26 +218,31 @@ class CRM_Appearancemodifier_Service
             'CRM_Event_Form_Registration_Confirm',
             'CRM_Event_Form_Registration_ThankYou',
         ];
+        $modifiedConfig = null;
         if ($formName === 'CRM_Campaign_Form_Petition_Signature') {
-            $modifiedPetition = AppearancemodifierPetition::get(false)
+            $modifiedConfig = AppearancemodifierPetition::get(false)
                 ->addWhere('survey_id', '=', $form->getVar('_surveyId'))
                 ->execute()
                 ->first();
-            if ($modifiedPetition['layout_handler'] !== null) {
-                $handler = new $modifiedPetition['layout_handler']($formName);
+            if ($modifiedConfig['layout_handler'] !== null) {
+                $handler = new $modifiedConfig['layout_handler']($formName);
                 $handler->setStyleSheets();
             }
-            Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
         } elseif (array_search($formName, $eventFormNames) !== false) {
-            $modifiedEvent = AppearancemodifierEvent::get(false)
+            $modifiedConfig = AppearancemodifierEvent::get(false)
                 ->addWhere('event_id', '=', $form->getVar('_eventId'))
                 ->execute()
                 ->first();
-            if ($modifiedEvent['layout_handler'] !== null) {
-                $handler = new $modifiedEvent['layout_handler']($formName);
+            if ($modifiedConfig['layout_handler'] !== null) {
+                $handler = new $modifiedConfig['layout_handler']($formName);
                 $handler->setStyleSheets();
             }
+        }
+        if ($modifiedConfig !== null) {
             Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
+            if ($modifiedConfig['custom_settings'] !== null && $modifiedConfig['custom_settings']['hide_form_title'] === '1') {
+                Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/hiddentitle.css');
+            }
         }
     }
 

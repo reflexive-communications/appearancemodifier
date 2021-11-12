@@ -195,6 +195,7 @@ class CRM_Appearancemodifier_Form_ProfileConsentTest extends CRM_Appearancemodif
         $_POST['hide_form_labels'] = '';
         $_POST['add_placeholder'] = '';
         $_POST['preset_handler'] = '';
+        $_POST['hide_form_title'] = '';
         $_POST['consentactivity_custom_'.$customField['id']] = '1';
         $form = new CRM_Appearancemodifier_Form_Profile();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
