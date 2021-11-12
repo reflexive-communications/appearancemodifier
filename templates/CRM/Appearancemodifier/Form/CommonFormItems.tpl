@@ -52,5 +52,12 @@
             <span class="description">{ts}Hide the title of the form.{/ts}</span>
         </td>
     </tr>
+    <tr>
+        <td class="label">{$form.send_size_when_embedded.label}</td>
+        <td class="content">{$form.send_size_when_embedded.html}<br/>
+            <span class="label">{$form.send_size_to_when_embedded.label}{$form.send_size_to_when_embedded.html}</span><br/>
+            <span class="description">{ts}Send the size to the parent frame when the form is embedded.{/ts}</span>
+        </td>
+    </tr>
 </table>
 {/crmScope}
