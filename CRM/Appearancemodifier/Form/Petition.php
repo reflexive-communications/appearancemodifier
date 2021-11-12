@@ -12,7 +12,9 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
 {
     public const DEFAULT_CUSTOM_SETTINGS = [
         'hide_form_title' => '',
-        'disable_petition_message_edit' => ''
+        'disable_petition_message_edit' => '',
+        'send_size_when_embedded' => '',
+        'send_size_to_when_embedded' => '*',
     ];
     private const PETITION_FIELDS = [
         'layout_handler',

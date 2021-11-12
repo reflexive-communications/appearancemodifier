@@ -13,6 +13,9 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
 {
     public const DEFAULT_CUSTOM_SETTINGS = [
         'hide_form_title' => '',
+        'send_size_when_embedded' => '',
+        'send_size_to_when_embedded' => '*',
+        'base_target_is_the_parent' => '',
     ];
     private const PROFILE_FIELDS = [
         'layout_handler',
@@ -84,6 +87,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
             ])
         );
         $this->add('wysiwyg', 'additional_note', E::ts('Additional Note Text'), [], false);
+        $this->add('checkbox', 'base_target_is_the_parent', E::ts('Open links in parent frame'), [], false);
         parent::commonBuildQuickForm($layoutOptions);
         $this->setTitle(E::ts('Customize %1 profile.', [1=>$this->ufGroup['title']]));
         parent::buildQuickForm();
