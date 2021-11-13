@@ -2,6 +2,8 @@
 
 This extension provides an administration interface and functionality to overwrite the layout and the basic styles of the public profile forms, the petition forms, the event forms and the pages that are connected to the forms. The forms could be used as embedded forms on third party pages. The default form layout might be different from the third party site. This extension modifies the html of the forms and adds further css files to be loaded. This tool provides an option for adding formatted and longer default value to a textarea input if it is attached to an activity profile. It could be used as default value for an email like petition message. Possible to use preset configurations and use them on the forms. The translation for hungarian language is included.
 
+When the forms are used in iframe, the parent window might need some information from the embedded site. For example the height of the content is necessary for some cases, when the size of the iframe container is managed with javascript. A javascript application has been developed for providing a message sender functionality. This application checks that the content is loaded in iframe or not. If it is loaded in iframe, then on the onload event and on resize events it send a message directly to the parent window. This message contains a type key with the `resize` value (client request), and a height key that stores the current height value of the embedded window. For the communication it uses the window.postMessage method. As this communication does not contain sensitive information, the target origin is set as `*`. When we have to send sensitive data to the parent, we have to set it to be able to reduce the probability of sending data to unknown third parties.
+
 The extension is licensed under [AGPL-3.0](LICENSE.txt).
 
 ## Requirements
@@ -102,7 +104,7 @@ The AppearancemodifierProfile entity stores the settings for a profile.
 ![Profile Customization Settings](./assets/docs/profile-admin-form.png)
 
 - Additional Note Text - This text will be displayed below the submit button.
-- Base target is the parent - With this setting, the base target of the links will be set to parent frame if the form is embedded.
+- Base target is the parent - With this setting, the target attribute of the base tag will be set to `_parent`. It updates the target attribute of the links and form submissions to the parent window.
 
 **Profile Settings Example**
 ![Profile Settings Example](./assets/docs/profile-admin-example.png)
