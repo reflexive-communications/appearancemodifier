@@ -1,12 +1,7 @@
 {crmAPI var="modifiedPetition" entity="AppearancemodifierPetition" action="get" version="3" survey_id=$survey_id}
-{if $modifiedPetition.count eq '1' && isset($modifiedPetition.values[0].background_color)}
-    {assign var=backgroundColor value=$modifiedPetition.values[0].background_color}
-    {include file="CRM/Appearancemodifier/background.css.tpl"}
-{/if}
-{if $modifiedPetition.count eq '1' && isset($modifiedPetition.values[0].font_color)}
-    {assign var=fontColor value=$modifiedPetition.values[0].font_color}
-    {include file="CRM/Appearancemodifier/font.css.tpl"}
-{/if}
+
+{include file="CRM/Appearancemodifier/commonmodifiedsettings.tpl" modifiedSetting=$modifiedPetition}
+
 {if $modifiedPetition.count eq '1' && isset($modifiedPetition.values[0].signers_block_position)}
     {crmAPI var='numberOfSigners' entity='Activity' action='getcount' sequential=0 activity_type_id="Petition" source_record_id=$survey_id}
 {/if}
