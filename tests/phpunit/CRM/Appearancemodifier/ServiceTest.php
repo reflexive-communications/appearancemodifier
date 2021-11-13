@@ -240,7 +240,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->first();
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('custom_settings', ['hide_form_title' => '1', 'disable_petition_message_edit' => '1'])
+            ->addValue('custom_settings', ['hide_form_title' => '1', 'disable_petition_message_edit' => '1', 'send_size_when_embedded' => '1', 'send_size_to_when_embedded' => '*'])
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
         // event info
@@ -257,7 +257,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->first();
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('custom_settings', ['hide_form_title' => '1'])
+            ->addValue('custom_settings', ['hide_form_title' => '1', 'send_size_when_embedded' => '1', 'send_size_to_when_embedded' => '*'])
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
         // Profile view
@@ -274,7 +274,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->first();
         AppearancemodifierProfile::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('custom_settings', ['hide_form_title' => '1'])
+            ->addValue('custom_settings', ['hide_form_title' => '1', 'base_target_is_the_parent' => '1', 'send_size_when_embedded' => '1', 'send_size_to_when_embedded' => '*'])
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
     }
@@ -319,7 +319,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->addWhere('id', '=', $modifiedConfig['id'])
             ->addValue('layout_handler', LayoutImplementationTest::class)
             ->addValue('hide_form_labels', 1)
-            ->addValue('custom_settings', ['hide_form_title' => '1'])
+            ->addValue('custom_settings', ['hide_form_title' => '1', 'base_target_is_the_parent' => '1', 'send_size_when_embedded' => '1', 'send_size_to_when_embedded' => '*'])
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::buildProfile($profileName));
     }
@@ -384,7 +384,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->addWhere('id', '=', $modifiedConfig['id'])
             ->addValue('layout_handler', LayoutImplementationTest::class)
             ->addValue('hide_form_labels', 1)
-            ->addValue('custom_settings', ['hide_form_title' => '1', 'disable_petition_message_edit' => '1'])
+            ->addValue('custom_settings', ['hide_form_title' => '1', 'disable_petition_message_edit' => '1', 'send_size_when_embedded' => '1', 'send_size_to_when_embedded' => '*'])
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::buildForm(CRM_Campaign_Form_Petition_Signature::class, $form));
         // event
@@ -403,7 +403,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->addWhere('id', '=', $modifiedConfig['id'])
             ->addValue('layout_handler', LayoutImplementationTest::class)
             ->addValue('hide_form_labels', 1)
-            ->addValue('custom_settings', ['hide_form_title' => '1'])
+            ->addValue('custom_settings', ['hide_form_title' => '1', 'send_size_when_embedded' => '1', 'send_size_to_when_embedded' => '*'])
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::buildForm(CRM_Event_Form_Registration_Register::class, $form));
     }
@@ -903,7 +903,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
             ->addValue('petition_message', $defaultMessage)
-            ->addValue('custom_settings', ['disable_petition_message_edit' => '1'])
+            ->addValue('custom_settings', ['hide_form_title' => '1', 'disable_petition_message_edit' => '1', 'send_size_when_embedded' => '1', 'send_size_to_when_embedded' => '*'])
             ->execute();
         $expectedContent = "<div><div class=\"crm-petition-activity-profile\">\n<textarea disabled>".$defaultMessage."</textarea><textarea></textarea>\n</div></div>";
         $content = '<div><div class="crm-petition-activity-profile"><textarea></textarea><textarea></textarea></div></div>';
