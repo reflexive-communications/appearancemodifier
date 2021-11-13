@@ -23,7 +23,8 @@ function sendResizeMessage() {
         type: "resize",
         height: bodyElement.clientHeight,
     };
-    window.self.parent.postMessage(message, "*");
+    let to = allowedMessageReceiver || '*';
+    window.self.parent.postMessage(message, to);
 }
 // The resize event handler function.
 function resizeEventHandler() {
