@@ -621,9 +621,6 @@ class CRM_Appearancemodifier_Service
             if ($modifiedConfig['custom_settings']['hide_form_title'] === '1') {
                 Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/hiddentitle.css');
             }
-            if ($modifiedConfig['custom_settings']['send_size_when_embedded'] === '1' || (isset($modifiedConfig['custom_settings']['base_target_is_the_parent']) && $modifiedConfig['custom_settings']['base_target_is_the_parent'] === '1')) {
-                Civi::resources()->addScriptFile(E::LONG_NAME, 'assets/js/common.js');
-            }
             if ($modifiedConfig['custom_settings']['send_size_when_embedded'] === '1') {
                 Civi::resources()->addScriptFile(E::LONG_NAME, 'assets/js/size.js');
             }
