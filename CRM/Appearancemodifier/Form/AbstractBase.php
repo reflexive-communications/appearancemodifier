@@ -73,10 +73,9 @@ abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
      */
     protected function customDefaultValues(array $customFormData, array $variables): void
     {
-        if ($customFormData['custom_settings'] !== null) {
-            foreach ($variables as $key => $defaultValue) {
-                $this->_defaults[$key] = empty($customFormData['custom_settings'][$key]) ? $defaultValue : $customFormData['custom_settings'][$key];
-            }
+        foreach ($variables as $key => $defaultValue) {
+            $value = ($customFormData['custom_settings'] !== null && array_key_exists($key, $customFormData['custom_settings'])) ? $customFormData['custom_settings'][$key] : $defaultValue;
+            $this->_defaults[$key] = $value;
         }
     }
 
