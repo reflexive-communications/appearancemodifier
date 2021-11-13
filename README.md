@@ -64,7 +64,7 @@ function myextension_civicrm_appearancemodifierEventSettings(&$handlers)
 
 The form customization is based on additional settings that could be reached from a new menu link. The additional settings are stored in managed entities.
 
-### Common settings
+### General settings
 
 - Form Layout - It is the option for extending the template resources and implementing the alterContent for creating further custom changes on the forms.
 - Background Color - If the Original Background Color is unchecked, this value will be used as background color on the form. If the Original Background Color is unchecked and the Transparent Background Color is checked, then transparent background will be applied on the form (included the text inputs, their background color will be set to white and color to black on case of focus state).
@@ -74,6 +74,11 @@ The form customization is based on additional settings that could be reached fro
 - Add placeholders - If checked, the text inputs will contain placeholder attributes. The value of the placeholder will be the same as the label of the text input.
 - Hide text input labels - Only applied when the Add placeholder also applied. If checked the labels of the text inputs will be hidden.
 - Hide form title - If this flag is set, the titles will be hidden on the forms and pages.
+- Send size to the parent window - When the form is embedded, with this option the size of the form will be sent with javascript method to the parent window.
+- Send size to this parent window - When the form is embedded, with this option the size of the form will be sent with javascript method to this parent window. (default: `*`)
+
+**General Settings**
+![general settings](./assets/docs/admin-general-settings.png)
 
 ### Consent activity extension
 
@@ -93,10 +98,11 @@ The AppearancemodifierProfile entity stores the settings for a profile.
 **Profile Customization Menu**
 ![Profile Customization Menu](./assets/docs/profile-admin-link.png)
 
-**Profile Customization Form**
-![Profile Customization Form](./assets/docs/profile-admin-form.png)
+**Profile Customization Settings**
+![Profile Customization Settings](./assets/docs/profile-admin-form.png)
 
 - Additional Note Text - This text will be displayed below the submit button.
+- Base target is the parent - With this setting, the base target of the links will be set to parent frame if the form is embedded.
 
 **Profile Settings Example**
 ![Profile Settings Example](./assets/docs/profile-admin-example.png)
@@ -111,8 +117,8 @@ The AppearancemodifierPetition entity stores the settings for a petition.
 **Petition Customization Menu**
 ![Petition Customization Menu](./assets/docs/petition-admin-link.png)
 
-**Petition Customization Form**
-![Petition Customization Form](./assets/docs/petition-admin-form.png)
+**Petition Customization Settings**
+![Petition Customization Settings](./assets/docs/petition-admin-form.png)
 
 - Additional Note Text - This text will be displayed below the submit button.
 - Petition Message - This text will be added as default text in the petition message field in the activity profile.
@@ -135,9 +141,9 @@ The AppearancemodifierEvent entity stores the settings for an event.
 **Event Customization Menu**
 ![Event Customization Menu](./assets/docs/event-admin-link.png)
 
-**Event Customization Form**
+**Event Customization Settings**
 
-![Event Customization Form](./assets/docs/event-admin-form.png)
+![Event Customization Settings](./assets/docs/event-admin-form.png)
 
 - Custom social box - The sharing options will be replaced with a custom one, that only contans twitter and facebook share option.
 - External url to share - This url will be shared from the social boxes. Only applied when the custom social box also applied.
