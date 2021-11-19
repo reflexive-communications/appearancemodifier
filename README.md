@@ -90,6 +90,8 @@ If the consentactivity extension is also installed, an additional feature also a
 - At least one pseudo privacy field is configured on the consentactivity settings form.
 - The current form contans at least one pseudo privacy field on the connected profiles.
 
+The presudo consent fields are displayed as the privacy fields on the forms.
+
 **Activity map**
 ![activity map](./assets/docs/common-admin-activity-map.png)
 
