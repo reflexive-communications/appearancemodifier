@@ -13,6 +13,8 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
 {
     public const DEFAULT_CUSTOM_SETTINGS = [
         'hide_form_title' => '',
+        'send_size_when_embedded' => '',
+        'send_size_to_when_embedded' => '*',
     ];
     private const EVENT_FIELDS = [
         'layout_handler',

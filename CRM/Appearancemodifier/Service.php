@@ -168,10 +168,7 @@ class CRM_Appearancemodifier_Service
             }
         }
         if ($modifiedConfig !== null) {
-            Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
-            if ($modifiedConfig['custom_settings'] !== null && $modifiedConfig['custom_settings']['hide_form_title'] === '1') {
-                Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/hiddentitle.css');
-            }
+            self::setupResourcesBasedOnSettings($modifiedConfig);
         }
     }
 
@@ -198,10 +195,7 @@ class CRM_Appearancemodifier_Service
             $handler = new $modifiedProfile['layout_handler']('CRM_Profile_Form_Edit');
             $handler->setStyleSheets();
         }
-        Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
-        if ($modifiedProfile['custom_settings'] !== null && $modifiedProfile['custom_settings']['hide_form_title'] === '1') {
-            Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/hiddentitle.css');
-        }
+        self::setupResourcesBasedOnSettings($modifiedProfile);
     }
 
     /**
@@ -239,10 +233,7 @@ class CRM_Appearancemodifier_Service
             }
         }
         if ($modifiedConfig !== null) {
-            Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
-            if ($modifiedConfig['custom_settings'] !== null && $modifiedConfig['custom_settings']['hide_form_title'] === '1') {
-                Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/hiddentitle.css');
-            }
+            self::setupResourcesBasedOnSettings($modifiedConfig);
         }
     }
 
@@ -616,5 +607,26 @@ class CRM_Appearancemodifier_Service
             }
         }
         $content = $doc->htmlOuter();
+    }
+
+    /*
+     * This function sets the resources based on the given configuration.
+     *
+     * @param array $modifiedConfig
+     */
+    private static function setupResourcesBasedOnSettings(array $modifiedConfig)
+    {
+        Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
+        if ($modifiedConfig['custom_settings'] !== null) {
+            if ($modifiedConfig['custom_settings']['hide_form_title'] === '1') {
+                Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/hiddentitle.css');
+            }
+            if ($modifiedConfig['custom_settings']['send_size_when_embedded'] === '1') {
+                Civi::resources()->addScriptFile(E::LONG_NAME, 'assets/js/size.js');
+            }
+            if (isset($modifiedConfig['custom_settings']['base_target_is_the_parent']) && $modifiedConfig['custom_settings']['base_target_is_the_parent'] === '1') {
+                Civi::resources()->addScriptFile(E::LONG_NAME, 'assets/js/basetarget.js');
+            }
+        }
     }
 }

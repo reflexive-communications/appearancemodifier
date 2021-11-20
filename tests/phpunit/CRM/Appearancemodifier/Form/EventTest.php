@@ -1,9 +1,6 @@
 <?php
 
 use CRM_Appearancemodifier_ExtensionUtil as E;
-use Civi\Test\HeadlessInterface;
-use Civi\Test\HookInterface;
-use Civi\Test\TransactionalInterface;
 
 class DummyEventPresetProviderClass
 {
@@ -27,54 +24,8 @@ class DummyEventPresetProviderClass
  *
  * @group headless
  */
-class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase implements HeadlessInterface, HookInterface, TransactionalInterface
+class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_HeadlessBase
 {
-    public function setUpHeadless()
-    {
-        return \Civi\Test::headless()
-            ->install('rc-base')
-            ->installMe(__DIR__)
-            ->apply();
-    }
-
-    /**
-     * Apply a forced rebuild of DB, thus
-     * create a clean DB before running tests
-     *
-     * @throws \CRM_Extension_Exception_ParseException
-     */
-    public static function setUpBeforeClass(): void
-    {
-        // Resets DB and install depended extension
-        \Civi\Test::headless()
-            ->install('rc-base')
-            ->installMe(__DIR__)
-            ->apply(true);
-    }
-
-    /**
-     * Create a clean DB after running tests
-     *
-     * @throws CRM_Extension_Exception_ParseException
-     */
-    public static function tearDownAfterClass(): void
-    {
-        \Civi\Test::headless()
-            ->uninstallMe(__DIR__)
-            ->uninstall('rc-base')
-            ->apply(true);
-    }
-
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
-    public function tearDown(): void
-    {
-        parent::tearDown();
-    }
-
     /*
      * It tests the preProcess function.
      */
@@ -212,6 +163,8 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
         $_POST['add_placeholder'] = '';
         $_POST['preset_handler'] = '';
         $_POST['hide_form_title'] = '';
+        $_POST['send_size_when_embedded'] = '';
+        $_POST['send_size_to_when_embedded'] = '*';
         $form = new CRM_Appearancemodifier_Form_Event();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
@@ -246,6 +199,8 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
         $_POST['preset_handler'] = 'DummyEventPresetProviderClass';
         $_POST['consent_field_behaviour'] = 'default';
         $_POST['hide_form_title'] = '';
+        $_POST['send_size_when_embedded'] = '';
+        $_POST['send_size_to_when_embedded'] = '*';
         $form = new CRM_Appearancemodifier_Form_Event();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
@@ -281,6 +236,8 @@ class CRM_Appearancemodifier_Form_EventTest extends \PHPUnit\Framework\TestCase 
         $_POST['add_placeholder'] = '';
         $_POST['preset_handler'] = '';
         $_POST['hide_form_title'] = '';
+        $_POST['send_size_when_embedded'] = '';
+        $_POST['send_size_to_when_embedded'] = '*';
         $form = new CRM_Appearancemodifier_Form_Event();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
