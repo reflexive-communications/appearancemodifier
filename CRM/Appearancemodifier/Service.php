@@ -414,10 +414,37 @@ class CRM_Appearancemodifier_Service
         if ($modifiedProfile['add_placeholder'] !== null) {
             self::setupPlaceholders($content, $modifiedProfile['hide_form_labels']);
         }
+        self::changeConsentActivityFields($content);
         if ($modifiedProfile['layout_handler'] !== null) {
             $handler = new $modifiedProfile['layout_handler']('CRM_Profile_Form_Edit');
             $handler->alterContent($content);
         }
+    }
+    /*
+     * This function handles the layout changes for the consent fields.
+     * The label of the field is replaced with the label of the checkbox.
+     *
+     * @param string $content
+     */
+    private static function changeConsentActivityFields(&$content): void
+    {
+        $manager = CRM_Extension_System::singleton()->getManager();
+        if ($manager->getStatus('consentactivity') !== CRM_Extension_Manager::STATUS_INSTALLED) {
+            return;
+        }
+        // gather the custom fields from the service.
+        $consentActivityConfig = new CRM_Consentactivity_Config('consentactivity');
+        $consentActivityConfig->load();
+        $config = $consentActivityConfig->get();
+        $map = $config['custom-field-map'];
+        $doc = phpQuery::newDocument($content);
+        foreach ($map as $entry) {
+            $id = 'editrow-'.$entry['custom-field-id'];
+            $doc['#'.$id]->addClass('consentactivity');
+            // Set the checkbox label to the fieldset label and then remove the checkbox label.
+            $doc['#'.$id.' div.label label']->replaceWith($doc['#'.$id.' div.content label']);
+        }
+        $content = $doc->htmlOuter();
     }
 
     /*
@@ -473,6 +500,7 @@ class CRM_Appearancemodifier_Service
         if ($modifiedPetition['add_placeholder'] !== null) {
             self::setupPlaceholders($content, $modifiedPetition['hide_form_labels']);
         }
+        self::changeConsentActivityFields($content);
         if ($modifiedPetition['layout_handler'] !== null) {
             $handler = new $modifiedPetition['layout_handler']($object->getVar('_name'));
             $handler->alterContent($content);
@@ -517,6 +545,7 @@ class CRM_Appearancemodifier_Service
         if ($modifiedEvent['add_placeholder'] !== null) {
             self::setupPlaceholders($content, $modifiedEvent['hide_form_labels']);
         }
+        self::changeConsentActivityFields($content);
         if ($modifiedEvent['layout_handler'] !== null) {
             $handler = new $modifiedEvent['layout_handler']($object->getVar('_name'));
             $handler->alterContent($content);
