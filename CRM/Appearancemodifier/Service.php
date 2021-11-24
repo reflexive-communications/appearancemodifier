@@ -187,6 +187,11 @@ class CRM_Appearancemodifier_Service
             ->setLimit(1)
             ->execute()
             ->first();
+        // When someone creates a CMS profile, it also calls this with profile name 'unknown'
+        // The customized profile obviously does not exists for this profile name.
+        if (is_null($uFGroup)) {
+            return;
+        }
         $modifiedProfile = AppearancemodifierProfile::get(false)
             ->addWhere('uf_group_id', '=', $uFGroup['id'])
             ->execute()

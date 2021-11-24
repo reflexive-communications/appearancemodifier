@@ -323,6 +323,11 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::buildProfile($profileName));
     }
+    public function testBuildProfileUknownProfile()
+    {
+        $profileName = 'unknown';
+        self::assertEmpty(CRM_Appearancemodifier_Service::buildProfile($profileName));
+    }
 
     /*
      * It tests the buildForm function.
