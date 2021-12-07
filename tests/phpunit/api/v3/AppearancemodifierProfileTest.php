@@ -6,6 +6,7 @@ use Civi\Test\TransactionalInterface;
 
 /**
  * AppearancemodifierProfile API Test Case
+ *
  * @group headless
  */
 class api_v3_AppearancemodifierProfileTest extends \PHPUnit\Framework\TestCase implements HeadlessInterface, HookInterface, TransactionalInterface
@@ -22,8 +23,8 @@ class api_v3_AppearancemodifierProfileTest extends \PHPUnit\Framework\TestCase i
     public function setUpHeadless()
     {
         return \Civi\Test::headless()
-      ->installMe(__DIR__)
-      ->apply();
+            ->installMe(__DIR__)
+            ->apply();
     }
 
     /**
@@ -43,5 +44,10 @@ class api_v3_AppearancemodifierProfileTest extends \PHPUnit\Framework\TestCase i
     public function tearDown(): void
     {
         parent::tearDown();
+    }
+
+    public function testClass()
+    {
+        self::markTestIncomplete('Test not implemented');
     }
 }
