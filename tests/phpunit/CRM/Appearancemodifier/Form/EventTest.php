@@ -165,6 +165,8 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
         $_POST['hide_form_title'] = '';
         $_POST['send_size_when_embedded'] = '';
         $_POST['send_size_to_when_embedded'] = '*';
+        $_POST['add_check_all_checkbox'] = '';
+        $_POST['check_all_checkbox_label'] = '';
         $form = new CRM_Appearancemodifier_Form_Event();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
@@ -201,6 +203,8 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
         $_POST['hide_form_title'] = '';
         $_POST['send_size_when_embedded'] = '';
         $_POST['send_size_to_when_embedded'] = '*';
+        $_POST['add_check_all_checkbox'] = '';
+        $_POST['check_all_checkbox_label'] = '';
         $form = new CRM_Appearancemodifier_Form_Event();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
@@ -238,6 +242,8 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
         $_POST['hide_form_title'] = '';
         $_POST['send_size_when_embedded'] = '';
         $_POST['send_size_to_when_embedded'] = '*';
+        $_POST['add_check_all_checkbox'] = '';
+        $_POST['check_all_checkbox_label'] = '';
         $form = new CRM_Appearancemodifier_Form_Event();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
