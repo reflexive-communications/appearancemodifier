@@ -416,6 +416,10 @@ class CRM_Appearancemodifier_Service
             ->addWhere('uf_group_id', '=', $ufGroupId)
             ->execute()
             ->first();
+        // add the select all checkbox here and then let the process to do the formatting steps.
+        if ($modifiedProfile['custom_settings'] !== null && !empty($modifiedProfile['custom_settings']['add_check_all_checkbox'])) {
+            self::addTheSelectAllCheckbox($content, $modifiedProfile['custom_settings']['check_all_checkbox_label']);
+        }
         if ($modifiedProfile['add_placeholder'] !== null) {
             self::setupPlaceholders($content, $modifiedProfile['hide_form_labels']);
         }
