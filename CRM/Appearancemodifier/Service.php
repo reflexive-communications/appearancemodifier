@@ -506,6 +506,10 @@ class CRM_Appearancemodifier_Service
             ]);
             self::customSocialBlock($content, $modifiedPetition['external_share_url'], $petitions['values'][0]['title']);
         }
+        // add the select all checkbox here and then let the process to do the formatting steps.
+        if ($modifiedPetition['custom_settings'] !== null && !empty($modifiedPetition['custom_settings']['add_check_all_checkbox'])) {
+            self::addTheSelectAllCheckbox($content, $modifiedPetition['custom_settings']['check_all_checkbox_label']);
+        }
         if ($modifiedPetition['add_placeholder'] !== null) {
             self::setupPlaceholders($content, $modifiedPetition['hide_form_labels']);
         }
