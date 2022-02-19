@@ -701,7 +701,7 @@ class CRM_Appearancemodifier_Service
             if (isset($modifiedConfig['custom_settings']['base_target_is_the_parent']) && $modifiedConfig['custom_settings']['base_target_is_the_parent'] === '1') {
                 Civi::resources()->addScriptFile(E::LONG_NAME, 'assets/js/basetarget.js');
             }
-            if ($modifiedConfig['custom_settings']['add_check_all_checkbox'] === '1') {
+            if (isset($modifiedConfig['custom_settings']['add_check_all_checkbox']) && $modifiedConfig['custom_settings']['add_check_all_checkbox'] === '1') {
                 Civi::resources()->addScriptFile(E::LONG_NAME, 'assets/js/checkallcheckbox.js');
             }
         }
