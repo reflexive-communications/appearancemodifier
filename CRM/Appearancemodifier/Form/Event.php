@@ -15,6 +15,8 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
         'hide_form_title' => '',
         'send_size_when_embedded' => '',
         'send_size_to_when_embedded' => '*',
+        'add_check_all_checkbox' => '',
+        'check_all_checkbox_label' => '',
     ];
     private const EVENT_FIELDS = [
         'layout_handler',
