@@ -555,6 +555,10 @@ class CRM_Appearancemodifier_Service
                 ->first()['title'];
             self::customSocialBlock($content, $modifiedEvent['external_share_url'], $title);
         }
+        // add the select all checkbox here and then let the process to do the formatting steps.
+        if ($modifiedEvent['custom_settings'] !== null && !empty($modifiedEvent['custom_settings']['add_check_all_checkbox'])) {
+            self::addTheSelectAllCheckbox($content, $modifiedEvent['custom_settings']['check_all_checkbox_label']);
+        }
         if ($modifiedEvent['add_placeholder'] !== null) {
             self::setupPlaceholders($content, $modifiedEvent['hide_form_labels']);
         }
