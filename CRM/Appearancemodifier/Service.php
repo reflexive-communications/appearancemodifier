@@ -644,6 +644,34 @@ class CRM_Appearancemodifier_Service
     }
 
     /*
+     * This function adds the check all checkbox to the form.
+     * When the for does not contain checkboxes, it does nothing,
+     * otherwise it adds the checkbox right before the first one.
+     *
+     * @param string $content
+     * @param string $checkboxLabel
+     */
+    private static function addTheSelectAllCheckbox(string &$content, string $checkboxLabel)
+    {
+        $doc = phpQuery::newDocument($content);
+        foreach ($doc['input[type="checkbox"]'] as $checkbox) {
+            $containerNode = $checkbox;
+            $classList = $containerNode->getAttribute('class');
+            while (strpos($classList, 'crm-section') === false) {
+                $containerNode = $containerNode->parentNode;
+                $classList = $containerNode->getAttribute('class');
+            }
+            $node = new DOMElement('div');
+            $containerNode->parentNode->insertBefore($node, $containerNode);
+            $node->setAttribute('id', 'check-all-checkbox');
+            $checkAllCheckboxTemplate = '<div class="crm-section form-item"><div class="label"><label for="check-all-checkbox-item">'.$checkboxLabel.'</label></div><div class="edit-value content"><input class="crm-form-checkbox" type="checkbox" onclick="checkAllCheckboxClickHandler(this)" id="check-all-checkbox-item"></div><div class="clear"></div></div>';
+            $doc['#check-all-checkbox']->append(phpQuery::newDocument($checkAllCheckboxTemplate));
+            break;
+        }
+        $content = $doc->htmlOuter();
+    }
+
+    /*
      * This function sets the resources based on the given configuration.
      *
      * @param array $modifiedConfig
