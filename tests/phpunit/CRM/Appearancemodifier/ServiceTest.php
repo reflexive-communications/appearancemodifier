@@ -240,7 +240,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->first();
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('custom_settings', ['hide_form_title' => '1', 'disable_petition_message_edit' => '1', 'send_size_when_embedded' => '1', 'send_size_to_when_embedded' => '*'])
+            ->addValue('custom_settings', ['hide_form_title' => '1', 'disable_petition_message_edit' => '1', 'send_size_when_embedded' => '1', 'send_size_to_when_embedded' => '*', 'add_check_all_checkbox' => '', 'check_all_checkbox_label' => ''])
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
         // event info
@@ -257,7 +257,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->first();
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('custom_settings', ['hide_form_title' => '1', 'send_size_when_embedded' => '1', 'send_size_to_when_embedded' => '*'])
+            ->addValue('custom_settings', ['hide_form_title' => '1', 'send_size_when_embedded' => '1', 'send_size_to_when_embedded' => '*', 'add_check_all_checkbox' => '', 'check_all_checkbox_label' => ''])
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
         // Profile view
@@ -274,7 +274,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->first();
         AppearancemodifierProfile::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('custom_settings', ['hide_form_title' => '1', 'base_target_is_the_parent' => '1', 'send_size_when_embedded' => '1', 'send_size_to_when_embedded' => '*'])
+            ->addValue('custom_settings', ['hide_form_title' => '1', 'base_target_is_the_parent' => '1', 'send_size_when_embedded' => '1', 'send_size_to_when_embedded' => '*', 'add_check_all_checkbox' => '', 'check_all_checkbox_label' => ''])
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
     }
@@ -319,7 +319,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->addWhere('id', '=', $modifiedConfig['id'])
             ->addValue('layout_handler', LayoutImplementationTest::class)
             ->addValue('hide_form_labels', 1)
-            ->addValue('custom_settings', ['hide_form_title' => '1', 'base_target_is_the_parent' => '1', 'send_size_when_embedded' => '1', 'send_size_to_when_embedded' => '*'])
+            ->addValue('custom_settings', ['hide_form_title' => '1', 'base_target_is_the_parent' => '1', 'send_size_when_embedded' => '1', 'send_size_to_when_embedded' => '*', 'add_check_all_checkbox' => '', 'check_all_checkbox_label' => ''])
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::buildProfile($profileName));
     }
@@ -389,7 +389,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->addWhere('id', '=', $modifiedConfig['id'])
             ->addValue('layout_handler', LayoutImplementationTest::class)
             ->addValue('hide_form_labels', 1)
-            ->addValue('custom_settings', ['hide_form_title' => '1', 'disable_petition_message_edit' => '1', 'send_size_when_embedded' => '1', 'send_size_to_when_embedded' => '*'])
+            ->addValue('custom_settings', ['hide_form_title' => '1', 'disable_petition_message_edit' => '1', 'send_size_when_embedded' => '1', 'send_size_to_when_embedded' => '*', 'add_check_all_checkbox' => '', 'check_all_checkbox_label' => ''])
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::buildForm(CRM_Campaign_Form_Petition_Signature::class, $form));
         // event
@@ -408,7 +408,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->addWhere('id', '=', $modifiedConfig['id'])
             ->addValue('layout_handler', LayoutImplementationTest::class)
             ->addValue('hide_form_labels', 1)
-            ->addValue('custom_settings', ['hide_form_title' => '1', 'send_size_when_embedded' => '1', 'send_size_to_when_embedded' => '*'])
+            ->addValue('custom_settings', ['hide_form_title' => '1', 'send_size_when_embedded' => '1', 'send_size_to_when_embedded' => '*', 'add_check_all_checkbox' => '', 'check_all_checkbox_label' => ''])
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::buildForm(CRM_Event_Form_Registration_Register::class, $form));
     }
@@ -1100,5 +1100,89 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
         $expectedContent = $content;
         self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0], $form));
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0].'. '.$content);
+    }
+    public function testAlterContentProfileCheckAllCheckbox()
+    {
+        $profile = UFGroup::create()
+            ->addValue('title', 'Test UFGroup aka Profile')
+            ->addValue('is_active', true)
+            ->execute()
+            ->first();
+        $modifiedConfig = AppearancemodifierProfile::get(false)
+            ->addWhere('id', '=', $profile['id'])
+            ->execute()
+            ->first();
+        $customSettings = $modifiedConfig['custom_settings'];
+        $customSettings['add_check_all_checkbox'] = '1';
+        $customSettings['check_all_checkbox_label'] = 'Check All With Me.';
+        AppearancemodifierProfile::update(false)
+            ->addWhere('id', '=', $profile['id'])
+            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('add_placeholder', 1)
+            ->addValue('hide_form_labels', 1)
+            ->addValue('custom_settings', $customSettings)
+            ->execute();
+        $form = new CRM_Profile_Form_Edit();
+        $form->setVar('_gid', $profile['id']);
+        $expectedContent = "<div>\n<div class=\"crm-section form-item\">\n<div class=\"label hidden-node\">This is the first</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the first\"></div>\n</div>\n<div class=\"crm-section form-item\"> <div class=\"label hidden-node\">This is the second</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the second\"></div>\n</div>\n<div id=\"check-all-checkbox\"><div class=\"crm-section form-item\">\n<div class=\"label\"><label for=\"check-all-checkbox-item\">Check All With Me.</label></div>\n<div class=\"edit-value content\"><input class=\"crm-form-checkbox\" type=\"checkbox\" onclick=\"checkAllCheckboxClickHandler(this)\" id=\"check-all-checkbox-item\"></div>\n<div class=\"clear\"></div>\n</div></div>\n<div class=\"crm-section form-item\">\n<div class=\"label\">This is the checkbox</div>\n<div class=\"content\"><input type=\"checkbox\"></div>\n</div>\n</div>";
+        $content = '<div><div class="crm-section form-item"><div class="label">This is the first</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"> <div class="label">This is the second</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"><div class="label">This is the checkbox</div><div class="content"><input type="checkbox" /></div></div></div>';
+        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::PROFILE_TEMPLATES[0], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PROFILE_TEMPLATES[0].'. '.$content);
+    }
+    public function testAlterContentPetitionCheckAllCheckbox()
+    {
+        $result = civicrm_api3('Survey', 'create', [
+            'sequential' => 1,
+            'title' => "Some title",
+            'activity_type_id' => "Petition",
+        ]);
+        $form = new CRM_Campaign_Form_Petition_Signature();
+        $form->setVar('_surveyId', $result['values'][0]['id']);
+        $modifiedConfig = AppearancemodifierPetition::get(false)
+            ->addWhere('survey_id', '=', $result['values'][0]['id'])
+            ->execute()
+            ->first();
+        $customSettings = $modifiedConfig['custom_settings'];
+        $customSettings['add_check_all_checkbox'] = '1';
+        $customSettings['check_all_checkbox_label'] = 'Check All With Me.';
+        AppearancemodifierPetition::update(false)
+            ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('add_placeholder', 1)
+            ->addValue('hide_form_labels', 1)
+            ->addValue('custom_settings', $customSettings)
+            ->execute();
+        $expectedContent = "<div>\n<div class=\"crm-section form-item\">\n<div class=\"label hidden-node\">This is the first</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the first\"></div>\n</div>\n<div class=\"crm-section form-item\"> <div class=\"label hidden-node\">This is the second</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the second\"></div>\n</div>\n<div id=\"check-all-checkbox\"><div class=\"crm-section form-item\">\n<div class=\"label\"><label for=\"check-all-checkbox-item\">Check All With Me.</label></div>\n<div class=\"edit-value content\"><input class=\"crm-form-checkbox\" type=\"checkbox\" onclick=\"checkAllCheckboxClickHandler(this)\" id=\"check-all-checkbox-item\"></div>\n<div class=\"clear\"></div>\n</div></div>\n<div class=\"crm-section form-item\">\n<div class=\"label\">This is the checkbox</div>\n<div class=\"content\"><input type=\"checkbox\"></div>\n</div>\n</div>";
+        $content = '<div><div class="crm-section form-item"><div class="label">This is the first</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"> <div class="label">This is the second</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"><div class="label">This is the checkbox</div><div class="content"><input type="checkbox" /></div></div></div>';
+        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0].'. '.$content);
+    }
+    public function testAlterContentEventCheckAllCheckbox()
+    {
+        $results = \Civi\Api4\Event::create(false)
+            ->addValue('title', 'Test event title')
+            ->addValue('event_type_id', 4)
+            ->addValue('start_date', '2022-01-01')
+            ->execute();
+        $form = new CRM_Event_Page_EventInfo();
+        $form->setVar('_id', $results[0]['id']);
+        $modifiedConfig = AppearancemodifierEvent::get(false)
+            ->addWhere('event_id', '=', $results[0]['id'])
+            ->execute()
+            ->first();
+        $customSettings = $modifiedConfig['custom_settings'];
+        $customSettings['add_check_all_checkbox'] = '1';
+        $customSettings['check_all_checkbox_label'] = 'Check All With Me.';
+        AppearancemodifierEvent::update(false)
+            ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('add_placeholder', 1)
+            ->addValue('hide_form_labels', 1)
+            ->addValue('custom_settings', $customSettings)
+            ->execute();
+        $expectedContent = "<div>\n<div class=\"crm-section form-item\">\n<div class=\"label hidden-node\">This is the first</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the first\"></div>\n</div>\n<div class=\"crm-section form-item\"> <div class=\"label hidden-node\">This is the second</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the second\"></div>\n</div>\n<div id=\"check-all-checkbox\"><div class=\"crm-section form-item\">\n<div class=\"label\"><label for=\"check-all-checkbox-item\">Check All With Me.</label></div>\n<div class=\"edit-value content\"><input class=\"crm-form-checkbox\" type=\"checkbox\" onclick=\"checkAllCheckboxClickHandler(this)\" id=\"check-all-checkbox-item\"></div>\n<div class=\"clear\"></div>\n</div></div>\n<div class=\"crm-section form-item\">\n<div class=\"label\">This is the checkbox</div>\n<div class=\"content\"><input type=\"checkbox\"></div>\n</div>\n</div>";
+        $content = '<div><div class="crm-section form-item"><div class="label">This is the first</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"> <div class="label">This is the second</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"><div class="label">This is the checkbox</div><div class="content"><input type="checkbox" /></div></div></div>';
+        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::EVENT_TEMPLATES[0], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::EVENT_TEMPLATES[0].'. '.$content);
     }
 }
