@@ -102,7 +102,7 @@ abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
         $this->add('checkbox', 'send_size_when_embedded', E::ts('Send size to parent frame'), [], false);
         $this->add('text', 'send_size_to_when_embedded', E::ts('Parent frame'), [], true);
         $this->add('checkbox', 'add_check_all_checkbox', E::ts('Add check all checkbox'), [], false);
-        $this->add('text', 'check_all_checkbox_label', E::ts('Checkbox label'), [], true);
+        $this->add('text', 'check_all_checkbox_label', E::ts('Checkbox label'), [], false);
         // If the consentactivity extension is installed, the custom consent field -> activity mapping has to be provided
         // defaults for the consentactivity extension related config.
         if (count($this->consentFieldNames) > 0) {
