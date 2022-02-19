@@ -346,10 +346,14 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->addWhere('survey_id', '=', $result['values'][0]['id'])
             ->execute()
             ->first();
+        $customSettings = $modifiedConfig['custom_settings'];
+        $customSettings['add_check_all_checkbox'] = '1';
+        $customSettings['check_all_checkbox_label'] = 'All';
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
             ->addValue('layout_handler', LayoutImplementationTest::class)
             ->addValue('hide_form_labels', 1)
+            ->addValue('custom_settings', $customSettings)
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::buildForm(CRM_Campaign_Form_Petition_Signature::class, $form));
         // event
