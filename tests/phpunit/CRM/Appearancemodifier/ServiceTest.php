@@ -349,6 +349,9 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
         $customSettings = $modifiedConfig['custom_settings'];
         $customSettings['add_check_all_checkbox'] = '1';
         $customSettings['check_all_checkbox_label'] = 'All';
+        $customSettings['hide_form_title'] = '';
+        $customSettings['send_size_when_embedded'] = '';
+        $customSettings['base_target_is_the_parent'] = '';
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
             ->addValue('layout_handler', LayoutImplementationTest::class)
