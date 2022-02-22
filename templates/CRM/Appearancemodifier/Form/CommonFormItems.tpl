@@ -59,5 +59,12 @@
             <span class="description">{ts}Send the size to the parent frame when the form is embedded.{/ts}</span>
         </td>
     </tr>
+    <tr>
+        <td class="label">{$form.add_check_all_checkbox.label}</td>
+        <td class="content">{$form.add_check_all_checkbox.html}<br/>
+            <span class="label">{$form.check_all_checkbox_label.label}{$form.check_all_checkbox_label.html}</span><br/>
+            <span class="description">{ts}You can check or uncheck every checbox on the form.{/ts}</span>
+        </td>
+    </tr>
 </table>
 {/crmScope}

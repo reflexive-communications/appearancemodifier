@@ -198,6 +198,8 @@ class CRM_Appearancemodifier_Form_ProfileConsentTest extends CRM_Appearancemodif
         $_POST['hide_form_title'] = '';
         $_POST['send_size_when_embedded'] = '';
         $_POST['send_size_to_when_embedded'] = '*';
+        $_POST['add_check_all_checkbox'] = '';
+        $_POST['check_all_checkbox_label'] = '';
         $_POST['base_target_is_the_parent'] = '';
         $_POST['consentactivity_custom_'.$customField['id']] = '1';
         $form = new CRM_Appearancemodifier_Form_Profile();

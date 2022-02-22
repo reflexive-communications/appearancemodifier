@@ -191,6 +191,8 @@ class CRM_Appearancemodifier_Form_PetitionTest extends CRM_Appearancemodifier_Fo
             'hide_form_title' => '',
             'send_size_when_embedded' => '',
             'send_size_to_when_embedded' => '*',
+            'add_check_all_checkbox' => '',
+            'check_all_checkbox_label' => '',
         ]);
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
@@ -234,6 +236,8 @@ class CRM_Appearancemodifier_Form_PetitionTest extends CRM_Appearancemodifier_Fo
             'hide_form_title' => '',
             'send_size_when_embedded' => '',
             'send_size_to_when_embedded' => '*',
+            'add_check_all_checkbox' => '',
+            'check_all_checkbox_label' => '',
         ]);
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
@@ -279,6 +283,8 @@ class CRM_Appearancemodifier_Form_PetitionTest extends CRM_Appearancemodifier_Fo
             'hide_form_title' => '',
             'send_size_when_embedded' => '',
             'send_size_to_when_embedded' => '*',
+            'add_check_all_checkbox' => '',
+            'check_all_checkbox_label' => '',
         ]);
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');

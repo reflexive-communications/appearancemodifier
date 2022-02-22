@@ -15,6 +15,8 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
         'disable_petition_message_edit' => '',
         'send_size_when_embedded' => '',
         'send_size_to_when_embedded' => '*',
+        'add_check_all_checkbox' => '',
+        'check_all_checkbox_label' => '',
     ];
     private const PETITION_FIELDS = [
         'layout_handler',

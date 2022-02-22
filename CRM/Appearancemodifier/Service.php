@@ -416,6 +416,10 @@ class CRM_Appearancemodifier_Service
             ->addWhere('uf_group_id', '=', $ufGroupId)
             ->execute()
             ->first();
+        // add the select all checkbox here and then let the process to do the formatting steps.
+        if ($modifiedProfile['custom_settings'] !== null && !empty($modifiedProfile['custom_settings']['add_check_all_checkbox'])) {
+            self::addTheSelectAllCheckbox($content, $modifiedProfile['custom_settings']['check_all_checkbox_label']);
+        }
         if ($modifiedProfile['add_placeholder'] !== null) {
             self::setupPlaceholders($content, $modifiedProfile['hide_form_labels']);
         }
@@ -502,6 +506,10 @@ class CRM_Appearancemodifier_Service
             ]);
             self::customSocialBlock($content, $modifiedPetition['external_share_url'], $petitions['values'][0]['title']);
         }
+        // add the select all checkbox here and then let the process to do the formatting steps.
+        if ($modifiedPetition['custom_settings'] !== null && !empty($modifiedPetition['custom_settings']['add_check_all_checkbox'])) {
+            self::addTheSelectAllCheckbox($content, $modifiedPetition['custom_settings']['check_all_checkbox_label']);
+        }
         if ($modifiedPetition['add_placeholder'] !== null) {
             self::setupPlaceholders($content, $modifiedPetition['hide_form_labels']);
         }
@@ -546,6 +554,10 @@ class CRM_Appearancemodifier_Service
                 ->execute()
                 ->first()['title'];
             self::customSocialBlock($content, $modifiedEvent['external_share_url'], $title);
+        }
+        // add the select all checkbox here and then let the process to do the formatting steps.
+        if ($modifiedEvent['custom_settings'] !== null && !empty($modifiedEvent['custom_settings']['add_check_all_checkbox'])) {
+            self::addTheSelectAllCheckbox($content, $modifiedEvent['custom_settings']['check_all_checkbox_label']);
         }
         if ($modifiedEvent['add_placeholder'] !== null) {
             self::setupPlaceholders($content, $modifiedEvent['hide_form_labels']);
@@ -644,6 +656,34 @@ class CRM_Appearancemodifier_Service
     }
 
     /*
+     * This function adds the check all checkbox to the form.
+     * When the for does not contain checkboxes, it does nothing,
+     * otherwise it adds the checkbox right before the first one.
+     *
+     * @param string $content
+     * @param string $checkboxLabel
+     */
+    private static function addTheSelectAllCheckbox(string &$content, string $checkboxLabel)
+    {
+        $doc = phpQuery::newDocument($content);
+        foreach ($doc['input[type="checkbox"]'] as $checkbox) {
+            $containerNode = $checkbox;
+            $classList = $containerNode->getAttribute('class');
+            while (strpos($classList, 'crm-section') === false) {
+                $containerNode = $containerNode->parentNode;
+                $classList = $containerNode->getAttribute('class');
+            }
+            $node = new DOMElement('div');
+            $containerNode->parentNode->insertBefore($node, $containerNode);
+            $node->setAttribute('id', 'check-all-checkbox');
+            $checkAllCheckboxTemplate = '<div class="crm-section form-item"><div class="label"><label for="check-all-checkbox-item">'.$checkboxLabel.'</label></div><div class="edit-value content"><input class="crm-form-checkbox" type="checkbox" onclick="checkAllCheckboxClickHandler(this)" id="check-all-checkbox-item"></div><div class="clear"></div></div>';
+            $doc['#check-all-checkbox']->append(phpQuery::newDocument($checkAllCheckboxTemplate));
+            break;
+        }
+        $content = $doc->htmlOuter();
+    }
+
+    /*
      * This function sets the resources based on the given configuration.
      *
      * @param array $modifiedConfig
@@ -660,6 +700,9 @@ class CRM_Appearancemodifier_Service
             }
             if (isset($modifiedConfig['custom_settings']['base_target_is_the_parent']) && $modifiedConfig['custom_settings']['base_target_is_the_parent'] === '1') {
                 Civi::resources()->addScriptFile(E::LONG_NAME, 'assets/js/basetarget.js');
+            }
+            if (isset($modifiedConfig['custom_settings']['add_check_all_checkbox']) && $modifiedConfig['custom_settings']['add_check_all_checkbox'] === '1') {
+                Civi::resources()->addScriptFile(E::LONG_NAME, 'assets/js/checkallcheckbox.js');
             }
         }
     }

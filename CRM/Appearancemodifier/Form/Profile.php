@@ -16,6 +16,8 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
         'send_size_when_embedded' => '',
         'send_size_to_when_embedded' => '*',
         'base_target_is_the_parent' => '',
+        'add_check_all_checkbox' => '',
+        'check_all_checkbox_label' => '',
     ];
     private const PROFILE_FIELDS = [
         'layout_handler',
