@@ -270,6 +270,17 @@ class CRM_Appearancemodifier_Service
             $id = $form->getVar('_contactId');
             $parameters = $form->getVar('_submitValues');
             break;
+        case 'CRM_Event_Form_Registration_Register':
+            $values = $form->getVar('_values');
+            if (!$values['event']['is_confirm_enabled']) {
+                $rules = AppearancemodifierEvent::get(false)
+                    ->addWhere('event_id', '=', $form->getVar('_eventId'))
+                    ->execute()
+                    ->first();
+                $id = $form->getVar('_values')['participant']['contact_id'];
+                $parameters = $form->getVar('_params');
+            }
+            break;
         case 'CRM_Event_Form_Registration_Confirm':
             $rules = AppearancemodifierEvent::get(false)
                 ->addWhere('event_id', '=', $form->getVar('_eventId'))
