@@ -634,6 +634,105 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
         self::assertFalse($updatedContact['is_opt_out']);
         self::assertNull($updatedContact['do_not_phone']);
     }
+    public function testPostProcessDoesNothingOnEventRegisterFormWhenTheConfigrmScreenEnabled()
+    {
+        $results = \Civi\Api4\Event::create(false)
+            ->addValue('title', 'Test event title')
+            ->addValue('event_type_id', 4)
+            ->addValue('start_date', '2022-01-01')
+            ->execute();
+        $form = new CRM_Event_Form_Registration_Register();
+        $form->setVar('_eventId', $results[0]['id']);
+        $modifiedConfig = AppearancemodifierEvent::get(false)
+            ->addWhere('event_id', '=', $results[0]['id'])
+            ->execute()
+            ->first();
+        AppearancemodifierEvent::update(false)
+            ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('consent_field_behaviour', 'invert')
+            ->execute();
+        $contact = Contact::create(false)
+            ->addValue('contact_type', 'Individual')
+            ->addValue('is_opt_out', false)
+            ->addValue('do_not_email', false)
+            ->addValue('do_not_phone', false)
+            ->execute()
+            ->first();
+        $form->setVar('_values', ['event' => ['is_confirm_enabled' => 1], 'participant' => ['contact_id' => $contact['id']]]);
+        $submit = [
+            'is_opt_out' => '1',
+            'do_not_email' => '1',
+            'do_not_phone' => '1',
+        ];
+        $form->setVar('_params', $submit);
+        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Event_Form_Registration_Register::class, $form));
+        $updatedContact = Contact::get(false)
+            ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
+            ->addWhere('id', '=', $contact['id'])
+            ->execute()
+            ->first();
+        self::assertFalse($updatedContact['is_opt_out']);
+        self::assertFalse($updatedContact['do_not_email']);
+        self::assertFalse($updatedContact['do_not_phone']);
+    }
+    public function testPostProcessChangesTheConsentFieldsEventRegisterFormWhenTheConfigrmScreenDisabled()
+    {
+        $results = \Civi\Api4\Event::create(false)
+            ->addValue('title', 'Test event title')
+            ->addValue('event_type_id', 4)
+            ->addValue('start_date', '2022-01-01')
+            ->execute();
+        $form = new CRM_Event_Form_Registration_Register();
+        $form->setVar('_eventId', $results[0]['id']);
+        $modifiedConfig = AppearancemodifierEvent::get(false)
+            ->addWhere('event_id', '=', $results[0]['id'])
+            ->execute()
+            ->first();
+        AppearancemodifierEvent::update(false)
+            ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('consent_field_behaviour', 'invert')
+            ->execute();
+        $contact = Contact::create(false)
+            ->addValue('contact_type', 'Individual')
+            ->addValue('is_opt_out', false)
+            ->addValue('do_not_email', false)
+            ->addValue('do_not_phone', false)
+            ->execute()
+            ->first();
+        $form->setVar('_values', ['event' => ['is_confirm_enabled' => 0], 'participant' => ['contact_id' => $contact['id']]]);
+        $submit = [
+            'is_opt_out' => '',
+            'do_not_email' => '',
+            'do_not_phone' => '',
+        ];
+        $form->setVar('_params', $submit);
+        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Event_Form_Registration_Register::class, $form));
+        $updatedContact = Contact::get(false)
+            ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
+            ->addWhere('id', '=', $contact['id'])
+            ->execute()
+            ->first();
+        self::assertTrue($updatedContact['is_opt_out']);
+        self::assertTrue($updatedContact['do_not_email']);
+        self::assertTrue($updatedContact['do_not_phone']);
+        $submit = [
+            'is_opt_out' => '1',
+            'do_not_email' => '1',
+            'do_not_phone' => '1',
+        ];
+        $form->setVar('_params', $submit);
+        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Event_Form_Registration_Register::class, $form));
+        $updatedContact = Contact::get(false)
+            ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
+            ->addWhere('id', '=', $contact['id'])
+            ->execute()
+            ->first();
+        self::assertFalse($updatedContact['is_opt_out']);
+        self::assertTrue(is_null($updatedContact['do_not_email']));
+        self::assertTrue(is_null($updatedContact['do_not_phone']));
+    }
     public function testPostProcessChangesTheConsentFieldsEventInvert()
     {
         $results = \Civi\Api4\Event::create(false)
