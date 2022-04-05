@@ -51,7 +51,7 @@ jobs:
           repository: reflexive-communications/rc-base
           path: rc-base
 
-      - name: Get required extension (consentactivity)
+      - name: Get required extension for tests (consentactivity)
         uses: actions/checkout@v3
         with:
           repository: reflexive-communications/consentactivity

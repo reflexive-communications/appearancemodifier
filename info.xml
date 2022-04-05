@@ -22,7 +22,6 @@
     </compatibility>
     <requires>
         <ext>rc-base</ext>
-        <ext>consentactivity</ext>
     </requires>
     <comments>This extension provides an administration interface and functionality to modify the public event, petition, profile form and pages.</comments>
     <classloader>
