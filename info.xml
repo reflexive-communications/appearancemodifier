@@ -14,14 +14,15 @@
         <url desc="Support">https://github.com/reflexive-communications/appearancemodifier/issues</url>
         <url desc="Licensing">http://www.gnu.org/licenses/agpl-3.0.html</url>
     </urls>
-    <releaseDate>2022-04-02</releaseDate>
-    <version>3.9.0</version>
+    <releaseDate>2022-04-05</releaseDate>
+    <version>3.9.1</version>
     <develStage>stable</develStage>
     <compatibility>
         <ver>5.0</ver>
     </compatibility>
     <requires>
         <ext>rc-base</ext>
+        <ext>consentactivity</ext>
     </requires>
     <comments>This extension provides an administration interface and functionality to modify the public event, petition, profile form and pages.</comments>
     <classloader>
