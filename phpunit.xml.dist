@@ -1,35 +1,37 @@
 <?xml version="1.0"?>
-<phpunit colors="true"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+         colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          convertDeprecationsToExceptions="true"
          bootstrap="tests/phpunit/bootstrap.php"
          testdox="true">
+    <coverage>
+        <include>
+            <directory suffix=".php">./</directory>
+        </include>
+        <exclude>
+            <!-- Skip test directory -->
+            <directory>./tests</directory>
+            <!-- Skip generated files -->
+            <file>./appearancemodifier.php</file>
+            <file>./appearancemodifier.civix.php</file>
+            <file>./CRM/Appearancemodifier/Upgrader/Base.php</file>
+            <!-- Skip generated files within generated directories -->
+            <directory>./CRM/Appearancemodifier/BAO</directory>
+            <directory>./CRM/Appearancemodifier/DAO</directory>
+            <directory>./Civi/Api4</directory>
+            <directory>./api</directory>
+            <directory>./xml</directory>
+        </exclude>
+    </coverage>
     <testsuites>
         <testsuite name="My Test Suite">
             <directory>./tests/phpunit</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist>
-            <directory suffix=".php">./</directory>
-            <exclude>
-                <!-- Skip the test directory -->
-                <directory>./tests</directory>
-                <!-- Skip the generated files within generated directories -->
-                <directory>./CRM/Appearancemodifier/BAO</directory>
-                <directory>./CRM/Appearancemodifier/DAO</directory>
-                <directory>./Civi/Api4</directory>
-                <directory>./api</directory>
-                <directory>./xml</directory>
-                <!-- Skip the generated files -->
-                <file>./appearancemodifier.php</file>
-                <file>./appearancemodifier.civix.php</file>
-                <file>./CRM/Appearancemodifier/Upgrader/Base.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
     <listeners>
         <listener class="Civi\Test\CiviTestListener">
             <arguments/>
