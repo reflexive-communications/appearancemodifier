@@ -22,7 +22,7 @@ function sendResizeMessage() {
     let bodyElement = window.self.document.querySelector('body');
     let message = {
         type: "resize",
-        height: bodyElement.clientHeight,
+        height: bodyElement.offsetHeight,
     };
     let to = allowedMessageReceiver || '*';
     window.self.parent.postMessage(message, to);
