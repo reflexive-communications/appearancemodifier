@@ -30,13 +30,13 @@ function sendResizeMessage() {
 
 // The resize event handler function.
 function resizeEventHandler() {
-    setTimeout(sendResizeMessage, 1000);
+    setTimeout(sendResizeMessage, 200);
 }
 
 // onload
 (function () {
     if (inIframe()) {
-        setTimeout(sendResizeMessage, 1000);
+        setTimeout(sendResizeMessage, 200);
         window.self.addEventListener('resize', resizeEventHandler);
     }
 })();
