@@ -24,11 +24,11 @@ msgstr "Az alterContent kezelő funkció."
 
 #: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php ./CRM/Appearancemodifier/Form/AbstractBase.php
 msgid "Background Color"
-msgstr "Háttér Szín"
+msgstr "Háttérszín"
 
 #: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
 msgid "The color code of the background in #ffffff format."
-msgstr "A háttér szín kódja #ffffff formátumban."
+msgstr "A háttérszín kódja #ffffff formátumban."
 
 #: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
 msgid "Invert Consent Fields"
@@ -56,7 +56,7 @@ msgstr "Ez a link lesz megosztva az egyedi megosztás dobozban."
 
 #: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
 msgid "Add Placeholder"
-msgstr "Placeholder Hozzáadása"
+msgstr "Placeholder hozzáadása"
 
 #: ./CRM/Appearancemodifier/DAO/AppearancemodifierEvent.php ./CRM/Appearancemodifier/DAO/AppearancemodifierPetition.php ./CRM/Appearancemodifier/DAO/AppearancemodifierProfile.php
 msgid "Set the text input label as placeholder text in the input."
@@ -184,11 +184,11 @@ msgstr "Automatikusan kitöltés után"
 
 #: ./CRM/Appearancemodifier/Form/AbstractBase.php
 msgid "Original Background Color"
-msgstr "Alapértelmezett Háttér Szín"
+msgstr "Alapértelmezett Háttérszín"
 
 #: ./CRM/Appearancemodifier/Form/AbstractBase.php
 msgid "Transparent Background Color"
-msgstr "Transzparens Háttér Szín"
+msgstr "Transzparens Háttérszín"
 
 #: ./CRM/Appearancemodifier/Form/AbstractBase.php
 msgid "Hide text input labels"
@@ -332,7 +332,7 @@ msgstr "Elrendezés módosítása."
 
 #: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
 msgid "Background color manipulation."
-msgstr "Háttér színének módosítása."
+msgstr "Háttérszín módosítása."
 
 #: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
 msgid "Font color manipulation."
@@ -384,5 +384,4 @@ msgstr "Már %1 ember támogatta."
 
 #: ./templates/CRM/Appearancemodifier/Petition/signersprogressbar.tpl
 msgid "Already signed by %1 people. Let's make %2 signatures!"
-msgstr "%1 ember már aláírta. Jöjjön össze %2 alárás!"
-
+msgstr "%1 ember már aláírta. Jöjjön össze %2 aláírás!"

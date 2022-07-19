@@ -202,6 +202,26 @@ msgstr ""
 msgid "Original Font Color"
 msgstr ""
 
+#: ./CRM/Appearancemodifier/Form/AbstractBase.php
+msgid "Hide form title"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/AbstractBase.php
+msgid "Send size to parent frame"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/AbstractBase.php
+msgid "Parent frame"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/AbstractBase.php
+msgid "Add check all checkbox"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/AbstractBase.php
+msgid "Checkbox label"
+msgstr ""
+
 #: ./CRM/Appearancemodifier/Form/AbstractBase.php ./CRM/Appearancemodifier/Form/Event.php ./CRM/Appearancemodifier/Form/Petition.php ./CRM/Appearancemodifier/Form/Profile.php
 msgid "Activity for %1"
 msgstr ""
@@ -291,6 +311,10 @@ msgid "The selected profile seems to be deleted. Id: %1"
 msgstr ""
 
 #: ./CRM/Appearancemodifier/Form/Profile.php
+msgid "Open links in parent frame"
+msgstr ""
+
+#: ./CRM/Appearancemodifier/Form/Profile.php
 msgid "Customize %1 profile."
 msgstr ""
 
@@ -322,32 +346,56 @@ msgstr ""
 msgid "Process Events"
 msgstr ""
 
-#: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+#: ./templates/CRM/Appearancemodifier/Form/CommonFormItems.tpl
+msgid "General Settings"
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Form/CommonFormItems.tpl
 msgid "Use the saved settings or customize from scratch."
 msgstr ""
 
-#: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+#: ./templates/CRM/Appearancemodifier/Form/CommonFormItems.tpl
 msgid "Layout manipulation."
 msgstr ""
 
-#: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+#: ./templates/CRM/Appearancemodifier/Form/CommonFormItems.tpl
 msgid "Background color manipulation."
 msgstr ""
 
-#: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+#: ./templates/CRM/Appearancemodifier/Form/CommonFormItems.tpl
 msgid "Font color manipulation."
 msgstr ""
 
-#: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+#: ./templates/CRM/Appearancemodifier/Form/CommonFormItems.tpl
 msgid "Set the behaviour of consent fields. (opt-out vs opt in vs implied)"
 msgstr ""
 
-#: ./templates/CRM/Appearancemodifier/Form/Event.tpl ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+#: ./templates/CRM/Appearancemodifier/Form/CommonFormItems.tpl
 msgid "Add placeholders to the text inputs."
 msgstr ""
 
+#: ./templates/CRM/Appearancemodifier/Form/CommonFormItems.tpl
+msgid "Hide the labels of the text inputs on the petition form. Applied only if the placeholders are added."
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Form/CommonFormItems.tpl
+msgid "Hide the title of the form."
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Form/CommonFormItems.tpl
+msgid "Send the size to the parent frame when the form is embedded."
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Form/CommonFormItems.tpl
+msgid "You can check or uncheck every checbox on the form."
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Form/ConsentActivityItems.tpl
+msgid "Consent Activity Settings"
+msgstr ""
+
 #: ./templates/CRM/Appearancemodifier/Form/Event.tpl
-msgid "Hide the labels of the text inputs on the event form. Applied only if the placeholders are added."
+msgid "Event Settings"
 msgstr ""
 
 #: ./templates/CRM/Appearancemodifier/Form/Event.tpl
@@ -358,12 +406,12 @@ msgstr ""
 msgid "The external url that will be shared from the custom social box."
 msgstr ""
 
-#: ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
-msgid "The text after the submit button."
+#: ./templates/CRM/Appearancemodifier/Form/Petition.tpl
+msgid "Petition Settings"
 msgstr ""
 
-#: ./templates/CRM/Appearancemodifier/Form/Petition.tpl
-msgid "Hide the labels of the text inputs on the petition form. Applied only if the placeholders are added."
+#: ./templates/CRM/Appearancemodifier/Form/Petition.tpl ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+msgid "The text after the submit button."
 msgstr ""
 
 #: ./templates/CRM/Appearancemodifier/Form/Petition.tpl
@@ -375,7 +423,11 @@ msgid "Customized box for sharing the petition on social network."
 msgstr ""
 
 #: ./templates/CRM/Appearancemodifier/Form/Profile.tpl
-msgid "Hide the labels of the text inputs on the profile form. Applied only if the placeholders are added."
+msgid "Profile Settings"
+msgstr ""
+
+#: ./templates/CRM/Appearancemodifier/Form/Profile.tpl
+msgid "Open the links in the parent window when the form is embedded."
 msgstr ""
 
 #: ./templates/CRM/Appearancemodifier/Petition/signersnumber.tpl
