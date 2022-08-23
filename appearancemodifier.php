@@ -244,6 +244,7 @@ function appearancemodifier_civicrm_pageRun(&$page)
  */
 function appearancemodifier_civicrm_buildForm($formName, &$form)
 {
+    Civi::resources()->addScriptFile(E::LONG_NAME, 'assets/js/formsubmitoverlay.js');
     CRM_Appearancemodifier_Service::buildForm($formName, $form);
 }
 /*
