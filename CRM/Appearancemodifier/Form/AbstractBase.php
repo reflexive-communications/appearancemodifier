@@ -49,7 +49,7 @@ abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
         // consent field behaviour. on case of null,
         // set it based on the consent invert field.
         if ($customFormData['consent_field_behaviour'] == null) {
-            $this->_defaults['consent_field_behaviour'] = $customFormData['invert_consent_fields'] == null ? 'default' : 'invert' ;
+            $this->_defaults['consent_field_behaviour'] = $customFormData['invert_consent_fields'] == null ? 'default' : 'invert';
         }
         $this->_defaults['preset_handler'] = '';
         // defaults for the consentactivity extension related config.
@@ -88,10 +88,17 @@ abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
      */
     protected function commonBuildQuickForm(array $customOptions): void
     {
-        $this->addRadio('preset_handler', E::ts('Presets'), array_merge([''=>E::ts('Custom')], $customOptions['presets']), [], null, false);
-        $this->add('select', 'layout_handler', E::ts('Form Layout'), array_merge([''=>E::ts('Default')], $customOptions['handlers']), false);
+        $this->addRadio('preset_handler', E::ts('Presets'), array_merge(['' => E::ts('Custom')], $customOptions['presets']), [], null, false);
+        $this->add('select', 'layout_handler', E::ts('Form Layout'), array_merge(['' => E::ts('Default')], $customOptions['handlers']), false);
         $this->add('color', 'background_color', E::ts('Background Color'), [], false);
-        $this->addRadio('consent_field_behaviour', E::ts('Manage Consent Behaviour'), ['default' => E::ts('Default'), 'invert' => E::ts('Invert'), 'apply_on_submit' => E::ts('Submit Implied')], [], null, false);
+        $this->addRadio(
+            'consent_field_behaviour',
+            E::ts('Manage Consent Behaviour'),
+            ['default' => E::ts('Default'), 'invert' => E::ts('Invert'), 'apply_on_submit' => E::ts('Submit Implied')],
+            [],
+            null,
+            false
+        );
         $this->add('checkbox', 'original_color', E::ts('Original Background Color'), [], false);
         $this->add('checkbox', 'transparent_background', E::ts('Transparent Background Color'), [], false);
         $this->add('checkbox', 'hide_form_labels', E::ts('Hide text input labels'), [], false);
@@ -109,7 +116,13 @@ abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
             $consentActivityFieldNames = [];
             $labels = CRM_Consentactivity_Service::customCheckboxFields();
             foreach ($this->consentFieldNames as $field) {
-                $this->add('select', 'consentactivity_'.$field, E::ts('Activity for %1', [ 1 => $labels[$field]]), [''=>E::ts('No Activity')] + CRM_Activity_BAO_Activity::buildOptions('activity_type_id', 'get'), false);
+                $this->add(
+                    'select',
+                    'consentactivity_'.$field,
+                    E::ts('Activity for %1', [1 => $labels[$field]]),
+                    ['' => E::ts('No Activity')] + CRM_Activity_BAO_Activity::buildOptions('activity_type_id', 'get'),
+                    false
+                );
                 $consentActivityFieldNames[] = 'consentactivity_'.$field;
             }
             $this->assign('consentActivityFieldNames', $consentActivityFieldNames);

@@ -11,56 +11,71 @@ use Civi\Api4\Activity;
 
 class CRM_Appearancemodifier_Service
 {
-    const CONSENT_FIELDS = [
-        'do_not_email',
-        'do_not_phone',
-        'is_opt_out',
-    ];
-    const TEMPLATE_MAP = [
-        'CRM/Profile/Page/View.tpl' => 'CRM/Appearancemodifier/Profile/view.tpl',
-        'CRM/Profile/Form/Edit.tpl' => 'CRM/Appearancemodifier/Profile/edit.tpl',
-        'CRM/Campaign/Form/Petition/Signature.tpl' => 'CRM/Appearancemodifier/Petition/signature.tpl',
-        'CRM/Campaign/Page/Petition/ThankYou.tpl' => 'CRM/Appearancemodifier/Petition/thankyou.tpl',
-        'CRM/Event/Page/EventInfo.tpl' => 'CRM/Appearancemodifier/Event/info.tpl',
-        'CRM/Event/Form/Registration/Register.tpl' => 'CRM/Appearancemodifier/Event/register.tpl',
-        'CRM/Event/Form/Registration/Confirm.tpl' => 'CRM/Appearancemodifier/Event/confirm.tpl',
-        'CRM/Event/Form/Registration/ThankYou.tpl' => 'CRM/Appearancemodifier/Event/thankyou.tpl',
-    ];
-    const PROFILE_TEMPLATES = [
-        'CRM/Appearancemodifier/Profile/edit.tpl',
-        'CRM/Appearancemodifier/Profile/view.tpl',
-    ];
-    const PETITION_TEMPLATES = [
-        'CRM/Appearancemodifier/Petition/signature.tpl',
-        'CRM/Appearancemodifier/Petition/thankyou.tpl',
-    ];
-    const EVENT_TEMPLATES = [
-        'CRM/Appearancemodifier/Event/info.tpl',
-        'CRM/Appearancemodifier/Event/register.tpl',
-        'CRM/Appearancemodifier/Event/confirm.tpl',
-        'CRM/Appearancemodifier/Event/thankyou.tpl',
-    ];
-    const LINK_PROFILE = [
-        'name' => 'Customize',
-        'url' => 'civicrm/admin/appearancemodifier/profile/customize',
-        'qs' => 'pid=%%id%%',
-        'title' => 'Customize form with The Appearance Modifier Extension.',
-        'class' => 'crm-popup',
-    ];
-    const LINK_PETITION = [
-        'name' => 'Customize',
-        'url' => 'civicrm/admin/appearancemodifier/petition/customize',
-        'qs' => 'pid=%%id%%',
-        'title' => 'Customize form with The Appearance Modifier Extension.',
-        'class' => 'crm-popup',
-    ];
-    const LINK_EVENT = [
-        'name' => 'Customize',
-        'url' => 'civicrm/admin/appearancemodifier/event/customize',
-        'qs' => 'eid=%%id%%',
-        'title' => 'Customize form with The Appearance Modifier Extension.',
-        'class' => 'crm-popup',
-    ];
+    const CONSENT_FIELDS
+        = [
+            'do_not_email',
+            'do_not_phone',
+            'is_opt_out',
+        ];
+
+    const TEMPLATE_MAP
+        = [
+            'CRM/Profile/Page/View.tpl' => 'CRM/Appearancemodifier/Profile/view.tpl',
+            'CRM/Profile/Form/Edit.tpl' => 'CRM/Appearancemodifier/Profile/edit.tpl',
+            'CRM/Campaign/Form/Petition/Signature.tpl' => 'CRM/Appearancemodifier/Petition/signature.tpl',
+            'CRM/Campaign/Page/Petition/ThankYou.tpl' => 'CRM/Appearancemodifier/Petition/thankyou.tpl',
+            'CRM/Event/Page/EventInfo.tpl' => 'CRM/Appearancemodifier/Event/info.tpl',
+            'CRM/Event/Form/Registration/Register.tpl' => 'CRM/Appearancemodifier/Event/register.tpl',
+            'CRM/Event/Form/Registration/Confirm.tpl' => 'CRM/Appearancemodifier/Event/confirm.tpl',
+            'CRM/Event/Form/Registration/ThankYou.tpl' => 'CRM/Appearancemodifier/Event/thankyou.tpl',
+        ];
+
+    const PROFILE_TEMPLATES
+        = [
+            'CRM/Appearancemodifier/Profile/edit.tpl',
+            'CRM/Appearancemodifier/Profile/view.tpl',
+        ];
+
+    const PETITION_TEMPLATES
+        = [
+            'CRM/Appearancemodifier/Petition/signature.tpl',
+            'CRM/Appearancemodifier/Petition/thankyou.tpl',
+        ];
+
+    const EVENT_TEMPLATES
+        = [
+            'CRM/Appearancemodifier/Event/info.tpl',
+            'CRM/Appearancemodifier/Event/register.tpl',
+            'CRM/Appearancemodifier/Event/confirm.tpl',
+            'CRM/Appearancemodifier/Event/thankyou.tpl',
+        ];
+
+    const LINK_PROFILE
+        = [
+            'name' => 'Customize',
+            'url' => 'civicrm/admin/appearancemodifier/profile/customize',
+            'qs' => 'pid=%%id%%',
+            'title' => 'Customize form with The Appearance Modifier Extension.',
+            'class' => 'crm-popup',
+        ];
+
+    const LINK_PETITION
+        = [
+            'name' => 'Customize',
+            'url' => 'civicrm/admin/appearancemodifier/petition/customize',
+            'qs' => 'pid=%%id%%',
+            'title' => 'Customize form with The Appearance Modifier Extension.',
+            'class' => 'crm-popup',
+        ];
+
+    const LINK_EVENT
+        = [
+            'name' => 'Customize',
+            'url' => 'civicrm/admin/appearancemodifier/event/customize',
+            'qs' => 'eid=%%id%%',
+            'title' => 'Customize form with The Appearance Modifier Extension.',
+            'class' => 'crm-popup',
+        ];
 
     /*
      * This function updates the template name on the profile, petition, event
@@ -87,15 +102,15 @@ class CRM_Appearancemodifier_Service
     public static function links(string $op, array &$links): void
     {
         switch ($op) {
-        case 'ufGroup.row.actions':
-            $links[] = self::LINK_PROFILE;
-            break;
-        case 'petition.dashboard.row':
-            $links[] = self::LINK_PETITION;
-            break;
-        case 'event.manage.list':
-            $links[] = self::LINK_EVENT;
-            break;
+            case 'ufGroup.row.actions':
+                $links[] = self::LINK_PROFILE;
+                break;
+            case 'petition.dashboard.row':
+                $links[] = self::LINK_PETITION;
+                break;
+            case 'event.manage.list':
+                $links[] = self::LINK_EVENT;
+                break;
         }
     }
 
@@ -254,41 +269,41 @@ class CRM_Appearancemodifier_Service
         $id = 0;
         $parameters = [];
         switch ($formName) {
-        case 'CRM_Profile_Form_Edit':
-            $rules = AppearancemodifierProfile::get(false)
-                ->addWhere('uf_group_id', '=', $form->getVar('_gid'))
-                ->execute()
-                ->first();
-            $id = $form->getVar('_id');
-            $parameters = $form->getVar('_submitValues');
-            break;
-        case 'CRM_Campaign_Form_Petition_Signature':
-            $rules = AppearancemodifierPetition::get(false)
-                ->addWhere('survey_id', '=', $form->getVar('_surveyId'))
-                ->execute()
-                ->first();
-            $id = $form->getVar('_contactId');
-            $parameters = $form->getVar('_submitValues');
-            break;
-        case 'CRM_Event_Form_Registration_Register':
-            $values = $form->getVar('_values');
-            if (!$values['event']['is_confirm_enabled']) {
+            case 'CRM_Profile_Form_Edit':
+                $rules = AppearancemodifierProfile::get(false)
+                    ->addWhere('uf_group_id', '=', $form->getVar('_gid'))
+                    ->execute()
+                    ->first();
+                $id = $form->getVar('_id');
+                $parameters = $form->getVar('_submitValues');
+                break;
+            case 'CRM_Campaign_Form_Petition_Signature':
+                $rules = AppearancemodifierPetition::get(false)
+                    ->addWhere('survey_id', '=', $form->getVar('_surveyId'))
+                    ->execute()
+                    ->first();
+                $id = $form->getVar('_contactId');
+                $parameters = $form->getVar('_submitValues');
+                break;
+            case 'CRM_Event_Form_Registration_Register':
+                $values = $form->getVar('_values');
+                if (!$values['event']['is_confirm_enabled']) {
+                    $rules = AppearancemodifierEvent::get(false)
+                        ->addWhere('event_id', '=', $form->getVar('_eventId'))
+                        ->execute()
+                        ->first();
+                    $id = $form->getVar('_values')['participant']['contact_id'];
+                    $parameters = $form->getVar('_params');
+                }
+                break;
+            case 'CRM_Event_Form_Registration_Confirm':
                 $rules = AppearancemodifierEvent::get(false)
                     ->addWhere('event_id', '=', $form->getVar('_eventId'))
                     ->execute()
                     ->first();
                 $id = $form->getVar('_values')['participant']['contact_id'];
                 $parameters = $form->getVar('_params');
-            }
-            break;
-        case 'CRM_Event_Form_Registration_Confirm':
-            $rules = AppearancemodifierEvent::get(false)
-                ->addWhere('event_id', '=', $form->getVar('_eventId'))
-                ->execute()
-                ->first();
-            $id = $form->getVar('_values')['participant']['contact_id'];
-            $parameters = $form->getVar('_params');
-            break;
+                break;
         }
         if (array_key_exists('consent_field_behaviour', $rules) && $rules['consent_field_behaviour'] !== null) {
             // on case of invert, is used, use the flow that was provided for the invert_consent_fields.
@@ -307,14 +322,17 @@ class CRM_Appearancemodifier_Service
     {
         if (array_search($tplName, self::PROFILE_TEMPLATES) !== false) {
             self::alterProfileContent($object->getVar('_gid'), $content);
+
             return;
         }
         if (array_search($tplName, self::PETITION_TEMPLATES) !== false) {
             self::alterPetitionContent($tplName, $content, $object);
+
             return;
         }
         if (array_search($tplName, self::EVENT_TEMPLATES) !== false) {
             self::alterEventContent($tplName, $content, $object);
+
             return;
         }
     }
@@ -334,7 +352,12 @@ class CRM_Appearancemodifier_Service
         if ($manager->getStatus('consentactivity') !== CRM_Extension_Manager::STATUS_INSTALLED) {
             return;
         }
-        if (!array_key_exists('custom_settings', $ruleset) || !is_array($ruleset['custom_settings']) || !array_key_exists('consentactivity', $ruleset['custom_settings']) || !is_array($ruleset['custom_settings']['consentactivity']) || count($ruleset['custom_settings']['consentactivity']) === 0) {
+        if (!array_key_exists('custom_settings', $ruleset)
+            || !is_array($ruleset['custom_settings'])
+            || !array_key_exists('consentactivity', $ruleset['custom_settings'])
+            || !is_array($ruleset['custom_settings']['consentactivity'])
+            || count($ruleset['custom_settings']['consentactivity']) === 0
+        ) {
             return;
         }
         // gather the custom fields from the service.
@@ -347,7 +370,10 @@ class CRM_Appearancemodifier_Service
         $caConfigMap = $config['custom-field-map'];
         $activityRules = $ruleset['custom_settings']['consentactivity'];
         foreach ($caConfigMap as $caConfigSet) {
-            if (array_key_exists($caConfigSet['custom-field-id'], $activityRules) && is_array($submitValues[$caConfigSet['custom-field-id']]) && count($submitValues[$caConfigSet['custom-field-id']])) {
+            if (array_key_exists($caConfigSet['custom-field-id'], $activityRules)
+                && is_array($submitValues[$caConfigSet['custom-field-id']])
+                && count($submitValues[$caConfigSet['custom-field-id']])
+            ) {
                 // allow only the first value in the checkbox array.
                 $keys = array_keys($submitValues[$caConfigSet['custom-field-id']]);
                 if (empty($submitValues[$caConfigSet['custom-field-id']][$keys[0]])) {
@@ -440,6 +466,7 @@ class CRM_Appearancemodifier_Service
             $handler->alterContent($content);
         }
     }
+
     /*
      * This function handles the layout changes for the consent fields.
      * The label of the field is replaced with the label of the checkbox.
@@ -599,24 +626,24 @@ class CRM_Appearancemodifier_Service
             // The onclick event is reused as the click handler of the new social links.
             foreach ($doc['.crm-socialnetwork button'] as $button) {
                 switch ($button->getAttribute('id')) {
-                case 'crm-tw':
-                    $shareUrl = '';
-                    if (!is_null($externalUrl)) {
-                        $shareUrl = "window.open('https://twitter.com/intent/tweet?url=".urlencode($externalUrl)."&amp;text=".$eventTitle."', '_blank')";
-                    } else {
-                        $shareUrl = $button->getAttribute('onclick');
-                    }
-                    $twitter = '<div class="social-media-icon"><a onclick="'.$shareUrl.'" target="_blank" title="'.E::ts('Share on Twitter').'"><div><i aria-hidden="true" class="crm-i fa-twitter"></i></div></a></div>';
-                    break;
-                case 'crm-fb':
-                    $shareUrl = '';
-                    if (!is_null($externalUrl)) {
-                        $shareUrl = "window.open('https://facebook.com/sharer/sharer.php?u=".urlencode($externalUrl)."', '_blank')";
-                    } else {
-                        $shareUrl = $button->getAttribute('onclick');
-                    }
-                    $facebook = '<div class="social-media-icon"><a onclick="'.$shareUrl.'" target="_blank" title="'.E::ts('Share on Facebook').'"><div><i aria-hidden="true" class="crm-i fa-facebook"></i></div></a></div>';
-                    break;
+                    case 'crm-tw':
+                        $shareUrl = '';
+                        if (!is_null($externalUrl)) {
+                            $shareUrl = "window.open('https://twitter.com/intent/tweet?url=".urlencode($externalUrl)."&amp;text=".$eventTitle."', '_blank')";
+                        } else {
+                            $shareUrl = $button->getAttribute('onclick');
+                        }
+                        $twitter = '<div class="social-media-icon"><a onclick="'.$shareUrl.'" target="_blank" title="'.E::ts('Share on Twitter').'"><div><i aria-hidden="true" class="crm-i fa-twitter"></i></div></a></div>';
+                        break;
+                    case 'crm-fb':
+                        $shareUrl = '';
+                        if (!is_null($externalUrl)) {
+                            $shareUrl = "window.open('https://facebook.com/sharer/sharer.php?u=".urlencode($externalUrl)."', '_blank')";
+                        } else {
+                            $shareUrl = $button->getAttribute('onclick');
+                        }
+                        $facebook = '<div class="social-media-icon"><a onclick="'.$shareUrl.'" target="_blank" title="'.E::ts('Share on Facebook').'"><div><i aria-hidden="true" class="crm-i fa-facebook"></i></div></a></div>';
+                        break;
                 }
             }
             // Make the update only if the parsing process was successful.

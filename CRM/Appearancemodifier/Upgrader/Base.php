@@ -8,10 +8,9 @@ use CRM_Appearancemodifier_ExtensionUtil as E;
  */
 class CRM_Appearancemodifier_Upgrader_Base
 {
-
-  /**
-   * @var CRM_Appearancemodifier_Upgrader_Base
-   */
+    /**
+     * @var CRM_Appearancemodifier_Upgrader_Base
+     */
     public static $instance;
 
     /**
@@ -54,6 +53,7 @@ class CRM_Appearancemodifier_Upgrader_Base
                 E::path()
             );
         }
+
         return self::$instance;
     }
 
@@ -74,6 +74,7 @@ class CRM_Appearancemodifier_Upgrader_Base
         $instance->ctx = array_shift($args);
         $instance->queue = $instance->ctx->queue;
         $method = array_shift($args);
+
         return call_user_func_array([$instance, $method], $args);
     }
 
@@ -96,11 +97,13 @@ class CRM_Appearancemodifier_Upgrader_Base
      *
      * @param string $relativePath
      *   the CustomData XML file path (relative to this extension's dir)
+     *
      * @return bool
      */
     public function executeCustomDataFile($relativePath)
     {
-        $xml_file = $this->extensionDir . '/' . $relativePath;
+        $xml_file = $this->extensionDir.'/'.$relativePath;
+
         return $this->executeCustomDataFileByAbsPath($xml_file);
     }
 
@@ -116,6 +119,7 @@ class CRM_Appearancemodifier_Upgrader_Base
     {
         $import = new CRM_Utils_Migrate_Import();
         $import->run($xml_file);
+
         return true;
     }
 
@@ -131,8 +135,9 @@ class CRM_Appearancemodifier_Upgrader_Base
     {
         CRM_Utils_File::sourceSQLFile(
             CIVICRM_DSN,
-            $this->extensionDir . DIRECTORY_SEPARATOR . $relativePath
+            $this->extensionDir.DIRECTORY_SEPARATOR.$relativePath
         );
+
         return true;
     }
 
@@ -151,7 +156,7 @@ class CRM_Appearancemodifier_Upgrader_Base
         // Assign multilingual variable to Smarty.
         $upgrade = new CRM_Upgrade_Form();
 
-        $tplFile = CRM_Utils_File::isAbsolute($tplFile) ? $tplFile : $this->extensionDir . DIRECTORY_SEPARATOR . $tplFile;
+        $tplFile = CRM_Utils_File::isAbsolute($tplFile) ? $tplFile : $this->extensionDir.DIRECTORY_SEPARATOR.$tplFile;
         $smarty = CRM_Core_Smarty::singleton();
         $smarty->assign('domainID', CRM_Core_Config::domainID());
         CRM_Utils_File::sourceSQLFile(
@@ -160,6 +165,7 @@ class CRM_Appearancemodifier_Upgrader_Base
             null,
             true
         );
+
         return true;
     }
 
@@ -176,6 +182,7 @@ class CRM_Appearancemodifier_Upgrader_Base
     {
         // FIXME verify that we raise an exception on error
         CRM_Core_DAO::executeQuery($query, $params);
+
         return true;
     }
 
@@ -197,6 +204,7 @@ class CRM_Appearancemodifier_Upgrader_Base
             $args,
             $title
         );
+
         return $this->queue->createItem($task, ['weight' => -1]);
     }
 
@@ -235,15 +243,15 @@ class CRM_Appearancemodifier_Upgrader_Base
         foreach ($this->getRevisions() as $revision) {
             if ($revision > $currentRevision) {
                 $title = E::ts('Upgrade %1 to revision %2', [
-          1 => $this->extensionName,
-          2 => $revision,
-        ]);
+                    1 => $this->extensionName,
+                    2 => $revision,
+                ]);
 
                 // note: don't use addTask() because it sets weight=-1
 
                 $task = new CRM_Queue_Task(
                     [get_class($this), '_queueAdapter'],
-                    ['upgrade_' . $revision],
+                    ['upgrade_'.$revision],
                     $title
                 );
                 $this->queue->createItem($task);
@@ -288,15 +296,17 @@ class CRM_Appearancemodifier_Upgrader_Base
         if (!$revision) {
             $revision = $this->getCurrentRevisionDeprecated();
         }
+
         return $revision;
     }
 
     private function getCurrentRevisionDeprecated()
     {
-        $key = $this->extensionName . ':version';
+        $key = $this->extensionName.':version';
         if ($revision = \Civi::settings()->get($key)) {
             $this->revisionStorageIsDeprecated = true;
         }
+
         return $revision;
     }
 
@@ -305,6 +315,7 @@ class CRM_Appearancemodifier_Upgrader_Base
         CRM_Core_BAO_Extension::setSchemaVersion($this->extensionName, $revision);
         // clean up legacy schema version store (CRM-19252)
         $this->deleteDeprecatedRevision();
+
         return true;
     }
 
@@ -312,7 +323,7 @@ class CRM_Appearancemodifier_Upgrader_Base
     {
         if ($this->revisionStorageIsDeprecated) {
             $setting = new CRM_Core_BAO_Setting();
-            $setting->name = $this->extensionName . ':version';
+            $setting->name = $this->extensionName.':version';
             $setting->delete();
             CRM_Core_Error::debug_log_message("Migrated extension schema revision ID for {$this->extensionName} from civicrm_setting (deprecated) to civicrm_extension.\n");
         }
@@ -325,19 +336,19 @@ class CRM_Appearancemodifier_Upgrader_Base
      */
     public function onInstall()
     {
-        $files = glob($this->extensionDir . '/sql/*_install.sql');
+        $files = glob($this->extensionDir.'/sql/*_install.sql');
         if (is_array($files)) {
             foreach ($files as $file) {
                 CRM_Utils_File::sourceSQLFile(CIVICRM_DSN, $file);
             }
         }
-        $files = glob($this->extensionDir . '/sql/*_install.mysql.tpl');
+        $files = glob($this->extensionDir.'/sql/*_install.mysql.tpl');
         if (is_array($files)) {
             foreach ($files as $file) {
                 $this->executeSqlTemplate($file);
             }
         }
-        $files = glob($this->extensionDir . '/xml/*_install.xml');
+        $files = glob($this->extensionDir.'/xml/*_install.xml');
         if (is_array($files)) {
             foreach ($files as $file) {
                 $this->executeCustomDataFileByAbsPath($file);
@@ -367,7 +378,7 @@ class CRM_Appearancemodifier_Upgrader_Base
      */
     public function onUninstall()
     {
-        $files = glob($this->extensionDir . '/sql/*_uninstall.mysql.tpl');
+        $files = glob($this->extensionDir.'/sql/*_uninstall.mysql.tpl');
         if (is_array($files)) {
             foreach ($files as $file) {
                 $this->executeSqlTemplate($file);
@@ -376,7 +387,7 @@ class CRM_Appearancemodifier_Upgrader_Base
         if (is_callable([$this, 'uninstall'])) {
             $this->uninstall();
         }
-        $files = glob($this->extensionDir . '/sql/*_uninstall.sql');
+        $files = glob($this->extensionDir.'/sql/*_uninstall.sql');
         if (is_array($files)) {
             foreach ($files as $file) {
                 CRM_Utils_File::sourceSQLFile(CIVICRM_DSN, $file);
@@ -409,13 +420,13 @@ class CRM_Appearancemodifier_Upgrader_Base
     public function onUpgrade($op, CRM_Queue_Queue $queue = null)
     {
         switch ($op) {
-      case 'check':
-        return [$this->hasPendingRevisions()];
+            case 'check':
+                return [$this->hasPendingRevisions()];
 
-      case 'enqueue':
-        return $this->enqueuePendingRevisions($queue);
+            case 'enqueue':
+                return $this->enqueuePendingRevisions($queue);
 
-      default:
-    }
+            default:
+        }
     }
 }

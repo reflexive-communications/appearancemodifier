@@ -10,30 +10,35 @@ use Civi\Api4\AppearancemodifierPetition;
  */
 class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_AbstractBase
 {
-    public const DEFAULT_CUSTOM_SETTINGS = [
-        'hide_form_title' => '',
-        'disable_petition_message_edit' => '',
-        'send_size_when_embedded' => '',
-        'send_size_to_when_embedded' => '*',
-        'add_check_all_checkbox' => '',
-        'check_all_checkbox_label' => '',
-    ];
-    private const PETITION_FIELDS = [
-        'layout_handler',
-        'background_color',
-        'additional_note',
-        'petition_message',
-        'consent_field_behaviour',
-        'target_number_of_signers',
-        'custom_social_box',
-        'external_share_url',
-        'hide_form_labels',
-        'add_placeholder',
-        'font_color',
-        'signers_block_position',
-    ];
+    public const DEFAULT_CUSTOM_SETTINGS
+        = [
+            'hide_form_title' => '',
+            'disable_petition_message_edit' => '',
+            'send_size_when_embedded' => '',
+            'send_size_to_when_embedded' => '*',
+            'add_check_all_checkbox' => '',
+            'check_all_checkbox_label' => '',
+        ];
+
+    private const PETITION_FIELDS
+        = [
+            'layout_handler',
+            'background_color',
+            'additional_note',
+            'petition_message',
+            'consent_field_behaviour',
+            'target_number_of_signers',
+            'custom_social_box',
+            'external_share_url',
+            'hide_form_labels',
+            'add_placeholder',
+            'font_color',
+            'signers_block_position',
+        ];
+
     // The petition, for display some stuff about it on the frontend.
     private $petition;
+
     // The modified petition
     private $modifiedPetition;
 
@@ -49,7 +54,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
         // validate profile id.
         $this->petition = $this->getPetition($petitionId);
         if ($this->petition === []) {
-            throw new CRM_Core_Exception(E::ts('The selected petition seems to be deleted. Id: %1', [1=>$petitionId]));
+            throw new CRM_Core_Exception(E::ts('The selected petition seems to be deleted. Id: %1', [1 => $petitionId]));
         }
         $this->modifiedPetition = AppearancemodifierPetition::get()
             ->addWhere('survey_id', '=', $this->petition['id'])
@@ -73,6 +78,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
         parent::commondDefaultValues($this->modifiedPetition);
         // default for the custom settings.
         parent::customDefaultValues($this->modifiedPetition, self::DEFAULT_CUSTOM_SETTINGS);
+
         return $this->_defaults;
     }
 
@@ -98,9 +104,21 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
         $this->add('checkbox', 'custom_social_box', E::ts('Custom social box'), [], false);
         $this->add('text', 'external_share_url', E::ts('External url to share'), [], false);
         $this->add('wysiwyg', 'additional_note', E::ts('Additional Note Text'), [], false);
-        $this->add('select', 'signers_block_position', E::ts('Display Signers Block'), [''=>E::ts('None'), 'top_number' => E::ts('Above only the current number'), 'top_progress' => E::ts('Above progressbar'), 'bottom_number' => E::ts('Below only the current number'), 'bottom_progress' => E::ts('Below progressbar')], false);
+        $this->add(
+            'select',
+            'signers_block_position',
+            E::ts('Display Signers Block'),
+            [
+                '' => E::ts('None'),
+                'top_number' => E::ts('Above only the current number'),
+                'top_progress' => E::ts('Above progressbar'),
+                'bottom_number' => E::ts('Below only the current number'),
+                'bottom_progress' => E::ts('Below progressbar'),
+            ],
+            false
+        );
         parent::commonBuildQuickForm($layoutOptions);
-        $this->setTitle(E::ts('Customize %1 petition.', [1=>$this->petition['title']]));
+        $this->setTitle(E::ts('Customize %1 petition.', [1 => $this->petition['title']]));
         parent::buildQuickForm();
     }
 
@@ -155,6 +173,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
         if (count($petition['values']) === 0) {
             return [];
         }
+
         return $petition['values'][0];
     }
 
@@ -196,7 +215,13 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
                 // add select of activities with a meaningful label that
                 // contains the label as it used in the custom checkbox
                 // field select.
-                $this->add('select', 'consentactivity_'.$rule['custom-field-id'], E::ts('Activity for %1', [ 1 => $labels[$rule['custom-field-id']]]), [''=>E::ts('No Activity')] + CRM_Activity_BAO_Activity::buildOptions('activity_type_id', 'get'), false);
+                $this->add(
+                    'select',
+                    'consentactivity_'.$rule['custom-field-id'],
+                    E::ts('Activity for %1', [1 => $labels[$rule['custom-field-id']]]),
+                    ['' => E::ts('No Activity')] + CRM_Activity_BAO_Activity::buildOptions('activity_type_id', 'get'),
+                    false
+                );
                 $this->consentFieldNames[] = $rule['custom-field-id'];
             }
         }
