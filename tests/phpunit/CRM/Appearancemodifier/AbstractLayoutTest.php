@@ -15,10 +15,9 @@ class LayoutImplementation extends CRM_Appearancemodifier_AbstractLayout
 }
 class CRM_Appearancemodifier_AbstractLayoutTest extends \PHPUnit\Framework\TestCase
 {
-
-  /**
-   * The setup() method is executed before the test is executed (optional).
-   */
+    /**
+     * The setup() method is executed before the test is executed (optional).
+     */
     public function setUp(): void
     {
         parent::setUp();

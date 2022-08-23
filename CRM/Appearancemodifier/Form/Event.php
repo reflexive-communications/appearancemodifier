@@ -11,25 +11,30 @@ use Civi\Api4\AppearancemodifierEvent;
  */
 class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_AbstractBase
 {
-    public const DEFAULT_CUSTOM_SETTINGS = [
-        'hide_form_title' => '',
-        'send_size_when_embedded' => '',
-        'send_size_to_when_embedded' => '*',
-        'add_check_all_checkbox' => '',
-        'check_all_checkbox_label' => '',
-    ];
-    private const EVENT_FIELDS = [
-        'layout_handler',
-        'background_color',
-        'consent_field_behaviour',
-        'custom_social_box',
-        'external_share_url',
-        'hide_form_labels',
-        'add_placeholder',
-        'font_color',
-    ];
+    public const DEFAULT_CUSTOM_SETTINGS
+        = [
+            'hide_form_title' => '',
+            'send_size_when_embedded' => '',
+            'send_size_to_when_embedded' => '*',
+            'add_check_all_checkbox' => '',
+            'check_all_checkbox_label' => '',
+        ];
+
+    private const EVENT_FIELDS
+        = [
+            'layout_handler',
+            'background_color',
+            'consent_field_behaviour',
+            'custom_social_box',
+            'external_share_url',
+            'hide_form_labels',
+            'add_placeholder',
+            'font_color',
+        ];
+
     // The event, for display some stuff about it on the frontend.
     private $event;
+
     // The modified event
     private $modifiedEvent;
 
@@ -45,7 +50,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
         // validate event id.
         $this->event = $this->getEvent($eventId);
         if ($this->event === []) {
-            throw new CRM_Core_Exception(E::ts('The selected event seems to be deleted. Id: %1', [1=>$eventId]));
+            throw new CRM_Core_Exception(E::ts('The selected event seems to be deleted. Id: %1', [1 => $eventId]));
         }
         $this->modifiedEvent = AppearancemodifierEvent::get()
             ->addWhere('event_id', '=', $this->event['id'])
@@ -69,6 +74,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
         parent::commondDefaultValues($this->modifiedEvent);
         // default for the custom settings.
         parent::customDefaultValues($this->modifiedEvent, self::DEFAULT_CUSTOM_SETTINGS);
+
         return $this->_defaults;
     }
 
@@ -91,7 +97,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
         $this->add('checkbox', 'custom_social_box', E::ts('Custom social box'), [], false);
         $this->add('text', 'external_share_url', E::ts('External url to share'), [], false);
         parent::commonBuildQuickForm($layoutOptions);
-        $this->setTitle(E::ts('Customize %1 event.', [1=>$this->event['title']]));
+        $this->setTitle(E::ts('Customize %1 event.', [1 => $this->event['title']]));
         parent::buildQuickForm();
     }
 
@@ -145,8 +151,10 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
         if (count($event) === 0) {
             return [];
         }
+
         return $event->first();
     }
+
     /*
      * This function gathers the consent custom fields that
      * are present in this petition form.
@@ -184,7 +192,13 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
                 // add select of activities with a meaningful label that
                 // contains the label as it used in the custom checkbox
                 // field select.
-                $this->add('select', 'consentactivity_'.$rule['custom-field-id'], E::ts('Activity for %1', [ 1 => $labels[$rule['custom-field-id']]]), [''=>E::ts('No Activity')] + CRM_Activity_BAO_Activity::buildOptions('activity_type_id', 'get'), false);
+                $this->add(
+                    'select',
+                    'consentactivity_'.$rule['custom-field-id'],
+                    E::ts('Activity for %1', [1 => $labels[$rule['custom-field-id']]]),
+                    ['' => E::ts('No Activity')] + CRM_Activity_BAO_Activity::buildOptions('activity_type_id', 'get'),
+                    false
+                );
                 $this->consentFieldNames[] = $rule['custom-field-id'];
             }
         }

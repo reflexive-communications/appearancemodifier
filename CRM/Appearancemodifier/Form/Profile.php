@@ -11,25 +11,30 @@ use Civi\Api4\AppearancemodifierProfile;
  */
 class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_AbstractBase
 {
-    public const DEFAULT_CUSTOM_SETTINGS = [
-        'hide_form_title' => '',
-        'send_size_when_embedded' => '',
-        'send_size_to_when_embedded' => '*',
-        'base_target_is_the_parent' => '',
-        'add_check_all_checkbox' => '',
-        'check_all_checkbox_label' => '',
-    ];
-    private const PROFILE_FIELDS = [
-        'layout_handler',
-        'background_color',
-        'additional_note',
-        'consent_field_behaviour',
-        'hide_form_labels',
-        'add_placeholder',
-        'font_color',
-    ];
+    public const DEFAULT_CUSTOM_SETTINGS
+        = [
+            'hide_form_title' => '',
+            'send_size_when_embedded' => '',
+            'send_size_to_when_embedded' => '*',
+            'base_target_is_the_parent' => '',
+            'add_check_all_checkbox' => '',
+            'check_all_checkbox_label' => '',
+        ];
+
+    private const PROFILE_FIELDS
+        = [
+            'layout_handler',
+            'background_color',
+            'additional_note',
+            'consent_field_behaviour',
+            'hide_form_labels',
+            'add_placeholder',
+            'font_color',
+        ];
+
     // The uf group, for display some stuff about it on the frontend.
     private $ufGroup;
+
     // The modified profile
     private $modifiedProfile;
 
@@ -45,7 +50,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
         // validate profile id.
         $this->ufGroup = $this->getUfGroup($ufGroupId);
         if ($this->ufGroup === []) {
-            throw new CRM_Core_Exception(E::ts('The selected profile seems to be deleted. Id: %1', [1=>$ufGroupId]));
+            throw new CRM_Core_Exception(E::ts('The selected profile seems to be deleted. Id: %1', [1 => $ufGroupId]));
         }
         $this->modifiedProfile = AppearancemodifierProfile::get()
             ->addWhere('uf_group_id', '=', $this->ufGroup['id'])
@@ -69,6 +74,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
         parent::commondDefaultValues($this->modifiedProfile);
         // default for the custom settings.
         parent::customDefaultValues($this->modifiedProfile, self::DEFAULT_CUSTOM_SETTINGS);
+
         return $this->_defaults;
     }
 
@@ -91,7 +97,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
         $this->add('wysiwyg', 'additional_note', E::ts('Additional Note Text'), [], false);
         $this->add('checkbox', 'base_target_is_the_parent', E::ts('Open links in parent frame'), [], false);
         parent::commonBuildQuickForm($layoutOptions);
-        $this->setTitle(E::ts('Customize %1 profile.', [1=>$this->ufGroup['title']]));
+        $this->setTitle(E::ts('Customize %1 profile.', [1 => $this->ufGroup['title']]));
         parent::buildQuickForm();
     }
 
@@ -145,6 +151,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
         if (count($ufGroup) === 0) {
             return [];
         }
+
         return $ufGroup->first();
     }
 
@@ -175,7 +182,13 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
                 // add select of activities with a meaningful label that
                 // contains the label as it used in the custom checkbox
                 // field select.
-                $this->add('select', 'consentactivity_'.$rule['custom-field-id'], E::ts('Activity for %1', [ 1 => $labels[$rule['custom-field-id']]]), [''=>E::ts('No Activity')] + CRM_Activity_BAO_Activity::buildOptions('activity_type_id', 'get'), false);
+                $this->add(
+                    'select',
+                    'consentactivity_'.$rule['custom-field-id'],
+                    E::ts('Activity for %1', [1 => $labels[$rule['custom-field-id']]]),
+                    ['' => E::ts('No Activity')] + CRM_Activity_BAO_Activity::buildOptions('activity_type_id', 'get'),
+                    false
+                );
                 $this->consentFieldNames[] = $rule['custom-field-id'];
             }
         }
