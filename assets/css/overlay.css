@@ -1,6 +1,10 @@
 #overlay {
-    background: rgba(169, 169, 0169, .7);
+    background: rgba(169, 169, 169, .7);
     position: absolute;
+    top:0;
+    left:0;
+    height: 100%;
+    width: 100%;
 }
 
 #loader {

@@ -255,6 +255,7 @@ class CRM_Appearancemodifier_Service
         if ($modifiedConfig !== null) {
             self::setupResourcesBasedOnSettings($modifiedConfig);
         }
+        Civi::resources()->addScriptFile(E::LONG_NAME, 'assets/js/formsubmitoverlay.js');
     }
 
     /**
