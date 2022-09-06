@@ -255,6 +255,7 @@ class CRM_Appearancemodifier_Service
         if ($modifiedConfig !== null) {
             self::setupResourcesBasedOnSettings($modifiedConfig);
         }
+        Civi::resources()->addScriptFile(E::LONG_NAME, 'assets/js/formsubmitoverlay.js');
     }
 
     /**
@@ -729,6 +730,7 @@ class CRM_Appearancemodifier_Service
     private static function setupResourcesBasedOnSettings(array $modifiedConfig)
     {
         Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
+        Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/overlay.css');
         if ($modifiedConfig['custom_settings'] !== null) {
             if ($modifiedConfig['custom_settings']['hide_form_title'] === '1') {
                 Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/hiddentitle.css');
