@@ -3,8 +3,8 @@ function addOnClickEvent() {
 
     // If the DOM contains the crm-submit-buttons div, we append the hidden overlay html.
     if (submitButtonsDivs.length > 0) {
-        const contentWrapper = document.getElementById('crm-main-content-wrapper');
-        contentWrapper.innerHTML +=
+        const contentWrapper = document.getElementsByTagName('body');
+        contentWrapper[0].innerHTML +=
             '<div id="overlay" style="display: none">' +
             '    <div id="loader"></div>' +
             '</div>';
@@ -25,4 +25,3 @@ function showOverlay() {
 }
 
 addOnClickEvent();
-
