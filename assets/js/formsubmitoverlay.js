@@ -4,10 +4,14 @@ function addOnClickEvent() {
     // If the DOM contains the crm-submit-buttons div, we append the hidden overlay html.
     if (submitButtonsDivs.length > 0) {
         const contentWrapper = document.getElementsByTagName('body');
-        contentWrapper[0].innerHTML +=
-            '<div id="overlay" style="display: none">' +
-            '    <div id="loader"></div>' +
-            '</div>';
+        let loader = document.createElement('div');
+        let overlay = document.createElement('div');
+
+        overlay.id = 'overlay';
+        loader.id = 'loader';
+        overlay.style.display = 'none';
+        overlay.append(loader);
+        contentWrapper[0].append(overlay);
     }
 
     // Normally there is only one of these divs in a view, but it could happen there is more forms in a single page.
@@ -21,7 +25,7 @@ function addOnClickEvent() {
 
 function showOverlay() {
     const overlay = document.getElementById('overlay');
-    overlay.style.display = "block";
+    overlay.style.display = 'block';
 }
 
 addOnClickEvent();
