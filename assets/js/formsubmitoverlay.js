@@ -14,7 +14,7 @@ function addOnClickEvent() {
     for (let i = 0; i < submitButtonsDivs.length; i++) {
         let submitButtons = submitButtonsDivs[i].getElementsByClassName('crm-form-submit');
         for (let j = 0; j < submitButtons.length; j++) {
-            submitButtons[i].addEventListener('click', showOverlay);
+            submitButtons[j].addEventListener('click', showOverlay);
         }
     }
 }
