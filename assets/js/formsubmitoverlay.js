@@ -1,5 +1,10 @@
 function addOnClickEvent() {
     let submitButtonsDivs = document.getElementsByClassName('crm-submit-buttons');
+    let overlays = document.getElementById('overlay');
+
+    if (overlays) {
+        return;
+    }
 
     // If the DOM contains the crm-submit-buttons div, we append the hidden overlay html.
     if (submitButtonsDivs.length > 0) {
