@@ -13,18 +13,18 @@ function checkAllCheckboxClickHandler(item) {
  * When the item is unchecked, the check all checkbox has to be also unchecked.
  * */
 function uncheckCheckAllCheckbox(event) {
-	if (event.target.checked) {
-		return;
-	}
-	document.querySelector('#check-all-checkbox-item').checked = false;
+    if (event.target.checked) {
+        return;
+    }
+    document.querySelector('#check-all-checkbox-item').checked = false;
 }
 /*
  * Attach the event handlers to the checkboxes.
  * */
 // onload
-(function() {
-	let items = document.querySelectorAll('input[type="checkbox"]');
-	for (i = 1; i < items.length; i++) {
-		items[i].addEventListener('click', uncheckCheckAllCheckbox);
-	}
+(function () {
+    let items = document.querySelectorAll('input[type="checkbox"]');
+    for (i = 1; i < items.length; i++) {
+        items[i].addEventListener('click', uncheckCheckAllCheckbox);
+    }
 })();

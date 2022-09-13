@@ -21,7 +21,7 @@ function inIframe() {
 function sendResizeMessage() {
     let bodyElement = window.self.document.querySelector('body');
     let message = {
-        type: "resize",
+        type: 'resize',
         height: bodyElement.offsetHeight,
     };
     let to = allowedMessageReceiver || '*';
