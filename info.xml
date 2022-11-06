@@ -4,18 +4,26 @@
     <name>Appearance Modifier</name>
     <description>Customize the front-end of public event, petition, profile forms, optionally by pre-defined presets</description>
     <license>AGPL-3.0</license>
-    <maintainer>
-        <author>akosgarai</author>
-        <email>szlem01@gmail.com</email>
-    </maintainer>
+    <authors>
+        <author>
+            <name>Sandor Semsey</name>
+            <email>sandor@es-progress.hu</email>
+            <role>Maintainer</role>
+        </author>
+        <author>
+            <name>akosgarai</name>
+            <email>szlem01@gmail.com</email>
+            <role>Developer</role>
+        </author>
+    </authors>
     <urls>
         <url desc="Main Extension Page">https://github.com/reflexive-communications/appearancemodifier</url>
         <url desc="Documentation">https://github.com/reflexive-communications/appearancemodifier</url>
         <url desc="Support">https://github.com/reflexive-communications/appearancemodifier/issues</url>
         <url desc="Licensing">https://www.gnu.org/licenses/agpl-3.0.html</url>
     </urls>
-    <releaseDate>2022-09-13</releaseDate>
-    <version>3.10.4</version>
+    <releaseDate>2022-11-06</releaseDate>
+    <version>3.10.5</version>
     <develStage>stable</develStage>
     <compatibility>
         <ver>5.0</ver>
@@ -24,6 +32,7 @@
         <ext>rc-base</ext>
     </requires>
     <classloader>
+        <psr0 prefix="CRM_" path=""/>
         <psr4 prefix="Civi\" path="Civi"/>
     </classloader>
     <civix>

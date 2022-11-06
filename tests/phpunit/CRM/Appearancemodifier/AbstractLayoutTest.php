@@ -24,15 +24,6 @@ class CRM_Appearancemodifier_AbstractLayoutTest extends \PHPUnit\Framework\TestC
     }
 
     /**
-     * The tearDown() method is executed after the test was executed (optional)
-     * This can be used for cleanup.
-     */
-    public function tearDown(): void
-    {
-        parent::tearDown();
-    }
-
-    /**
      * Test for className.
      */
     public function testClassName()
