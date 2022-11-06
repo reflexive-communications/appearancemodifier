@@ -4,10 +4,18 @@
     <name>Appearance Modifier</name>
     <description>Customize the front-end of public event, petition, profile forms, optionally by pre-defined presets</description>
     <license>AGPL-3.0</license>
-    <maintainer>
-        <author>akosgarai</author>
-        <email>szlem01@gmail.com</email>
-    </maintainer>
+    <authors>
+        <author>
+            <name>Sandor Semsey</name>
+            <email>sandor@es-progress.hu</email>
+            <role>Maintainer</role>
+        </author>
+        <author>
+            <name>akosgarai</name>
+            <email>szlem01@gmail.com</email>
+            <role>Developer</role>
+        </author>
+    </authors>
     <urls>
         <url desc="Main Extension Page">https://github.com/reflexive-communications/appearancemodifier</url>
         <url desc="Documentation">https://github.com/reflexive-communications/appearancemodifier</url>
