@@ -770,7 +770,7 @@ class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase imp
             ->first();
         self::assertFalse($updatedContact['is_opt_out']);
         self::assertFalse($updatedContact['do_not_email']);
-        self::assertFalse(updatedContact['do_not_phone']);
+        self::assertFalse($updatedContact['do_not_phone']);
     }
     public function testPostProcessChangesTheConsentFieldsEventApply()
     {
