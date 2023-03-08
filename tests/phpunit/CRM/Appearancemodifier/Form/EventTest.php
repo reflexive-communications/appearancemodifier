@@ -19,6 +19,7 @@ class DummyEventPresetProviderClass
         ];
     }
 }
+
 /**
  * Testcases for Event Form class.
  *
@@ -39,6 +40,7 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
         self::expectExceptionMessage('The selected event seems to be deleted. Id: 2');
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
     }
+
     public function testPreProcessExistingEvent()
     {
         $event = \Civi\Api4\Event::create(false)
@@ -74,6 +76,7 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
         self::assertSame(1, $defaults['original_color']);
         self::assertSame(1, $defaults['original_font_color']);
     }
+
     public function testSetDefaultValuesTransparentColor()
     {
         $event = \Civi\Api4\Event::create(false)
@@ -96,6 +99,7 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
         self::assertNull($defaults['background_color']);
         self::assertSame(1, $defaults['original_font_color']);
     }
+
     public function testSetDefaultValuesConsentFieldBehaviour()
     {
         $event = \Civi\Api4\Event::create(false)
@@ -178,6 +182,7 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
         self::assertNull($modifiedEvent['font_color']);
         self::assertSame($_POST['external_share_url'], $modifiedEvent['external_share_url']);
     }
+
     public function testPostProcessWithPresets()
     {
         $event = \Civi\Api4\Event::create(false)
@@ -217,6 +222,7 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
         self::assertSame('#000000', $modifiedEvent['font_color']);
         self::assertSame('default', $modifiedEvent['consent_field_behaviour']);
     }
+
     public function testPostProcessTransparentBackground()
     {
         $event = \Civi\Api4\Event::create(false)

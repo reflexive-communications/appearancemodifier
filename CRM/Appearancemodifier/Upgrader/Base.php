@@ -59,10 +59,8 @@ class CRM_Appearancemodifier_Upgrader_Base
 
     /**
      * Adapter that lets you add normal (non-static) member functions to the queue.
-     *
      * Note: Each upgrader instance should only be associated with one
      * task-context; otherwise, this will be non-reentrant.
-     *
      * ```
      * CRM_Appearancemodifier_Upgrader_Base::_queueAdapter($ctx, 'methodName', 'arg1', 'arg2');
      * ```
@@ -171,7 +169,6 @@ class CRM_Appearancemodifier_Upgrader_Base
 
     /**
      * Run one SQL query.
-     *
      * This is just a wrapper for CRM_Core_DAO::executeSql, but it
      * provides syntactic sugar for queueing several tasks that
      * run different queries
@@ -188,10 +185,8 @@ class CRM_Appearancemodifier_Upgrader_Base
 
     /**
      * Syntactic sugar for enqueuing a task which calls a function in this class.
-     *
      * The task is weighted so that it is processed
      * as part of the currently-pending revision.
-     *
      * After passing the $funcName, you can also pass parameters that will go to
      * the function. Note that all params must be serializable.
      */

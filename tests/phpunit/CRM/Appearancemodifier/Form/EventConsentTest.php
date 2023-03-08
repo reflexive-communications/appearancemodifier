@@ -64,6 +64,7 @@ class CRM_Appearancemodifier_Form_EventConsentTest extends CRM_Appearancemodifie
         $form = new CRM_Appearancemodifier_Form_Event();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
     }
+
     /*
      * It tests the setDefaultValues function.
      */
@@ -111,6 +112,7 @@ class CRM_Appearancemodifier_Form_EventConsentTest extends CRM_Appearancemodifie
         self::assertSame(1, $defaults['original_color']);
         self::assertSame(1, $defaults['original_font_color']);
     }
+
     public function testSetDefaultValuesConfig()
     {
         // Profile
@@ -161,6 +163,7 @@ class CRM_Appearancemodifier_Form_EventConsentTest extends CRM_Appearancemodifie
         self::assertSame(1, $defaults['original_color']);
         self::assertSame(1, $defaults['original_font_color']);
     }
+
     /*
      * It tests the buildQuickForm function.
      */
@@ -206,6 +209,7 @@ class CRM_Appearancemodifier_Form_EventConsentTest extends CRM_Appearancemodifie
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->buildQuickForm(), 'buildQuickForm supposed to be empty.');
     }
+
     public function testPostProcess()
     {
         // Profile

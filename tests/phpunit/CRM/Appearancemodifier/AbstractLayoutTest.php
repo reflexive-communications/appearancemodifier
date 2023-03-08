@@ -9,10 +9,12 @@ class LayoutImplementation extends CRM_Appearancemodifier_AbstractLayout
     public function setStyleSheets(): void
     {
     }
+
     public function alterContent(&$content): void
     {
     }
 }
+
 class CRM_Appearancemodifier_AbstractLayoutTest extends \PHPUnit\Framework\TestCase
 {
     /**

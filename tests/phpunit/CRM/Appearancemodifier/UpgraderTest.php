@@ -134,6 +134,7 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
         $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
         self::assertTrue($installer->upgrade_5300());
     }
+
     /*
      * It tests the upgrader function.
      * First it alters the tables to the old version, then executes upgrader;
@@ -225,12 +226,13 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
         $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
         // Undefined property: CRM_Appearancemodifier_Upgrader::$queue
         $installer->queue = CRM_Queue_Service::singleton()->create([
-            'type'  => 'Sql',
-            'name'  => 'my-own-queue',
+            'type' => 'Sql',
+            'name' => 'my-own-queue',
             'reset' => true,
         ]);
         self::assertTrue($installer->upgrade_5304());
     }
+
     /*
      * It tests the upgrader function - profile.
      */
@@ -256,6 +258,7 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
             ->first();
         self::assertSame('invert', $modifiedProfile['consent_field_behaviour']);
     }
+
     /*
      * It tests the upgrader function - petition.
      */
@@ -281,6 +284,7 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
             ->first();
         self::assertSame('invert', $modifiedPetition['consent_field_behaviour']);
     }
+
     /*
      * It tests the upgrader function - event.
      */

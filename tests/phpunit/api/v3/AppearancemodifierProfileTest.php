@@ -15,9 +15,7 @@ class api_v3_AppearancemodifierProfileTest extends \PHPUnit\Framework\TestCase i
 
     /**
      * Set up for headless tests.
-     *
      * Civi\Test has many helpers, like install(), uninstall(), sql(), and sqlFile().
-     *
      * See: https://docs.civicrm.org/dev/en/latest/testing/phpunit/#civitest
      */
     public function setUpHeadless()
@@ -33,7 +31,7 @@ class api_v3_AppearancemodifierProfileTest extends \PHPUnit\Framework\TestCase i
     public function setUp(): void
     {
         $table = CRM_Core_DAO_AllCoreTables::getTableForEntityName('AppearancemodifierProfile');
-        $this->assertTrue($table && CRM_Core_DAO::checkTableExists($table), 'There was a problem with extension installation. Table for ' . 'AppearancemodifierProfile' . ' not found.');
+        $this->assertTrue($table && CRM_Core_DAO::checkTableExists($table), 'There was a problem with extension installation. Table for AppearancemodifierProfile not found.');
         parent::setUp();
     }
 

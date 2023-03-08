@@ -85,6 +85,7 @@ class CRM_Appearancemodifier_Form_ProfileConsentTest extends CRM_Appearancemodif
         self::assertSame(1, $defaults['original_color']);
         self::assertSame(1, $defaults['original_font_color']);
     }
+
     public function testSetDefaultValuesConfig()
     {
         $profile = UFGroup::create(false)

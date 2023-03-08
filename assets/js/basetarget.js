@@ -14,9 +14,7 @@ function inIframe() {
 function baseTagTarget() {
     let base = window.self.document.querySelector('base');
     if (base === null) {
-        base = window.self.document
-            .querySelector('head')
-            .appendChild(document.createElement('base'));
+        base = window.self.document.querySelector('head').appendChild(document.createElement('base'));
     }
     base.setAttribute('target', '_parent');
 }

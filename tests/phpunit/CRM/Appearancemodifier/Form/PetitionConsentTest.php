@@ -64,6 +64,7 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends CRM_Appearancemodi
         $_POST['pid'] = $petition['id'];
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
     }
+
     /*
      * It tests the setDefaultValues function.
      */
@@ -112,6 +113,7 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends CRM_Appearancemodi
         self::assertSame(1, $defaults['original_color']);
         self::assertSame(1, $defaults['original_font_color']);
     }
+
     public function testSetDefaultValuesConfig()
     {
         // Profile
@@ -163,6 +165,7 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends CRM_Appearancemodi
         self::assertSame(1, $defaults['original_color']);
         self::assertSame(1, $defaults['original_font_color']);
     }
+
     /*
      * It tests the buildQuickForm function.
      */
@@ -209,6 +212,7 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends CRM_Appearancemodi
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->buildQuickForm(), 'buildQuickForm supposed to be empty.');
     }
+
     public function testPostProcess()
     {
         // Profile
