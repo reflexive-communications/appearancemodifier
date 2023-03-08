@@ -166,9 +166,6 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
         self::upgradeExistingEvents();
     }
 
-    // By convention, functions that look like "function upgrade_NNNN()" are
-    // upgrade tasks. They are executed in order (like Drupal's hook_update_N).
-
     /**
      * Alter the table if necessary.
      *
@@ -214,7 +211,6 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
 
     /**
      * It creates the modified profile entry for the missing petitions.
-     * #24
      * It uses API 3 as the surveys are not available in API 4.
      */
     public function upgrade_5303()
