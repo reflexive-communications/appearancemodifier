@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <menu>
-  <item>
-    <path>civicrm/admin/appearancemodifier/profile/customize</path>
-    <page_callback>CRM_Appearancemodifier_Form_Profile</page_callback>
-    <title>Profile</title>
-    <access_arguments>access CiviCRM</access_arguments>
-  </item>
-  <item>
-    <path>civicrm/admin/appearancemodifier/petition/customize</path>
-    <page_callback>CRM_Appearancemodifier_Form_Petition</page_callback>
-    <title>Petition</title>
-    <access_arguments>access CiviCRM</access_arguments>
-  </item>
-  <item>
-    <path>civicrm/admin/appearancemodifier/event/customize</path>
-    <page_callback>CRM_Appearancemodifier_Form_Event</page_callback>
-    <title>Event</title>
-    <access_arguments>access CiviCRM</access_arguments>
-  </item>
+    <item>
+        <path>civicrm/admin/appearancemodifier/profile/customize</path>
+        <page_callback>CRM_Appearancemodifier_Form_Profile</page_callback>
+        <title>Profile</title>
+        <access_arguments>access CiviCRM</access_arguments>
+    </item>
+    <item>
+        <path>civicrm/admin/appearancemodifier/petition/customize</path>
+        <page_callback>CRM_Appearancemodifier_Form_Petition</page_callback>
+        <title>Petition</title>
+        <access_arguments>access CiviCRM</access_arguments>
+    </item>
+    <item>
+        <path>civicrm/admin/appearancemodifier/event/customize</path>
+        <page_callback>CRM_Appearancemodifier_Form_Event</page_callback>
+        <title>Event</title>
+        <access_arguments>access CiviCRM</access_arguments>
+    </item>
 </menu>
