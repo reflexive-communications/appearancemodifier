@@ -11,71 +11,63 @@ use Civi\Api4\Activity;
 
 class CRM_Appearancemodifier_Service
 {
-    const CONSENT_FIELDS
-        = [
-            'do_not_email',
-            'do_not_phone',
-            'is_opt_out',
-        ];
+    const CONSENT_FIELDS = [
+        'do_not_email',
+        'do_not_phone',
+        'is_opt_out',
+    ];
 
-    const TEMPLATE_MAP
-        = [
-            'CRM/Profile/Page/View.tpl' => 'CRM/Appearancemodifier/Profile/view.tpl',
-            'CRM/Profile/Form/Edit.tpl' => 'CRM/Appearancemodifier/Profile/edit.tpl',
-            'CRM/Campaign/Form/Petition/Signature.tpl' => 'CRM/Appearancemodifier/Petition/signature.tpl',
-            'CRM/Campaign/Page/Petition/ThankYou.tpl' => 'CRM/Appearancemodifier/Petition/thankyou.tpl',
-            'CRM/Event/Page/EventInfo.tpl' => 'CRM/Appearancemodifier/Event/info.tpl',
-            'CRM/Event/Form/Registration/Register.tpl' => 'CRM/Appearancemodifier/Event/register.tpl',
-            'CRM/Event/Form/Registration/Confirm.tpl' => 'CRM/Appearancemodifier/Event/confirm.tpl',
-            'CRM/Event/Form/Registration/ThankYou.tpl' => 'CRM/Appearancemodifier/Event/thankyou.tpl',
-        ];
+    const TEMPLATE_MAP = [
+        'CRM/Profile/Page/View.tpl' => 'CRM/Appearancemodifier/Profile/view.tpl',
+        'CRM/Profile/Form/Edit.tpl' => 'CRM/Appearancemodifier/Profile/edit.tpl',
+        'CRM/Campaign/Form/Petition/Signature.tpl' => 'CRM/Appearancemodifier/Petition/signature.tpl',
+        'CRM/Campaign/Page/Petition/ThankYou.tpl' => 'CRM/Appearancemodifier/Petition/thankyou.tpl',
+        'CRM/Event/Page/EventInfo.tpl' => 'CRM/Appearancemodifier/Event/info.tpl',
+        'CRM/Event/Form/Registration/Register.tpl' => 'CRM/Appearancemodifier/Event/register.tpl',
+        'CRM/Event/Form/Registration/Confirm.tpl' => 'CRM/Appearancemodifier/Event/confirm.tpl',
+        'CRM/Event/Form/Registration/ThankYou.tpl' => 'CRM/Appearancemodifier/Event/thankyou.tpl',
+    ];
 
-    const PROFILE_TEMPLATES
-        = [
-            'CRM/Appearancemodifier/Profile/edit.tpl',
-            'CRM/Appearancemodifier/Profile/view.tpl',
-        ];
+    const PROFILE_TEMPLATES = [
+        'CRM/Appearancemodifier/Profile/edit.tpl',
+        'CRM/Appearancemodifier/Profile/view.tpl',
+    ];
 
-    const PETITION_TEMPLATES
-        = [
-            'CRM/Appearancemodifier/Petition/signature.tpl',
-            'CRM/Appearancemodifier/Petition/thankyou.tpl',
-        ];
+    const PETITION_TEMPLATES = [
+        'CRM/Appearancemodifier/Petition/signature.tpl',
+        'CRM/Appearancemodifier/Petition/thankyou.tpl',
+    ];
 
-    const EVENT_TEMPLATES
-        = [
-            'CRM/Appearancemodifier/Event/info.tpl',
-            'CRM/Appearancemodifier/Event/register.tpl',
-            'CRM/Appearancemodifier/Event/confirm.tpl',
-            'CRM/Appearancemodifier/Event/thankyou.tpl',
-        ];
+    const EVENT_TEMPLATES = [
+        'CRM/Appearancemodifier/Event/info.tpl',
+        'CRM/Appearancemodifier/Event/register.tpl',
+        'CRM/Appearancemodifier/Event/confirm.tpl',
+        'CRM/Appearancemodifier/Event/thankyou.tpl',
+    ];
 
-    const LINK_PROFILE
-        = [
-            'name' => 'Customize',
-            'url' => 'civicrm/admin/appearancemodifier/profile/customize',
-            'qs' => 'pid=%%id%%',
-            'title' => 'Customize form with The Appearance Modifier Extension.',
-            'class' => 'crm-popup',
-        ];
+    const LINK_PROFILE = [
+        'name' => 'Customize',
+        'url' => 'civicrm/admin/appearancemodifier/profile/customize',
+        'qs' => 'pid=%%id%%',
+        'title' => 'Customize form with The Appearance Modifier Extension.',
+        'class' => 'crm-popup',
+    ];
 
-    const LINK_PETITION
-        = [
-            'name' => 'Customize',
-            'url' => 'civicrm/admin/appearancemodifier/petition/customize',
-            'qs' => 'pid=%%id%%',
-            'title' => 'Customize form with The Appearance Modifier Extension.',
-            'class' => 'crm-popup',
-        ];
+    const LINK_PETITION = [
+        'name' => 'Customize',
+        'url' => 'civicrm/admin/appearancemodifier/petition/customize',
+        'qs' => 'pid=%%id%%',
+        'title' => 'Customize form with The Appearance Modifier Extension.',
+        'class' => 'crm-popup',
+    ];
 
-    const LINK_EVENT
-        = [
-            'name' => 'Customize',
-            'url' => 'civicrm/admin/appearancemodifier/event/customize',
-            'qs' => 'eid=%%id%%',
-            'title' => 'Customize form with The Appearance Modifier Extension.',
-            'class' => 'crm-popup',
-        ];
+    const LINK_EVENT = [
+        'name' => 'Customize',
+        'url' => 'civicrm/admin/appearancemodifier/event/customize',
+        'qs' => 'eid=%%id%%',
+        'title' => 'Customize form with The Appearance Modifier Extension.',
+        'class' => 'crm-popup',
+    ];
 
     /*
      * This function updates the template name on the profile, petition, event
@@ -634,16 +626,23 @@ class CRM_Appearancemodifier_Service
                         } else {
                             $shareUrl = $button->getAttribute('onclick');
                         }
-                        $twitter = '<div class="social-media-icon"><a onclick="'.$shareUrl.'" target="_blank" title="'.E::ts('Share on Twitter').'"><div><i aria-hidden="true" class="crm-i fa-twitter"></i></div></a></div>';
+                        $twitter = sprintf(
+                            '<div class="social-media-icon"><a onclick="%s" target="_blank" title="%s"><div><i aria-hidden="true" class="crm-i fa-twitter"></i></div></a></div>',
+                            $shareUrl,
+                            E::ts('Share on Twitter')
+                        );
                         break;
                     case 'crm-fb':
-                        $shareUrl = '';
                         if (!is_null($externalUrl)) {
                             $shareUrl = "window.open('https://facebook.com/sharer/sharer.php?u=".urlencode($externalUrl)."', '_blank')";
                         } else {
                             $shareUrl = $button->getAttribute('onclick');
                         }
-                        $facebook = '<div class="social-media-icon"><a onclick="'.$shareUrl.'" target="_blank" title="'.E::ts('Share on Facebook').'"><div><i aria-hidden="true" class="crm-i fa-facebook"></i></div></a></div>';
+                        $facebook = sprintf(
+                            '<div class="social-media-icon"><a onclick="%s" target="_blank" title="%s"><div><i aria-hidden="true" class="crm-i fa-facebook"></i></div></a></div>',
+                            $shareUrl,
+                            E::ts('Share on Facebook')
+                        );
                         break;
                 }
             }
@@ -715,7 +714,10 @@ class CRM_Appearancemodifier_Service
             $node = new DOMElement('div');
             $containerNode->parentNode->insertBefore($node, $containerNode);
             $node->setAttribute('id', 'check-all-checkbox');
-            $checkAllCheckboxTemplate = '<div class="crm-section form-item"><div class="label"><label for="check-all-checkbox-item">'.$checkboxLabel.'</label></div><div class="edit-value content"><input class="crm-form-checkbox" type="checkbox" onclick="checkAllCheckboxClickHandler(this)" id="check-all-checkbox-item"></div><div class="clear"></div></div>';
+            $checkAllCheckboxTemplate = sprintf(
+                '<div class="crm-section form-item"><div class="label"><label for="check-all-checkbox-item">%s</label></div><div class="edit-value content"><input class="crm-form-checkbox" type="checkbox" onclick="checkAllCheckboxClickHandler(this)" id="check-all-checkbox-item"></div><div class="clear"></div></div>',
+                $checkboxLabel
+            );
             $doc['#check-all-checkbox']->append(phpQuery::newDocument($checkAllCheckboxTemplate));
             break;
         }

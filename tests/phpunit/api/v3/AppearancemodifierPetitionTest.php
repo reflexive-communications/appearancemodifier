@@ -31,7 +31,7 @@ class api_v3_AppearancemodifierPetitionTest extends \PHPUnit\Framework\TestCase 
     public function setUp(): void
     {
         $table = CRM_Core_DAO_AllCoreTables::getTableForEntityName('AppearancemodifierPetition');
-        $this->assertTrue($table && CRM_Core_DAO::checkTableExists($table), 'There was a problem with extension installation. Table for ' . 'AppearancemodifierPetition' . ' not found.');
+        $this->assertTrue($table && CRM_Core_DAO::checkTableExists($table), 'There was a problem with extension installation. Table for AppearancemodifierPetition not found.');
         parent::setUp();
     }
 
