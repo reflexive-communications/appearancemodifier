@@ -132,7 +132,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
             $customSettings[$key] = $this->_submitValues[$key];
         }
         parent::commonPostProcess(self::PETITION_FIELDS, $customSettings, self::DEFAULT_CUSTOM_SETTINGS);
-        CRM_Core_Session::setStatus(E::ts('Data has been updated.'), 'Appearancemodifier', 'success', ['expires' => 5000,]);
+        CRM_Core_Session::setStatus(E::ts('Data has been updated.'), 'Appearancemodifier', 'success', ['expires' => 5000]);
 
         parent::postProcess();
     }
