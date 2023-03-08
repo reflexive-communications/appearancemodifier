@@ -10,7 +10,7 @@ use Civi\Api4\AppearancemodifierEvent;
 /**
  * Collection of upgrade steps.
  */
-class CRM_Appearancemodifier_Upgrader extends CRM_Appearancemodifier_Upgrader_Base
+class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
 {
     // The limit parameter for the API calls.
     const QUERY_LIMIT = 25;

@@ -26,7 +26,7 @@
     <version>3.10.6</version>
     <develStage>stable</develStage>
     <compatibility>
-        <ver>5.0</ver>
+        <ver>5.38</ver>
     </compatibility>
     <requires>
         <ext>rc-base</ext>
@@ -35,7 +35,12 @@
         <psr0 prefix="CRM_" path=""/>
         <psr4 prefix="Civi\" path="Civi"/>
     </classloader>
+    <mixins>
+        <mixin>menu-xml@1.0.0</mixin>
+    </mixins>
+    <upgrader>CRM_Appearancemodifier_Upgrader</upgrader>
     <civix>
         <namespace>CRM/Appearancemodifier</namespace>
+        <format>22.12.1</format>
     </civix>
 </extension>
