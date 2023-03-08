@@ -16,9 +16,13 @@ use Civi\Api4\Contact;
  */
 class LayoutImplementationTest extends CRM_Appearancemodifier_AbstractLayout
 {
-    public function setStyleSheets(): void {}
+    public function setStyleSheets(): void
+    {
+    }
 
-    public function alterContent(&$content): void {}
+    public function alterContent(&$content): void
+    {
+    }
 }
 
 /**
