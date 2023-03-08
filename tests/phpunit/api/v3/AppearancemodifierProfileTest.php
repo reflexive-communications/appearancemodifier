@@ -15,9 +15,7 @@ class api_v3_AppearancemodifierProfileTest extends \PHPUnit\Framework\TestCase i
 
     /**
      * Set up for headless tests.
-     *
      * Civi\Test has many helpers, like install(), uninstall(), sql(), and sqlFile().
-     *
      * See: https://docs.civicrm.org/dev/en/latest/testing/phpunit/#civitest
      */
     public function setUpHeadless()

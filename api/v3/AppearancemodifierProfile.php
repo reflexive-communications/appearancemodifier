@@ -1,4 +1,5 @@
 <?php
+
 use CRM_Appearancemodifier_ExtensionUtil as E;
 
 /**
@@ -21,7 +22,6 @@ function _civicrm_api3_appearancemodifier_profile_create_spec(&$spec)
  *
  * @return array
  *   API result descriptor
- *
  * @throws API_Exception
  */
 function civicrm_api3_appearancemodifier_profile_create($params)
@@ -36,7 +36,6 @@ function civicrm_api3_appearancemodifier_profile_create($params)
  *
  * @return array
  *   API result descriptor
- *
  * @throws API_Exception
  */
 function civicrm_api3_appearancemodifier_profile_delete($params)
@@ -51,7 +50,6 @@ function civicrm_api3_appearancemodifier_profile_delete($params)
  *
  * @return array
  *   API result descriptor
- *
  * @throws API_Exception
  */
 function civicrm_api3_appearancemodifier_profile_get($params)

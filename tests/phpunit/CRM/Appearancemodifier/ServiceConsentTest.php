@@ -61,6 +61,7 @@ class CRM_Appearancemodifier_ServiceConsentTest extends CRM_Appearancemodifier_F
             ->execute();
         self::assertCount(count($activityContactsBefore), $activityContactsAfter);
     }
+
     public function testPostProcessNoConsentActivitySettings()
     {
         $profile = UFGroup::create(false)
@@ -107,6 +108,7 @@ class CRM_Appearancemodifier_ServiceConsentTest extends CRM_Appearancemodifier_F
             ->execute();
         self::assertCount(count($activityContactsBefore), $activityContactsAfter);
     }
+
     public function testPostProcessValueNotSet()
     {
         $profile = UFGroup::create(false)
@@ -157,6 +159,7 @@ class CRM_Appearancemodifier_ServiceConsentTest extends CRM_Appearancemodifier_F
             ->execute();
         self::assertCount(count($activityContactsBefore), $activityContactsAfter);
     }
+
     public function testPostProcessValueSet()
     {
         $profile = UFGroup::create(false)
@@ -207,6 +210,7 @@ class CRM_Appearancemodifier_ServiceConsentTest extends CRM_Appearancemodifier_F
             ->execute();
         self::assertCount(count($activityContactsBefore) + 1, $activityContactsAfter);
     }
+
     public function testAlterContentConsentCheckboxes()
     {
         $customField = parent::createNewCustomField();

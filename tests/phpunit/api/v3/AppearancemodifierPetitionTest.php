@@ -15,9 +15,7 @@ class api_v3_AppearancemodifierPetitionTest extends \PHPUnit\Framework\TestCase 
 
     /**
      * Set up for headless tests.
-     *
      * Civi\Test has many helpers, like install(), uninstall(), sql(), and sqlFile().
-     *
      * See: https://docs.civicrm.org/dev/en/latest/testing/phpunit/#civitest
      */
     public function setUpHeadless()

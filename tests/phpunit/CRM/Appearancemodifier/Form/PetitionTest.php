@@ -22,6 +22,7 @@ class DummyPetitionPresetProviderClass
         ];
     }
 }
+
 /**
  * Testcases for Petition Form class.
  *
@@ -47,9 +48,9 @@ class CRM_Appearancemodifier_Form_PetitionTest extends CRM_Appearancemodifier_Fo
         $_POST['pid'] = $petition['id'];
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         // not existing petition
-        $_REQUEST['pid'] = $petition['id']+1;
-        $_GET['pid'] = $petition['id']+1;
-        $_POST['pid'] = $petition['id']+1;
+        $_REQUEST['pid'] = $petition['id'] + 1;
+        $_GET['pid'] = $petition['id'] + 1;
+        $_POST['pid'] = $petition['id'] + 1;
         self::expectException(CRM_Core_Exception::class);
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
     }
@@ -74,6 +75,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends CRM_Appearancemodifier_Fo
         self::assertSame(1, $defaults['original_color']);
         self::assertSame(1, $defaults['original_font_color']);
     }
+
     public function testSetDefaultValuesTransparentColor()
     {
         $petition = civicrm_api3('Survey', 'create', [
@@ -96,6 +98,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends CRM_Appearancemodifier_Fo
         self::assertNull($defaults['background_color']);
         self::assertSame(1, $defaults['original_font_color']);
     }
+
     public function testSetDefaultValuesConsentFieldBehaviour()
     {
         $petition = civicrm_api3('Survey', 'create', [
@@ -116,6 +119,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends CRM_Appearancemodifier_Fo
         $defaults = $form->setDefaultValues();
         self::assertSame('default', $defaults['consent_field_behaviour']);
     }
+
     public function testSetDefaultValuesDisabledMessageEdition()
     {
         $petition = civicrm_api3('Survey', 'create', [
@@ -204,6 +208,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends CRM_Appearancemodifier_Fo
         self::assertSame('My new additional note text', $modifiedPetition['additional_note']);
         self::assertNull($modifiedPetition['font_color']);
     }
+
     public function testPostProcessWithPresets()
     {
         $petition = civicrm_api3('Survey', 'create', [
@@ -250,6 +255,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends CRM_Appearancemodifier_Fo
         self::assertSame('#000000', $modifiedPetition['font_color']);
         self::assertSame('default', $modifiedPetition['consent_field_behaviour']);
     }
+
     public function testPostProcessTransparentBackground()
     {
         $petition = civicrm_api3('Survey', 'create', [

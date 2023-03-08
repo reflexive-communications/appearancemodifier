@@ -154,7 +154,6 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Appearancemodifier_Upgrader_Ba
 
     /**
      * Work with entities usually not available during the install step.
-     *
      * This method can be used for any post-install tasks. For example, if a step
      * of your installation depends on accessing an entity that is itself
      * created during the installation (e.g., a setting or a managed entity), do

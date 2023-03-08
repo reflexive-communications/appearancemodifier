@@ -17,6 +17,7 @@ class DummyProfilePresetProviderClass
         ];
     }
 }
+
 /**
  * Testcases for Profile Form class.
  *
@@ -41,9 +42,9 @@ class CRM_Appearancemodifier_Form_ProfileTest extends CRM_Appearancemodifier_For
         $_POST['pid'] = $profile['id'];
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         // not existing profile
-        $_REQUEST['pid'] = $profile['id']+1;
-        $_GET['pid'] = $profile['id']+1;
-        $_POST['pid'] = $profile['id']+1;
+        $_REQUEST['pid'] = $profile['id'] + 1;
+        $_GET['pid'] = $profile['id'] + 1;
+        $_POST['pid'] = $profile['id'] + 1;
         self::expectException(CRM_Core_Exception::class);
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
     }
@@ -67,6 +68,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends CRM_Appearancemodifier_For
         self::assertSame(1, $defaults['original_color']);
         self::assertSame(1, $defaults['original_font_color']);
     }
+
     public function testSetDefaultValuesTransparentColor()
     {
         $profile = \Civi\Api4\UFGroup::create(false)
@@ -88,6 +90,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends CRM_Appearancemodifier_For
         self::assertNull($defaults['background_color']);
         self::assertSame(1, $defaults['original_font_color']);
     }
+
     public function testSetDefaultValuesConsentFieldBehaviour()
     {
         $profile = \Civi\Api4\UFGroup::create(false)
@@ -167,6 +170,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends CRM_Appearancemodifier_For
         self::assertSame($_POST['additional_note'], $modifiedProfile['additional_note']);
         self::assertNull($modifiedProfile['font_color']);
     }
+
     public function testPostProcessWithPresets()
     {
         $profile = \Civi\Api4\UFGroup::create(false)
@@ -204,6 +208,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends CRM_Appearancemodifier_For
         self::assertSame('#000000', $modifiedProfile['font_color']);
         self::assertSame('default', $modifiedProfile['consent_field_behaviour']);
     }
+
     public function testPostProcessTransparentBackground()
     {
         $profile = \Civi\Api4\UFGroup::create(false)

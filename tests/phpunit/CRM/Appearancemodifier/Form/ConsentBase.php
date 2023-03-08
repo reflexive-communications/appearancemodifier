@@ -17,6 +17,7 @@ use Civi\Api4\OptionValue;
 class CRM_Appearancemodifier_Form_ConsentBase extends \PHPUnit\Framework\TestCase implements HeadlessInterface, HookInterface, TransactionalInterface
 {
     protected static $index = 0;
+
     public function setUpHeadless()
     {
         return \Civi\Test::headless()
@@ -81,6 +82,7 @@ class CRM_Appearancemodifier_Form_ConsentBase extends \PHPUnit\Framework\TestCas
             ->execute()
             ->first();
         self::$index += 1;
+
         return $customField;
     }
 }
