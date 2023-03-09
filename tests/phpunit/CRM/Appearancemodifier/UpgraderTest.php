@@ -225,11 +225,11 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
             ->first();
         $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
         // Undefined property: CRM_Appearancemodifier_Upgrader::$queue
-        $installer->queue = CRM_Queue_Service::singleton()->create([
+        $installer->setQueue(CRM_Queue_Service::singleton()->create([
             'type' => 'Sql',
             'name' => 'my-own-queue',
             'reset' => true,
-        ]);
+        ]));
         self::assertTrue($installer->upgrade_5304());
     }
 
