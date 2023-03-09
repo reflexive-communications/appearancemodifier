@@ -2,6 +2,7 @@
  * On case of the profile is loaded in iframe, it sets the links to open
  * in the parent window instead of the iframe.
  * */
+
 // It returns true, if the self window object is NOT the top level window object.
 function inIframe() {
     try {
@@ -10,6 +11,7 @@ function inIframe() {
         return true;
     }
 }
+
 // It sets the target attribute of the base tag to _top value
 function baseTagTarget() {
     let base = window.self.document.querySelector('base');
@@ -18,6 +20,7 @@ function baseTagTarget() {
     }
     base.setAttribute('target', '_parent');
 }
+
 // onload
 (function () {
     if (inIframe()) {
