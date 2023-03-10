@@ -160,6 +160,52 @@ function _appearancemodifier_civix_insert_navigation_menu(&$menu, $path, $item)
 }
 
 /**
+ * (Delegated) Implements hook_civicrm_navigationMenu().
+ */
+function _appearancemodifier_civix_navigationMenu(&$nodes)
+{
+    if (!is_callable(['CRM_Core_BAO_Navigation', 'fixNavigationMenu'])) {
+        _appearancemodifier_civix_fixNavigationMenu($nodes);
+    }
+}
+
+/**
+ * Given a navigation menu, generate navIDs for any items which are
+ * missing them.
+ */
+function _appearancemodifier_civix_fixNavigationMenu(&$nodes)
+{
+    $maxNavID = 1;
+    array_walk_recursive($nodes, function ($item, $key) use (&$maxNavID) {
+        if ($key === 'navID') {
+            $maxNavID = max($maxNavID, $item);
+        }
+    });
+    _appearancemodifier_civix_fixNavigationMenuItems($nodes, $maxNavID, null);
+}
+
+function _appearancemodifier_civix_fixNavigationMenuItems(&$nodes, &$maxNavID, $parentID)
+{
+    $origKeys = array_keys($nodes);
+    foreach ($origKeys as $origKey) {
+        if (!isset($nodes[$origKey]['attributes']['parentID']) && $parentID !== null) {
+            $nodes[$origKey]['attributes']['parentID'] = $parentID;
+        }
+        // If no navID, then assign navID and fix key.
+        if (!isset($nodes[$origKey]['attributes']['navID'])) {
+            $newKey = ++$maxNavID;
+            $nodes[$origKey]['attributes']['navID'] = $newKey;
+            $nodes[$newKey] = $nodes[$origKey];
+            unset($nodes[$origKey]);
+            $origKey = $newKey;
+        }
+        if (isset($nodes[$origKey]['child']) && is_array($nodes[$origKey]['child'])) {
+            _appearancemodifier_civix_fixNavigationMenuItems($nodes[$origKey]['child'], $maxNavID, $nodes[$origKey]['attributes']['navID']);
+        }
+    }
+}
+
+/**
  * (Delegated) Implements hook_civicrm_entityTypes().
  * Find any *.entityType.php files, merge their content, and return.
  *
