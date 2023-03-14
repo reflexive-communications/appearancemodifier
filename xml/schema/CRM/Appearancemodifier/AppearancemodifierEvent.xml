@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
-
 <table>
     <base>CRM/Appearancemodifier</base>
     <class>AppearancemodifierEvent</class>
@@ -13,22 +12,11 @@
         <required>true</required>
         <comment>Unique AppearancemodifierEvent ID</comment>
     </field>
-    <primaryKey>
-        <name>id</name>
-        <autoincrement>true</autoincrement>
-    </primaryKey>
-
     <field>
         <name>event_id</name>
         <type>int unsigned</type>
         <comment>FK to Survey</comment>
     </field>
-    <foreignKey>
-        <name>event_id</name>
-        <table>civicrm_event</table>
-        <key>id</key>
-        <onDelete>CASCADE</onDelete>
-    </foreignKey>
     <field>
         <name>layout_handler</name>
         <type>text</type>
@@ -84,4 +72,14 @@
         <add>3.3</add>
     </field>
 
+    <primaryKey>
+        <name>id</name>
+        <autoincrement>true</autoincrement>
+    </primaryKey>
+    <foreignKey>
+        <name>event_id</name>
+        <table>civicrm_event</table>
+        <key>id</key>
+        <onDelete>CASCADE</onDelete>
+    </foreignKey>
 </table>

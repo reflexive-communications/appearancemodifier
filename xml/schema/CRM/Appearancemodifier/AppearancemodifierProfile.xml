@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
-
 <table>
     <base>CRM/Appearancemodifier</base>
     <class>AppearancemodifierProfile</class>
@@ -13,23 +12,12 @@
         <required>true</required>
         <comment>Unique AppearancemodifierProfile ID</comment>
     </field>
-    <primaryKey>
-        <name>id</name>
-        <autoincrement>true</autoincrement>
-    </primaryKey>
-
     <field>
         <name>uf_group_id</name>
         <type>int unsigned</type>
         <required>true</required>
         <comment>FK to UFGroup</comment>
     </field>
-    <foreignKey>
-        <name>uf_group_id</name>
-        <table>civicrm_uf_group</table>
-        <key>id</key>
-        <onDelete>CASCADE</onDelete>
-    </foreignKey>
     <field>
         <name>layout_handler</name>
         <type>text</type>
@@ -80,4 +68,14 @@
         <add>3.3</add>
     </field>
 
+    <primaryKey>
+        <name>id</name>
+        <autoincrement>true</autoincrement>
+    </primaryKey>
+    <foreignKey>
+        <name>uf_group_id</name>
+        <table>civicrm_uf_group</table>
+        <key>id</key>
+        <onDelete>CASCADE</onDelete>
+    </foreignKey>
 </table>

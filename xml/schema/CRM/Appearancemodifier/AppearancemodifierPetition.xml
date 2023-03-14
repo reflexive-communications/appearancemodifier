@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
-
 <table>
     <base>CRM/Appearancemodifier</base>
     <class>AppearancemodifierPetition</class>
@@ -14,22 +13,11 @@
         <required>true</required>
         <comment>Unique AppearancemodifierPetition ID</comment>
     </field>
-    <primaryKey>
-        <name>id</name>
-        <autoincrement>true</autoincrement>
-    </primaryKey>
-
     <field>
         <name>survey_id</name>
         <type>int unsigned</type>
         <comment>FK to Survey</comment>
     </field>
-    <foreignKey>
-        <name>survey_id</name>
-        <table>civicrm_survey</table>
-        <key>id</key>
-        <onDelete>CASCADE</onDelete>
-    </foreignKey>
     <field>
         <name>layout_handler</name>
         <type>text</type>
@@ -106,4 +94,14 @@
         <add>3.3</add>
     </field>
 
+    <primaryKey>
+        <name>id</name>
+        <autoincrement>true</autoincrement>
+    </primaryKey>
+    <foreignKey>
+        <name>survey_id</name>
+        <table>civicrm_survey</table>
+        <key>id</key>
+        <onDelete>CASCADE</onDelete>
+    </foreignKey>
 </table>
