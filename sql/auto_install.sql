@@ -32,22 +32,22 @@ SET FOREIGN_KEY_CHECKS=1;
 -- *
 -- * civicrm_appearancemodifier_event
 -- *
--- * This table contains the settings for the modified events.
+-- * This table contains settings for modified events
 -- *
 -- *******************************************************/
 CREATE TABLE `civicrm_appearancemodifier_event` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Unique AppearancemodifierEvent ID',
-  `event_id` int unsigned COMMENT 'FK to Survey',
-  `layout_handler` text COMMENT 'The alterContent handler function.',
-  `background_color` text COMMENT 'The color code of the background in #ffffff format.',
-  `invert_consent_fields` tinyint COMMENT 'This field triggers the invert behaviour of the consent checkboxes.',
-  `custom_social_box` tinyint COMMENT 'This field triggers the custom social sharing layout.',
-  `external_share_url` text COMMENT 'This link will be shared in the custom social box.',
-  `add_placeholder` tinyint COMMENT 'Set the text input label as placeholder text in the input.',
-  `hide_form_labels` tinyint COMMENT 'Hide the form labels and use only the placeholders.',
-  `font_color` text COMMENT 'The color code of the fonts in #ffffff format.',
-  `consent_field_behaviour` text COMMENT 'This field describes the behaviour of the consent logic.',
-  `custom_settings` text COMMENT 'Serialized data for PHP usage',
+  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Unique Appearance-modifier Event Setting ID',
+  `event_id` int unsigned NULL DEFAULT NULL COMMENT 'FK to civicrm_event',
+  `layout_handler` varchar(511) NULL DEFAULT NULL COMMENT 'Layout handler class',
+  `background_color` varchar(15) NULL DEFAULT NULL COMMENT 'Color code of background in #ffffff format',
+  `invert_consent_fields` tinyint NULL DEFAULT NULL COMMENT 'Are consent checkboxes inverted?',
+  `custom_social_box` tinyint NULL DEFAULT NULL COMMENT 'Is custom social box used?',
+  `external_share_url` text NULL DEFAULT NULL COMMENT 'This link will be shared in a custom social box',
+  `add_placeholder` tinyint NULL DEFAULT NULL COMMENT 'Should we add placeholders?',
+  `hide_form_labels` tinyint NULL DEFAULT NULL COMMENT 'Should we hide form labels?',
+  `font_color` varchar(15) NULL DEFAULT NULL COMMENT 'Color code of fonts in #ffffff format',
+  `consent_field_behaviour` text NULL DEFAULT NULL COMMENT 'Select consent logic operation mode',
+  `custom_settings` text NULL DEFAULT NULL COMMENT 'Custom serialized data for PHP',
   PRIMARY KEY (`id`),
   CONSTRAINT FK_civicrm_appearancemodifier_event_event_id FOREIGN KEY (`event_id`) REFERENCES `civicrm_event`(`id`) ON DELETE CASCADE
 )
@@ -57,26 +57,26 @@ ENGINE=InnoDB;
 -- *
 -- * civicrm_appearancemodifier_petition
 -- *
--- * This table contains the settings for the modified petitions.
+-- * This table contains settings for modified petitions
 -- *
 -- *******************************************************/
 CREATE TABLE `civicrm_appearancemodifier_petition` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Unique AppearancemodifierPetition ID',
-  `survey_id` int unsigned COMMENT 'FK to Survey',
-  `layout_handler` text COMMENT 'The alterContent handler function.',
-  `background_color` text COMMENT 'The color code of the background in #ffffff format.',
-  `additional_note` text COMMENT 'The text that will be displayed after the submit button on the edit form.',
-  `petition_message` text COMMENT 'The text that will be displayed in the petition message input.',
-  `invert_consent_fields` tinyint COMMENT 'This field triggers the invert behaviour of the consent checkboxes.',
-  `target_number_of_signers` int COMMENT 'The target number of the petition signers.',
-  `custom_social_box` tinyint COMMENT 'This field triggers the custom social sharing layout.',
-  `external_share_url` text COMMENT 'This link will be shared in the custom social box.',
-  `add_placeholder` tinyint COMMENT 'Set the text input label as placeholder text in the input.',
-  `hide_form_labels` tinyint COMMENT 'Hide the form labels and use only the placeholders.',
-  `font_color` text COMMENT 'The color code of the fonts in #ffffff format.',
-  `signers_block_position` text COMMENT 'The position where the number of petition signers is displayed.',
-  `consent_field_behaviour` text COMMENT 'This field describes the behaviour of the consent logic.',
-  `custom_settings` text COMMENT 'Serialized data for PHP usage',
+  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Unique Appearance-modifier Petition Setting ID',
+  `survey_id` int unsigned NULL DEFAULT NULL COMMENT 'FK to civicrm_survey',
+  `layout_handler` varchar(511) NULL DEFAULT NULL COMMENT 'Layout handler class',
+  `background_color` varchar(15) NULL DEFAULT NULL COMMENT 'Color code of background in #ffffff format',
+  `additional_note` text NULL DEFAULT NULL COMMENT 'This text will be displayed after submit button',
+  `petition_message` text NULL DEFAULT NULL COMMENT 'Petition message template',
+  `invert_consent_fields` tinyint NULL DEFAULT NULL COMMENT 'Are consent checkboxes inverted?',
+  `target_number_of_signers` int unsigned NULL DEFAULT NULL COMMENT 'Target number of the petition signers',
+  `custom_social_box` tinyint NULL DEFAULT NULL COMMENT 'Is custom social box used?',
+  `external_share_url` text NULL DEFAULT NULL COMMENT 'This link will be shared in a custom social box',
+  `add_placeholder` tinyint NULL DEFAULT NULL COMMENT 'Should we add placeholders?',
+  `hide_form_labels` tinyint NULL DEFAULT NULL COMMENT 'Should we hide form labels?',
+  `font_color` varchar(15) NULL DEFAULT NULL COMMENT 'Color code of fonts in #ffffff format',
+  `signers_block_position` text NULL DEFAULT NULL COMMENT 'Position where the number of petition signers is displayed',
+  `consent_field_behaviour` text NULL DEFAULT NULL COMMENT 'Select consent logic operation mode',
+  `custom_settings` text NULL DEFAULT NULL COMMENT 'Custom serialized data for PHP',
   PRIMARY KEY (`id`),
   CONSTRAINT FK_civicrm_appearancemodifier_petition_survey_id FOREIGN KEY (`survey_id`) REFERENCES `civicrm_survey`(`id`) ON DELETE CASCADE
 )
@@ -86,21 +86,21 @@ ENGINE=InnoDB;
 -- *
 -- * civicrm_appearancemodifier_profile
 -- *
--- * This table contains the settings for the modified profiles.
+-- * This table contains settings for modified profiles
 -- *
 -- *******************************************************/
 CREATE TABLE `civicrm_appearancemodifier_profile` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Unique AppearancemodifierProfile ID',
-  `uf_group_id` int unsigned NOT NULL COMMENT 'FK to UFGroup',
-  `layout_handler` text COMMENT 'The alterContent handler function.',
-  `background_color` text COMMENT 'The color code of the background in #ffffff format.',
-  `additional_note` text COMMENT 'The text that will be displayed after the submit button on the edit form.',
-  `invert_consent_fields` tinyint COMMENT 'This field triggers the invert behaviour of the consent checkboxes.',
-  `add_placeholder` tinyint COMMENT 'Set the text input label as placeholder text in the input.',
-  `hide_form_labels` tinyint COMMENT 'Hide the form labels and use only the placeholders.',
-  `font_color` text COMMENT 'The color code of the fonts in #ffffff format.',
-  `consent_field_behaviour` text COMMENT 'This field describes the behaviour of the consent logic.',
-  `custom_settings` text COMMENT 'Serialized data for PHP usage',
+  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Unique Appearance-modifier Profile Setting ID',
+  `uf_group_id` int unsigned NOT NULL COMMENT 'FK to civicrm_uf_group',
+  `layout_handler` varchar(511) NULL DEFAULT NULL COMMENT 'Layout handler class',
+  `background_color` varchar(15) NULL DEFAULT NULL COMMENT 'Color code of background in #ffffff format',
+  `additional_note` text NULL DEFAULT NULL COMMENT 'This text will be displayed after submit button',
+  `invert_consent_fields` tinyint NULL DEFAULT NULL COMMENT 'Are consent checkboxes inverted?',
+  `add_placeholder` tinyint NULL DEFAULT NULL COMMENT 'Should we add placeholders?',
+  `hide_form_labels` tinyint NULL DEFAULT NULL COMMENT 'Should we hide form labels?',
+  `font_color` varchar(15) NULL DEFAULT NULL COMMENT 'Color code of fonts in #ffffff format',
+  `consent_field_behaviour` text NULL DEFAULT NULL COMMENT 'Select consent logic operation mode',
+  `custom_settings` text NULL DEFAULT NULL COMMENT 'Custom serialized data for PHP',
   PRIMARY KEY (`id`),
   CONSTRAINT FK_civicrm_appearancemodifier_profile_uf_group_id FOREIGN KEY (`uf_group_id`) REFERENCES `civicrm_uf_group`(`id`) ON DELETE CASCADE
 )
