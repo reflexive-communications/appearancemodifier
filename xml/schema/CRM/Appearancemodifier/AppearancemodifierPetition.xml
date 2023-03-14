@@ -3,9 +3,10 @@
     <base>CRM/Appearancemodifier</base>
     <class>AppearancemodifierPetition</class>
     <name>civicrm_appearancemodifier_petition</name>
-    <comment>This table contains the settings for the modified petitions.</comment>
-    <comment>FIXME</comment>
+    <title>Appearance-modifier Petition Setting</title>
+    <titlePlural>Appearance-modifier Petition Settings</titlePlural>
     <log>true</log>
+    <comment>This table contains settings for modified petitions</comment>
 
     <field>
         <name>id</name>

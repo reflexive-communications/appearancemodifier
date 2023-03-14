@@ -3,8 +3,10 @@
     <base>CRM/Appearancemodifier</base>
     <class>AppearancemodifierEvent</class>
     <name>civicrm_appearancemodifier_event</name>
-    <comment>This table contains the settings for the modified events.</comment>
+    <title>Appearance-modifier Event Setting</title>
+    <titlePlural>Appearance-modifier Event Settings</titlePlural>
     <log>true</log>
+    <comment>This table contains settings for modified events</comment>
 
     <field>
         <name>id</name>

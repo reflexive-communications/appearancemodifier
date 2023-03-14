@@ -3,8 +3,10 @@
     <base>CRM/Appearancemodifier</base>
     <class>AppearancemodifierProfile</class>
     <name>civicrm_appearancemodifier_profile</name>
-    <comment>This table contains the settings for the modified profiles.</comment>
+    <title>Appearance-modifier Profile Setting</title>
+    <titlePlural>Appearance-modifier Profile Settings</titlePlural>
     <log>true</log>
+    <comment>This table contains settings for modified profiles</comment>
 
     <field>
         <name>id</name>
