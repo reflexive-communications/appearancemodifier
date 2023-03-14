@@ -10,64 +10,149 @@
 
     <field>
         <name>id</name>
+        <title>Appearance-modifier Profile Setting ID</title>
         <type>int unsigned</type>
         <required>true</required>
-        <comment>Unique AppearancemodifierProfile ID</comment>
+        <html>
+            <type>Number</type>
+        </html>
+        <comment>Unique Appearance-modifier Profile Setting ID</comment>
     </field>
     <field>
         <name>uf_group_id</name>
+        <title>UF Group ID</title>
         <type>int unsigned</type>
         <required>true</required>
-        <comment>FK to UFGroup</comment>
+        <import>true</import>
+        <export>true</export>
+        <html>
+            <type>Number</type>
+        </html>
+        <comment>FK to civicrm_uf_group</comment>
     </field>
     <field>
         <name>layout_handler</name>
-        <type>text</type>
-        <comment>The alterContent handler function.</comment>
+        <title>Layout handler</title>
+        <type>varchar</type>
+        <length>511</length>
+        <required>false</required>
+        <default>null</default>
+        <import>true</import>
+        <export>true</export>
+        <html>
+            <type>Text</type>
+        </html>
+        <comment>Layout handler class</comment>
     </field>
     <field>
         <name>background_color</name>
-        <type>text</type>
-        <comment>The color code of the background in #ffffff format.</comment>
+        <title>Background color</title>
+        <type>varchar</type>
+        <length>15</length>
+        <required>false</required>
+        <default>null</default>
+        <import>true</import>
+        <export>true</export>
+        <html>
+            <type>Text</type>
+        </html>
+        <comment>Color code of background in #ffffff format</comment>
     </field>
     <field>
         <name>additional_note</name>
+        <title>Additional note</title>
         <type>text</type>
-        <comment>The text that will be displayed after the submit button on the edit form.</comment>
+        <required>false</required>
+        <default>null</default>
+        <import>true</import>
+        <export>true</export>
+        <html>
+            <type>Text</type>
+        </html>
+        <comment>This text will be displayed after submit button</comment>
     </field>
     <field>
         <name>invert_consent_fields</name>
+        <title>Invert consent fields</title>
         <type>boolean</type>
-        <comment>This field triggers the invert behaviour of the consent checkboxes.</comment>
+        <required>false</required>
+        <default>null</default>
+        <import>true</import>
+        <export>true</export>
+        <html>
+            <type>CheckBox</type>
+        </html>
+        <comment>Are consent checkboxes inverted?</comment>
     </field>
     <field>
         <name>add_placeholder</name>
+        <title>Add placeholder</title>
         <type>boolean</type>
-        <comment>Set the text input label as placeholder text in the input.</comment>
+        <required>false</required>
+        <default>null</default>
+        <import>true</import>
+        <export>true</export>
+        <html>
+            <type>CheckBox</type>
+        </html>
+        <comment>Should we add placeholders?</comment>
     </field>
     <field>
         <name>hide_form_labels</name>
+        <title>Hide form labels</title>
         <type>boolean</type>
-        <comment>Hide the form labels and use only the placeholders.</comment>
+        <required>false</required>
+        <default>null</default>
+        <import>true</import>
+        <export>true</export>
+        <html>
+            <type>CheckBox</type>
+        </html>
+        <comment>Should we hide form labels?</comment>
     </field>
     <field>
         <name>font_color</name>
-        <type>text</type>
-        <comment>The color code of the fonts in #ffffff format.</comment>
+        <title>Font color</title>
+        <type>varchar</type>
+        <length>15</length>
+        <required>false</required>
+        <default>null</default>
+        <import>true</import>
+        <export>true</export>
+        <html>
+            <type>Text</type>
+        </html>
         <add>3.1</add>
+        <comment>Color code of fonts in #ffffff format</comment>
     </field>
     <field>
         <name>consent_field_behaviour</name>
+        <title>Consent field operation mode</title>
         <type>text</type>
-        <comment>This field describes the behaviour of the consent logic.</comment>
+        <required>false</required>
+        <default>null</default>
+        <import>true</import>
+        <export>true</export>
+        <html>
+            <type>Text</type>
+        </html>
         <add>3.3</add>
+        <comment>Select consent logic operation mode</comment>
     </field>
     <field>
         <name>custom_settings</name>
+        <title>Custom settings</title>
         <type>text</type>
-        <comment>Serialized data for PHP usage</comment>
+        <required>false</required>
+        <default>null</default>
+        <import>true</import>
+        <export>true</export>
+        <html>
+            <type>Text</type>
+        </html>
         <serialize>PHP</serialize>
         <add>3.3</add>
+        <comment>Custom serialized data for PHP</comment>
     </field>
 
     <primaryKey>
