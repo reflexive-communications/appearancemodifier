@@ -27,7 +27,7 @@ class CRM_Appearancemodifier_ExtensionUtil
      *   Translated text.
      * @see ts
      */
-    public static function ts($text, $params = [])
+    public static function ts($text, $params = []): string
     {
         if (!array_key_exists('domain', $params)) {
             $params['domain'] = [self::LONG_NAME, null];
@@ -47,7 +47,7 @@ class CRM_Appearancemodifier_ExtensionUtil
      *   Ex: 'http://example.org/sites/default/ext/org.example.foo'.
      *   Ex: 'http://example.org/sites/default/ext/org.example.foo/css/foo.css'.
      */
-    public static function url($file = null)
+    public static function url($file = null): string
     {
         if ($file === null) {
             return rtrim(CRM_Core_Resources::singleton()->getUrl(self::LONG_NAME), '/');
@@ -86,6 +86,7 @@ class CRM_Appearancemodifier_ExtensionUtil
     {
         return self::CLASS_PREFIX.'_'.str_replace('\\', '_', $suffix);
     }
+
 }
 
 use CRM_Appearancemodifier_ExtensionUtil as E;
@@ -103,9 +104,9 @@ function _appearancemodifier_civix_civicrm_config(&$config = null)
     }
     $configured = true;
 
-    $template =& CRM_Core_Smarty::singleton();
+    $template = CRM_Core_Smarty::singleton();
 
-    $extRoot = dirname(__FILE__).DIRECTORY_SEPARATOR;
+    $extRoot = __DIR__.DIRECTORY_SEPARATOR;
     $extDir = $extRoot.'templates';
 
     if (is_array($template->template_dir)) {
