@@ -5,7 +5,7 @@
     <name>civicrm_appearancemodifier_profile</name>
     <title>Appearance-modifier Profile Setting</title>
     <titlePlural>Appearance-modifier Profile Settings</titlePlural>
-    <log>true</log>
+    <log>false</log>
     <comment>This table contains settings for modified profiles</comment>
 
     <field>

@@ -5,7 +5,7 @@
     <name>civicrm_appearancemodifier_event</name>
     <title>Appearance-modifier Event Setting</title>
     <titlePlural>Appearance-modifier Event Settings</titlePlural>
-    <log>true</log>
+    <log>false</log>
     <comment>This table contains settings for modified events</comment>
 
     <field>

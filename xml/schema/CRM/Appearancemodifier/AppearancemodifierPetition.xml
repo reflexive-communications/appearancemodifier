@@ -5,7 +5,7 @@
     <name>civicrm_appearancemodifier_petition</name>
     <title>Appearance-modifier Petition Setting</title>
     <titlePlural>Appearance-modifier Petition Settings</titlePlural>
-    <log>true</log>
+    <log>false</log>
     <comment>This table contains settings for modified petitions</comment>
 
     <field>
