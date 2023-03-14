@@ -36,7 +36,7 @@
         <type>varchar</type>
         <length>511</length>
         <required>false</required>
-        <default>null</default>
+        <default>NULL</default>
         <import>true</import>
         <export>true</export>
         <html>
@@ -50,7 +50,7 @@
         <type>varchar</type>
         <length>15</length>
         <required>false</required>
-        <default>null</default>
+        <default>NULL</default>
         <import>true</import>
         <export>true</export>
         <html>
@@ -63,7 +63,7 @@
         <title>Additional note</title>
         <type>text</type>
         <required>false</required>
-        <default>null</default>
+        <default>NULL</default>
         <import>true</import>
         <export>true</export>
         <html>
@@ -76,7 +76,7 @@
         <title>Invert consent fields</title>
         <type>boolean</type>
         <required>false</required>
-        <default>null</default>
+        <default>NULL</default>
         <import>true</import>
         <export>true</export>
         <html>
@@ -89,7 +89,7 @@
         <title>Add placeholder</title>
         <type>boolean</type>
         <required>false</required>
-        <default>null</default>
+        <default>NULL</default>
         <import>true</import>
         <export>true</export>
         <html>
@@ -102,7 +102,7 @@
         <title>Hide form labels</title>
         <type>boolean</type>
         <required>false</required>
-        <default>null</default>
+        <default>NULL</default>
         <import>true</import>
         <export>true</export>
         <html>
@@ -116,7 +116,7 @@
         <type>varchar</type>
         <length>15</length>
         <required>false</required>
-        <default>null</default>
+        <default>NULL</default>
         <import>true</import>
         <export>true</export>
         <html>
@@ -130,7 +130,7 @@
         <title>Consent field operation mode</title>
         <type>text</type>
         <required>false</required>
-        <default>null</default>
+        <default>NULL</default>
         <import>true</import>
         <export>true</export>
         <html>
@@ -144,7 +144,7 @@
         <title>Custom settings</title>
         <type>text</type>
         <required>false</required>
-        <default>null</default>
+        <default>NULL</default>
         <import>true</import>
         <export>true</export>
         <html>
