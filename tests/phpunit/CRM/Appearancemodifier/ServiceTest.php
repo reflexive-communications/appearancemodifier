@@ -7,6 +7,7 @@ use Civi\Api4\Contact;
 use Civi\Api4\Event;
 use Civi\Api4\UFGroup;
 use Civi\Appearancemodifier\HeadlessTestCase;
+use Civi\Test\TransactionalInterface;
 
 /**
  * This class could be used for testing the processes.
@@ -25,7 +26,7 @@ class LayoutImplementationTest extends CRM_Appearancemodifier_AbstractLayout
 /**
  * @group headless
  */
-class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
+class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements TransactionalInterface
 {
     /*
      * It tests the alterTemplateFile function.

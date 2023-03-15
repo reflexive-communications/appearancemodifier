@@ -8,14 +8,12 @@ use Civi\Api4\OptionGroup;
 use Civi\Api4\OptionValue;
 use Civi\Test;
 use Civi\Test\HeadlessInterface;
-use Civi\Test\HookInterface;
-use Civi\Test\TransactionalInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @group headless
  */
-class HeadlessTestCase extends TestCase implements HeadlessInterface, HookInterface, TransactionalInterface
+class HeadlessTestCase extends TestCase implements HeadlessInterface
 {
     protected static $index = 0;
 
