@@ -1,5 +1,7 @@
 <?php
 
+use Civi\Appearancemodifier\HeadlessTestCase;
+
 class DummyPetitionPresetProviderClass
 {
     public static function getPresets(): array
@@ -26,7 +28,7 @@ class DummyPetitionPresetProviderClass
  *
  * @group headless
  */
-class CRM_Appearancemodifier_Form_PetitionTest extends CRM_Appearancemodifier_Form_ConsentBase
+class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
 {
     /*
      * It tests the preProcess function.

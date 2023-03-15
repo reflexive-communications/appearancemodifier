@@ -1,16 +1,17 @@
 <?php
 
-use Civi\Api4\UFGroup;
-use Civi\Api4\UFField;
-use Civi\Api4\UFJoin;
 use Civi\Api4\AppearancemodifierPetition;
+use Civi\Api4\UFField;
+use Civi\Api4\UFGroup;
+use Civi\Api4\UFJoin;
+use Civi\Appearancemodifier\HeadlessTestCase;
 
 /**
  * Testcases for Petition Form class.
  *
  * @group headless
  */
-class CRM_Appearancemodifier_Form_PetitionConsentTest extends CRM_Appearancemodifier_Form_ConsentBase
+class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
 {
     /*
      * It tests the preProcess function.

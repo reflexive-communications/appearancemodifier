@@ -1,15 +1,16 @@
 <?php
 
-use Civi\Api4\UFGroup;
-use Civi\Api4\UFField;
 use Civi\Api4\AppearancemodifierProfile;
+use Civi\Api4\UFField;
+use Civi\Api4\UFGroup;
+use Civi\Appearancemodifier\HeadlessTestCase;
 
 /**
  * Testcases for Profile Form class with consentactivity extension installed.
  *
  * @group headless
  */
-class CRM_Appearancemodifier_Form_ProfileConsentTest extends CRM_Appearancemodifier_Form_ConsentBase
+class CRM_Appearancemodifier_Form_ProfileConsentTest extends HeadlessTestCase
 {
     /*
      * It tests the preProcess function.

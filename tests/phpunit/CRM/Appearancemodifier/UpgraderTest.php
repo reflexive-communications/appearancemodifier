@@ -1,5 +1,6 @@
 <?php
 
+use Civi\Appearancemodifier\HeadlessTestCase;
 use CRM_Appearancemodifier_ExtensionUtil as E;
 
 /**
@@ -7,7 +8,7 @@ use CRM_Appearancemodifier_ExtensionUtil as E;
  *
  * @group headless
  */
-class CRM_Appearancemodifier_UpgraderTest extends CRM_Appearancemodifier_Form_ConsentBase
+class CRM_Appearancemodifier_UpgraderTest extends HeadlessTestCase
 {
     /*
      * It tests the postInstall function.

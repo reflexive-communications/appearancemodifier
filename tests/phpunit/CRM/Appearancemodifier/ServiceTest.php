@@ -1,10 +1,11 @@
 <?php
 
-use Civi\Api4\AppearancemodifierProfile;
-use Civi\Api4\AppearancemodifierPetition;
 use Civi\Api4\AppearancemodifierEvent;
-use Civi\Api4\UFGroup;
+use Civi\Api4\AppearancemodifierPetition;
+use Civi\Api4\AppearancemodifierProfile;
 use Civi\Api4\Contact;
+use Civi\Api4\UFGroup;
+use Civi\Appearancemodifier\HeadlessTestCase;
 
 /**
  * This calss could be used for testing the processes.
@@ -25,7 +26,7 @@ class LayoutImplementationTest extends CRM_Appearancemodifier_AbstractLayout
  *
  * @group headless
  */
-class CRM_Appearancemodifier_ServiceTest extends CRM_Appearancemodifier_Form_ConsentBase
+class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
 {
     /*
      * It tests the alterTemplateFile function.
