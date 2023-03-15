@@ -15,16 +15,8 @@ class LayoutImplementation extends CRM_Appearancemodifier_AbstractLayout
     }
 }
 
-class CRM_Appearancemodifier_AbstractLayoutTest extends \PHPUnit\Framework\TestCase
+class CRM_Appearancemodifier_AbstractLayoutTest extends CRM_Appearancemodifier_Form_ConsentBase
 {
-    /**
-     * The setup() method is executed before the test is executed (optional).
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
     /**
      * Test for className.
      */

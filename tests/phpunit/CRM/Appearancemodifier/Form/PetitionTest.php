@@ -1,7 +1,5 @@
 <?php
 
-use CRM_Appearancemodifier_ExtensionUtil as E;
-
 class DummyPetitionPresetProviderClass
 {
     public static function getPresets(): array
@@ -28,7 +26,7 @@ class DummyPetitionPresetProviderClass
  *
  * @group headless
  */
-class CRM_Appearancemodifier_Form_PetitionTest extends CRM_Appearancemodifier_Form_HeadlessBase
+class CRM_Appearancemodifier_Form_PetitionTest extends CRM_Appearancemodifier_Form_ConsentBase
 {
     /*
      * It tests the preProcess function.

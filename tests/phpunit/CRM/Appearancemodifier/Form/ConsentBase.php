@@ -1,6 +1,5 @@
 <?php
 
-use CRM_Appearancemodifier_ExtensionUtil as E;
 use Civi\Test\HeadlessInterface;
 use Civi\Test\HookInterface;
 use Civi\Test\TransactionalInterface;
@@ -8,13 +7,14 @@ use Civi\Api4\CustomGroup;
 use Civi\Api4\CustomField;
 use Civi\Api4\OptionGroup;
 use Civi\Api4\OptionValue;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Testcases for Base Form class with consentactivity extension installed.
  *
  * @group headless
  */
-class CRM_Appearancemodifier_Form_ConsentBase extends \PHPUnit\Framework\TestCase implements HeadlessInterface, HookInterface, TransactionalInterface
+class CRM_Appearancemodifier_Form_ConsentBase extends TestCase implements HeadlessInterface, HookInterface, TransactionalInterface
 {
     protected static $index = 0;
 

@@ -1,10 +1,5 @@
 <?php
 
-use CRM_Appearancemodifier_ExtensionUtil as E;
-use Civi\Test\HeadlessInterface;
-use Civi\Test\HookInterface;
-use Civi\Test\TransactionalInterface;
-
 use Civi\Api4\AppearancemodifierProfile;
 use Civi\Api4\AppearancemodifierPetition;
 use Civi\Api4\AppearancemodifierEvent;
@@ -30,36 +25,8 @@ class LayoutImplementationTest extends CRM_Appearancemodifier_AbstractLayout
  *
  * @group headless
  */
-class CRM_Appearancemodifier_ServiceTest extends \PHPUnit\Framework\TestCase implements HeadlessInterface, HookInterface, TransactionalInterface
+class CRM_Appearancemodifier_ServiceTest extends CRM_Appearancemodifier_Form_ConsentBase
 {
-    public function setUpHeadless()
-    {
-        return \Civi\Test::headless()
-            ->install('rc-base')
-            ->installMe(__DIR__)
-            ->apply();
-    }
-
-    /**
-     * Apply a forced rebuild of DB, thus
-     * create a clean DB before running tests
-     *
-     * @throws \CRM_Extension_Exception_ParseException
-     */
-    public static function setUpBeforeClass(): void
-    {
-        // Resets DB and install depended extension
-        \Civi\Test::headless()
-            ->install('rc-base')
-            ->installMe(__DIR__)
-            ->apply(true);
-    }
-
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
     /*
      * It tests the alterTemplateFile function.
      */
