@@ -4,6 +4,7 @@ use Civi\Api4\AppearancemodifierEvent;
 use Civi\Api4\AppearancemodifierPetition;
 use Civi\Api4\AppearancemodifierProfile;
 use Civi\Api4\Contact;
+use Civi\Api4\Event;
 use Civi\Api4\UFGroup;
 use Civi\Appearancemodifier\HeadlessTestCase;
 
@@ -85,8 +86,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
         $current = AppearancemodifierPetition::get(false)
             ->execute();
         $result = civicrm_api3('Survey', 'create', [
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $new = AppearancemodifierPetition::get(false)
             ->execute();
@@ -95,7 +96,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
         $current = AppearancemodifierEvent::get(false)
             ->execute();
         self::assertCount(0, $current);
-        $results = \Civi\Api4\Event::create(false)
+        $results = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
@@ -104,7 +105,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
             ->execute();
         self::assertCount(count($current) + 1, $new);
         // not create action
-        $results = \Civi\Api4\Event::update(false)
+        $results = Event::update(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('id', $results[0]['id'])
@@ -123,8 +124,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
         // petition thankyou
         $result = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         self::assertCount(1, $result['values'], 'Invalid count. '.var_export($result, true));
         $page = new CRM_Campaign_Page_Petition_ThankYou();
@@ -139,7 +140,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
         // event info
-        $results = \Civi\Api4\Event::create(false)
+        $results = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
@@ -179,8 +180,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
         // petition thankyou
         $result = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         self::assertCount(1, $result['values'], 'Invalid count. '.var_export($result, true));
         $page = new CRM_Campaign_Page_Petition_ThankYou();
@@ -205,7 +206,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
         // event info
-        $results = \Civi\Api4\Event::create(false)
+        $results = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
@@ -329,8 +330,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
         // petition
         $result = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $form = new CRM_Campaign_Form_Petition_Signature();
         $form->setVar('_surveyId', $result['values'][0]['id']);
@@ -352,7 +353,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::buildForm(CRM_Campaign_Form_Petition_Signature::class, $form));
         // event
-        $results = \Civi\Api4\Event::create(false)
+        $results = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
@@ -376,8 +377,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
         // petition
         $result = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $form = new CRM_Campaign_Form_Petition_Signature();
         $form->setVar('_surveyId', $result['values'][0]['id']);
@@ -403,7 +404,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
             ->execute();
         self::assertEmpty(CRM_Appearancemodifier_Service::buildForm(CRM_Campaign_Form_Petition_Signature::class, $form));
         // event
-        $results = \Civi\Api4\Event::create(false)
+        $results = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
@@ -562,8 +563,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
     {
         $result = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $form = new CRM_Campaign_Form_Petition_Signature();
         $form->setVar('_surveyId', $result['values'][0]['id']);
@@ -620,8 +621,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
     {
         $result = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $form = new CRM_Campaign_Form_Petition_Signature();
         $form->setVar('_surveyId', $result['values'][0]['id']);
@@ -654,7 +655,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
 
     public function testPostProcessDoesNothingOnEventRegisterFormWhenTheConfigrmScreenEnabled()
     {
-        $results = \Civi\Api4\Event::create(false)
+        $results = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
@@ -697,7 +698,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
 
     public function testPostProcessChangesTheConsentFieldsEventRegisterFormWhenTheConfigrmScreenDisabled()
     {
-        $results = \Civi\Api4\Event::create(false)
+        $results = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
@@ -755,7 +756,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
 
     public function testPostProcessChangesTheConsentFieldsEventInvert()
     {
-        $results = \Civi\Api4\Event::create(false)
+        $results = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
@@ -813,7 +814,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
 
     public function testPostProcessChangesTheConsentFieldsEventApply()
     {
-        $results = \Civi\Api4\Event::create(false)
+        $results = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
@@ -931,8 +932,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
     {
         $result = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $form = new CRM_Campaign_Form_Petition_Signature();
         $form->setVar('_surveyId', $result['values'][0]['id']);
@@ -956,7 +957,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
 
     public function testAlterContentEventHiddenClassWithFlag()
     {
-        $results = \Civi\Api4\Event::create(false)
+        $results = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
@@ -985,8 +986,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
     {
         $result = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $form = new CRM_Campaign_Page_Petition_ThankYou();
         $form->setVar('petition', ['id' => $result['values'][0]['id']]);
@@ -1012,8 +1013,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
     {
         $result = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $form = new CRM_Campaign_Form_Petition_Signature();
         $form->setVar('_surveyId', $result['values'][0]['id']);
@@ -1039,8 +1040,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
     {
         $result = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $form = new CRM_Campaign_Form_Petition_Signature();
         $form->setVar('_surveyId', $result['values'][0]['id']);
@@ -1067,8 +1068,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
     {
         $result = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $form = new CRM_Campaign_Form_Petition_Signature();
         $form->setVar('_surveyId', $result['values'][0]['id']);
@@ -1100,7 +1101,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
         $result = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
             'title' => $petitionTitle,
-            'activity_type_id' => "Petition",
+            'activity_type_id' => 'Petition',
         ]);
         $form = new CRM_Campaign_Form_Petition_Signature();
         $form->setVar('petition', ['id' => $result['values'][0]['id']]);
@@ -1122,7 +1123,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
             "<div id=\"crm-main-content-wrapper\"><div class=\"crm-section crm-socialnetwork\">\n<h2>Please share it</h2>\n<div class=\"appearancemodifier-social-block\">\n<div class=\"social-media-icon\"><a onclick=\"window.open('https://facebook.com/sharer/sharer.php?u="
             .urlencode($externalUrl)
             ."', '_blank')\" target=\"_blank\" title=\"Share on Facebook\"><div><i aria-hidden=\"true\" class=\"crm-i fa-facebook\"></i></div></a></div>\n<div class=\"social-media-icon\"><a onclick=\"window.open('https://twitter.com/intent/tweet?url="
-            .urlencode($externalUrl)."&amp;text=".$petitionTitle
+            .urlencode($externalUrl).'&amp;text='.$petitionTitle
             ."', '_blank')\" target=\"_blank\" title=\"Share on Twitter\"><div><i aria-hidden=\"true\" class=\"crm-i fa-twitter\"></i></div></a></div>\n</div>\n</div></div>";
         $content =
             '<div id="crm-main-content-wrapper"><div class="crm-socialnetwork"><button id="crm-tw" onclick="console.log(\'tw\')"></button><button id="crm-fb" onclick="console.log(\'fb\')"></button></div></div>';
@@ -1132,7 +1133,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
 
     public function testAlterContentEventCustomSocialContainerBox()
     {
-        $results = \Civi\Api4\Event::create(false)
+        $results = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
@@ -1162,7 +1163,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
 
     public function testAlterContentEventCustomSocialContainerBoxThankyouPage()
     {
-        $results = \Civi\Api4\Event::create(false)
+        $results = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
@@ -1192,7 +1193,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
     {
         $externalUrl = 'https://www.internet.com/myarticle.html';
         $eventTitle = 'Test event title';
-        $results = \Civi\Api4\Event::create(false)
+        $results = Event::create(false)
             ->addValue('title', $eventTitle)
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
@@ -1215,7 +1216,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
             "<div id=\"crm-main-content-wrapper\"><div class=\"crm-section crm-socialnetwork\">\n<h2>Please share it</h2>\n<div class=\"appearancemodifier-social-block\">\n<div class=\"social-media-icon\"><a onclick=\"window.open('https://facebook.com/sharer/sharer.php?u="
             .urlencode($externalUrl)
             ."', '_blank')\" target=\"_blank\" title=\"Share on Facebook\"><div><i aria-hidden=\"true\" class=\"crm-i fa-facebook\"></i></div></a></div>\n<div class=\"social-media-icon\"><a onclick=\"window.open('https://twitter.com/intent/tweet?url="
-            .urlencode($externalUrl)."&amp;text=".$eventTitle
+            .urlencode($externalUrl).'&amp;text='.$eventTitle
             ."', '_blank')\" target=\"_blank\" title=\"Share on Twitter\"><div><i aria-hidden=\"true\" class=\"crm-i fa-twitter\"></i></div></a></div>\n</div>\n</div></div>";
         $content =
             '<div id="crm-main-content-wrapper"><div class="crm-socialnetwork"><button id="crm-tw" onclick="console.log(\'tw\')"></button><button id="crm-fb" onclick="console.log(\'fb\')"></button></div></div>';
@@ -1225,7 +1226,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
 
     public function testAlterContentEventMissingId()
     {
-        $results = \Civi\Api4\Event::create(false)
+        $results = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
@@ -1254,8 +1255,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
     {
         $result = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $form = new CRM_Campaign_Form_Petition_Signature();
         $modifiedConfig = AppearancemodifierPetition::get(false)
@@ -1311,8 +1312,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
     {
         $result = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $form = new CRM_Campaign_Form_Petition_Signature();
         $form->setVar('_surveyId', $result['values'][0]['id']);
@@ -1340,7 +1341,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
 
     public function testAlterContentEventCheckAllCheckbox()
     {
-        $results = \Civi\Api4\Event::create(false)
+        $results = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')

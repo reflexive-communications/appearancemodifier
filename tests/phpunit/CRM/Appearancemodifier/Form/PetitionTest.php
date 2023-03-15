@@ -1,5 +1,6 @@
 <?php
 
+use Civi\Api4\AppearancemodifierPetition;
 use Civi\Appearancemodifier\HeadlessTestCase;
 
 class DummyPetitionPresetProviderClass
@@ -36,8 +37,8 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         // Petition
         $petition = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $petition = $petition['values'][0];
         $form = new CRM_Appearancemodifier_Form_Petition();
@@ -60,8 +61,8 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
     {
         $petition = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $petition = $petition['values'][0];
         $form = new CRM_Appearancemodifier_Form_Petition();
@@ -78,11 +79,11 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
     {
         $petition = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $petition = $petition['values'][0];
-        \Civi\Api4\AppearancemodifierPetition::update(false)
+        AppearancemodifierPetition::update(false)
             ->addWhere('survey_id', '=', $petition['id'])
             ->addValue('background_color', 'transparent')
             ->execute();
@@ -101,11 +102,11 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
     {
         $petition = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $petition = $petition['values'][0];
-        \Civi\Api4\AppearancemodifierPetition::update(false)
+        AppearancemodifierPetition::update(false)
             ->addWhere('survey_id', '=', $petition['id'])
             ->addValue('background_color', 'transparent')
             ->execute();
@@ -122,11 +123,11 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
     {
         $petition = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $petition = $petition['values'][0];
-        \Civi\Api4\AppearancemodifierPetition::update(false)
+        AppearancemodifierPetition::update(false)
             ->addWhere('survey_id', '=', $petition['id'])
             ->addValue('custom_settings', ['disable_petition_message_edit' => '1'])
             ->execute();
@@ -146,8 +147,8 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
     {
         $petition = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $petition = $petition['values'][0];
         $form = new CRM_Appearancemodifier_Form_Petition();
@@ -165,8 +166,8 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
     {
         $petition = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $petition = $petition['values'][0];
         $form = new CRM_Appearancemodifier_Form_Petition();
@@ -198,7 +199,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         ]);
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
-        $modifiedPetition = \Civi\Api4\AppearancemodifierPetition::get(false)
+        $modifiedPetition = AppearancemodifierPetition::get(false)
             ->addWhere('survey_id', '=', $petition['id'])
             ->execute()
             ->first();
@@ -211,8 +212,8 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
     {
         $petition = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $petition = $petition['values'][0];
         $form = new CRM_Appearancemodifier_Form_Petition();
@@ -244,7 +245,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         ]);
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
-        $modifiedPetition = \Civi\Api4\AppearancemodifierPetition::get(false)
+        $modifiedPetition = AppearancemodifierPetition::get(false)
             ->addWhere('survey_id', '=', $petition['id'])
             ->execute()
             ->first();
@@ -258,8 +259,8 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
     {
         $petition = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $petition = $petition['values'][0];
         $form = new CRM_Appearancemodifier_Form_Petition();
@@ -292,7 +293,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         ]);
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
-        $modifiedPetition = \Civi\Api4\AppearancemodifierPetition::get(false)
+        $modifiedPetition = AppearancemodifierPetition::get(false)
             ->addWhere('survey_id', '=', $petition['id'])
             ->execute()
             ->first();

@@ -46,8 +46,8 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
         // Petition
         $petition = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $petition = $petition['values'][0];
         UFJoin::create(false)
@@ -92,8 +92,8 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
         // Petition
         $petition = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $petition = $petition['values'][0];
         UFJoin::create(false)
@@ -138,8 +138,8 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
         // Petition
         $petition = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $petition = $petition['values'][0];
         UFJoin::create(false)
@@ -193,11 +193,11 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
         // Petition
         $petition = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $petition = $petition['values'][0];
-        \Civi\Api4\UFJoin::create(false)
+        UFJoin::create(false)
             ->addValue('module', 'CiviCampaign')
             ->addValue('entity_table', 'civicrm_survey')
             ->addValue('entity_id', $petition['id'])
@@ -237,11 +237,11 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
         // Petition
         $petition = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $petition = $petition['values'][0];
-        \Civi\Api4\UFJoin::create(false)
+        UFJoin::create(false)
             ->addValue('module', 'CiviCampaign')
             ->addValue('entity_table', 'civicrm_survey')
             ->addValue('entity_id', $petition['id'])
@@ -278,7 +278,7 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
         ]);
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
-        $modifiedPetition = \Civi\Api4\AppearancemodifierPetition::get(false)
+        $modifiedPetition = AppearancemodifierPetition::get(false)
             ->addWhere('survey_id', '=', $petition['id'])
             ->execute()
             ->first();
