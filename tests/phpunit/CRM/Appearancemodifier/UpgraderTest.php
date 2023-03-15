@@ -4,8 +4,6 @@ use Civi\Appearancemodifier\HeadlessTestCase;
 use CRM_Appearancemodifier_ExtensionUtil as E;
 
 /**
- * Testcases for Upgrader class.
- *
  * @group headless
  */
 class CRM_Appearancemodifier_UpgraderTest extends HeadlessTestCase

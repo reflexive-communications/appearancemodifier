@@ -24,8 +24,6 @@ class DummyPetitionPresetProviderClass
 }
 
 /**
- * Testcases for Petition Form class.
- *
  * @group headless
  */
 class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase

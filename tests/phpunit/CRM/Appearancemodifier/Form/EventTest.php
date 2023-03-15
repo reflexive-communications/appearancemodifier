@@ -21,8 +21,6 @@ class DummyEventPresetProviderClass
 }
 
 /**
- * Testcases for Event Form class.
- *
  * @group headless
  */
 class CRM_Appearancemodifier_Form_EventTest extends HeadlessTestCase

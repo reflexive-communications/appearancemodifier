@@ -7,8 +7,6 @@ use Civi\Api4\UFJoin;
 use Civi\Appearancemodifier\HeadlessTestCase;
 
 /**
- * Testcases for Petition Form class.
- *
  * @group headless
  */
 class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase

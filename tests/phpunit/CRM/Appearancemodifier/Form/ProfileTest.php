@@ -19,8 +19,6 @@ class DummyProfilePresetProviderClass
 }
 
 /**
- * Testcases for Profile Form class.
- *
  * @group headless
  */
 class CRM_Appearancemodifier_Form_ProfileTest extends HeadlessTestCase

@@ -8,8 +8,6 @@ use Civi\Api4\UFGroup;
 use Civi\Appearancemodifier\HeadlessTestCase;
 
 /**
- * Testcases for Service class with enabled consentactivity extension.
- *
  * @group headless
  */
 class CRM_Appearancemodifier_ServiceConsentTest extends HeadlessTestCase

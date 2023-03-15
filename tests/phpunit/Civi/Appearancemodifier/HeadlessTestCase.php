@@ -13,8 +13,6 @@ use Civi\Test\TransactionalInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Testcases for Base Form class with consentactivity extension installed.
- *
  * @group headless
  */
 class HeadlessTestCase extends TestCase implements HeadlessInterface, HookInterface, TransactionalInterface

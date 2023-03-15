@@ -8,7 +8,7 @@ use Civi\Api4\UFGroup;
 use Civi\Appearancemodifier\HeadlessTestCase;
 
 /**
- * This calss could be used for testing the processes.
+ * This class could be used for testing the processes.
  */
 class LayoutImplementationTest extends CRM_Appearancemodifier_AbstractLayout
 {
@@ -22,8 +22,6 @@ class LayoutImplementationTest extends CRM_Appearancemodifier_AbstractLayout
 }
 
 /**
- * Testcases for Service class.
- *
  * @group headless
  */
 class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase
