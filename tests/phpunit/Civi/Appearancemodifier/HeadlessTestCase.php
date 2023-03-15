@@ -6,6 +6,7 @@ use Civi\Api4\CustomField;
 use Civi\Api4\CustomGroup;
 use Civi\Api4\OptionGroup;
 use Civi\Api4\OptionValue;
+use Civi\Test;
 use Civi\Test\HeadlessInterface;
 use Civi\Test\HookInterface;
 use Civi\Test\TransactionalInterface;
@@ -20,15 +21,6 @@ class HeadlessTestCase extends TestCase implements HeadlessInterface, HookInterf
 {
     protected static $index = 0;
 
-    public function setUpHeadless()
-    {
-        return \Civi\Test::headless()
-            ->install('rc-base')
-            ->install('consentactivity')
-            ->installMe(__DIR__)
-            ->apply();
-    }
-
     /**
      * Apply a forced rebuild of DB, thus
      * create a clean DB before running tests
@@ -37,17 +29,19 @@ class HeadlessTestCase extends TestCase implements HeadlessInterface, HookInterf
      */
     public static function setUpBeforeClass(): void
     {
-        // Resets DB and install depended extension
-        \Civi\Test::headless()
+        // Resets DB
+        Test::headless()
             ->install('rc-base')
             ->install('consentactivity')
             ->installMe(__DIR__)
             ->apply(true);
     }
 
-    public function setUp(): void
+    /**
+     * @return void
+     */
+    public function setUpHeadless(): void
     {
-        parent::setUp();
     }
 
     protected function createNewCustomField(): array
