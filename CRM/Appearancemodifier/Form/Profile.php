@@ -1,8 +1,8 @@
 <?php
 
-use CRM_Appearancemodifier_ExtensionUtil as E;
-use Civi\Api4\UFGroup;
 use Civi\Api4\AppearancemodifierProfile;
+use Civi\Api4\UFGroup;
+use CRM_Appearancemodifier_ExtensionUtil as E;
 
 /**
  * Form controller class
@@ -43,7 +43,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
      *
      * @throws CRM_Core_Exception
      */
-    public function preProcess()
+    public function preProcess(): void
     {
         // Get the profile id query parameter.
         $ufGroupId = CRM_Utils_Request::retrieve('pid', 'Integer');
@@ -65,7 +65,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
      *
      * @return array
      */
-    public function setDefaultValues()
+    public function setDefaultValues(): array
     {
         // Set defaults
         foreach (self::PROFILE_FIELDS as $key) {
@@ -81,7 +81,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
     /**
      * Build form
      */
-    public function buildQuickForm()
+    public function buildQuickForm(): void
     {
         $layoutOptions = [
             'handlers' => [],
@@ -104,7 +104,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
     /**
      * Process post data
      */
-    public function postProcess()
+    public function postProcess(): void
     {
         $customSettings = $this->modifiedProfile['custom_settings'];
         foreach (self::DEFAULT_CUSTOM_SETTINGS as $key => $v) {

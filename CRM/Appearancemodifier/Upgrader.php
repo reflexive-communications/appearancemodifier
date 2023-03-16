@@ -1,11 +1,11 @@
 <?php
 
-use CRM_Appearancemodifier_ExtensionUtil as E;
-use Civi\Api4\UFGroup;
-use Civi\Api4\Event;
-use Civi\Api4\AppearancemodifierProfile;
-use Civi\Api4\AppearancemodifierPetition;
 use Civi\Api4\AppearancemodifierEvent;
+use Civi\Api4\AppearancemodifierPetition;
+use Civi\Api4\AppearancemodifierProfile;
+use Civi\Api4\Event;
+use Civi\Api4\UFGroup;
+use CRM_Appearancemodifier_ExtensionUtil as E;
 
 /**
  * Collection of upgrade steps.
@@ -159,7 +159,7 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * created during the installation (e.g., a setting or a managed entity), do
      * so here to avoid order of operation problems.
      */
-    public function postInstall()
+    public function postInstall(): void
     {
         self::upgradeExistingProfiles();
         self::upgradeExistingPetitions();
@@ -172,7 +172,7 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * @return TRUE on success
      * @throws Exception
      */
-    public function upgrade_5300()
+    public function upgrade_5300(): bool
     {
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile CHANGE outro additional_note text;');
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition CHANGE outro additional_note text;');
@@ -186,7 +186,7 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * @return TRUE on success
      * @throws Exception
      */
-    public function upgrade_5301()
+    public function upgrade_5301(): bool
     {
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile ADD COLUMN font_color text;');
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN font_color text;');
@@ -202,7 +202,7 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * @return TRUE on success
      * @throws Exception
      */
-    public function upgrade_5302()
+    public function upgrade_5302(): bool
     {
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN signers_block_position text;');
 
@@ -213,7 +213,7 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * It creates the modified profile entry for the missing petitions.
      * It uses API 3 as the surveys are not available in API 4.
      */
-    public function upgrade_5303()
+    public function upgrade_5303(): bool
     {
         $limit = 25;
         $offset = 0;
@@ -253,7 +253,7 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * @return TRUE on success
      * @throws Exception
      */
-    public function upgrade_5304()
+    public function upgrade_5304(): bool
     {
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile ADD COLUMN consent_field_behaviour text;');
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN consent_field_behaviour text;');

@@ -1,13 +1,13 @@
 <?php
 
-use CRM_Appearancemodifier_ExtensionUtil as E;
-use Civi\Api4\AppearancemodifierProfile;
-use Civi\Api4\AppearancemodifierPetition;
-use Civi\Api4\AppearancemodifierEvent;
-use Civi\Api4\UFGroup;
-use Civi\Api4\Event;
-use Civi\Api4\Contact;
 use Civi\Api4\Activity;
+use Civi\Api4\AppearancemodifierEvent;
+use Civi\Api4\AppearancemodifierPetition;
+use Civi\Api4\AppearancemodifierProfile;
+use Civi\Api4\Contact;
+use Civi\Api4\Event;
+use Civi\Api4\UFGroup;
+use CRM_Appearancemodifier_ExtensionUtil as E;
 
 class CRM_Appearancemodifier_Service
 {
@@ -665,7 +665,7 @@ class CRM_Appearancemodifier_Service
      * @param string $content
      * @param mixed $hideLabels
      */
-    private static function setupPlaceholders(string &$content, $hideLabels)
+    private static function setupPlaceholders(string &$content, $hideLabels): void
     {
         $doc = phpQuery::newDocument($content);
         $domSelectors = [
@@ -701,7 +701,7 @@ class CRM_Appearancemodifier_Service
      * @param string $content
      * @param string $checkboxLabel
      */
-    private static function addTheSelectAllCheckbox(string &$content, string $checkboxLabel)
+    private static function addTheSelectAllCheckbox(string &$content, string $checkboxLabel): void
     {
         $doc = phpQuery::newDocument($content);
         foreach ($doc['input[type="checkbox"]'] as $checkbox) {
@@ -729,7 +729,7 @@ class CRM_Appearancemodifier_Service
      *
      * @param array $modifiedConfig
      */
-    private static function setupResourcesBasedOnSettings(array $modifiedConfig)
+    private static function setupResourcesBasedOnSettings(array $modifiedConfig): void
     {
         Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
         Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/overlay.css');

@@ -1,7 +1,7 @@
 <?php
 
-use CRM_Appearancemodifier_ExtensionUtil as E;
 use Civi\Api4\AppearancemodifierPetition;
+use CRM_Appearancemodifier_ExtensionUtil as E;
 
 /**
  * Form controller class
@@ -47,7 +47,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
      *
      * @throws CRM_Core_Exception
      */
-    public function preProcess()
+    public function preProcess(): void
     {
         // Get the petition id query parameter.
         $petitionId = CRM_Utils_Request::retrieve('pid', 'Integer');
@@ -69,7 +69,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
      *
      * @return array
      */
-    public function setDefaultValues()
+    public function setDefaultValues(): array
     {
         // Set defaults
         foreach (self::PETITION_FIELDS as $key) {
@@ -85,7 +85,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
     /**
      * Build form
      */
-    public function buildQuickForm()
+    public function buildQuickForm(): void
     {
         $layoutOptions = [
             'handlers' => [],
@@ -125,7 +125,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
     /**
      * Process post data
      */
-    public function postProcess()
+    public function postProcess(): void
     {
         $customSettings = $this->modifiedPetition['custom_settings'];
         foreach (self::DEFAULT_CUSTOM_SETTINGS as $key => $v) {

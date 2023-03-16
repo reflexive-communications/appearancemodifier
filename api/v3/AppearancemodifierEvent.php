@@ -1,20 +1,5 @@
 <?php
 
-use CRM_Appearancemodifier_ExtensionUtil as E;
-
-/**
- * AppearancemodifierEvent.create API specification (optional).
- * This is used for documentation and validation.
- *
- * @param array $spec description of fields supported by this API call
- *
- * @see https://docs.civicrm.org/dev/en/latest/framework/api-architecture/
- */
-function _civicrm_api3_appearancemodifier_event_create_spec(&$spec)
-{
-    // $spec['some_parameter']['api.required'] = 1;
-}
-
 /**
  * AppearancemodifierEvent.create API.
  *
@@ -24,7 +9,7 @@ function _civicrm_api3_appearancemodifier_event_create_spec(&$spec)
  *   API result descriptor
  * @throws API_Exception
  */
-function civicrm_api3_appearancemodifier_event_create($params)
+function civicrm_api3_appearancemodifier_event_create($params): array
 {
     return _civicrm_api3_basic_create(_civicrm_api3_get_BAO(__FUNCTION__), $params, 'AppearancemodifierEvent');
 }
@@ -38,7 +23,7 @@ function civicrm_api3_appearancemodifier_event_create($params)
  *   API result descriptor
  * @throws API_Exception
  */
-function civicrm_api3_appearancemodifier_event_delete($params)
+function civicrm_api3_appearancemodifier_event_delete($params): array
 {
     return _civicrm_api3_basic_delete(_civicrm_api3_get_BAO(__FUNCTION__), $params);
 }
@@ -52,7 +37,7 @@ function civicrm_api3_appearancemodifier_event_delete($params)
  *   API result descriptor
  * @throws API_Exception
  */
-function civicrm_api3_appearancemodifier_event_get($params)
+function civicrm_api3_appearancemodifier_event_get($params): array
 {
     return _civicrm_api3_basic_get(_civicrm_api3_get_BAO(__FUNCTION__), $params, true, 'AppearancemodifierEvent');
 }

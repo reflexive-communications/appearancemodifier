@@ -1,8 +1,8 @@
 <?php
 
-use CRM_Appearancemodifier_ExtensionUtil as E;
-use Civi\Api4\Event;
 use Civi\Api4\AppearancemodifierEvent;
+use Civi\Api4\Event;
+use CRM_Appearancemodifier_ExtensionUtil as E;
 
 /**
  * Form controller class
@@ -43,7 +43,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
      *
      * @throws CRM_Core_Exception
      */
-    public function preProcess()
+    public function preProcess(): void
     {
         // Get the event id query parameter.
         $eventId = CRM_Utils_Request::retrieve('eid', 'Integer');
@@ -65,7 +65,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
      *
      * @return array
      */
-    public function setDefaultValues()
+    public function setDefaultValues(): array
     {
         // Set defaults
         foreach (self::EVENT_FIELDS as $key) {
@@ -81,7 +81,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
     /**
      * Build form
      */
-    public function buildQuickForm()
+    public function buildQuickForm(): void
     {
         $layoutOptions = [
             'handlers' => [],
@@ -104,7 +104,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
     /**
      * Process post data
      */
-    public function postProcess()
+    public function postProcess(): void
     {
         $customSettings = $this->modifiedEvent['custom_settings'];
         foreach (self::DEFAULT_CUSTOM_SETTINGS as $key => $v) {

@@ -18,7 +18,7 @@ abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
      *
      * @throws CRM_Core_Exception
      */
-    public function preProcess()
+    public function preProcess(): void
     {
         $manager = CRM_Extension_System::singleton()->getManager();
         $this->consentFieldNames = [];
