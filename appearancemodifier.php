@@ -2,17 +2,12 @@
 
 require_once 'appearancemodifier.civix.php';
 
-// phpcs:disable
-use CRM_Appearancemodifier_ExtensionUtil as E;
-
-// phpcs:enable
-
 /**
  * Implements hook_civicrm_config().
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_config/
  */
-function appearancemodifier_civicrm_config(&$config)
+function appearancemodifier_civicrm_config(&$config): void
 {
     _appearancemodifier_civix_civicrm_config($config);
 }
@@ -23,7 +18,7 @@ function appearancemodifier_civicrm_config(&$config)
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_entityTypes
  */
-function appearancemodifier_civicrm_entityTypes(&$entityTypes)
+function appearancemodifier_civicrm_entityTypes(&$entityTypes): void
 {
     _appearancemodifier_civix_civicrm_entityTypes($entityTypes);
 }
@@ -37,7 +32,7 @@ function appearancemodifier_civicrm_entityTypes(&$entityTypes)
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_post
  */
-function appearancemodifier_civicrm_post($op, $objectName, $objectId, &$objectRef)
+function appearancemodifier_civicrm_post($op, $objectName, $objectId, &$objectRef): void
 {
     CRM_Appearancemodifier_Service::post($op, $objectName, $objectId, $objectRef);
 }
@@ -47,7 +42,7 @@ function appearancemodifier_civicrm_post($op, $objectName, $objectId, &$objectRe
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_links
  */
-function appearancemodifier_civicrm_links($op, $objectName, $objectId, &$links, &$mask, &$values)
+function appearancemodifier_civicrm_links($op, $objectName, $objectId, &$links, &$mask, &$values): void
 {
     CRM_Appearancemodifier_Service::links($op, $links);
 }
@@ -57,7 +52,7 @@ function appearancemodifier_civicrm_links($op, $objectName, $objectId, &$links, 
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_alterTemplateFile
  */
-function appearancemodifier_civicrm_alterTemplateFile($formName, &$form, $context, &$tplName)
+function appearancemodifier_civicrm_alterTemplateFile($formName, &$form, $context, &$tplName): void
 {
     CRM_Appearancemodifier_Service::alterTemplateFile($tplName);
 }
@@ -67,7 +62,7 @@ function appearancemodifier_civicrm_alterTemplateFile($formName, &$form, $contex
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_buildProfile
  */
-function appearancemodifier_civicrm_buildProfile($profileName)
+function appearancemodifier_civicrm_buildProfile($profileName): void
 {
     CRM_Appearancemodifier_Service::buildProfile($profileName);
 }
@@ -77,7 +72,7 @@ function appearancemodifier_civicrm_buildProfile($profileName)
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_pageRun
  */
-function appearancemodifier_civicrm_pageRun(&$page)
+function appearancemodifier_civicrm_pageRun(&$page): void
 {
     CRM_Appearancemodifier_Service::pageRun($page);
 }
@@ -87,7 +82,7 @@ function appearancemodifier_civicrm_pageRun(&$page)
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_buildForm
  */
-function appearancemodifier_civicrm_buildForm($formName, &$form)
+function appearancemodifier_civicrm_buildForm($formName, &$form): void
 {
     CRM_Appearancemodifier_Service::buildForm($formName, $form);
 }
@@ -98,7 +93,7 @@ function appearancemodifier_civicrm_buildForm($formName, &$form)
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_alterContent
  *
  */
-function appearancemodifier_civicrm_alterContent(&$content, $context, $tplName, &$object)
+function appearancemodifier_civicrm_alterContent(&$content, $context, $tplName, &$object): void
 {
     CRM_Appearancemodifier_Service::alterContent($content, $tplName, $object);
 }
@@ -108,7 +103,7 @@ function appearancemodifier_civicrm_alterContent(&$content, $context, $tplName, 
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_postProcess
  */
-function appearancemodifier_civicrm_postProcess($formName, $form)
+function appearancemodifier_civicrm_postProcess($formName, $form): void
 {
     CRM_Appearancemodifier_Service::postProcess($formName, $form);
 }
