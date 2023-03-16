@@ -1,9 +1,7 @@
 <?php
 
-/**
- * Testcase for the AbstractLayout
- * This is a generic test class for the extension (implemented with PHPUnit).
- */
+use Civi\Appearancemodifier\HeadlessTestCase;
+
 class LayoutImplementation extends CRM_Appearancemodifier_AbstractLayout
 {
     public function setStyleSheets(): void
@@ -15,16 +13,11 @@ class LayoutImplementation extends CRM_Appearancemodifier_AbstractLayout
     }
 }
 
-class CRM_Appearancemodifier_AbstractLayoutTest extends \PHPUnit\Framework\TestCase
+/**
+ * @group headless
+ */
+class CRM_Appearancemodifier_AbstractLayoutTest extends HeadlessTestCase
 {
-    /**
-     * The setup() method is executed before the test is executed (optional).
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
     /**
      * Test for className.
      */

@@ -1,6 +1,8 @@
 <?php
 
-use CRM_Appearancemodifier_ExtensionUtil as E;
+use Civi\Api4\AppearancemodifierEvent;
+use Civi\Api4\Event;
+use Civi\Appearancemodifier\HeadlessTestCase;
 
 class DummyEventPresetProviderClass
 {
@@ -21,11 +23,9 @@ class DummyEventPresetProviderClass
 }
 
 /**
- * Testcases for Event Form class.
- *
  * @group headless
  */
-class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_HeadlessBase
+class CRM_Appearancemodifier_Form_EventTest extends HeadlessTestCase
 {
     /*
      * It tests the preProcess function.
@@ -43,7 +43,7 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
 
     public function testPreProcessExistingEvent()
     {
-        $event = \Civi\Api4\Event::create(false)
+        $event = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
@@ -61,7 +61,7 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
      */
     public function testSetDefaultValuesOriginalColor()
     {
-        $event = \Civi\Api4\Event::create(false)
+        $event = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
@@ -79,13 +79,13 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
 
     public function testSetDefaultValuesTransparentColor()
     {
-        $event = \Civi\Api4\Event::create(false)
+        $event = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
             ->execute()
             ->first();
-        \Civi\Api4\AppearancemodifierEvent::update(false)
+        AppearancemodifierEvent::update(false)
             ->addWhere('event_id', '=', $event['id'])
             ->addValue('background_color', 'transparent')
             ->execute();
@@ -102,13 +102,13 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
 
     public function testSetDefaultValuesConsentFieldBehaviour()
     {
-        $event = \Civi\Api4\Event::create(false)
+        $event = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
             ->execute()
             ->first();
-        \Civi\Api4\AppearancemodifierEvent::update(false)
+        AppearancemodifierEvent::update(false)
             ->addWhere('event_id', '=', $event['id'])
             ->addValue('background_color', 'transparent')
             ->execute();
@@ -126,7 +126,7 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
      */
     public function testBuildQuickForm()
     {
-        $event = \Civi\Api4\Event::create(false)
+        $event = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
@@ -145,7 +145,7 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
      */
     public function testPostProcessWithoutPresets()
     {
-        $event = \Civi\Api4\Event::create(false)
+        $event = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
@@ -174,7 +174,7 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
         $form = new CRM_Appearancemodifier_Form_Event();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
-        $modifiedEvent = \Civi\Api4\AppearancemodifierEvent::get(false)
+        $modifiedEvent = AppearancemodifierEvent::get(false)
             ->addWhere('event_id', '=', $event['id'])
             ->execute()
             ->first();
@@ -185,7 +185,7 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
 
     public function testPostProcessWithPresets()
     {
-        $event = \Civi\Api4\Event::create(false)
+        $event = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
@@ -213,7 +213,7 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
         $form = new CRM_Appearancemodifier_Form_Event();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
-        $modifiedEvent = \Civi\Api4\AppearancemodifierEvent::get(false)
+        $modifiedEvent = AppearancemodifierEvent::get(false)
             ->addWhere('event_id', '=', $event['id'])
             ->execute()
             ->first();
@@ -225,7 +225,7 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
 
     public function testPostProcessTransparentBackground()
     {
-        $event = \Civi\Api4\Event::create(false)
+        $event = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
@@ -253,7 +253,7 @@ class CRM_Appearancemodifier_Form_EventTest extends CRM_Appearancemodifier_Form_
         $form = new CRM_Appearancemodifier_Form_Event();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
-        $modifiedEvent = \Civi\Api4\AppearancemodifierEvent::get(false)
+        $modifiedEvent = AppearancemodifierEvent::get(false)
             ->addWhere('event_id', '=', $event['id'])
             ->execute()
             ->first();

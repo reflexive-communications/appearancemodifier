@@ -1,45 +1,18 @@
 <?php
 
+use Civi\Api4\AppearancemodifierEvent;
+use Civi\Api4\AppearancemodifierPetition;
+use Civi\Api4\AppearancemodifierProfile;
+use Civi\Api4\Event;
+use Civi\Api4\UFGroup;
+use Civi\Appearancemodifier\HeadlessTestCase;
 use CRM_Appearancemodifier_ExtensionUtil as E;
-use Civi\Test\HeadlessInterface;
-use Civi\Test\HookInterface;
-use Civi\Test\TransactionalInterface;
 
 /**
- * Testcases for Upgrader class.
- *
  * @group headless
  */
-class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase implements HeadlessInterface, HookInterface, TransactionalInterface
+class CRM_Appearancemodifier_UpgraderTest extends HeadlessTestCase
 {
-    public function setUpHeadless()
-    {
-        return \Civi\Test::headless()
-            ->install('rc-base')
-            ->installMe(__DIR__)
-            ->apply();
-    }
-
-    /**
-     * Apply a forced rebuild of DB, thus
-     * create a clean DB before running tests
-     *
-     * @throws \CRM_Extension_Exception_ParseException
-     */
-    public static function setUpBeforeClass(): void
-    {
-        // Resets DB and install depended extension
-        \Civi\Test::headless()
-            ->install('rc-base')
-            ->installMe(__DIR__)
-            ->apply(true);
-    }
-
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
     /*
      * It tests the postInstall function.
      * Extension install has to be skipped for this tests.
@@ -50,57 +23,57 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
     public function testPostInstall()
     {
         // Profile
-        $profile = \Civi\Api4\UFGroup::create(false)
+        $profile = UFGroup::create(false)
             ->addValue('title', 'Test UFGroup aka Profile')
             ->addValue('is_active', true)
             ->execute()
             ->first();
         // current number of profiles:
-        $profiles = \Civi\Api4\UFGroup::get(false)
+        $profiles = UFGroup::get(false)
             ->addSelect('id')
             ->execute();
         // Petition
         $petition = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         // current number of petitions ($petition['result']):
         $petitions = civicrm_api3('Survey', 'getcount', [
-            'activity_type_id' => "Petition",
+            'activity_type_id' => 'Petition',
         ]);
         // Event
-        $event = \Civi\Api4\Event::create(false)
+        $event = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
             ->execute();
         // current number of events:
-        $events = \Civi\Api4\Event::get(false)
+        $events = Event::get(false)
             ->addSelect('id')
             ->execute();
         // Cleanup the current database.
-        $modifiedEvents = \Civi\Api4\AppearancemodifierEvent::get(false)
+        $modifiedEvents = AppearancemodifierEvent::get(false)
             ->addSelect('id')
             ->execute();
         foreach ($modifiedEvents as $event) {
-            \Civi\Api4\AppearancemodifierEvent::delete(false)
+            AppearancemodifierEvent::delete(false)
                 ->addWhere('id', '=', $event['id'])
                 ->execute();
         }
-        $modifiedPetitions = \Civi\Api4\AppearancemodifierPetition::get(false)
+        $modifiedPetitions = AppearancemodifierPetition::get(false)
             ->addSelect('id')
             ->execute();
         foreach ($modifiedPetitions as $petition) {
-            \Civi\Api4\AppearancemodifierPetition::delete(false)
+            AppearancemodifierPetition::delete(false)
                 ->addWhere('id', '=', $petition['id'])
                 ->execute();
         }
-        $modifiedProfiles = \Civi\Api4\AppearancemodifierProfile::get(false)
+        $modifiedProfiles = AppearancemodifierProfile::get(false)
             ->addSelect('id')
             ->execute();
         foreach ($modifiedProfiles as $profile) {
-            \Civi\Api4\AppearancemodifierProfile::delete(false)
+            AppearancemodifierProfile::delete(false)
                 ->addWhere('id', '=', $profile['id'])
                 ->execute();
         }
@@ -109,13 +82,13 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
         $installer->postInstall();
         // check the number of the modified configs. it has to be the same
         // as gathered above.
-        $modifiedEvents = \Civi\Api4\AppearancemodifierEvent::get(false)
+        $modifiedEvents = AppearancemodifierEvent::get(false)
             ->addSelect('id', 'event_id')
             ->execute();
-        $modifiedPetitions = \Civi\Api4\AppearancemodifierPetition::get(false)
+        $modifiedPetitions = AppearancemodifierPetition::get(false)
             ->addSelect('id', 'survey_id')
             ->execute();
-        $modifiedProfiles = \Civi\Api4\AppearancemodifierProfile::get(false)
+        $modifiedProfiles = AppearancemodifierProfile::get(false)
             ->addSelect('id', 'uf_group_id')
             ->execute();
         self::assertSame(count($modifiedEvents), count($events), 'Invalid number of events.'.var_export($modifiedEvents, true).' - '.var_export($events, true));
@@ -169,24 +142,24 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
         // Petition
         $petition = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         $petition = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         // current number of petitions ($petition['result']):
         $petitions = civicrm_api3('Survey', 'getcount', [
-            'activity_type_id' => "Petition",
+            'activity_type_id' => 'Petition',
         ]);
-        \Civi\Api4\AppearancemodifierPetition::delete(false)
+        AppearancemodifierPetition::delete(false)
             ->addWhere('survey_id', '=', $petition['id'])
             ->execute();
         $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
         self::assertTrue($installer->upgrade_5303());
-        $modifiedPetitions = \Civi\Api4\AppearancemodifierPetition::get(false)
+        $modifiedPetitions = AppearancemodifierPetition::get(false)
             ->addSelect('id', 'survey_id')
             ->execute();
         self::assertSame(count($modifiedPetitions), $petitions, 'Invalid number of petitions.'.var_export($modifiedPetitions, true).' - '.var_export($petitions, true));
@@ -205,7 +178,7 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition DROP COLUMN custom_settings;');
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_event DROP COLUMN custom_settings;');
         // Profile
-        $profile = \Civi\Api4\UFGroup::create(false)
+        $profile = UFGroup::create(false)
             ->addValue('title', 'Test UFGroup aka Profile')
             ->addValue('is_active', true)
             ->execute()
@@ -213,11 +186,11 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
         // Petition
         $petition = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
         // Event
-        $event = \Civi\Api4\Event::create(false)
+        $event = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
@@ -225,11 +198,13 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
             ->first();
         $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
         // Undefined property: CRM_Appearancemodifier_Upgrader::$queue
-        $installer->setQueue(CRM_Queue_Service::singleton()->create([
-            'type' => 'Sql',
-            'name' => 'my-own-queue',
-            'reset' => true,
-        ]));
+        $installer->setQueue(
+            CRM_Queue_Service::singleton()->create([
+                'type' => 'Sql',
+                'name' => 'my-own-queue',
+                'reset' => true,
+            ])
+        );
         self::assertTrue($installer->upgrade_5304());
     }
 
@@ -239,19 +214,19 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
     public function testUpgrader5304ProfileData()
     {
         // Profile
-        $profile = \Civi\Api4\UFGroup::create(false)
+        $profile = UFGroup::create(false)
             ->addValue('title', 'Test UFGroup aka Profile')
             ->addValue('is_active', true)
             ->execute()
             ->first();
-        \Civi\Api4\AppearancemodifierProfile::update(false)
+        AppearancemodifierProfile::update(false)
             ->addWhere('uf_group_id', '=', $profile['id'])
             ->addValue('invert_consent_fields', true)
             ->addValue('consent_field_behaviour', 'wathever')
             ->execute();
         $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
         self::assertTrue($installer->upgradeExistingProfilesForBehaviour(0));
-        $modifiedProfile = \Civi\Api4\AppearancemodifierProfile::get(false)
+        $modifiedProfile = AppearancemodifierProfile::get(false)
             ->addWhere('uf_group_id', '=', $profile['id'])
             ->setLimit(1)
             ->execute()
@@ -267,17 +242,17 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
         // Petition
         $petition = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
-            'title' => "Some title",
-            'activity_type_id' => "Petition",
+            'title' => 'Some title',
+            'activity_type_id' => 'Petition',
         ]);
-        \Civi\Api4\AppearancemodifierPetition::update(false)
+        AppearancemodifierPetition::update(false)
             ->addWhere('survey_id', '=', $petition['id'])
             ->addValue('invert_consent_fields', true)
             ->addValue('consent_field_behaviour', 'wathever')
             ->execute();
         $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
         self::assertTrue($installer->upgradeExistingPetitionsForBehaviour(0));
-        $modifiedPetition = \Civi\Api4\AppearancemodifierPetition::get(false)
+        $modifiedPetition = AppearancemodifierPetition::get(false)
             ->addWhere('survey_id', '=', $petition['id'])
             ->setLimit(1)
             ->execute()
@@ -291,20 +266,20 @@ class CRM_Appearancemodifier_UpgraderTest extends \PHPUnit\Framework\TestCase im
     public function testUpgrader5304EventData()
     {
         // Event
-        $event = \Civi\Api4\Event::create(false)
+        $event = Event::create(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('start_date', '2022-01-01')
             ->execute()
             ->first();
-        \Civi\Api4\AppearancemodifierEvent::update(false)
+        AppearancemodifierEvent::update(false)
             ->addWhere('event_id', '=', $event['id'])
             ->addValue('invert_consent_fields', true)
             ->addValue('consent_field_behaviour', 'wathever')
             ->execute();
         $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
         self::assertTrue($installer->upgradeExistingEventsForBehaviour(0));
-        $modifiedEvent = \Civi\Api4\AppearancemodifierEvent::get(false)
+        $modifiedEvent = AppearancemodifierEvent::get(false)
             ->addWhere('event_id', '=', $event['id'])
             ->setLimit(1)
             ->execute()

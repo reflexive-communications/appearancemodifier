@@ -1,31 +1,21 @@
 <?php
 
-use CRM_Appearancemodifier_ExtensionUtil as E;
-use Civi\Test\HeadlessInterface;
-use Civi\Test\HookInterface;
-use Civi\Test\TransactionalInterface;
-use Civi\Api4\CustomGroup;
+namespace Civi\Appearancemodifier;
+
 use Civi\Api4\CustomField;
+use Civi\Api4\CustomGroup;
 use Civi\Api4\OptionGroup;
 use Civi\Api4\OptionValue;
+use Civi\Test;
+use Civi\Test\HeadlessInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
- * Testcases for Base Form class with consentactivity extension installed.
- *
  * @group headless
  */
-class CRM_Appearancemodifier_Form_ConsentBase extends \PHPUnit\Framework\TestCase implements HeadlessInterface, HookInterface, TransactionalInterface
+class HeadlessTestCase extends TestCase implements HeadlessInterface
 {
     protected static $index = 0;
-
-    public function setUpHeadless()
-    {
-        return \Civi\Test::headless()
-            ->install('rc-base')
-            ->install('consentactivity')
-            ->installMe(__DIR__)
-            ->apply();
-    }
 
     /**
      * Apply a forced rebuild of DB, thus
@@ -35,17 +25,19 @@ class CRM_Appearancemodifier_Form_ConsentBase extends \PHPUnit\Framework\TestCas
      */
     public static function setUpBeforeClass(): void
     {
-        // Resets DB and install depended extension
-        \Civi\Test::headless()
+        // Resets DB
+        Test::headless()
             ->install('rc-base')
             ->install('consentactivity')
             ->installMe(__DIR__)
             ->apply(true);
     }
 
-    public function setUp(): void
+    /**
+     * @return void
+     */
+    public function setUpHeadless(): void
     {
-        parent::setUp();
     }
 
     protected function createNewCustomField(): array

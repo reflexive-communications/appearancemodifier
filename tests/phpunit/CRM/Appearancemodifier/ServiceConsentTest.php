@@ -1,18 +1,16 @@
 <?php
 
-use CRM_Appearancemodifier_ExtensionUtil as E;
-use Civi\Api4\UFGroup;
-use Civi\Api4\UFField;
-use Civi\Api4\Contact;
-use Civi\Api4\AppearancemodifierProfile;
 use Civi\Api4\ActivityContact;
+use Civi\Api4\AppearancemodifierProfile;
+use Civi\Api4\Contact;
+use Civi\Api4\UFField;
+use Civi\Api4\UFGroup;
+use Civi\Appearancemodifier\HeadlessTestCase;
 
 /**
- * Testcases for Service class with enabled consentactivity extension.
- *
  * @group headless
  */
-class CRM_Appearancemodifier_ServiceConsentTest extends CRM_Appearancemodifier_Form_ConsentBase
+class CRM_Appearancemodifier_ServiceConsentTest extends HeadlessTestCase
 {
     /**
      * Test the postProcess function.

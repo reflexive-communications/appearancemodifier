@@ -1,6 +1,8 @@
 <?php
 
-use CRM_Appearancemodifier_ExtensionUtil as E;
+use Civi\Api4\AppearancemodifierProfile;
+use Civi\Api4\UFGroup;
+use Civi\Appearancemodifier\HeadlessTestCase;
 
 class DummyProfilePresetProviderClass
 {
@@ -19,11 +21,9 @@ class DummyProfilePresetProviderClass
 }
 
 /**
- * Testcases for Profile Form class.
- *
  * @group headless
  */
-class CRM_Appearancemodifier_Form_ProfileTest extends CRM_Appearancemodifier_Form_HeadlessBase
+class CRM_Appearancemodifier_Form_ProfileTest extends HeadlessTestCase
 {
     /*
      * It tests the preProcess function.
@@ -31,7 +31,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends CRM_Appearancemodifier_For
     public function testPreProcess()
     {
         // Profile
-        $profile = \Civi\Api4\UFGroup::create(false)
+        $profile = UFGroup::create(false)
             ->addValue('title', 'Test UFGroup aka Profile')
             ->addValue('is_active', true)
             ->execute()
@@ -54,7 +54,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends CRM_Appearancemodifier_For
      */
     public function testSetDefaultValuesOriginalColor()
     {
-        $profile = \Civi\Api4\UFGroup::create(false)
+        $profile = UFGroup::create(false)
             ->addValue('title', 'Test UFGroup aka Profile')
             ->addValue('is_active', true)
             ->execute()
@@ -71,12 +71,12 @@ class CRM_Appearancemodifier_Form_ProfileTest extends CRM_Appearancemodifier_For
 
     public function testSetDefaultValuesTransparentColor()
     {
-        $profile = \Civi\Api4\UFGroup::create(false)
+        $profile = UFGroup::create(false)
             ->addValue('title', 'Test UFGroup aka Profile')
             ->addValue('is_active', true)
             ->execute()
             ->first();
-        \Civi\Api4\AppearancemodifierProfile::update(false)
+        AppearancemodifierProfile::update(false)
             ->addWhere('uf_group_id', '=', $profile['id'])
             ->addValue('background_color', 'transparent')
             ->execute();
@@ -93,12 +93,12 @@ class CRM_Appearancemodifier_Form_ProfileTest extends CRM_Appearancemodifier_For
 
     public function testSetDefaultValuesConsentFieldBehaviour()
     {
-        $profile = \Civi\Api4\UFGroup::create(false)
+        $profile = UFGroup::create(false)
             ->addValue('title', 'Test UFGroup aka Profile')
             ->addValue('is_active', true)
             ->execute()
             ->first();
-        \Civi\Api4\AppearancemodifierProfile::update(false)
+        AppearancemodifierProfile::update(false)
             ->addWhere('uf_group_id', '=', $profile['id'])
             ->addValue('background_color', 'transparent')
             ->execute();
@@ -116,7 +116,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends CRM_Appearancemodifier_For
      */
     public function testBuildQuickForm()
     {
-        $profile = \Civi\Api4\UFGroup::create(false)
+        $profile = UFGroup::create(false)
             ->addValue('title', 'Test UFGroup aka Profile')
             ->addValue('is_active', true)
             ->execute()
@@ -134,7 +134,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends CRM_Appearancemodifier_For
      */
     public function testPostProcessWithoutPresets()
     {
-        $profile = \Civi\Api4\UFGroup::create(false)
+        $profile = UFGroup::create(false)
             ->addValue('title', 'Test UFGroup aka Profile')
             ->addValue('is_active', true)
             ->execute()
@@ -162,7 +162,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends CRM_Appearancemodifier_For
         $form = new CRM_Appearancemodifier_Form_Profile();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
-        $modifiedProfile = \Civi\Api4\AppearancemodifierProfile::get(false)
+        $modifiedProfile = AppearancemodifierProfile::get(false)
             ->addWhere('uf_group_id', '=', $profile['id'])
             ->execute()
             ->first();
@@ -173,7 +173,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends CRM_Appearancemodifier_For
 
     public function testPostProcessWithPresets()
     {
-        $profile = \Civi\Api4\UFGroup::create(false)
+        $profile = UFGroup::create(false)
             ->addValue('title', 'Test UFGroup aka Profile')
             ->addValue('is_active', true)
             ->execute()
@@ -199,7 +199,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends CRM_Appearancemodifier_For
         $form = new CRM_Appearancemodifier_Form_Profile();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
-        $modifiedProfile = \Civi\Api4\AppearancemodifierProfile::get(false)
+        $modifiedProfile = AppearancemodifierProfile::get(false)
             ->addWhere('uf_group_id', '=', $profile['id'])
             ->execute()
             ->first();
@@ -211,7 +211,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends CRM_Appearancemodifier_For
 
     public function testPostProcessTransparentBackground()
     {
-        $profile = \Civi\Api4\UFGroup::create(false)
+        $profile = UFGroup::create(false)
             ->addValue('title', 'Test UFGroup aka Profile')
             ->addValue('is_active', true)
             ->execute()
@@ -238,7 +238,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends CRM_Appearancemodifier_For
         $form = new CRM_Appearancemodifier_Form_Profile();
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
         self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
-        $modifiedProfile = \Civi\Api4\AppearancemodifierProfile::get(false)
+        $modifiedProfile = AppearancemodifierProfile::get(false)
             ->addWhere('uf_group_id', '=', $profile['id'])
             ->execute()
             ->first();

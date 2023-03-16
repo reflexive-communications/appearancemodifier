@@ -1,18 +1,16 @@
 <?php
 
-use CRM_Appearancemodifier_ExtensionUtil as E;
-use Civi\Api4\UFGroup;
-use Civi\Api4\UFField;
-use Civi\Api4\UFJoin;
-use Civi\Api4\Event;
 use Civi\Api4\AppearancemodifierEvent;
+use Civi\Api4\Event;
+use Civi\Api4\UFField;
+use Civi\Api4\UFGroup;
+use Civi\Api4\UFJoin;
+use Civi\Appearancemodifier\HeadlessTestCase;
 
 /**
- * Testcases for Event Form class.
- *
  * @group headless
  */
-class CRM_Appearancemodifier_Form_EventConsentTest extends CRM_Appearancemodifier_Form_ConsentBase
+class CRM_Appearancemodifier_Form_EventConsentTest extends HeadlessTestCase
 {
     /*
      * It tests the preProcess function.
