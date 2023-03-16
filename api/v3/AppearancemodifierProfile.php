@@ -8,6 +8,7 @@
  * @return array
  *   API result descriptor
  * @throws API_Exception
+ * @deprecated
  */
 function civicrm_api3_appearancemodifier_profile_create($params): array
 {
@@ -22,6 +23,7 @@ function civicrm_api3_appearancemodifier_profile_create($params): array
  * @return array
  *   API result descriptor
  * @throws API_Exception
+ * @deprecated
  */
 function civicrm_api3_appearancemodifier_profile_delete($params): array
 {
@@ -36,6 +38,7 @@ function civicrm_api3_appearancemodifier_profile_delete($params): array
  * @return array
  *   API result descriptor
  * @throws API_Exception
+ * @deprecated
  */
 function civicrm_api3_appearancemodifier_profile_get($params): array
 {
