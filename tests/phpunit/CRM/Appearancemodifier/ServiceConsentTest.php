@@ -13,7 +13,10 @@ use Civi\Appearancemodifier\HeadlessTestCase;
 class CRM_Appearancemodifier_ServiceConsentTest extends HeadlessTestCase
 {
     /**
-     * Test the postProcess function.
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testPostProcessNoConsentActivitySettingsOnTheForm()
     {
@@ -60,6 +63,12 @@ class CRM_Appearancemodifier_ServiceConsentTest extends HeadlessTestCase
         self::assertCount(count($activityContactsBefore), $activityContactsAfter);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testPostProcessNoConsentActivitySettings()
     {
         $profile = UFGroup::create(false)
@@ -107,6 +116,12 @@ class CRM_Appearancemodifier_ServiceConsentTest extends HeadlessTestCase
         self::assertCount(count($activityContactsBefore), $activityContactsAfter);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testPostProcessValueNotSet()
     {
         $profile = UFGroup::create(false)
@@ -158,6 +173,12 @@ class CRM_Appearancemodifier_ServiceConsentTest extends HeadlessTestCase
         self::assertCount(count($activityContactsBefore), $activityContactsAfter);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testPostProcessValueSet()
     {
         $profile = UFGroup::create(false)
@@ -209,6 +230,13 @@ class CRM_Appearancemodifier_ServiceConsentTest extends HeadlessTestCase
         self::assertCount(count($activityContactsBefore) + 1, $activityContactsAfter);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testAlterContentConsentCheckboxes()
     {
         $customField = parent::createNewCustomField();

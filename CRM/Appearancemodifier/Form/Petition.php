@@ -1,7 +1,9 @@
 <?php
 
-use CRM_Appearancemodifier_ExtensionUtil as E;
 use Civi\Api4\AppearancemodifierPetition;
+use Civi\Api4\UFField;
+use Civi\Api4\UFJoin;
+use CRM_Appearancemodifier_ExtensionUtil as E;
 
 /**
  * Form controller class
@@ -10,44 +12,48 @@ use Civi\Api4\AppearancemodifierPetition;
  */
 class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_AbstractBase
 {
-    public const DEFAULT_CUSTOM_SETTINGS
-        = [
-            'hide_form_title' => '',
-            'disable_petition_message_edit' => '',
-            'send_size_when_embedded' => '',
-            'send_size_to_when_embedded' => '*',
-            'add_check_all_checkbox' => '',
-            'check_all_checkbox_label' => '',
-        ];
+    public const DEFAULT_CUSTOM_SETTINGS = [
+        'hide_form_title' => '',
+        'disable_petition_message_edit' => '',
+        'send_size_when_embedded' => '',
+        'send_size_to_when_embedded' => '*',
+        'add_check_all_checkbox' => '',
+        'check_all_checkbox_label' => '',
+    ];
 
-    private const PETITION_FIELDS
-        = [
-            'layout_handler',
-            'background_color',
-            'additional_note',
-            'petition_message',
-            'consent_field_behaviour',
-            'target_number_of_signers',
-            'custom_social_box',
-            'external_share_url',
-            'hide_form_labels',
-            'add_placeholder',
-            'font_color',
-            'signers_block_position',
-        ];
+    private const PETITION_FIELDS = [
+        'layout_handler',
+        'background_color',
+        'additional_note',
+        'petition_message',
+        'consent_field_behaviour',
+        'target_number_of_signers',
+        'custom_social_box',
+        'external_share_url',
+        'hide_form_labels',
+        'add_placeholder',
+        'font_color',
+        'signers_block_position',
+    ];
 
-    // The petition, for display some stuff about it on the frontend.
+    /**
+     * The petition, for display some stuff about it on the frontend.
+     */
     private $petition;
 
-    // The modified petition
+    /**
+     * The modified petition
+     */
     private $modifiedPetition;
 
     /**
-     * Preprocess form
-     *
-     * @throws CRM_Core_Exception
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
-    public function preProcess()
+    public function preProcess(): void
     {
         // Get the petition id query parameter.
         $petitionId = CRM_Utils_Request::retrieve('pid', 'Integer');
@@ -65,11 +71,9 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
     }
 
     /**
-     * Set default values
-     *
      * @return array
      */
-    public function setDefaultValues()
+    public function setDefaultValues(): array
     {
         // Set defaults
         foreach (self::PETITION_FIELDS as $key) {
@@ -83,9 +87,10 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
     }
 
     /**
-     * Build form
+     * @return void
+     * @throws \CRM_Core_Exception
      */
-    public function buildQuickForm()
+    public function buildQuickForm(): void
     {
         $layoutOptions = [
             'handlers' => [],
@@ -93,9 +98,9 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
         ];
         // Fire hook event.
         Civi::dispatcher()->dispatch(
-            "hook_civicrm_appearancemodifierPetitionSettings",
+            'hook_civicrm_appearancemodifierPetitionSettings',
             Civi\Core\Event\GenericHookEvent::create([
-                "options" => &$layoutOptions,
+                'options' => &$layoutOptions,
             ])
         );
         $this->add('textarea', 'petition_message', E::ts('Petition message'), ['rows' => '4', 'cols' => '60'], false);
@@ -123,9 +128,10 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
     }
 
     /**
-     * Process post data
+     * @return void
+     * @throws \CRM_Core_Exception
      */
-    public function postProcess()
+    public function postProcess(): void
     {
         $customSettings = $this->modifiedPetition['custom_settings'];
         foreach (self::DEFAULT_CUSTOM_SETTINGS as $key => $v) {
@@ -141,6 +147,9 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
      * This function is a wrapper for AppearancemodifierPetition.update API call.
      *
      * @param array $data the new values.
+     *
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     protected function updateCustom(array $data): void
     {
@@ -156,18 +165,19 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
         $modifiedPetition = $modifiedPetition->execute();
     }
 
-    /*
+    /**
      * This function is a wrapper for Survey.Get API call.
      *
      * @param int $id the petition id.
      *
      * @return array the result petition or empty array.
+     * @throws \CiviCRM_API3_Exception
      */
     private function getPetition(int $id): array
     {
         $petition = civicrm_api3('Survey', 'get', [
             'sequential' => 1,
-            'activity_type_id' => "Petition",
+            'activity_type_id' => 'Petition',
             'id' => $id,
         ]);
         if (count($petition['values']) === 0) {
@@ -177,9 +187,11 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
         return $petition['values'][0];
     }
 
-    /*
+    /**
      * This function gathers the consent custom fields that
      * are present in this petition form.
+     *
+     * @throws \CRM_Core_Exception
      */
     protected function consentActivityCustomFields(): void
     {
@@ -190,7 +202,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
         if (array_key_exists('custom-field-map', $config)) {
             $map = $config['custom-field-map'];
             $labels = CRM_Consentactivity_Service::customCheckboxFields();
-            $uFJoins = \Civi\Api4\UFJoin::get()
+            $uFJoins = UFJoin::get()
                 ->addSelect('uf_group_id')
                 ->addWhere('module', '=', 'CiviCampaign')
                 ->addWhere('entity_table', '=', 'civicrm_survey')
@@ -203,7 +215,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
             }
             foreach ($map as $rule) {
                 // If the current rule field is missing from the profile, continue
-                $ufFields = \Civi\Api4\UFField::get()
+                $ufFields = UFField::get()
                     ->addWhere('uf_group_id', 'IN', $profileIds)
                     ->addWhere('field_name', '=', $rule['custom-field-id'])
                     ->setLimit(1)

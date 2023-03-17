@@ -1,8 +1,10 @@
 <?php
 
-use CRM_Appearancemodifier_ExtensionUtil as E;
-use Civi\Api4\Event;
 use Civi\Api4\AppearancemodifierEvent;
+use Civi\Api4\Event;
+use Civi\Api4\UFField;
+use Civi\Api4\UFJoin;
+use CRM_Appearancemodifier_ExtensionUtil as E;
 
 /**
  * Form controller class
@@ -11,39 +13,42 @@ use Civi\Api4\AppearancemodifierEvent;
  */
 class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_AbstractBase
 {
-    public const DEFAULT_CUSTOM_SETTINGS
-        = [
-            'hide_form_title' => '',
-            'send_size_when_embedded' => '',
-            'send_size_to_when_embedded' => '*',
-            'add_check_all_checkbox' => '',
-            'check_all_checkbox_label' => '',
-        ];
+    public const DEFAULT_CUSTOM_SETTINGS = [
+        'hide_form_title' => '',
+        'send_size_when_embedded' => '',
+        'send_size_to_when_embedded' => '*',
+        'add_check_all_checkbox' => '',
+        'check_all_checkbox_label' => '',
+    ];
 
-    private const EVENT_FIELDS
-        = [
-            'layout_handler',
-            'background_color',
-            'consent_field_behaviour',
-            'custom_social_box',
-            'external_share_url',
-            'hide_form_labels',
-            'add_placeholder',
-            'font_color',
-        ];
+    private const EVENT_FIELDS = [
+        'layout_handler',
+        'background_color',
+        'consent_field_behaviour',
+        'custom_social_box',
+        'external_share_url',
+        'hide_form_labels',
+        'add_placeholder',
+        'font_color',
+    ];
 
-    // The event, for display some stuff about it on the frontend.
+    /**
+     * The event, for display some stuff about it on the frontend.
+     */
     private $event;
 
-    // The modified event
+    /**
+     * The modified event
+     */
     private $modifiedEvent;
 
     /**
-     * Preprocess form
-     *
-     * @throws CRM_Core_Exception
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
-    public function preProcess()
+    public function preProcess(): void
     {
         // Get the event id query parameter.
         $eventId = CRM_Utils_Request::retrieve('eid', 'Integer');
@@ -61,11 +66,9 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
     }
 
     /**
-     * Set default values
-     *
      * @return array
      */
-    public function setDefaultValues()
+    public function setDefaultValues(): array
     {
         // Set defaults
         foreach (self::EVENT_FIELDS as $key) {
@@ -79,9 +82,10 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
     }
 
     /**
-     * Build form
+     * @return void
+     * @throws \CRM_Core_Exception
      */
-    public function buildQuickForm()
+    public function buildQuickForm(): void
     {
         $layoutOptions = [
             'handlers' => [],
@@ -89,9 +93,9 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
         ];
         // Fire hook event.
         Civi::dispatcher()->dispatch(
-            "hook_civicrm_appearancemodifierEventSettings",
+            'hook_civicrm_appearancemodifierEventSettings',
             Civi\Core\Event\GenericHookEvent::create([
-                "options" => &$layoutOptions,
+                'options' => &$layoutOptions,
             ])
         );
         $this->add('checkbox', 'custom_social_box', E::ts('Custom social box'), [], false);
@@ -102,9 +106,10 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
     }
 
     /**
-     * Process post data
+     * @return void
+     * @throws \CRM_Core_Exception
      */
-    public function postProcess()
+    public function postProcess(): void
     {
         $customSettings = $this->modifiedEvent['custom_settings'];
         foreach (self::DEFAULT_CUSTOM_SETTINGS as $key => $v) {
@@ -120,6 +125,9 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
      * This function is a wrapper for AppearancemodifierEvent.update API call.
      *
      * @param array $data the new values.
+     *
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     protected function updateCustom(array $data): void
     {
@@ -135,12 +143,14 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
         $modifiedEvent = $modifiedEvent->execute();
     }
 
-    /*
+    /**
      * This function is a wrapper for Event.Get API call.
      *
      * @param int $id the event id.
      *
      * @return array the result event or empty array.
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     private function getEvent(int $id): array
     {
@@ -155,9 +165,11 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
         return $event->first();
     }
 
-    /*
+    /**
      * This function gathers the consent custom fields that
      * are present in this petition form.
+     *
+     * @throws \API_Exception
      */
     protected function consentActivityCustomFields(): void
     {
@@ -168,7 +180,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
         if (array_key_exists('custom-field-map', $config)) {
             $map = $config['custom-field-map'];
             $labels = CRM_Consentactivity_Service::customCheckboxFields();
-            $uFJoins = \Civi\Api4\UFJoin::get()
+            $uFJoins = UFJoin::get()
                 ->addSelect('uf_group_id')
                 ->addWhere('module', '=', 'CiviEvent')
                 ->addWhere('entity_table', '=', 'civicrm_event')
@@ -180,7 +192,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
             }
             foreach ($map as $rule) {
                 // If the current rule field is missing from the profile, continue
-                $ufFields = \Civi\Api4\UFField::get()
+                $ufFields = UFField::get()
                     ->addWhere('uf_group_id', 'IN', $profileIds)
                     ->addWhere('field_name', '=', $rule['custom-field-id'])
                     ->setLimit(1)

@@ -1,11 +1,11 @@
 <?php
 
-use CRM_Appearancemodifier_ExtensionUtil as E;
-use Civi\Api4\UFGroup;
-use Civi\Api4\Event;
-use Civi\Api4\AppearancemodifierProfile;
-use Civi\Api4\AppearancemodifierPetition;
 use Civi\Api4\AppearancemodifierEvent;
+use Civi\Api4\AppearancemodifierPetition;
+use Civi\Api4\AppearancemodifierProfile;
+use Civi\Api4\Event;
+use Civi\Api4\UFGroup;
+use CRM_Appearancemodifier_ExtensionUtil as E;
 
 /**
  * Collection of upgrade steps.
@@ -17,6 +17,8 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
 
     /**
      * It creates the modified profile entry for the existing events.
+     *
+     * @throws \CiviCRM_API3_Exception
      */
     private static function upgradeExistingEvents(): void
     {
@@ -40,16 +42,18 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
     /**
      * It creates the modified profile entry for the existing petitions.
      * It uses API 3 as the surveys are not available in API 4.
+     *
+     * @throws \CiviCRM_API3_Exception
      */
     private static function upgradeExistingPetitions(): void
     {
         $limit = 25;
         $offset = 0;
-        $currentNumberOfPetitions = civicrm_api3('Survey', 'getcount', ['activity_type_id' => "Petition"]);
+        $currentNumberOfPetitions = civicrm_api3('Survey', 'getcount', ['activity_type_id' => 'Petition']);
         while ($offset < $currentNumberOfPetitions) {
             $petitions = civicrm_api3('Survey', 'get', [
                 'sequential' => 1,
-                'activity_type_id' => "Petition",
+                'activity_type_id' => 'Petition',
                 'options' => [
                     'limit' => $limit,
                     'offset' => $offset,
@@ -66,6 +70,8 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
 
     /**
      * It creates the modified profile entry for the existing profiles.
+     *
+     * @throws \CiviCRM_API3_Exception
      */
     private static function upgradeExistingProfiles(): void
     {
@@ -90,6 +96,12 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * It updates the modified profile entry for the existing profiles.
      * Set the values for each entity. On case of the invert consent field value
      * is true, set the 'invert' value, otherwise set 'default'.
+     *
+     * @param $offset
+     *
+     * @return bool
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function upgradeExistingProfilesForBehaviour($offset): bool
     {
@@ -112,6 +124,12 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * It updates the modified petition entry for the existing petition.
      * Set the values for each entity. On case of the invert consent field value
      * is true, set the 'invert' value, otherwise set 'default'.
+     *
+     * @param $offset
+     *
+     * @return bool
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function upgradeExistingPetitionsForBehaviour($offset): bool
     {
@@ -134,6 +152,12 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * It updates the modified event entry for the existing event.
      * Set the values for each entity. On case of the invert consent field value
      * is true, set the 'invert' value, otherwise set 'default'.
+     *
+     * @param $offset
+     *
+     * @return bool
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function upgradeExistingEventsForBehaviour($offset): bool
     {
@@ -158,8 +182,10 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * of your installation depends on accessing an entity that is itself
      * created during the installation (e.g., a setting or a managed entity), do
      * so here to avoid order of operation problems.
+     *
+     * @throws \CiviCRM_API3_Exception
      */
-    public function postInstall()
+    public function postInstall(): void
     {
         self::upgradeExistingProfiles();
         self::upgradeExistingPetitions();
@@ -172,7 +198,7 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * @return TRUE on success
      * @throws Exception
      */
-    public function upgrade_5300()
+    public function upgrade_5300(): bool
     {
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile CHANGE outro additional_note text;');
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition CHANGE outro additional_note text;');
@@ -186,7 +212,7 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * @return TRUE on success
      * @throws Exception
      */
-    public function upgrade_5301()
+    public function upgrade_5301(): bool
     {
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile ADD COLUMN font_color text;');
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN font_color text;');
@@ -202,7 +228,7 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * @return TRUE on success
      * @throws Exception
      */
-    public function upgrade_5302()
+    public function upgrade_5302(): bool
     {
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN signers_block_position text;');
 
@@ -212,16 +238,18 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
     /**
      * It creates the modified profile entry for the missing petitions.
      * It uses API 3 as the surveys are not available in API 4.
+     *
+     * @throws \CiviCRM_API3_Exception
      */
-    public function upgrade_5303()
+    public function upgrade_5303(): bool
     {
         $limit = 25;
         $offset = 0;
-        $currentNumberOfPetitions = civicrm_api3('Survey', 'getcount', ['activity_type_id' => "Petition"]);
+        $currentNumberOfPetitions = civicrm_api3('Survey', 'getcount', ['activity_type_id' => 'Petition']);
         while ($offset < $currentNumberOfPetitions) {
             $petitions = civicrm_api3('Survey', 'get', [
                 'sequential' => 1,
-                'activity_type_id' => "Petition",
+                'activity_type_id' => 'Petition',
                 'options' => [
                     'limit' => $limit,
                     'offset' => $offset,
@@ -253,7 +281,7 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * @return TRUE on success
      * @throws Exception
      */
-    public function upgrade_5304()
+    public function upgrade_5304(): bool
     {
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile ADD COLUMN consent_field_behaviour text;');
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN consent_field_behaviour text;');

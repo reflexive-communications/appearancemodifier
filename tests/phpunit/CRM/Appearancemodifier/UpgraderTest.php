@@ -13,12 +13,11 @@ use CRM_Appearancemodifier_ExtensionUtil as E;
  */
 class CRM_Appearancemodifier_UpgraderTest extends HeadlessTestCase
 {
-    /*
-     * It tests the postInstall function.
-     * Extension install has to be skipped for this tests.
-     * It creates a profile a petition and an event form.
-     * Calls the postinstall function, then checks the number of
-     * entries.
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testPostInstall()
     {
@@ -96,9 +95,9 @@ class CRM_Appearancemodifier_UpgraderTest extends HeadlessTestCase
         self::assertSame(count($modifiedProfiles), count($profiles), 'Invalid number of profiles.'.var_export($modifiedProfiles, true).' - '.var_export($profiles, true));
     }
 
-    /*
-     * It tests the upgrader function.
-     * First it alters the tables to the old version, then executes upgrader;
+    /**
+     * @return void
+     * @throws \Exception
      */
     public function testUpgrader5300()
     {
@@ -108,9 +107,9 @@ class CRM_Appearancemodifier_UpgraderTest extends HeadlessTestCase
         self::assertTrue($installer->upgrade_5300());
     }
 
-    /*
-     * It tests the upgrader function.
-     * First it alters the tables to the old version, then executes upgrader;
+    /**
+     * @return void
+     * @throws \Exception
      */
     public function testUpgrader5301()
     {
@@ -121,9 +120,9 @@ class CRM_Appearancemodifier_UpgraderTest extends HeadlessTestCase
         self::assertTrue($installer->upgrade_5301());
     }
 
-    /*
-     * It tests the upgrader function.
-     * First it alters the tables to the old version, then executes upgrader;
+    /**
+     * @return void
+     * @throws \Exception
      */
     public function testUpgrader5302()
     {
@@ -132,10 +131,11 @@ class CRM_Appearancemodifier_UpgraderTest extends HeadlessTestCase
         self::assertTrue($installer->upgrade_5302());
     }
 
-    /*
-     * It tests the upgrader function.
-     * First it creates a petition, then deletes the entry from the modified profiles.
-     * After the upgrader execution, it has to be there again.
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testUpgrader5303()
     {
@@ -165,9 +165,11 @@ class CRM_Appearancemodifier_UpgraderTest extends HeadlessTestCase
         self::assertSame(count($modifiedPetitions), $petitions, 'Invalid number of petitions.'.var_export($modifiedPetitions, true).' - '.var_export($petitions, true));
     }
 
-    /*
-     * It tests the upgrader function.
-     * First it alters the tables to the old version, then executes upgrader;
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testUpgrader5304()
     {
@@ -208,8 +210,10 @@ class CRM_Appearancemodifier_UpgraderTest extends HeadlessTestCase
         self::assertTrue($installer->upgrade_5304());
     }
 
-    /*
-     * It tests the upgrader function - profile.
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testUpgrader5304ProfileData()
     {
@@ -234,8 +238,11 @@ class CRM_Appearancemodifier_UpgraderTest extends HeadlessTestCase
         self::assertSame('invert', $modifiedProfile['consent_field_behaviour']);
     }
 
-    /*
-     * It tests the upgrader function - petition.
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testUpgrader5304PetitionData()
     {
@@ -260,8 +267,10 @@ class CRM_Appearancemodifier_UpgraderTest extends HeadlessTestCase
         self::assertSame('invert', $modifiedPetition['consent_field_behaviour']);
     }
 
-    /*
-     * It tests the upgrader function - event.
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testUpgrader5304EventData()
     {

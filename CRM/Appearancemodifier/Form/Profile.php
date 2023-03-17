@@ -1,8 +1,9 @@
 <?php
 
-use CRM_Appearancemodifier_ExtensionUtil as E;
-use Civi\Api4\UFGroup;
 use Civi\Api4\AppearancemodifierProfile;
+use Civi\Api4\UFField;
+use Civi\Api4\UFGroup;
+use CRM_Appearancemodifier_ExtensionUtil as E;
 
 /**
  * Form controller class
@@ -11,39 +12,42 @@ use Civi\Api4\AppearancemodifierProfile;
  */
 class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_AbstractBase
 {
-    public const DEFAULT_CUSTOM_SETTINGS
-        = [
-            'hide_form_title' => '',
-            'send_size_when_embedded' => '',
-            'send_size_to_when_embedded' => '*',
-            'base_target_is_the_parent' => '',
-            'add_check_all_checkbox' => '',
-            'check_all_checkbox_label' => '',
-        ];
+    public const DEFAULT_CUSTOM_SETTINGS = [
+        'hide_form_title' => '',
+        'send_size_when_embedded' => '',
+        'send_size_to_when_embedded' => '*',
+        'base_target_is_the_parent' => '',
+        'add_check_all_checkbox' => '',
+        'check_all_checkbox_label' => '',
+    ];
 
-    private const PROFILE_FIELDS
-        = [
-            'layout_handler',
-            'background_color',
-            'additional_note',
-            'consent_field_behaviour',
-            'hide_form_labels',
-            'add_placeholder',
-            'font_color',
-        ];
+    private const PROFILE_FIELDS = [
+        'layout_handler',
+        'background_color',
+        'additional_note',
+        'consent_field_behaviour',
+        'hide_form_labels',
+        'add_placeholder',
+        'font_color',
+    ];
 
-    // The uf group, for display some stuff about it on the frontend.
+    /**
+     * The uf group, for display some stuff about it on the frontend.
+     */
     private $ufGroup;
 
-    // The modified profile
+    /**
+     * The modified profile
+     */
     private $modifiedProfile;
 
     /**
-     * Preprocess form
-     *
-     * @throws CRM_Core_Exception
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
-    public function preProcess()
+    public function preProcess(): void
     {
         // Get the profile id query parameter.
         $ufGroupId = CRM_Utils_Request::retrieve('pid', 'Integer');
@@ -61,11 +65,9 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
     }
 
     /**
-     * Set default values
-     *
      * @return array
      */
-    public function setDefaultValues()
+    public function setDefaultValues(): array
     {
         // Set defaults
         foreach (self::PROFILE_FIELDS as $key) {
@@ -79,9 +81,10 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
     }
 
     /**
-     * Build form
+     * @return void
+     * @throws \CRM_Core_Exception
      */
-    public function buildQuickForm()
+    public function buildQuickForm(): void
     {
         $layoutOptions = [
             'handlers' => [],
@@ -89,9 +92,9 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
         ];
         // Fire hook event.
         Civi::dispatcher()->dispatch(
-            "hook_civicrm_appearancemodifierProfileSettings",
+            'hook_civicrm_appearancemodifierProfileSettings',
             Civi\Core\Event\GenericHookEvent::create([
-                "options" => &$layoutOptions,
+                'options' => &$layoutOptions,
             ])
         );
         $this->add('wysiwyg', 'additional_note', E::ts('Additional Note Text'), [], false);
@@ -102,9 +105,10 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
     }
 
     /**
-     * Process post data
+     * @return void
+     * @throws \CRM_Core_Exception
      */
-    public function postProcess()
+    public function postProcess(): void
     {
         $customSettings = $this->modifiedProfile['custom_settings'];
         foreach (self::DEFAULT_CUSTOM_SETTINGS as $key => $v) {
@@ -120,6 +124,9 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
      * This function is a wrapper for AppearancemodifierProfile.update API call.
      *
      * @param array $data the new values.
+     *
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     protected function updateCustom(array $data): void
     {
@@ -135,12 +142,14 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
         $modifiedProfile = $modifiedProfile->execute();
     }
 
-    /*
+    /**
      * This function is a wrapper for UFGroup.Get API call.
      *
      * @param int $id the ufgroup id.
      *
      * @return array the result uf group or empty array.
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     private function getUfGroup(int $id): array
     {
@@ -155,9 +164,11 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
         return $ufGroup->first();
     }
 
-    /*
+    /**
      * This function gathers the consent custom fields that
      * are present in this profile.
+     *
+     * @throws \CRM_Core_Exception
      */
     protected function consentActivityCustomFields(): void
     {
@@ -170,7 +181,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
             $labels = CRM_Consentactivity_Service::customCheckboxFields();
             foreach ($map as $rule) {
                 // If the current rule field is missing from the profile, continue
-                $ufFields = \Civi\Api4\UFField::get()
+                $ufFields = UFField::get()
                     ->addWhere('uf_group_id', '=', $this->ufGroup['id'])
                     ->addWhere('field_name', '=', $rule['custom-field-id'])
                     ->setLimit(1)
