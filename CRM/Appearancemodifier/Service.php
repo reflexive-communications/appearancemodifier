@@ -69,7 +69,7 @@ class CRM_Appearancemodifier_Service
         'class' => 'crm-popup',
     ];
 
-    /*
+    /**
      * This function updates the template name on the profile, petition, event
      * pages. The new template includes the original one, but also includes a stylesheet
      * for providing the background color. On petition and profile pages it extends the
@@ -84,7 +84,7 @@ class CRM_Appearancemodifier_Service
         }
     }
 
-    /*
+    /**
      * This function provides a link to the customization form on the
      * ufgroup, petition, event lists.
      *
@@ -116,6 +116,9 @@ class CRM_Appearancemodifier_Service
      * @param string $objectName
      * @param $objectId - the unique identifier for the object.
      * @param $objectRef - the reference to the object if available.
+     *
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public static function post(string $op, string $objectName, $objectId, &$objectRef): void
     {
@@ -142,6 +145,9 @@ class CRM_Appearancemodifier_Service
      * provided by the layout handler application.
      *
      * @param $page
+     *
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public static function pageRun(&$page): void
     {
@@ -184,6 +190,9 @@ class CRM_Appearancemodifier_Service
      * provided by the layout handler application.
      *
      * @param string $profileName
+     *
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public static function buildProfile(string $profileName): void
     {
@@ -216,6 +225,9 @@ class CRM_Appearancemodifier_Service
      *
      * @param string $formName
      * @param $form
+     *
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public static function buildForm(string $formName, &$form): void
     {
@@ -255,6 +267,9 @@ class CRM_Appearancemodifier_Service
      *
      * @param string $formName
      * @param $form
+     *
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public static function postProcess(string $formName, $form): void
     {
@@ -311,6 +326,17 @@ class CRM_Appearancemodifier_Service
         self::consentactivityCustomFieldActivities($id, $parameters, $rules);
     }
 
+    /**
+     * @param $content
+     * @param $tplName
+     * @param $object
+     *
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public static function alterContent(&$content, $tplName, &$object): void
     {
         if (array_search($tplName, self::PROFILE_TEMPLATES) !== false) {
@@ -330,7 +356,7 @@ class CRM_Appearancemodifier_Service
         }
     }
 
-    /*
+    /**
      * Create the activities based on the consentactivity configuration.
      * Only apply the activity if the extenstion is installed.
      * Also double check that the given fields still appeares in the configurations.
@@ -338,6 +364,10 @@ class CRM_Appearancemodifier_Service
      * @param int $contactId
      * @param array $submitValues
      * @param array $ruleset
+     *
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     private static function consentactivityCustomFieldActivities(int $contactId, array $submitValues, array $ruleset): void
     {
@@ -383,11 +413,13 @@ class CRM_Appearancemodifier_Service
         }
     }
 
-    /*
+    /**
      * This function updates the consent fields of the contact.
      *
      * @param int $contactId
      * @param array $submitValues
+     *
+     * @throws \CRM_Core_Exception
      */
     private static function updateConsents(int $contactId, array $submitValues): void
     {
@@ -404,7 +436,7 @@ class CRM_Appearancemodifier_Service
         }
     }
 
-    /*
+    /**
      * This function sets the consent fields of the contact to consent is given state.
      * First it gathers the current values of the do_not_phone and is_opt_out privacy
      * fields.
@@ -412,6 +444,10 @@ class CRM_Appearancemodifier_Service
      * change event of this value.
      *
      * @param int $contactId
+     *
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     private static function impliedConsentForContact(int $contactId): void
     {
@@ -432,13 +468,16 @@ class CRM_Appearancemodifier_Service
         }
     }
 
-    /*
+    /**
      * This function handles the layout changes for the profiles.
      * If the layout is specified in the modified profile config,
      * it is applied here.
      *
      * @param int $ufGroupId
      * @param string $content
+     *
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     private static function alterProfileContent($ufGroupId, &$content): void
     {
@@ -460,11 +499,13 @@ class CRM_Appearancemodifier_Service
         }
     }
 
-    /*
+    /**
      * This function handles the layout changes for the consent fields.
      * The label of the field is replaced with the label of the checkbox.
      *
      * @param string $content
+     *
+     * @throws \CRM_Core_Exception
      */
     private static function changeConsentActivityFields(&$content): void
     {
@@ -487,7 +528,7 @@ class CRM_Appearancemodifier_Service
         $content = $doc->htmlOuter();
     }
 
-    /*
+    /**
      * This function handles the layout changes for the petitions.
      * If the layout is specified in the modified petition config,
      * it is applied here. If the petition message is given, it is
@@ -497,6 +538,11 @@ class CRM_Appearancemodifier_Service
      * @param string $tplName
      * @param string $content
      * @param $object
+     *
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     private static function alterPetitionContent($tplName, &$content, &$object): void
     {
@@ -551,7 +597,7 @@ class CRM_Appearancemodifier_Service
         }
     }
 
-    /*
+    /**
      * This function handles the layout changes for the events.
      * If the layout is specified in the modified event config,
      * it is applied here. If the custom social block flag is set
@@ -560,6 +606,10 @@ class CRM_Appearancemodifier_Service
      * @param string $tplName
      * @param string $content
      * @param $object
+     *
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     private static function alterEventContent($tplName, &$content, &$object): void
     {
@@ -600,7 +650,7 @@ class CRM_Appearancemodifier_Service
         }
     }
 
-    /*
+    /**
      * This function handles the layout changes of the social block.
      *
      * @param string $content
@@ -658,7 +708,7 @@ class CRM_Appearancemodifier_Service
         $content = $doc->htmlOuter();
     }
 
-    /*
+    /**
      * This function handles the placeholders. If the hideLabel is set,
      * the hidden-node class is added to the label.
      *
@@ -693,7 +743,7 @@ class CRM_Appearancemodifier_Service
         $content = $doc->htmlOuter();
     }
 
-    /*
+    /**
      * This function adds the check all checkbox to the form.
      * When the for does not contain checkboxes, it does nothing,
      * otherwise it adds the checkbox right before the first one.
@@ -724,7 +774,7 @@ class CRM_Appearancemodifier_Service
         $content = $doc->htmlOuter();
     }
 
-    /*
+    /**
      * This function sets the resources based on the given configuration.
      *
      * @param array $modifiedConfig

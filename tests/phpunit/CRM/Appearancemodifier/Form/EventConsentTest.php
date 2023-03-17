@@ -12,8 +12,11 @@ use Civi\Appearancemodifier\HeadlessTestCase;
  */
 class CRM_Appearancemodifier_Form_EventConsentTest extends HeadlessTestCase
 {
-    /*
-     * It tests the preProcess function.
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testPreProcess()
     {
@@ -63,8 +66,11 @@ class CRM_Appearancemodifier_Form_EventConsentTest extends HeadlessTestCase
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
     }
 
-    /*
-     * It tests the setDefaultValues function.
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testSetDefaultValuesNoConfig()
     {
@@ -111,6 +117,12 @@ class CRM_Appearancemodifier_Form_EventConsentTest extends HeadlessTestCase
         self::assertSame(1, $defaults['original_font_color']);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testSetDefaultValuesConfig()
     {
         // Profile
@@ -162,8 +174,11 @@ class CRM_Appearancemodifier_Form_EventConsentTest extends HeadlessTestCase
         self::assertSame(1, $defaults['original_font_color']);
     }
 
-    /*
-     * It tests the buildQuickForm function.
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testBuildQuickForm()
     {
@@ -208,6 +223,12 @@ class CRM_Appearancemodifier_Form_EventConsentTest extends HeadlessTestCase
         self::assertEmpty($form->buildQuickForm(), 'buildQuickForm supposed to be empty.');
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testPostProcess()
     {
         // Profile

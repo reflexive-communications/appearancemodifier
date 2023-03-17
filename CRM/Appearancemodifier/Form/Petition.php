@@ -10,42 +10,46 @@ use CRM_Appearancemodifier_ExtensionUtil as E;
  */
 class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_AbstractBase
 {
-    public const DEFAULT_CUSTOM_SETTINGS
-        = [
-            'hide_form_title' => '',
-            'disable_petition_message_edit' => '',
-            'send_size_when_embedded' => '',
-            'send_size_to_when_embedded' => '*',
-            'add_check_all_checkbox' => '',
-            'check_all_checkbox_label' => '',
-        ];
+    public const DEFAULT_CUSTOM_SETTINGS = [
+        'hide_form_title' => '',
+        'disable_petition_message_edit' => '',
+        'send_size_when_embedded' => '',
+        'send_size_to_when_embedded' => '*',
+        'add_check_all_checkbox' => '',
+        'check_all_checkbox_label' => '',
+    ];
 
-    private const PETITION_FIELDS
-        = [
-            'layout_handler',
-            'background_color',
-            'additional_note',
-            'petition_message',
-            'consent_field_behaviour',
-            'target_number_of_signers',
-            'custom_social_box',
-            'external_share_url',
-            'hide_form_labels',
-            'add_placeholder',
-            'font_color',
-            'signers_block_position',
-        ];
+    private const PETITION_FIELDS = [
+        'layout_handler',
+        'background_color',
+        'additional_note',
+        'petition_message',
+        'consent_field_behaviour',
+        'target_number_of_signers',
+        'custom_social_box',
+        'external_share_url',
+        'hide_form_labels',
+        'add_placeholder',
+        'font_color',
+        'signers_block_position',
+    ];
 
-    // The petition, for display some stuff about it on the frontend.
+    /**
+     * The petition, for display some stuff about it on the frontend.
+     */
     private $petition;
 
-    // The modified petition
+    /**
+     * The modified petition
+     */
     private $modifiedPetition;
 
     /**
-     * Preprocess form
-     *
-     * @throws CRM_Core_Exception
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function preProcess(): void
     {
@@ -65,8 +69,6 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
     }
 
     /**
-     * Set default values
-     *
      * @return array
      */
     public function setDefaultValues(): array
@@ -83,7 +85,8 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
     }
 
     /**
-     * Build form
+     * @return void
+     * @throws \CRM_Core_Exception
      */
     public function buildQuickForm(): void
     {
@@ -123,7 +126,8 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
     }
 
     /**
-     * Process post data
+     * @return void
+     * @throws \CRM_Core_Exception
      */
     public function postProcess(): void
     {
@@ -141,6 +145,9 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
      * This function is a wrapper for AppearancemodifierPetition.update API call.
      *
      * @param array $data the new values.
+     *
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     protected function updateCustom(array $data): void
     {
@@ -156,12 +163,13 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
         $modifiedPetition = $modifiedPetition->execute();
     }
 
-    /*
+    /**
      * This function is a wrapper for Survey.Get API call.
      *
      * @param int $id the petition id.
      *
      * @return array the result petition or empty array.
+     * @throws \CiviCRM_API3_Exception
      */
     private function getPetition(int $id): array
     {
@@ -177,9 +185,11 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
         return $petition['values'][0];
     }
 
-    /*
+    /**
      * This function gathers the consent custom fields that
      * are present in this petition form.
+     *
+     * @throws \CRM_Core_Exception
      */
     protected function consentActivityCustomFields(): void
     {

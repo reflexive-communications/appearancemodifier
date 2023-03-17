@@ -4,10 +4,18 @@ use Civi\Appearancemodifier\HeadlessTestCase;
 
 class LayoutImplementation extends CRM_Appearancemodifier_AbstractLayout
 {
+    /**
+     * @return void
+     */
     public function setStyleSheets(): void
     {
     }
 
+    /**
+     * @param $content
+     *
+     * @return void
+     */
     public function alterContent(&$content): void
     {
     }
@@ -19,7 +27,7 @@ class LayoutImplementation extends CRM_Appearancemodifier_AbstractLayout
 class CRM_Appearancemodifier_AbstractLayoutTest extends HeadlessTestCase
 {
     /**
-     * Test for className.
+     * @return void
      */
     public function testClassName()
     {

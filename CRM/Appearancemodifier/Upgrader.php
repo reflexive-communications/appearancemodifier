@@ -17,6 +17,8 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
 
     /**
      * It creates the modified profile entry for the existing events.
+     *
+     * @throws \CiviCRM_API3_Exception
      */
     private static function upgradeExistingEvents(): void
     {
@@ -40,6 +42,8 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
     /**
      * It creates the modified profile entry for the existing petitions.
      * It uses API 3 as the surveys are not available in API 4.
+     *
+     * @throws \CiviCRM_API3_Exception
      */
     private static function upgradeExistingPetitions(): void
     {
@@ -66,6 +70,8 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
 
     /**
      * It creates the modified profile entry for the existing profiles.
+     *
+     * @throws \CiviCRM_API3_Exception
      */
     private static function upgradeExistingProfiles(): void
     {
@@ -90,6 +96,12 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * It updates the modified profile entry for the existing profiles.
      * Set the values for each entity. On case of the invert consent field value
      * is true, set the 'invert' value, otherwise set 'default'.
+     *
+     * @param $offset
+     *
+     * @return bool
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function upgradeExistingProfilesForBehaviour($offset): bool
     {
@@ -112,6 +124,12 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * It updates the modified petition entry for the existing petition.
      * Set the values for each entity. On case of the invert consent field value
      * is true, set the 'invert' value, otherwise set 'default'.
+     *
+     * @param $offset
+     *
+     * @return bool
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function upgradeExistingPetitionsForBehaviour($offset): bool
     {
@@ -134,6 +152,12 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * It updates the modified event entry for the existing event.
      * Set the values for each entity. On case of the invert consent field value
      * is true, set the 'invert' value, otherwise set 'default'.
+     *
+     * @param $offset
+     *
+     * @return bool
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function upgradeExistingEventsForBehaviour($offset): bool
     {
@@ -158,6 +182,8 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * of your installation depends on accessing an entity that is itself
      * created during the installation (e.g., a setting or a managed entity), do
      * so here to avoid order of operation problems.
+     *
+     * @throws \CiviCRM_API3_Exception
      */
     public function postInstall(): void
     {
@@ -212,6 +238,8 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
     /**
      * It creates the modified profile entry for the missing petitions.
      * It uses API 3 as the surveys are not available in API 4.
+     *
+     * @throws \CiviCRM_API3_Exception
      */
     public function upgrade_5303(): bool
     {

@@ -6,6 +6,9 @@ use Civi\Appearancemodifier\HeadlessTestCase;
 
 class DummyEventPresetProviderClass
 {
+    /**
+     * @return string[]
+     */
     public static function getPresets(): array
     {
         return [
@@ -27,8 +30,11 @@ class DummyEventPresetProviderClass
  */
 class CRM_Appearancemodifier_Form_EventTest extends HeadlessTestCase
 {
-    /*
-     * It tests the preProcess function.
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testPreProcessMissingEvent()
     {
@@ -41,6 +47,12 @@ class CRM_Appearancemodifier_Form_EventTest extends HeadlessTestCase
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testPreProcessExistingEvent()
     {
         $event = Event::create(false)
@@ -56,8 +68,11 @@ class CRM_Appearancemodifier_Form_EventTest extends HeadlessTestCase
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
     }
 
-    /*
-     * It tests the setDefaultValues function.
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testSetDefaultValuesOriginalColor()
     {
@@ -77,6 +92,12 @@ class CRM_Appearancemodifier_Form_EventTest extends HeadlessTestCase
         self::assertSame(1, $defaults['original_font_color']);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testSetDefaultValuesTransparentColor()
     {
         $event = Event::create(false)
@@ -100,6 +121,12 @@ class CRM_Appearancemodifier_Form_EventTest extends HeadlessTestCase
         self::assertSame(1, $defaults['original_font_color']);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testSetDefaultValuesConsentFieldBehaviour()
     {
         $event = Event::create(false)
@@ -121,8 +148,11 @@ class CRM_Appearancemodifier_Form_EventTest extends HeadlessTestCase
         self::assertSame('default', $defaults['consent_field_behaviour']);
     }
 
-    /*
-     * It tests the buildQuickForm function.
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testBuildQuickForm()
     {
@@ -140,8 +170,11 @@ class CRM_Appearancemodifier_Form_EventTest extends HeadlessTestCase
         self::assertEmpty($form->buildQuickForm(), 'buildQuickForm supposed to be empty.');
     }
 
-    /*
-     * It tests the postProcess function.
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testPostProcessWithoutPresets()
     {
@@ -183,6 +216,12 @@ class CRM_Appearancemodifier_Form_EventTest extends HeadlessTestCase
         self::assertSame($_POST['external_share_url'], $modifiedEvent['external_share_url']);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testPostProcessWithPresets()
     {
         $event = Event::create(false)
@@ -223,6 +262,12 @@ class CRM_Appearancemodifier_Form_EventTest extends HeadlessTestCase
         self::assertSame('default', $modifiedEvent['consent_field_behaviour']);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testPostProcessTransparentBackground()
     {
         $event = Event::create(false)

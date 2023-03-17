@@ -11,37 +11,40 @@ use CRM_Appearancemodifier_ExtensionUtil as E;
  */
 class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_AbstractBase
 {
-    public const DEFAULT_CUSTOM_SETTINGS
-        = [
-            'hide_form_title' => '',
-            'send_size_when_embedded' => '',
-            'send_size_to_when_embedded' => '*',
-            'base_target_is_the_parent' => '',
-            'add_check_all_checkbox' => '',
-            'check_all_checkbox_label' => '',
-        ];
+    public const DEFAULT_CUSTOM_SETTINGS = [
+        'hide_form_title' => '',
+        'send_size_when_embedded' => '',
+        'send_size_to_when_embedded' => '*',
+        'base_target_is_the_parent' => '',
+        'add_check_all_checkbox' => '',
+        'check_all_checkbox_label' => '',
+    ];
 
-    private const PROFILE_FIELDS
-        = [
-            'layout_handler',
-            'background_color',
-            'additional_note',
-            'consent_field_behaviour',
-            'hide_form_labels',
-            'add_placeholder',
-            'font_color',
-        ];
+    private const PROFILE_FIELDS = [
+        'layout_handler',
+        'background_color',
+        'additional_note',
+        'consent_field_behaviour',
+        'hide_form_labels',
+        'add_placeholder',
+        'font_color',
+    ];
 
-    // The uf group, for display some stuff about it on the frontend.
+    /**
+     * The uf group, for display some stuff about it on the frontend.
+     */
     private $ufGroup;
 
-    // The modified profile
+    /**
+     * The modified profile
+     */
     private $modifiedProfile;
 
     /**
-     * Preprocess form
-     *
-     * @throws CRM_Core_Exception
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function preProcess(): void
     {
@@ -61,8 +64,6 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
     }
 
     /**
-     * Set default values
-     *
      * @return array
      */
     public function setDefaultValues(): array
@@ -79,7 +80,8 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
     }
 
     /**
-     * Build form
+     * @return void
+     * @throws \CRM_Core_Exception
      */
     public function buildQuickForm(): void
     {
@@ -102,7 +104,8 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
     }
 
     /**
-     * Process post data
+     * @return void
+     * @throws \CRM_Core_Exception
      */
     public function postProcess(): void
     {
@@ -120,6 +123,9 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
      * This function is a wrapper for AppearancemodifierProfile.update API call.
      *
      * @param array $data the new values.
+     *
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     protected function updateCustom(array $data): void
     {
@@ -135,12 +141,14 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
         $modifiedProfile = $modifiedProfile->execute();
     }
 
-    /*
+    /**
      * This function is a wrapper for UFGroup.Get API call.
      *
      * @param int $id the ufgroup id.
      *
      * @return array the result uf group or empty array.
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     private function getUfGroup(int $id): array
     {
@@ -155,9 +163,11 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
         return $ufGroup->first();
     }
 
-    /*
+    /**
      * This function gathers the consent custom fields that
      * are present in this profile.
+     *
+     * @throws \CRM_Core_Exception
      */
     protected function consentActivityCustomFields(): void
     {

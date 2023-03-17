@@ -14,10 +14,18 @@ use Civi\Test\TransactionalInterface;
  */
 class LayoutImplementationTest extends CRM_Appearancemodifier_AbstractLayout
 {
+    /**
+     * @return void
+     */
     public function setStyleSheets(): void
     {
     }
 
+    /**
+     * @param $content
+     *
+     * @return void
+     */
     public function alterContent(&$content): void
     {
     }
@@ -28,8 +36,8 @@ class LayoutImplementationTest extends CRM_Appearancemodifier_AbstractLayout
  */
 class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements TransactionalInterface
 {
-    /*
-     * It tests the alterTemplateFile function.
+    /**
+     * @return void
      */
     public function testAlterTemplateFile()
     {
@@ -45,8 +53,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertSame($notMappedTemplate, $template);
     }
 
-    /*
-     * It tests the links function.
+    /**
+     * @return void
      */
     public function testLinks()
     {
@@ -67,8 +75,11 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertCount(0, $links);
     }
 
-    /*
-     * It tests the post function.
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testPost()
     {
@@ -117,8 +128,11 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertCount(count($current) + 1, $new);
     }
 
-    /*
-     * It tests the pageRun function.
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testPageRun()
     {
@@ -176,6 +190,12 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testPageRunHiddenTitle()
     {
         // petition thankyou
@@ -261,8 +281,10 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
     }
 
-    /*
-     * It tests the buildProfile function.
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testBuildProfile()
     {
@@ -285,6 +307,11 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertEmpty(CRM_Appearancemodifier_Service::buildProfile($profileName));
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testBuildProfileHiddenTitle()
     {
         $profileName = 'test_ufgroup_name';
@@ -317,14 +344,22 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertEmpty(CRM_Appearancemodifier_Service::buildProfile($profileName));
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testBuildProfileUknownProfile()
     {
         $profileName = 'unknown';
         self::assertEmpty(CRM_Appearancemodifier_Service::buildProfile($profileName));
     }
 
-    /*
-     * It tests the buildForm function.
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testBuildForm()
     {
@@ -373,6 +408,12 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertEmpty(CRM_Appearancemodifier_Service::buildForm(CRM_Event_Form_Registration_Register::class, $form));
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testBuildFormHiddenTitle()
     {
         // petition
@@ -435,13 +476,20 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
     }
 
     /**
-     * Test the postProcess function.
+     * @return void
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testPostProcessDoesNothingWhenTheFormIsIrrelevant()
     {
         self::assertEmpty(CRM_Appearancemodifier_Service::postProcess('irrelevant-form-name', new CRM_Profile_Form_Edit()));
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testPostProcessDoesNotUpdateWithoutFields()
     {
         $profile = UFGroup::create()
@@ -466,6 +514,11 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertSame($contact['is_opt_out'], $updatedContact['is_opt_out']);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testPostProcessChangesTheConsentFieldsProfileInvert()
     {
         $profile = UFGroup::create()
@@ -524,6 +577,11 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertFalse($updatedContact['do_not_phone']);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testPostProcessChangesTheConsentFieldsProfileApply()
     {
         $profile = UFGroup::create()
@@ -560,6 +618,12 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertFalse($updatedContact['do_not_phone']);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testPostProcessChangesTheConsentFieldsPetitionInvert()
     {
         $result = civicrm_api3('Survey', 'create', [
@@ -618,6 +682,12 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertFalse($updatedContact['do_not_phone']);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testPostProcessChangesTheConsentFieldsPetitionApply()
     {
         $result = civicrm_api3('Survey', 'create', [
@@ -654,6 +724,11 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertFalse($updatedContact['do_not_phone']);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testPostProcessDoesNothingOnEventRegisterFormWhenTheConfigrmScreenEnabled()
     {
         $results = Event::create(false)
@@ -697,6 +772,11 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertFalse($updatedContact['do_not_phone']);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testPostProcessChangesTheConsentFieldsEventRegisterFormWhenTheConfigrmScreenDisabled()
     {
         $results = Event::create(false)
@@ -755,6 +835,11 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertFalse($updatedContact['do_not_phone']);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testPostProcessChangesTheConsentFieldsEventInvert()
     {
         $results = Event::create(false)
@@ -813,6 +898,11 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertFalse($updatedContact['do_not_phone']);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testPostProcessChangesTheConsentFieldsEventApply()
     {
         $results = Event::create(false)
@@ -850,7 +940,11 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
     }
 
     /**
-     * Test the alterContent function.
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testAlterContentDoesNothingWhenTheContentIsNotRelevant()
     {
@@ -862,6 +956,13 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertSame($origContent, $content);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testAlterContentProfileAddsPlaceholdersToTextareasWithFlag()
     {
         $profile = UFGroup::create()
@@ -884,6 +985,13 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PROFILE_TEMPLATES[0].'. '.$content);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testAlterContentProfileAddsPlaceholdersToTextInputsWithFlag()
     {
         $profile = UFGroup::create()
@@ -906,6 +1014,13 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PROFILE_TEMPLATES[0].'. '.$content);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testAlterContentProfileHiddenClassWithFlag()
     {
         $profile = UFGroup::create()
@@ -929,6 +1044,13 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PROFILE_TEMPLATES[0].'. '.$content);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testAlterContentPetitionHiddenClassWithFlag()
     {
         $result = civicrm_api3('Survey', 'create', [
@@ -956,6 +1078,13 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0].'. '.$content);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testAlterContentEventHiddenClassWithFlag()
     {
         $results = Event::create(false)
@@ -983,6 +1112,13 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::EVENT_TEMPLATES[1].'. '.$content);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testAlterContentPetitionThankyouHiddenClassWithFlag()
     {
         $result = civicrm_api3('Survey', 'create', [
@@ -1010,6 +1146,13 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PETITION_TEMPLATES[1].'. '.$content);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testAlterContentPetitionMessage()
     {
         $result = civicrm_api3('Survey', 'create', [
@@ -1037,6 +1180,13 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0].'. '.$content);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testAlterContentPetitionMessageDisabled()
     {
         $result = civicrm_api3('Survey', 'create', [
@@ -1065,6 +1215,13 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0].'. '.$content);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testAlterContentPetitionCustomSocialContainerBox()
     {
         $result = civicrm_api3('Survey', 'create', [
@@ -1095,6 +1252,13 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0].'. '.$content);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testAlterContentPetitionCustomSocialContainerBoxExternalShareUrl()
     {
         $petitionTitle = 'Some title';
@@ -1132,6 +1296,13 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PETITION_TEMPLATES[1].'. '.$content);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testAlterContentEventCustomSocialContainerBox()
     {
         $results = Event::create(false)
@@ -1162,6 +1333,13 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::EVENT_TEMPLATES[2].'. '.$content);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testAlterContentEventCustomSocialContainerBoxThankyouPage()
     {
         $results = Event::create(false)
@@ -1190,6 +1368,13 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::EVENT_TEMPLATES[0].'. '.$content);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testAlterContentEventCustomSocialContainerBoxExternalUrl()
     {
         $externalUrl = 'https://www.internet.com/myarticle.html';
@@ -1225,6 +1410,13 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::EVENT_TEMPLATES[0].'. '.$content);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testAlterContentEventMissingId()
     {
         $results = Event::create(false)
@@ -1252,6 +1444,13 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::EVENT_TEMPLATES[0].'. '.$content);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testAlterContentPetitionMissingId()
     {
         $result = civicrm_api3('Survey', 'create', [
@@ -1278,6 +1477,13 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0].'. '.$content);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testAlterContentProfileCheckAllCheckbox()
     {
         $profile = UFGroup::create()
@@ -1309,6 +1515,13 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PROFILE_TEMPLATES[0].'. '.$content);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testAlterContentPetitionCheckAllCheckbox()
     {
         $result = civicrm_api3('Survey', 'create', [
@@ -1340,6 +1553,13 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0].'. '.$content);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testAlterContentEventCheckAllCheckbox()
     {
         $results = Event::create(false)

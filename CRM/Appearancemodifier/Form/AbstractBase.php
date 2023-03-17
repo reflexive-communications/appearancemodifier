@@ -10,13 +10,13 @@ use CRM_Appearancemodifier_ExtensionUtil as E;
  */
 abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
 {
-    // consentactivity related configurations
+    /**
+     * consentactivity related configurations
+     */
     protected $consentFieldNames;
 
     /**
-     * Preprocess form
-     *
-     * @throws CRM_Core_Exception
+     * @return void
      */
     public function preProcess(): void
     {
@@ -32,8 +32,6 @@ abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
      * every form implementation.
      *
      * @param array $customFormData the entity data.
-     *
-     * @throws CRM_Core_Exception
      */
     protected function commondDefaultValues(array $customFormData): void
     {
@@ -68,8 +66,6 @@ abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
      *
      * @param array $customFormData the entity data.
      * @param array $variables the custom data.
-     *
-     * @throws CRM_Core_Exception
      */
     protected function customDefaultValues(array $customFormData, array $variables): void
     {
@@ -190,13 +186,13 @@ abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
         }
     }
 
-    /*
+    /**
      * This function gathers the consent custom fields that
      * are present in this form.
      */
     abstract protected function consentActivityCustomFields(): void;
 
-    /*
+    /**
      * This function has to call the entity.update api
      *
      * @param array $data the new values.

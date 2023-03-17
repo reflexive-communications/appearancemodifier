@@ -5,6 +5,9 @@ use Civi\Appearancemodifier\HeadlessTestCase;
 
 class DummyPetitionPresetProviderClass
 {
+    /**
+     * @return string[]
+     */
     public static function getPresets(): array
     {
         return [
@@ -29,8 +32,12 @@ class DummyPetitionPresetProviderClass
  */
 class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
 {
-    /*
-     * It tests the preProcess function.
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testPreProcess()
     {
@@ -54,8 +61,12 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
     }
 
-    /*
-     * It tests the setDefaultValues function.
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testSetDefaultValuesOriginalColor()
     {
@@ -75,6 +86,13 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         self::assertSame(1, $defaults['original_font_color']);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testSetDefaultValuesTransparentColor()
     {
         $petition = civicrm_api3('Survey', 'create', [
@@ -98,6 +116,13 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         self::assertSame(1, $defaults['original_font_color']);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testSetDefaultValuesConsentFieldBehaviour()
     {
         $petition = civicrm_api3('Survey', 'create', [
@@ -119,6 +144,13 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         self::assertSame('default', $defaults['consent_field_behaviour']);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testSetDefaultValuesDisabledMessageEdition()
     {
         $petition = civicrm_api3('Survey', 'create', [
@@ -140,8 +172,12 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         self::assertSame('1', $defaults['disable_petition_message_edit']);
     }
 
-    /*
-     * It tests the buildQuickForm function.
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testBuildQuickForm()
     {
@@ -159,8 +195,12 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         self::assertEmpty($form->buildQuickForm(), 'buildQuickForm supposed to be empty.');
     }
 
-    /*
-     * It tests the postProcess function.
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
     public function testPostProcessWithoutPresets()
     {
@@ -208,6 +248,13 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         self::assertNull($modifiedPetition['font_color']);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testPostProcessWithPresets()
     {
         $petition = civicrm_api3('Survey', 'create', [
@@ -255,6 +302,13 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         self::assertSame('default', $modifiedPetition['consent_field_behaviour']);
     }
 
+    /**
+     * @return void
+     * @throws \API_Exception
+     * @throws \CRM_Core_Exception
+     * @throws \CiviCRM_API3_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
+     */
     public function testPostProcessTransparentBackground()
     {
         $petition = civicrm_api3('Survey', 'create', [
