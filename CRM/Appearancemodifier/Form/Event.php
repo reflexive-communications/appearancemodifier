@@ -2,6 +2,8 @@
 
 use Civi\Api4\AppearancemodifierEvent;
 use Civi\Api4\Event;
+use Civi\Api4\UFField;
+use Civi\Api4\UFJoin;
 use CRM_Appearancemodifier_ExtensionUtil as E;
 
 /**
@@ -91,9 +93,9 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
         ];
         // Fire hook event.
         Civi::dispatcher()->dispatch(
-            "hook_civicrm_appearancemodifierEventSettings",
+            'hook_civicrm_appearancemodifierEventSettings',
             Civi\Core\Event\GenericHookEvent::create([
-                "options" => &$layoutOptions,
+                'options' => &$layoutOptions,
             ])
         );
         $this->add('checkbox', 'custom_social_box', E::ts('Custom social box'), [], false);
@@ -178,7 +180,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
         if (array_key_exists('custom-field-map', $config)) {
             $map = $config['custom-field-map'];
             $labels = CRM_Consentactivity_Service::customCheckboxFields();
-            $uFJoins = \Civi\Api4\UFJoin::get()
+            $uFJoins = UFJoin::get()
                 ->addSelect('uf_group_id')
                 ->addWhere('module', '=', 'CiviEvent')
                 ->addWhere('entity_table', '=', 'civicrm_event')
@@ -190,7 +192,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
             }
             foreach ($map as $rule) {
                 // If the current rule field is missing from the profile, continue
-                $ufFields = \Civi\Api4\UFField::get()
+                $ufFields = UFField::get()
                     ->addWhere('uf_group_id', 'IN', $profileIds)
                     ->addWhere('field_name', '=', $rule['custom-field-id'])
                     ->setLimit(1)

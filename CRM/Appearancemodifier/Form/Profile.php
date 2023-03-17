@@ -1,6 +1,7 @@
 <?php
 
 use Civi\Api4\AppearancemodifierProfile;
+use Civi\Api4\UFField;
 use Civi\Api4\UFGroup;
 use CRM_Appearancemodifier_ExtensionUtil as E;
 
@@ -91,9 +92,9 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
         ];
         // Fire hook event.
         Civi::dispatcher()->dispatch(
-            "hook_civicrm_appearancemodifierProfileSettings",
+            'hook_civicrm_appearancemodifierProfileSettings',
             Civi\Core\Event\GenericHookEvent::create([
-                "options" => &$layoutOptions,
+                'options' => &$layoutOptions,
             ])
         );
         $this->add('wysiwyg', 'additional_note', E::ts('Additional Note Text'), [], false);
@@ -180,7 +181,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
             $labels = CRM_Consentactivity_Service::customCheckboxFields();
             foreach ($map as $rule) {
                 // If the current rule field is missing from the profile, continue
-                $ufFields = \Civi\Api4\UFField::get()
+                $ufFields = UFField::get()
                     ->addWhere('uf_group_id', '=', $this->ufGroup['id'])
                     ->addWhere('field_name', '=', $rule['custom-field-id'])
                     ->setLimit(1)

@@ -49,11 +49,11 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
     {
         $limit = 25;
         $offset = 0;
-        $currentNumberOfPetitions = civicrm_api3('Survey', 'getcount', ['activity_type_id' => "Petition"]);
+        $currentNumberOfPetitions = civicrm_api3('Survey', 'getcount', ['activity_type_id' => 'Petition']);
         while ($offset < $currentNumberOfPetitions) {
             $petitions = civicrm_api3('Survey', 'get', [
                 'sequential' => 1,
-                'activity_type_id' => "Petition",
+                'activity_type_id' => 'Petition',
                 'options' => [
                     'limit' => $limit,
                     'offset' => $offset,
@@ -245,11 +245,11 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
     {
         $limit = 25;
         $offset = 0;
-        $currentNumberOfPetitions = civicrm_api3('Survey', 'getcount', ['activity_type_id' => "Petition"]);
+        $currentNumberOfPetitions = civicrm_api3('Survey', 'getcount', ['activity_type_id' => 'Petition']);
         while ($offset < $currentNumberOfPetitions) {
             $petitions = civicrm_api3('Survey', 'get', [
                 'sequential' => 1,
-                'activity_type_id' => "Petition",
+                'activity_type_id' => 'Petition',
                 'options' => [
                     'limit' => $limit,
                     'offset' => $offset,

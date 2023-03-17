@@ -672,7 +672,7 @@ class CRM_Appearancemodifier_Service
                     case 'crm-tw':
                         $shareUrl = '';
                         if (!is_null($externalUrl)) {
-                            $shareUrl = "window.open('https://twitter.com/intent/tweet?url=".urlencode($externalUrl)."&amp;text=".$eventTitle."', '_blank')";
+                            $shareUrl = "window.open('https://twitter.com/intent/tweet?url=".urlencode($externalUrl).'&amp;text='.$eventTitle."', '_blank')";
                         } else {
                             $shareUrl = $button->getAttribute('onclick');
                         }

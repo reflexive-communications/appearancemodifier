@@ -1,6 +1,8 @@
 <?php
 
 use Civi\Api4\AppearancemodifierPetition;
+use Civi\Api4\UFField;
+use Civi\Api4\UFJoin;
 use CRM_Appearancemodifier_ExtensionUtil as E;
 
 /**
@@ -96,9 +98,9 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
         ];
         // Fire hook event.
         Civi::dispatcher()->dispatch(
-            "hook_civicrm_appearancemodifierPetitionSettings",
+            'hook_civicrm_appearancemodifierPetitionSettings',
             Civi\Core\Event\GenericHookEvent::create([
-                "options" => &$layoutOptions,
+                'options' => &$layoutOptions,
             ])
         );
         $this->add('textarea', 'petition_message', E::ts('Petition message'), ['rows' => '4', 'cols' => '60'], false);
@@ -175,7 +177,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
     {
         $petition = civicrm_api3('Survey', 'get', [
             'sequential' => 1,
-            'activity_type_id' => "Petition",
+            'activity_type_id' => 'Petition',
             'id' => $id,
         ]);
         if (count($petition['values']) === 0) {
@@ -200,7 +202,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
         if (array_key_exists('custom-field-map', $config)) {
             $map = $config['custom-field-map'];
             $labels = CRM_Consentactivity_Service::customCheckboxFields();
-            $uFJoins = \Civi\Api4\UFJoin::get()
+            $uFJoins = UFJoin::get()
                 ->addSelect('uf_group_id')
                 ->addWhere('module', '=', 'CiviCampaign')
                 ->addWhere('entity_table', '=', 'civicrm_survey')
@@ -213,7 +215,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
             }
             foreach ($map as $rule) {
                 // If the current rule field is missing from the profile, continue
-                $ufFields = \Civi\Api4\UFField::get()
+                $ufFields = UFField::get()
                     ->addWhere('uf_group_id', 'IN', $profileIds)
                     ->addWhere('field_name', '=', $rule['custom-field-id'])
                     ->setLimit(1)
