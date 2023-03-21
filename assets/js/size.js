@@ -1,5 +1,5 @@
 /**
- * In case of the profile is loaded in iframe, the height of the content
+ * If the profile is loaded in iframe, the height of the content
  * has to be passed to the parent js, to be able to update the iframe
  * container height. The communication is based on messages. In case of
  * onload event or resize event, it sends a message to the parent window.
@@ -8,7 +8,10 @@
  * Event listener is not necessary as we don't expect replies or any
  * other kind of messages from the parent.
  */
-// It returns true, if the self window object is NOT the top level window object.
+
+/**
+ * Check if the self window object is NOT the top level window object
+ */
 function inIframe() {
     try {
         return window.self !== window.top;
@@ -17,7 +20,9 @@ function inIframe() {
     }
 }
 
-// It sends the resize message to the parent iframe.
+/**
+ * Send the resize message to the parent iframe.
+ */
 function sendResizeMessage() {
     let bodyElement = window.self.document.querySelector('body');
     let message = {
@@ -28,12 +33,16 @@ function sendResizeMessage() {
     window.self.parent.postMessage(message, to);
 }
 
-// The resize event handler function.
+/**
+ * Resize event handler
+ */
 function resizeEventHandler() {
     setTimeout(sendResizeMessage, 200);
 }
 
-// onload
+/**
+ * On load
+ */
 (function () {
     if (inIframe()) {
         setTimeout(sendResizeMessage, 200);

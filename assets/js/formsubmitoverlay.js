@@ -1,4 +1,15 @@
-function addOnClickEvent() {
+/**
+ * Show overlay
+ */
+function showOverlay() {
+    const overlay = document.getElementById('overlay');
+    overlay.style.display = 'block';
+}
+
+/**
+ * Add overlay and attach event handlers
+ */
+(function () {
     let submitButtonsDivs = document.getElementsByClassName('crm-submit-buttons');
     let overlays = document.getElementById('overlay');
 
@@ -26,11 +37,4 @@ function addOnClickEvent() {
             submitButtons[j].addEventListener('click', showOverlay);
         }
     }
-}
-
-function showOverlay() {
-    const overlay = document.getElementById('overlay');
-    overlay.style.display = 'block';
-}
-
-addOnClickEvent();
+})();
