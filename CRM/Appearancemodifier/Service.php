@@ -785,7 +785,7 @@ class CRM_Appearancemodifier_Service
         Civi::resources()->addStyleFile(E::LONG_NAME, 'css/overlay.css');
         if ($modifiedConfig['custom_settings'] !== null) {
             if ($modifiedConfig['custom_settings']['hide_form_title'] === '1') {
-                Civi::resources()->addStyleFile(E::LONG_NAME, 'css/hiddentitle.css');
+                Civi::resources()->addStyleFile(E::LONG_NAME, 'css/hidden-title.css');
             }
             if ($modifiedConfig['custom_settings']['send_size_when_embedded'] === '1') {
                 Civi::resources()->addScriptFile(E::LONG_NAME, 'js/size.js');
