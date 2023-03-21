@@ -781,11 +781,11 @@ class CRM_Appearancemodifier_Service
      */
     private static function setupResourcesBasedOnSettings(array $modifiedConfig): void
     {
-        Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
-        Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/overlay.css');
+        Civi::resources()->addStyleFile(E::LONG_NAME, 'css/appearancemodifier.css');
+        Civi::resources()->addStyleFile(E::LONG_NAME, 'css/overlay.css');
         if ($modifiedConfig['custom_settings'] !== null) {
             if ($modifiedConfig['custom_settings']['hide_form_title'] === '1') {
-                Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/hiddentitle.css');
+                Civi::resources()->addStyleFile(E::LONG_NAME, 'css/hiddentitle.css');
             }
             if ($modifiedConfig['custom_settings']['send_size_when_embedded'] === '1') {
                 Civi::resources()->addScriptFile(E::LONG_NAME, 'js/size.js');
