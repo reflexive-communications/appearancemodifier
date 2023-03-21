@@ -259,7 +259,7 @@ class CRM_Appearancemodifier_Service
         if ($modifiedConfig !== null) {
             self::setupResourcesBasedOnSettings($modifiedConfig);
         }
-        Civi::resources()->addScriptFile(E::LONG_NAME, 'assets/js/formsubmitoverlay.js');
+        Civi::resources()->addScriptFile(E::LONG_NAME, 'js/form-submit-overlay.js');
     }
 
     /**
@@ -781,20 +781,20 @@ class CRM_Appearancemodifier_Service
      */
     private static function setupResourcesBasedOnSettings(array $modifiedConfig): void
     {
-        Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/appearancemodifier.css');
-        Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/overlay.css');
+        Civi::resources()->addStyleFile(E::LONG_NAME, 'css/appearancemodifier.css');
+        Civi::resources()->addStyleFile(E::LONG_NAME, 'css/overlay.css');
         if ($modifiedConfig['custom_settings'] !== null) {
             if ($modifiedConfig['custom_settings']['hide_form_title'] === '1') {
-                Civi::resources()->addStyleFile(E::LONG_NAME, 'assets/css/hiddentitle.css');
+                Civi::resources()->addStyleFile(E::LONG_NAME, 'css/hidden-title.css');
             }
             if ($modifiedConfig['custom_settings']['send_size_when_embedded'] === '1') {
-                Civi::resources()->addScriptFile(E::LONG_NAME, 'assets/js/size.js');
+                Civi::resources()->addScriptFile(E::LONG_NAME, 'js/size.js');
             }
             if (isset($modifiedConfig['custom_settings']['base_target_is_the_parent']) && $modifiedConfig['custom_settings']['base_target_is_the_parent'] === '1') {
-                Civi::resources()->addScriptFile(E::LONG_NAME, 'assets/js/basetarget.js');
+                Civi::resources()->addScriptFile(E::LONG_NAME, 'js/base-target.js');
             }
             if (isset($modifiedConfig['custom_settings']['add_check_all_checkbox']) && $modifiedConfig['custom_settings']['add_check_all_checkbox'] === '1') {
-                Civi::resources()->addScriptFile(E::LONG_NAME, 'assets/js/checkallcheckbox.js');
+                Civi::resources()->addScriptFile(E::LONG_NAME, 'js/check-all-checkbox.js');
             }
         }
     }

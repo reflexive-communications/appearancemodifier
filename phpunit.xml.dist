@@ -6,6 +6,7 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          convertDeprecationsToExceptions="true"
+         failOnRisky="true"
          bootstrap="tests/phpunit/bootstrap.php"
          testdox="true">
     <coverage>
@@ -18,7 +19,6 @@
             <!-- Skip generated files -->
             <file>./appearancemodifier.php</file>
             <file>./appearancemodifier.civix.php</file>
-            <file>./CRM/Appearancemodifier/Upgrader/Base.php</file>
             <!-- Skip generated files within generated directories -->
             <directory>./CRM/Appearancemodifier/BAO</directory>
             <directory>./CRM/Appearancemodifier/DAO</directory>
@@ -28,7 +28,7 @@
         </exclude>
     </coverage>
     <testsuites>
-        <testsuite name="My Test Suite">
+        <testsuite name="all">
             <directory>./tests/phpunit</directory>
         </testsuite>
     </testsuites>
