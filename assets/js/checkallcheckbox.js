@@ -9,7 +9,7 @@
  */
 function checkAllCheckboxClickHandler(item) {
     let items = document.querySelectorAll('input[type="checkbox"]');
-    for (i = 1; i < items.length; i++) {
+    for (let i = 1; i < items.length; i++) {
         items[i].checked = item.checked;
     }
 }
@@ -30,7 +30,7 @@ function uncheckCheckAllCheckbox(event) {
  */
 (function () {
     let items = document.querySelectorAll('input[type="checkbox"]');
-    for (i = 1; i < items.length; i++) {
+    for (let i = 1; i < items.length; i++) {
         items[i].addEventListener('click', uncheckCheckAllCheckbox);
     }
 })();
