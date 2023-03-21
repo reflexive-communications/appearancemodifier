@@ -84,7 +84,7 @@ The form customization is based on additional settings that could be reached fro
 -   Check all checkbox label - The visible label of this checkbox.
 
 **General Settings**
-![general settings](./assets/docs/admin-general-settings.png)
+![general settings](./images/admin-general-settings.png)
 
 ### Consent activity extension
 
@@ -97,36 +97,36 @@ If the consentactivity extension is also installed, an additional feature also a
 The presudo consent fields are displayed as the privacy fields on the forms.
 
 **Activity map**
-![activity map](./assets/docs/common-admin-activity-map.png)
+![activity map](./images/common-admin-activity-map.png)
 
 ### Profile
 
 The AppearancemodifierProfile entity stores the settings for a profile.
 
 **Profile Customization Menu**
-![Profile Customization Menu](./assets/docs/profile-admin-link.png)
+![Profile Customization Menu](./images/profile-admin-link.png)
 
 **Profile Customization Settings**
-![Profile Customization Settings](./assets/docs/profile-admin-form.png)
+![Profile Customization Settings](./images/profile-admin-form.png)
 
 -   Additional Note Text - This text will be displayed below the submit button.
 -   Base target is the parent - With this setting, the target attribute of the base tag will be set to `_parent`. It updates the target attribute of the links and form submissions to the parent window.
 
 **Profile Settings Example**
-![Profile Settings Example](./assets/docs/profile-admin-example.png)
+![Profile Settings Example](./images/profile-admin-example.png)
 
 **Profile Form Example**
-![Profile Form Example](./assets/docs/profile-form-example.png)
+![Profile Form Example](./images/profile-form-example.png)
 
 ### Petition
 
 The AppearancemodifierPetition entity stores the settings for a petition.
 
 **Petition Customization Menu**
-![Petition Customization Menu](./assets/docs/petition-admin-link.png)
+![Petition Customization Menu](./images/petition-admin-link.png)
 
 **Petition Customization Settings**
-![Petition Customization Settings](./assets/docs/petition-admin-form.png)
+![Petition Customization Settings](./images/petition-admin-form.png)
 
 -   Additional Note Text - This text will be displayed below the submit button.
 -   Petition Message - This text will be added as default text in the petition message field in the activity profile.
@@ -137,39 +137,39 @@ The AppearancemodifierPetition entity stores the settings for a petition.
 -   External url to share - This url will be shared from the social boxes. Only applied when the custom social box also applied.
 
 **Petition Settings Example**
-![Petition Settings Example](./assets/docs/petition-admin-example.png)
+![Petition Settings Example](./images/petition-admin-example.png)
 
 **Petition Form Example**
-![Petition Form Example](./assets/docs/petition-form-example.png)
+![Petition Form Example](./images/petition-form-example.png)
 
 ### Event
 
 The AppearancemodifierEvent entity stores the settings for an event.
 
 **Event Customization Menu**
-![Event Customization Menu](./assets/docs/event-admin-link.png)
+![Event Customization Menu](./images/event-admin-link.png)
 
 **Event Customization Settings**
 
-![Event Customization Settings](./assets/docs/event-admin-form.png)
+![Event Customization Settings](./images/event-admin-form.png)
 
 -   Custom social box - The sharing options will be replaced with a custom one, that only contans twitter and facebook share option.
 -   External url to share - This url will be shared from the social boxes. Only applied when the custom social box also applied.
 
 **Event Settings Example**
-![Event Settings Example](./assets/docs/event-admin-example.png)
+![Event Settings Example](./images/event-admin-example.png)
 
 **Event Info Example**
-![Event Info Example](./assets/docs/event-info-example.png)
+![Event Info Example](./images/event-info-example.png)
 
 **Event Form Example**
-![Event Form Example](./assets/docs/event-form-example.png)
+![Event Form Example](./images/event-form-example.png)
 
 **Event Confirm Example**
-![Event Confirm Example](./assets/docs/event-confirm-example.png)
+![Event Confirm Example](./images/event-confirm-example.png)
 
 **Event Thank You Example**
-![Event Thank You Example](./assets/docs/event-thankyou-example.png)
+![Event Thank You Example](./images/event-thankyou-example.png)
 
 ## Layouts
 
