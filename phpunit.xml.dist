@@ -18,7 +18,6 @@
             <!-- Skip generated files -->
             <file>./appearancemodifier.php</file>
             <file>./appearancemodifier.civix.php</file>
-            <file>./CRM/Appearancemodifier/Upgrader/Base.php</file>
             <!-- Skip generated files within generated directories -->
             <directory>./CRM/Appearancemodifier/BAO</directory>
             <directory>./CRM/Appearancemodifier/DAO</directory>
