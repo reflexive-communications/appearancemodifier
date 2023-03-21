@@ -200,8 +200,8 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      */
     public function upgrade_5300(): bool
     {
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile CHANGE outro additional_note text;');
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition CHANGE outro additional_note text;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile CHANGE outro additional_note text');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition CHANGE outro additional_note text');
 
         return true;
     }
@@ -214,9 +214,9 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      */
     public function upgrade_5301(): bool
     {
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile ADD COLUMN font_color text;');
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN font_color text;');
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_event ADD COLUMN font_color text;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile ADD COLUMN font_color text');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN font_color text');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_event ADD COLUMN font_color text');
 
         return true;
     }
@@ -230,7 +230,7 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      */
     public function upgrade_5302(): bool
     {
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN signers_block_position text;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN signers_block_position text');
 
         return true;
     }
@@ -283,13 +283,13 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      */
     public function upgrade_5304(): bool
     {
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile ADD COLUMN consent_field_behaviour text;');
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN consent_field_behaviour text;');
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_event ADD COLUMN consent_field_behaviour text;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile ADD COLUMN consent_field_behaviour text');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN consent_field_behaviour text');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_event ADD COLUMN consent_field_behaviour text');
 
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile ADD COLUMN custom_settings text;');
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN custom_settings text;');
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_event ADD COLUMN custom_settings text;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile ADD COLUMN custom_settings text');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN custom_settings text');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_event ADD COLUMN custom_settings text');
         $offset = 0;
         $currentNumber = count(
             AppearancemodifierProfile::get(false)

@@ -101,8 +101,8 @@ class CRM_Appearancemodifier_UpgraderTest extends HeadlessTestCase
      */
     public function testUpgrader5300()
     {
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile CHANGE additional_note outro text;');
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition CHANGE additional_note outro text;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile CHANGE additional_note outro text');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition CHANGE additional_note outro text');
         $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
         self::assertTrue($installer->upgrade_5300());
     }
@@ -113,9 +113,9 @@ class CRM_Appearancemodifier_UpgraderTest extends HeadlessTestCase
      */
     public function testUpgrader5301()
     {
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile DROP COLUMN font_color;');
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition DROP COLUMN font_color;');
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_event DROP COLUMN font_color;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile DROP COLUMN font_color');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition DROP COLUMN font_color');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_event DROP COLUMN font_color');
         $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
         self::assertTrue($installer->upgrade_5301());
     }
@@ -126,7 +126,7 @@ class CRM_Appearancemodifier_UpgraderTest extends HeadlessTestCase
      */
     public function testUpgrader5302()
     {
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition DROP COLUMN signers_block_position;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition DROP COLUMN signers_block_position');
         $installer = new CRM_Appearancemodifier_Upgrader('appearancemodifier', E::path());
         self::assertTrue($installer->upgrade_5302());
     }
@@ -173,12 +173,12 @@ class CRM_Appearancemodifier_UpgraderTest extends HeadlessTestCase
      */
     public function testUpgrader5304()
     {
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile DROP COLUMN consent_field_behaviour;');
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition DROP COLUMN consent_field_behaviour;');
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_event DROP COLUMN consent_field_behaviour;');
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile DROP COLUMN custom_settings;');
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition DROP COLUMN custom_settings;');
-        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_event DROP COLUMN custom_settings;');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile DROP COLUMN consent_field_behaviour');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition DROP COLUMN consent_field_behaviour');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_event DROP COLUMN consent_field_behaviour');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile DROP COLUMN custom_settings');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition DROP COLUMN custom_settings');
+        CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_event DROP COLUMN custom_settings');
         // Profile
         $profile = UFGroup::create(false)
             ->addValue('title', 'Test UFGroup aka Profile')
