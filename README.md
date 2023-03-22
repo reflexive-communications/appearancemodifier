@@ -17,8 +17,7 @@ The extension is licensed under [AGPL-3.0](LICENSE.txt).
 
 ## Installation
 
-Sysadmins and developers may clone the [Git](https://en.wikipedia.org/wiki/Git) repo for this extension and
-install it with the command-line tool [cv](https://github.com/civicrm/cv).
+Sysadmins and developers may clone the [Git](https://en.wikipedia.org/wiki/Git) repo for this extension and install it with the command-line tool [cv](https://github.com/civicrm/cv).
 
 ```bash
 git clone https://github.com/reflexive-communications/appearancemodifier.git
@@ -27,7 +26,7 @@ cv en appearancemodifier
 
 ## Getting started
 
-For profiles, petitions and events there is a new button available: `Customize` where you can config potential customizations.
+For profiles, petitions and events there is a new button available: "Customize" where you can config potential customizations.
 For details check the [Developer Notes](DEVELOPER.md).
 
 ## Known Issues
