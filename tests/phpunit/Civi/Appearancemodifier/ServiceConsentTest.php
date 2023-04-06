@@ -7,7 +7,7 @@ use Civi\Api4\AppearancemodifierProfile;
 use Civi\Api4\Contact;
 use Civi\Api4\UFField;
 use Civi\Api4\UFGroup;
-use CRM_Consentactivity_Config;
+use Civi\Consentactivity\Config;
 use CRM_Profile_Form_Edit;
 
 /**
@@ -30,7 +30,7 @@ class ServiceConsentTest extends HeadlessTestCase
             ->first();
         $customField = parent::createNewCustomField();
         // setup conset activity configuration
-        $config = new CRM_Consentactivity_Config('consentactivity');
+        $config = new Config('consentactivity');
         $config->load();
         $cfg = $config->get();
         $cfg['custom-field-map'][] = [
@@ -85,7 +85,7 @@ class ServiceConsentTest extends HeadlessTestCase
             ->addValue('field_name', 'custom_'.$customField['id'])
             ->execute();
         // setup conset activity configuration
-        $config = new CRM_Consentactivity_Config('consentactivity');
+        $config = new Config('consentactivity');
         $config->load();
         $cfg = $config->get();
         unset($cfg['custom-field-map']);
@@ -134,7 +134,7 @@ class ServiceConsentTest extends HeadlessTestCase
             ->first();
         $customField = parent::createNewCustomField();
         // setup conset activity configuration
-        $config = new CRM_Consentactivity_Config('consentactivity');
+        $config = new Config('consentactivity');
         $config->load();
         $cfg = $config->get();
         $cfg['custom-field-map'][] = [
@@ -191,7 +191,7 @@ class ServiceConsentTest extends HeadlessTestCase
             ->first();
         $customField = parent::createNewCustomField();
         // setup conset activity configuration
-        $config = new CRM_Consentactivity_Config('consentactivity');
+        $config = new Config('consentactivity');
         $config->load();
         $cfg = $config->get();
         $cfg['custom-field-map'][] = [
@@ -244,7 +244,7 @@ class ServiceConsentTest extends HeadlessTestCase
     {
         $customField = parent::createNewCustomField();
         // setup conset activity configuration
-        $config = new CRM_Consentactivity_Config('consentactivity');
+        $config = new Config('consentactivity');
         $config->load();
         $cfg = $config->get();
         $cfg['custom-field-map'][] = [

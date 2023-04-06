@@ -10,8 +10,8 @@ use Civi\Api4\AppearancemodifierProfile;
 use Civi\Api4\Contact;
 use Civi\Api4\Event;
 use Civi\Api4\UFGroup;
+use Civi\Consentactivity\Config;
 use CRM_Appearancemodifier_ExtensionUtil as E;
-use CRM_Consentactivity_Config;
 use CRM_Extension_Manager;
 use CRM_Extension_System;
 use CRM_RcBase_Api_Update;
@@ -392,7 +392,7 @@ class Service
             return;
         }
         // gather the custom fields from the service.
-        $consentActivityConfig = new CRM_Consentactivity_Config('consentactivity');
+        $consentActivityConfig = new Config('consentactivity');
         $consentActivityConfig->load();
         $config = $consentActivityConfig->get();
         if (!array_key_exists('custom-field-map', $config)) {
@@ -522,7 +522,7 @@ class Service
             return;
         }
         // gather the custom fields from the service.
-        $consentActivityConfig = new CRM_Consentactivity_Config('consentactivity');
+        $consentActivityConfig = new Config('consentactivity');
         $consentActivityConfig->load();
         $config = $consentActivityConfig->get();
         $map = $config['custom-field-map'];

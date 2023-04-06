@@ -1,5 +1,6 @@
 <?php
 
+use Civi\Consentactivity\Service;
 use CRM_Appearancemodifier_ExtensionUtil as E;
 
 /**
@@ -110,7 +111,7 @@ abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
         // defaults for the consentactivity extension related config.
         if (count($this->consentFieldNames) > 0) {
             $consentActivityFieldNames = [];
-            $labels = CRM_Consentactivity_Service::customCheckboxFields();
+            $labels = Service::customCheckboxFields();
             foreach ($this->consentFieldNames as $field) {
                 $this->add(
                     'select',
