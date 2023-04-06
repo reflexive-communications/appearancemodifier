@@ -21,13 +21,13 @@ use phpQuery;
 
 class Service
 {
-    const CONSENT_FIELDS = [
+    public const CONSENT_FIELDS = [
         'do_not_email',
         'do_not_phone',
         'is_opt_out',
     ];
 
-    const TEMPLATE_MAP = [
+    public const TEMPLATE_MAP = [
         'CRM/Profile/Page/View.tpl' => 'CRM/Appearancemodifier/Profile/view.tpl',
         'CRM/Profile/Form/Edit.tpl' => 'CRM/Appearancemodifier/Profile/edit.tpl',
         'CRM/Campaign/Form/Petition/Signature.tpl' => 'CRM/Appearancemodifier/Petition/signature.tpl',
@@ -38,24 +38,24 @@ class Service
         'CRM/Event/Form/Registration/ThankYou.tpl' => 'CRM/Appearancemodifier/Event/thankyou.tpl',
     ];
 
-    const PROFILE_TEMPLATES = [
+    public const PROFILE_TEMPLATES = [
         'CRM/Appearancemodifier/Profile/edit.tpl',
         'CRM/Appearancemodifier/Profile/view.tpl',
     ];
 
-    const PETITION_TEMPLATES = [
+    public const PETITION_TEMPLATES = [
         'CRM/Appearancemodifier/Petition/signature.tpl',
         'CRM/Appearancemodifier/Petition/thankyou.tpl',
     ];
 
-    const EVENT_TEMPLATES = [
+    public const EVENT_TEMPLATES = [
         'CRM/Appearancemodifier/Event/info.tpl',
         'CRM/Appearancemodifier/Event/register.tpl',
         'CRM/Appearancemodifier/Event/confirm.tpl',
         'CRM/Appearancemodifier/Event/thankyou.tpl',
     ];
 
-    const LINK_PROFILE = [
+    public const LINK_PROFILE = [
         'name' => 'Customize',
         'url' => 'civicrm/admin/appearancemodifier/profile/customize',
         'qs' => 'pid=%%id%%',
@@ -63,7 +63,7 @@ class Service
         'class' => 'crm-popup',
     ];
 
-    const LINK_PETITION = [
+    public const LINK_PETITION = [
         'name' => 'Customize',
         'url' => 'civicrm/admin/appearancemodifier/petition/customize',
         'qs' => 'pid=%%id%%',
@@ -71,7 +71,7 @@ class Service
         'class' => 'crm-popup',
     ];
 
-    const LINK_EVENT = [
+    public const LINK_EVENT = [
         'name' => 'Customize',
         'url' => 'civicrm/admin/appearancemodifier/event/customize',
         'qs' => 'eid=%%id%%',

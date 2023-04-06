@@ -13,7 +13,7 @@ use CRM_Appearancemodifier_ExtensionUtil as E;
 class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
 {
     // The limit parameter for the API calls.
-    const QUERY_LIMIT = 25;
+    public const QUERY_LIMIT = 25;
 
     /**
      * It creates the modified profile entry for the existing events.
