@@ -1,16 +1,19 @@
 <?php
 
+namespace Civi\Appearancemodifier;
+
 use Civi\Api4\ActivityContact;
 use Civi\Api4\AppearancemodifierProfile;
 use Civi\Api4\Contact;
 use Civi\Api4\UFField;
 use Civi\Api4\UFGroup;
-use Civi\Appearancemodifier\HeadlessTestCase;
+use CRM_Consentactivity_Config;
+use CRM_Profile_Form_Edit;
 
 /**
  * @group headless
  */
-class CRM_Appearancemodifier_ServiceConsentTest extends HeadlessTestCase
+class ServiceConsentTest extends HeadlessTestCase
 {
     /**
      * @return void
@@ -54,7 +57,7 @@ class CRM_Appearancemodifier_ServiceConsentTest extends HeadlessTestCase
             ->addWhere('contact_id', '=', $contact['id'])
             ->addWhere('record_type_id', '=', 3)
             ->execute();
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Profile_Form_Edit::class, $form));
+        self::assertEmpty(Service::postProcess(CRM_Profile_Form_Edit::class, $form));
         $activityContactsAfter = ActivityContact::get()
             ->selectRowCount()
             ->addWhere('contact_id', '=', $contact['id'])
@@ -107,7 +110,7 @@ class CRM_Appearancemodifier_ServiceConsentTest extends HeadlessTestCase
             ->addWhere('contact_id', '=', $contact['id'])
             ->addWhere('record_type_id', '=', 3)
             ->execute();
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Profile_Form_Edit::class, $form));
+        self::assertEmpty(Service::postProcess(CRM_Profile_Form_Edit::class, $form));
         $activityContactsAfter = ActivityContact::get()
             ->selectRowCount()
             ->addWhere('contact_id', '=', $contact['id'])
@@ -164,7 +167,7 @@ class CRM_Appearancemodifier_ServiceConsentTest extends HeadlessTestCase
             ->addWhere('contact_id', '=', $contact['id'])
             ->addWhere('record_type_id', '=', 3)
             ->execute();
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Profile_Form_Edit::class, $form));
+        self::assertEmpty(Service::postProcess(CRM_Profile_Form_Edit::class, $form));
         $activityContactsAfter = ActivityContact::get()
             ->selectRowCount()
             ->addWhere('contact_id', '=', $contact['id'])
@@ -221,7 +224,7 @@ class CRM_Appearancemodifier_ServiceConsentTest extends HeadlessTestCase
             ->addWhere('contact_id', '=', $contact['id'])
             ->addWhere('record_type_id', '=', 3)
             ->execute();
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Profile_Form_Edit::class, $form));
+        self::assertEmpty(Service::postProcess(CRM_Profile_Form_Edit::class, $form));
         $activityContactsAfter = ActivityContact::get()
             ->selectRowCount()
             ->addWhere('contact_id', '=', $contact['id'])
@@ -265,7 +268,7 @@ class CRM_Appearancemodifier_ServiceConsentTest extends HeadlessTestCase
             ."\">\n<div class=\"label\"><label>Move me.</label></div>\n<div class=\"content\"><input type=\"checkbox\" id=\"custom_".$customField['id']."_1\"></div>\n</div></div>";
         $content = '<div><div class="crm-section form-item" id="editrow-custom_'.$customField['id']
             .'"><div class="label"><label>Replace me.</label></div><div class="content"><input type="checkbox" id="custom_'.$customField['id'].'_1" /><label>Move me.</label></div></div></div>';
-        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::PROFILE_TEMPLATES[0], $form));
-        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PROFILE_TEMPLATES[0].'. '.$content);
+        self::assertEmpty(Service::alterContent($content, Service::PROFILE_TEMPLATES[0], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PROFILE_TEMPLATES[0].'. '.$content);
     }
 }

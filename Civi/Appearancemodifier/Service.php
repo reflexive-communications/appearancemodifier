@@ -1,5 +1,8 @@
 <?php
 
+namespace Civi\Appearancemodifier;
+
+use Civi;
 use Civi\Api4\Activity;
 use Civi\Api4\AppearancemodifierEvent;
 use Civi\Api4\AppearancemodifierPetition;
@@ -8,8 +11,13 @@ use Civi\Api4\Contact;
 use Civi\Api4\Event;
 use Civi\Api4\UFGroup;
 use CRM_Appearancemodifier_ExtensionUtil as E;
+use CRM_Consentactivity_Config;
+use CRM_Extension_Manager;
+use CRM_Extension_System;
+use CRM_RcBase_Api_Update;
+use phpQuery;
 
-class CRM_Appearancemodifier_Service
+class Service
 {
     const CONSENT_FIELDS = [
         'do_not_email',

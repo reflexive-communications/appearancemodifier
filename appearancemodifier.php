@@ -1,5 +1,7 @@
 <?php
 
+use Civi\Appearancemodifier\Service;
+
 require_once 'appearancemodifier.civix.php';
 
 /**
@@ -34,7 +36,7 @@ function appearancemodifier_civicrm_entityTypes(&$entityTypes): void
  */
 function appearancemodifier_civicrm_post($op, $objectName, $objectId, &$objectRef): void
 {
-    CRM_Appearancemodifier_Service::post($op, $objectName, $objectId, $objectRef);
+    Service::post($op, $objectName, $objectId, $objectRef);
 }
 
 /**
@@ -44,7 +46,7 @@ function appearancemodifier_civicrm_post($op, $objectName, $objectId, &$objectRe
  */
 function appearancemodifier_civicrm_links($op, $objectName, $objectId, &$links, &$mask, &$values): void
 {
-    CRM_Appearancemodifier_Service::links($op, $links);
+    Service::links($op, $links);
 }
 
 /**
@@ -54,7 +56,7 @@ function appearancemodifier_civicrm_links($op, $objectName, $objectId, &$links, 
  */
 function appearancemodifier_civicrm_alterTemplateFile($formName, &$form, $context, &$tplName): void
 {
-    CRM_Appearancemodifier_Service::alterTemplateFile($tplName);
+    Service::alterTemplateFile($tplName);
 }
 
 /**
@@ -64,7 +66,7 @@ function appearancemodifier_civicrm_alterTemplateFile($formName, &$form, $contex
  */
 function appearancemodifier_civicrm_buildProfile($profileName): void
 {
-    CRM_Appearancemodifier_Service::buildProfile($profileName);
+    Service::buildProfile($profileName);
 }
 
 /**
@@ -74,7 +76,7 @@ function appearancemodifier_civicrm_buildProfile($profileName): void
  */
 function appearancemodifier_civicrm_pageRun(&$page): void
 {
-    CRM_Appearancemodifier_Service::pageRun($page);
+    Service::pageRun($page);
 }
 
 /**
@@ -84,7 +86,7 @@ function appearancemodifier_civicrm_pageRun(&$page): void
  */
 function appearancemodifier_civicrm_buildForm($formName, &$form): void
 {
-    CRM_Appearancemodifier_Service::buildForm($formName, $form);
+    Service::buildForm($formName, $form);
 }
 
 /*
@@ -95,7 +97,7 @@ function appearancemodifier_civicrm_buildForm($formName, &$form): void
  */
 function appearancemodifier_civicrm_alterContent(&$content, $context, $tplName, &$object): void
 {
-    CRM_Appearancemodifier_Service::alterContent($content, $tplName, $object);
+    Service::alterContent($content, $tplName, $object);
 }
 
 /**
@@ -105,5 +107,5 @@ function appearancemodifier_civicrm_alterContent(&$content, $context, $tplName, 
  */
 function appearancemodifier_civicrm_postProcess($formName, $form): void
 {
-    CRM_Appearancemodifier_Service::postProcess($formName, $form);
+    Service::postProcess($formName, $form);
 }
