@@ -5,6 +5,7 @@ use Civi\Api4\UFField;
 use Civi\Api4\UFGroup;
 use Civi\Api4\UFJoin;
 use Civi\Appearancemodifier\HeadlessTestCase;
+use Civi\Consentactivity\Config;
 
 /**
  * @group headless
@@ -29,7 +30,7 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
         $customField = parent::createNewCustomField();
         $customFieldOther = parent::createNewCustomField();
         // setup conset activity configuration
-        $config = new CRM_Consentactivity_Config('consentactivity');
+        $config = new Config('consentactivity');
         $config->load();
         $cfg = $config->get();
         $cfg['custom-field-map'][] = [
@@ -84,7 +85,7 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
             ->first();
         $customField = parent::createNewCustomField();
         // setup conset activity configuration
-        $config = new CRM_Consentactivity_Config('consentactivity');
+        $config = new Config('consentactivity');
         $config->load();
         $cfg = $config->get();
         $cfg['custom-field-map'][] = [
@@ -137,7 +138,7 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
             ->first();
         $customField = parent::createNewCustomField();
         // setup conset activity configuration
-        $config = new CRM_Consentactivity_Config('consentactivity');
+        $config = new Config('consentactivity');
         $config->load();
         $cfg = $config->get();
         $cfg['custom-field-map'][] = [
@@ -196,7 +197,7 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
             ->first();
         $customField = parent::createNewCustomField();
         // setup conset activity configuration
-        $config = new CRM_Consentactivity_Config('consentactivity');
+        $config = new Config('consentactivity');
         $config->load();
         $cfg = $config->get();
         $cfg['custom-field-map'][] = [
@@ -247,7 +248,7 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
             ->first();
         $customField = parent::createNewCustomField();
         // setup conset activity configuration
-        $config = new CRM_Consentactivity_Config('consentactivity');
+        $config = new Config('consentactivity');
         $config->load();
         $cfg = $config->get();
         $cfg['custom-field-map'][] = [

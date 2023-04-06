@@ -4,6 +4,8 @@ use Civi\Api4\AppearancemodifierEvent;
 use Civi\Api4\Event;
 use Civi\Api4\UFField;
 use Civi\Api4\UFJoin;
+use Civi\Consentactivity\Config;
+use Civi\Consentactivity\Service;
 use CRM_Appearancemodifier_ExtensionUtil as E;
 
 /**
@@ -174,12 +176,12 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
     protected function consentActivityCustomFields(): void
     {
         // gather the custom fields from the service.
-        $consentActivityConfig = new CRM_Consentactivity_Config('consentactivity');
+        $consentActivityConfig = new Config('consentactivity');
         $consentActivityConfig->load();
         $config = $consentActivityConfig->get();
         if (array_key_exists('custom-field-map', $config)) {
             $map = $config['custom-field-map'];
-            $labels = CRM_Consentactivity_Service::customCheckboxFields();
+            $labels = Service::customCheckboxFields();
             $uFJoins = UFJoin::get()
                 ->addSelect('uf_group_id')
                 ->addWhere('module', '=', 'CiviEvent')

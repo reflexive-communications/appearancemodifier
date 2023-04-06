@@ -1,6 +1,8 @@
 <?php
 
-abstract class CRM_Appearancemodifier_AbstractLayout
+namespace Civi\Appearancemodifier;
+
+abstract class AbstractLayout
 {
     protected string $currentClassName;
 

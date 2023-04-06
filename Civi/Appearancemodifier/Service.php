@@ -1,5 +1,8 @@
 <?php
 
+namespace Civi\Appearancemodifier;
+
+use Civi;
 use Civi\Api4\Activity;
 use Civi\Api4\AppearancemodifierEvent;
 use Civi\Api4\AppearancemodifierPetition;
@@ -7,17 +10,24 @@ use Civi\Api4\AppearancemodifierProfile;
 use Civi\Api4\Contact;
 use Civi\Api4\Event;
 use Civi\Api4\UFGroup;
+use Civi\Consentactivity\Config;
 use CRM_Appearancemodifier_ExtensionUtil as E;
+use CRM_Extension_Manager;
+use CRM_Extension_System;
+use CRM_RcBase_Api_Update;
+use DOMElement;
+use DOMText;
+use phpQuery;
 
-class CRM_Appearancemodifier_Service
+class Service
 {
-    const CONSENT_FIELDS = [
+    public const CONSENT_FIELDS = [
         'do_not_email',
         'do_not_phone',
         'is_opt_out',
     ];
 
-    const TEMPLATE_MAP = [
+    public const TEMPLATE_MAP = [
         'CRM/Profile/Page/View.tpl' => 'CRM/Appearancemodifier/Profile/view.tpl',
         'CRM/Profile/Form/Edit.tpl' => 'CRM/Appearancemodifier/Profile/edit.tpl',
         'CRM/Campaign/Form/Petition/Signature.tpl' => 'CRM/Appearancemodifier/Petition/signature.tpl',
@@ -28,24 +38,24 @@ class CRM_Appearancemodifier_Service
         'CRM/Event/Form/Registration/ThankYou.tpl' => 'CRM/Appearancemodifier/Event/thankyou.tpl',
     ];
 
-    const PROFILE_TEMPLATES = [
+    public const PROFILE_TEMPLATES = [
         'CRM/Appearancemodifier/Profile/edit.tpl',
         'CRM/Appearancemodifier/Profile/view.tpl',
     ];
 
-    const PETITION_TEMPLATES = [
+    public const PETITION_TEMPLATES = [
         'CRM/Appearancemodifier/Petition/signature.tpl',
         'CRM/Appearancemodifier/Petition/thankyou.tpl',
     ];
 
-    const EVENT_TEMPLATES = [
+    public const EVENT_TEMPLATES = [
         'CRM/Appearancemodifier/Event/info.tpl',
         'CRM/Appearancemodifier/Event/register.tpl',
         'CRM/Appearancemodifier/Event/confirm.tpl',
         'CRM/Appearancemodifier/Event/thankyou.tpl',
     ];
 
-    const LINK_PROFILE = [
+    public const LINK_PROFILE = [
         'name' => 'Customize',
         'url' => 'civicrm/admin/appearancemodifier/profile/customize',
         'qs' => 'pid=%%id%%',
@@ -53,7 +63,7 @@ class CRM_Appearancemodifier_Service
         'class' => 'crm-popup',
     ];
 
-    const LINK_PETITION = [
+    public const LINK_PETITION = [
         'name' => 'Customize',
         'url' => 'civicrm/admin/appearancemodifier/petition/customize',
         'qs' => 'pid=%%id%%',
@@ -61,7 +71,7 @@ class CRM_Appearancemodifier_Service
         'class' => 'crm-popup',
     ];
 
-    const LINK_EVENT = [
+    public const LINK_EVENT = [
         'name' => 'Customize',
         'url' => 'civicrm/admin/appearancemodifier/event/customize',
         'qs' => 'eid=%%id%%',
@@ -384,7 +394,7 @@ class CRM_Appearancemodifier_Service
             return;
         }
         // gather the custom fields from the service.
-        $consentActivityConfig = new CRM_Consentactivity_Config('consentactivity');
+        $consentActivityConfig = new Config('consentactivity');
         $consentActivityConfig->load();
         $config = $consentActivityConfig->get();
         if (!array_key_exists('custom-field-map', $config)) {
@@ -514,7 +524,7 @@ class CRM_Appearancemodifier_Service
             return;
         }
         // gather the custom fields from the service.
-        $consentActivityConfig = new CRM_Consentactivity_Config('consentactivity');
+        $consentActivityConfig = new Config('consentactivity');
         $consentActivityConfig->load();
         $config = $consentActivityConfig->get();
         $map = $config['custom-field-map'];

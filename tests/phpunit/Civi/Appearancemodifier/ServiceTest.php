@@ -1,40 +1,27 @@
 <?php
 
+namespace Civi\Appearancemodifier;
+
 use Civi\Api4\AppearancemodifierEvent;
 use Civi\Api4\AppearancemodifierPetition;
 use Civi\Api4\AppearancemodifierProfile;
 use Civi\Api4\Contact;
 use Civi\Api4\Event;
 use Civi\Api4\UFGroup;
-use Civi\Appearancemodifier\HeadlessTestCase;
 use Civi\Test\TransactionalInterface;
-
-/**
- * This class could be used for testing the processes.
- */
-class LayoutImplementationTest extends CRM_Appearancemodifier_AbstractLayout
-{
-    /**
-     * @return void
-     */
-    public function setStyleSheets(): void
-    {
-    }
-
-    /**
-     * @param $content
-     *
-     * @return void
-     */
-    public function alterContent(&$content): void
-    {
-    }
-}
+use CRM_Campaign_Form_Petition;
+use CRM_Campaign_Form_Petition_Signature;
+use CRM_Campaign_Page_Petition_ThankYou;
+use CRM_Event_Form_Registration_Confirm;
+use CRM_Event_Form_Registration_Register;
+use CRM_Event_Page_EventInfo;
+use CRM_Profile_Form_Edit;
+use CRM_Profile_Page_View;
 
 /**
  * @group headless
  */
-class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements TransactionalInterface
+class ServiceTest extends HeadlessTestCase implements TransactionalInterface
 {
     /**
      * @return void
@@ -42,14 +29,14 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
     public function testAlterTemplateFile()
     {
         // mapped files
-        foreach (CRM_Appearancemodifier_Service::TEMPLATE_MAP as $original => $mapped) {
-            self::assertEmpty(CRM_Appearancemodifier_Service::alterTemplateFile($original));
+        foreach (Service::TEMPLATE_MAP as $original => $mapped) {
+            self::assertEmpty(Service::alterTemplateFile($original));
             self::assertSame($mapped, $original);
         }
         // not mapped file
         $notMappedTemplate = 'not/mapped/template/file.tpl';
         $template = $notMappedTemplate;
-        self::assertEmpty(CRM_Appearancemodifier_Service::alterTemplateFile($template));
+        self::assertEmpty(Service::alterTemplateFile($template));
         self::assertSame($notMappedTemplate, $template);
     }
 
@@ -59,19 +46,19 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
     public function testLinks()
     {
         $ops = [
-            'ufGroup.row.actions' => CRM_Appearancemodifier_Service::LINK_PROFILE,
-            'petition.dashboard.row' => CRM_Appearancemodifier_Service::LINK_PETITION,
-            'event.manage.list' => CRM_Appearancemodifier_Service::LINK_EVENT,
+            'ufGroup.row.actions' => Service::LINK_PROFILE,
+            'petition.dashboard.row' => Service::LINK_PETITION,
+            'event.manage.list' => Service::LINK_EVENT,
         ];
         foreach ($ops as $op => $v) {
             $links = [];
-            CRM_Appearancemodifier_Service::links($op, $links);
+            Service::links($op, $links);
             self::assertCount(1, $links);
             self::assertSame($v, $links[0]);
         }
         $links = [];
         $op = 'something.not.handled';
-        CRM_Appearancemodifier_Service::links($op, $links);
+        Service::links($op, $links);
         self::assertCount(0, $links);
     }
 
@@ -151,9 +138,9 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->execute();
-        self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
+        self::assertEmpty(Service::pageRun($page));
         // event info
         $results = Event::create(false)
             ->addValue('title', 'Test event title')
@@ -168,9 +155,9 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->execute();
-        self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
+        self::assertEmpty(Service::pageRun($page));
         // Profile view
         $results = UFGroup::create()
             ->addValue('title', 'Test UFGroup aka Profile')
@@ -185,9 +172,9 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierProfile::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->execute();
-        self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
+        self::assertEmpty(Service::pageRun($page));
     }
 
     /**
@@ -225,7 +212,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
                 ]
             )
             ->execute();
-        self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
+        self::assertEmpty(Service::pageRun($page));
         // event info
         $results = Event::create(false)
             ->addValue('title', 'Test event title')
@@ -251,7 +238,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
                 ]
             )
             ->execute();
-        self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
+        self::assertEmpty(Service::pageRun($page));
         // Profile view
         $results = UFGroup::create()
             ->addValue('title', 'Test UFGroup aka Profile')
@@ -278,7 +265,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
                 ]
             )
             ->execute();
-        self::assertEmpty(CRM_Appearancemodifier_Service::pageRun($page));
+        self::assertEmpty(Service::pageRun($page));
     }
 
     /**
@@ -301,10 +288,10 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierProfile::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('hide_form_labels', 1)
             ->execute();
-        self::assertEmpty(CRM_Appearancemodifier_Service::buildProfile($profileName));
+        self::assertEmpty(Service::buildProfile($profileName));
     }
 
     /**
@@ -327,7 +314,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierProfile::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('hide_form_labels', 1)
             ->addValue(
                 'custom_settings',
@@ -341,7 +328,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
                 ]
             )
             ->execute();
-        self::assertEmpty(CRM_Appearancemodifier_Service::buildProfile($profileName));
+        self::assertEmpty(Service::buildProfile($profileName));
     }
 
     /**
@@ -352,7 +339,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
     public function testBuildProfileUknownProfile()
     {
         $profileName = 'unknown';
-        self::assertEmpty(CRM_Appearancemodifier_Service::buildProfile($profileName));
+        self::assertEmpty(Service::buildProfile($profileName));
     }
 
     /**
@@ -383,11 +370,11 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         $customSettings['base_target_is_the_parent'] = '';
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('hide_form_labels', 1)
             ->addValue('custom_settings', $customSettings)
             ->execute();
-        self::assertEmpty(CRM_Appearancemodifier_Service::buildForm(CRM_Campaign_Form_Petition_Signature::class, $form));
+        self::assertEmpty(Service::buildForm(CRM_Campaign_Form_Petition_Signature::class, $form));
         // event
         $results = Event::create(false)
             ->addValue('title', 'Test event title')
@@ -402,10 +389,10 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('hide_form_labels', 1)
             ->execute();
-        self::assertEmpty(CRM_Appearancemodifier_Service::buildForm(CRM_Event_Form_Registration_Register::class, $form));
+        self::assertEmpty(Service::buildForm(CRM_Event_Form_Registration_Register::class, $form));
     }
 
     /**
@@ -430,7 +417,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('hide_form_labels', 1)
             ->addValue(
                 'custom_settings',
@@ -444,7 +431,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
                 ]
             )
             ->execute();
-        self::assertEmpty(CRM_Appearancemodifier_Service::buildForm(CRM_Campaign_Form_Petition_Signature::class, $form));
+        self::assertEmpty(Service::buildForm(CRM_Campaign_Form_Petition_Signature::class, $form));
         // event
         $results = Event::create(false)
             ->addValue('title', 'Test event title')
@@ -459,7 +446,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('hide_form_labels', 1)
             ->addValue(
                 'custom_settings',
@@ -472,7 +459,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
                 ]
             )
             ->execute();
-        self::assertEmpty(CRM_Appearancemodifier_Service::buildForm(CRM_Event_Form_Registration_Register::class, $form));
+        self::assertEmpty(Service::buildForm(CRM_Event_Form_Registration_Register::class, $form));
     }
 
     /**
@@ -482,7 +469,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
      */
     public function testPostProcessDoesNothingWhenTheFormIsIrrelevant()
     {
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess('irrelevant-form-name', new CRM_Profile_Form_Edit()));
+        self::assertEmpty(Service::postProcess('irrelevant-form-name', new CRM_Profile_Form_Edit()));
     }
 
     /**
@@ -506,7 +493,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         $form->setVar('_gid', $profile['id']);
         $submit = [];
         $form->setVar('_submitValues', $submit);
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Profile_Form_Edit::class, $form));
+        self::assertEmpty(Service::postProcess(CRM_Profile_Form_Edit::class, $form));
         $updatedContact = Contact::get(false)
             ->addWhere('id', '=', $contact['id'])
             ->execute()
@@ -548,10 +535,10 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierProfile::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('consent_field_behaviour', 'invert')
             ->execute();
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Profile_Form_Edit::class, $form));
+        self::assertEmpty(Service::postProcess(CRM_Profile_Form_Edit::class, $form));
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -566,7 +553,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             'do_not_phone' => '1',
         ];
         $form->setVar('_submitValues', $submit);
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Profile_Form_Edit::class, $form));
+        self::assertEmpty(Service::postProcess(CRM_Profile_Form_Edit::class, $form));
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -605,10 +592,10 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierProfile::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('consent_field_behaviour', 'apply_on_submit')
             ->execute();
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Profile_Form_Edit::class, $form));
+        self::assertEmpty(Service::postProcess(CRM_Profile_Form_Edit::class, $form));
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -639,7 +626,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('consent_field_behaviour', 'invert')
             ->execute();
         $contact = Contact::create(false)
@@ -656,7 +643,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             'do_not_phone' => '',
         ];
         $form->setVar('_submitValues', $submit);
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Campaign_Form_Petition_Signature::class, $form));
+        self::assertEmpty(Service::postProcess(CRM_Campaign_Form_Petition_Signature::class, $form));
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -671,7 +658,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             'do_not_phone' => '1',
         ];
         $form->setVar('_submitValues', $submit);
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Campaign_Form_Petition_Signature::class, $form));
+        self::assertEmpty(Service::postProcess(CRM_Campaign_Form_Petition_Signature::class, $form));
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -703,7 +690,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('consent_field_behaviour', 'apply_on_submit')
             ->execute();
         $contact = Contact::create(false)
@@ -714,7 +701,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         $form->setVar('_contactId', $contact['id']);
         $form->setVar('_submitValues', []);
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Campaign_Form_Petition_Signature::class, $form));
+        self::assertEmpty(Service::postProcess(CRM_Campaign_Form_Petition_Signature::class, $form));
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -744,7 +731,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('consent_field_behaviour', 'invert')
             ->execute();
         $contact = Contact::create(false)
@@ -761,7 +748,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             'do_not_phone' => '1',
         ];
         $form->setVar('_params', $submit);
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Event_Form_Registration_Register::class, $form));
+        self::assertEmpty(Service::postProcess(CRM_Event_Form_Registration_Register::class, $form));
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -792,7 +779,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('consent_field_behaviour', 'invert')
             ->execute();
         $contact = Contact::create(false)
@@ -809,7 +796,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             'do_not_phone' => '',
         ];
         $form->setVar('_params', $submit);
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Event_Form_Registration_Register::class, $form));
+        self::assertEmpty(Service::postProcess(CRM_Event_Form_Registration_Register::class, $form));
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -824,7 +811,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             'do_not_phone' => '1',
         ];
         $form->setVar('_params', $submit);
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Event_Form_Registration_Register::class, $form));
+        self::assertEmpty(Service::postProcess(CRM_Event_Form_Registration_Register::class, $form));
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -855,7 +842,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('consent_field_behaviour', 'invert')
             ->execute();
         $contact = Contact::create(false)
@@ -872,7 +859,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             'do_not_phone' => '',
         ];
         $form->setVar('_params', $submit);
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Event_Form_Registration_Confirm::class, $form));
+        self::assertEmpty(Service::postProcess(CRM_Event_Form_Registration_Confirm::class, $form));
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -887,7 +874,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             'do_not_phone' => '1',
         ];
         $form->setVar('_params', $submit);
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Event_Form_Registration_Confirm::class, $form));
+        self::assertEmpty(Service::postProcess(CRM_Event_Form_Registration_Confirm::class, $form));
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -918,7 +905,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('consent_field_behaviour', 'apply_on_submit')
             ->execute();
         $contact = Contact::create(false)
@@ -929,7 +916,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         $form->setVar('_values', ['participant' => ['contact_id' => $contact['id']]]);
         $form->setVar('_params', []);
-        self::assertEmpty(CRM_Appearancemodifier_Service::postProcess(CRM_Event_Form_Registration_Confirm::class, $form));
+        self::assertEmpty(Service::postProcess(CRM_Event_Form_Registration_Confirm::class, $form));
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -952,7 +939,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         $content = '<div class="message help">MyText</div>';
         $origContent = $content;
         $form = new CRM_Campaign_Form_Petition();
-        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, $tplName, $form));
+        self::assertEmpty(Service::alterContent($content, $tplName, $form));
         self::assertSame($origContent, $content);
     }
 
@@ -972,7 +959,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierProfile::update(false)
             ->addWhere('id', '=', $profile['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->execute();
         $form = new CRM_Profile_Form_Edit();
@@ -981,8 +968,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             "<div>\n<div class=\"crm-section form-item\">\n<div class=\"label\">This is the first</div>\n<div class=\"content\"><textarea placeholder=\"This is the first\"></textarea></div>\n</div>\n<div class=\"crm-section form-item\"> <div class=\"label\">This is the second</div>\n<div class=\"content\"><textarea placeholder=\"This is the second\"></textarea></div>\n</div>\n</div>";
         $content =
             '<div><div class="crm-section form-item"><div class="label">This is the first</div><div class="content"><textarea></textarea></div></div><div class="crm-section form-item"> <div class="label">This is the second</div><div class="content"><textarea></textarea></div></div></div>';
-        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::PROFILE_TEMPLATES[0], $form));
-        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PROFILE_TEMPLATES[0].'. '.$content);
+        self::assertEmpty(Service::alterContent($content, Service::PROFILE_TEMPLATES[0], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PROFILE_TEMPLATES[0].'. '.$content);
     }
 
     /**
@@ -1001,7 +988,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierProfile::update(false)
             ->addWhere('id', '=', $profile['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->execute();
         $form = new CRM_Profile_Form_Edit();
@@ -1010,8 +997,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             "<div>\n<div class=\"crm-section form-item\">\n<div class=\"label\">This is the first</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the first\"></div>\n</div>\n<div class=\"crm-section form-item\"> <div class=\"label\">This is the second</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the second\"></div>\n</div>\n</div>";
         $content =
             '<div><div class="crm-section form-item"><div class="label">This is the first</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"> <div class="label">This is the second</div><div class="content"><input type="text" /></div></div></div>';
-        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::PROFILE_TEMPLATES[0], $form));
-        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PROFILE_TEMPLATES[0].'. '.$content);
+        self::assertEmpty(Service::alterContent($content, Service::PROFILE_TEMPLATES[0], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PROFILE_TEMPLATES[0].'. '.$content);
     }
 
     /**
@@ -1030,7 +1017,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierProfile::update(false)
             ->addWhere('id', '=', $profile['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
             ->execute();
@@ -1040,8 +1027,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             "<div>\n<div class=\"crm-section form-item\">\n<div class=\"label hidden-node\">This is the first</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the first\"></div>\n</div>\n<div class=\"crm-section form-item\"> <div class=\"label hidden-node\">This is the second</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the second\"></div>\n</div>\n</div>";
         $content =
             '<div><div class="crm-section form-item"><div class="label">This is the first</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"> <div class="label">This is the second</div><div class="content"><input type="text" /></div></div></div>';
-        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::PROFILE_TEMPLATES[0], $form));
-        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PROFILE_TEMPLATES[0].'. '.$content);
+        self::assertEmpty(Service::alterContent($content, Service::PROFILE_TEMPLATES[0], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PROFILE_TEMPLATES[0].'. '.$content);
     }
 
     /**
@@ -1066,7 +1053,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
             ->execute();
@@ -1074,8 +1061,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             "<div>\n<div class=\"crm-section form-item\">\n<div class=\"label hidden-node\">This is the first</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the first\"></div>\n</div>\n<div class=\"crm-section form-item\"> <div class=\"label hidden-node\">This is the second</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the second\"></div>\n</div>\n</div>";
         $content =
             '<div><div class="crm-section form-item"><div class="label">This is the first</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"> <div class="label">This is the second</div><div class="content"><input type="text" /></div></div></div>';
-        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0], $form));
-        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0].'. '.$content);
+        self::assertEmpty(Service::alterContent($content, Service::PETITION_TEMPLATES[0], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PETITION_TEMPLATES[0].'. '.$content);
     }
 
     /**
@@ -1100,7 +1087,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
             ->execute();
@@ -1108,8 +1095,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             "<div>\n<div class=\"crm-section form-item\">\n<div class=\"label hidden-node\">This is the first</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the first\"></div>\n</div>\n<div class=\"crm-section form-item\"> <div class=\"label hidden-node\">This is the second</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the second\"></div>\n</div>\n</div>";
         $content =
             '<div><div class="crm-section form-item"><div class="label">This is the first</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"> <div class="label">This is the second</div><div class="content"><input type="text" /></div></div></div>';
-        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::EVENT_TEMPLATES[1], $form));
-        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::EVENT_TEMPLATES[1].'. '.$content);
+        self::assertEmpty(Service::alterContent($content, Service::EVENT_TEMPLATES[1], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::EVENT_TEMPLATES[1].'. '.$content);
     }
 
     /**
@@ -1134,7 +1121,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
             ->execute();
@@ -1142,8 +1129,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             "<div>\n<div class=\"crm-section form-item\">\n<div class=\"label hidden-node\">This is the first</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the first\"></div>\n</div>\n<div class=\"crm-section form-item\"> <div class=\"label hidden-node\">This is the second</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the second\"></div>\n</div>\n</div>";
         $content =
             '<div><div class="crm-section form-item"><div class="label">This is the first</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"> <div class="label">This is the second</div><div class="content"><input type="text" /></div></div></div>';
-        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::PETITION_TEMPLATES[1], $form));
-        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PETITION_TEMPLATES[1].'. '.$content);
+        self::assertEmpty(Service::alterContent($content, Service::PETITION_TEMPLATES[1], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PETITION_TEMPLATES[1].'. '.$content);
     }
 
     /**
@@ -1169,15 +1156,15 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         $defaultMessage = 'My default message.';
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
             ->addValue('petition_message', $defaultMessage)
             ->execute();
         $expectedContent = "<div><div class=\"crm-petition-activity-profile\">\n<textarea>".$defaultMessage."</textarea><textarea></textarea>\n</div></div>";
         $content = '<div><div class="crm-petition-activity-profile"><textarea></textarea><textarea></textarea></div></div>';
-        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0], $form));
-        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0].'. '.$content);
+        self::assertEmpty(Service::alterContent($content, Service::PETITION_TEMPLATES[0], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PETITION_TEMPLATES[0].'. '.$content);
     }
 
     /**
@@ -1203,7 +1190,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         $defaultMessage = 'My default message.';
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
             ->addValue('petition_message', $defaultMessage)
@@ -1211,8 +1198,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->execute();
         $expectedContent = "<div><div class=\"crm-petition-activity-profile\">\n<textarea disabled>".$defaultMessage."</textarea><textarea></textarea>\n</div></div>";
         $content = '<div><div class="crm-petition-activity-profile"><textarea></textarea><textarea></textarea></div></div>';
-        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0], $form));
-        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0].'. '.$content);
+        self::assertEmpty(Service::alterContent($content, Service::PETITION_TEMPLATES[0], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PETITION_TEMPLATES[0].'. '.$content);
     }
 
     /**
@@ -1238,7 +1225,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         $defaultMessage = 'My default message.';
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
             ->addValue('petition_message', $defaultMessage)
@@ -1248,8 +1235,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             "<div id=\"crm-main-content-wrapper\"><div class=\"crm-section crm-socialnetwork\">\n<h2>Please share it</h2>\n<div class=\"appearancemodifier-social-block\">\n<div class=\"social-media-icon\"><a onclick=\"console.log('fb')\" target=\"_blank\" title=\"Share on Facebook\"><div><i aria-hidden=\"true\" class=\"crm-i fa-facebook\"></i></div></a></div>\n<div class=\"social-media-icon\"><a onclick=\"console.log('tw')\" target=\"_blank\" title=\"Share on Twitter\"><div><i aria-hidden=\"true\" class=\"crm-i fa-twitter\"></i></div></a></div>\n</div>\n</div></div>";
         $content =
             '<div id="crm-main-content-wrapper"><div class="crm-socialnetwork"><button id="crm-tw" onclick="console.log(\'tw\')"></button><button id="crm-fb" onclick="console.log(\'fb\')"></button></div></div>';
-        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0], $form));
-        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0].'. '.$content);
+        self::assertEmpty(Service::alterContent($content, Service::PETITION_TEMPLATES[0], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PETITION_TEMPLATES[0].'. '.$content);
     }
 
     /**
@@ -1277,7 +1264,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         $defaultMessage = 'My default message.';
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
             ->addValue('petition_message', $defaultMessage)
@@ -1292,8 +1279,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ."', '_blank')\" target=\"_blank\" title=\"Share on Twitter\"><div><i aria-hidden=\"true\" class=\"crm-i fa-twitter\"></i></div></a></div>\n</div>\n</div></div>";
         $content =
             '<div id="crm-main-content-wrapper"><div class="crm-socialnetwork"><button id="crm-tw" onclick="console.log(\'tw\')"></button><button id="crm-fb" onclick="console.log(\'fb\')"></button></div></div>';
-        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::PETITION_TEMPLATES[1], $form));
-        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PETITION_TEMPLATES[1].'. '.$content);
+        self::assertEmpty(Service::alterContent($content, Service::PETITION_TEMPLATES[1], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PETITION_TEMPLATES[1].'. '.$content);
     }
 
     /**
@@ -1319,7 +1306,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         $defaultMessage = 'My default message.';
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
             ->addValue('petition_message', $defaultMessage)
@@ -1329,8 +1316,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             "<div id=\"crm-main-content-wrapper\"><div class=\"crm-section crm-socialnetwork\">\n<h2>Please share it</h2>\n<div class=\"appearancemodifier-social-block\">\n<div class=\"social-media-icon\"><a onclick=\"console.log('fb')\" target=\"_blank\" title=\"Share on Facebook\"><div><i aria-hidden=\"true\" class=\"crm-i fa-facebook\"></i></div></a></div>\n<div class=\"social-media-icon\"><a onclick=\"console.log('tw')\" target=\"_blank\" title=\"Share on Twitter\"><div><i aria-hidden=\"true\" class=\"crm-i fa-twitter\"></i></div></a></div>\n</div>\n</div></div>";
         $content =
             '<div id="crm-main-content-wrapper"><div class="crm-socialnetwork"><button id="crm-tw" onclick="console.log(\'tw\')"></button><button id="crm-fb" onclick="console.log(\'fb\')"></button></div></div>';
-        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::EVENT_TEMPLATES[2], $form));
-        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::EVENT_TEMPLATES[2].'. '.$content);
+        self::assertEmpty(Service::alterContent($content, Service::EVENT_TEMPLATES[2], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::EVENT_TEMPLATES[2].'. '.$content);
     }
 
     /**
@@ -1355,7 +1342,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
             ->addValue('custom_social_box', 1)
@@ -1364,8 +1351,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             "<div id=\"crm-main-content-wrapper\"><div class=\"crm-section crm-socialnetwork\">\n<h2>Please share it</h2>\n<div class=\"appearancemodifier-social-block\">\n<div class=\"social-media-icon\"><a onclick=\"console.log('fb')\" target=\"_blank\" title=\"Share on Facebook\"><div><i aria-hidden=\"true\" class=\"crm-i fa-facebook\"></i></div></a></div>\n<div class=\"social-media-icon\"><a onclick=\"console.log('tw')\" target=\"_blank\" title=\"Share on Twitter\"><div><i aria-hidden=\"true\" class=\"crm-i fa-twitter\"></i></div></a></div>\n</div>\n</div></div>";
         $content =
             '<div id="crm-main-content-wrapper"><div class="crm-socialnetwork"><button id="crm-tw" onclick="console.log(\'tw\')"></button><button id="crm-fb" onclick="console.log(\'fb\')"></button></div></div>';
-        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::EVENT_TEMPLATES[0], $form));
-        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::EVENT_TEMPLATES[0].'. '.$content);
+        self::assertEmpty(Service::alterContent($content, Service::EVENT_TEMPLATES[0], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::EVENT_TEMPLATES[0].'. '.$content);
     }
 
     /**
@@ -1392,7 +1379,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
             ->addValue('custom_social_box', 1)
@@ -1406,8 +1393,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ."', '_blank')\" target=\"_blank\" title=\"Share on Twitter\"><div><i aria-hidden=\"true\" class=\"crm-i fa-twitter\"></i></div></a></div>\n</div>\n</div></div>";
         $content =
             '<div id="crm-main-content-wrapper"><div class="crm-socialnetwork"><button id="crm-tw" onclick="console.log(\'tw\')"></button><button id="crm-fb" onclick="console.log(\'fb\')"></button></div></div>';
-        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::EVENT_TEMPLATES[0], $form));
-        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::EVENT_TEMPLATES[0].'. '.$content);
+        self::assertEmpty(Service::alterContent($content, Service::EVENT_TEMPLATES[0], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::EVENT_TEMPLATES[0].'. '.$content);
     }
 
     /**
@@ -1431,7 +1418,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             ->first();
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
             ->addValue('custom_social_box', 1)
@@ -1440,8 +1427,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             '<div id="crm-main-content-wrapper"><div class="crm-socialnetwork"><button id="crm-tw" onclick="console.log(\'tw\')"></button><button id="crm-fb" onclick="console.log(\'fb\')"></button></div></div>';
         $content =
             '<div id="crm-main-content-wrapper"><div class="crm-socialnetwork"><button id="crm-tw" onclick="console.log(\'tw\')"></button><button id="crm-fb" onclick="console.log(\'fb\')"></button></div></div>';
-        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::EVENT_TEMPLATES[0], $form));
-        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::EVENT_TEMPLATES[0].'. '.$content);
+        self::assertEmpty(Service::alterContent($content, Service::EVENT_TEMPLATES[0], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::EVENT_TEMPLATES[0].'. '.$content);
     }
 
     /**
@@ -1466,15 +1453,15 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         $defaultMessage = 'My default message.';
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
             ->addValue('petition_message', $defaultMessage)
             ->execute();
         $content = '<div><div class="crm-petition-activity-profile"><textarea></textarea><textarea></textarea></div></div>';
         $expectedContent = $content;
-        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0], $form));
-        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0].'. '.$content);
+        self::assertEmpty(Service::alterContent($content, Service::PETITION_TEMPLATES[0], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PETITION_TEMPLATES[0].'. '.$content);
     }
 
     /**
@@ -1500,7 +1487,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         $customSettings['check_all_checkbox_label'] = 'Check All With Me.';
         AppearancemodifierProfile::update(false)
             ->addWhere('id', '=', $profile['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
             ->addValue('custom_settings', $customSettings)
@@ -1511,8 +1498,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             "<div>\n<div class=\"crm-section form-item\">\n<div class=\"label hidden-node\">This is the first</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the first\"></div>\n</div>\n<div class=\"crm-section form-item\"> <div class=\"label hidden-node\">This is the second</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the second\"></div>\n</div>\n<div id=\"check-all-checkbox\"><div class=\"crm-section form-item\">\n<div class=\"label\"><label for=\"check-all-checkbox-item\">Check All With Me.</label></div>\n<div class=\"edit-value content\"><input class=\"crm-form-checkbox\" type=\"checkbox\" onclick=\"checkAllCheckboxClickHandler(this)\" id=\"check-all-checkbox-item\"></div>\n<div class=\"clear\"></div>\n</div></div>\n<div class=\"crm-section form-item\">\n<div class=\"label\">This is the checkbox</div>\n<div class=\"content\"><input type=\"checkbox\"></div>\n</div>\n</div>";
         $content =
             '<div><div class="crm-section form-item"><div class="label">This is the first</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"> <div class="label">This is the second</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"><div class="label">This is the checkbox</div><div class="content"><input type="checkbox" /></div></div></div>';
-        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::PROFILE_TEMPLATES[0], $form));
-        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PROFILE_TEMPLATES[0].'. '.$content);
+        self::assertEmpty(Service::alterContent($content, Service::PROFILE_TEMPLATES[0], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PROFILE_TEMPLATES[0].'. '.$content);
     }
 
     /**
@@ -1540,7 +1527,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         $customSettings['check_all_checkbox_label'] = 'Check All With Me.';
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
             ->addValue('custom_settings', $customSettings)
@@ -1549,8 +1536,8 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             "<div>\n<div class=\"crm-section form-item\">\n<div class=\"label hidden-node\">This is the first</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the first\"></div>\n</div>\n<div class=\"crm-section form-item\"> <div class=\"label hidden-node\">This is the second</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the second\"></div>\n</div>\n<div id=\"check-all-checkbox\"><div class=\"crm-section form-item\">\n<div class=\"label\"><label for=\"check-all-checkbox-item\">Check All With Me.</label></div>\n<div class=\"edit-value content\"><input class=\"crm-form-checkbox\" type=\"checkbox\" onclick=\"checkAllCheckboxClickHandler(this)\" id=\"check-all-checkbox-item\"></div>\n<div class=\"clear\"></div>\n</div></div>\n<div class=\"crm-section form-item\">\n<div class=\"label\">This is the checkbox</div>\n<div class=\"content\"><input type=\"checkbox\"></div>\n</div>\n</div>";
         $content =
             '<div><div class="crm-section form-item"><div class="label">This is the first</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"> <div class="label">This is the second</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"><div class="label">This is the checkbox</div><div class="content"><input type="checkbox" /></div></div></div>';
-        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0], $form));
-        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::PETITION_TEMPLATES[0].'. '.$content);
+        self::assertEmpty(Service::alterContent($content, Service::PETITION_TEMPLATES[0], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PETITION_TEMPLATES[0].'. '.$content);
     }
 
     /**
@@ -1578,7 +1565,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
         $customSettings['check_all_checkbox_label'] = 'Check All With Me.';
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementationTest::class)
+            ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
             ->addValue('custom_settings', $customSettings)
@@ -1587,7 +1574,7 @@ class CRM_Appearancemodifier_ServiceTest extends HeadlessTestCase implements Tra
             "<div>\n<div class=\"crm-section form-item\">\n<div class=\"label hidden-node\">This is the first</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the first\"></div>\n</div>\n<div class=\"crm-section form-item\"> <div class=\"label hidden-node\">This is the second</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the second\"></div>\n</div>\n<div id=\"check-all-checkbox\"><div class=\"crm-section form-item\">\n<div class=\"label\"><label for=\"check-all-checkbox-item\">Check All With Me.</label></div>\n<div class=\"edit-value content\"><input class=\"crm-form-checkbox\" type=\"checkbox\" onclick=\"checkAllCheckboxClickHandler(this)\" id=\"check-all-checkbox-item\"></div>\n<div class=\"clear\"></div>\n</div></div>\n<div class=\"crm-section form-item\">\n<div class=\"label\">This is the checkbox</div>\n<div class=\"content\"><input type=\"checkbox\"></div>\n</div>\n</div>";
         $content =
             '<div><div class="crm-section form-item"><div class="label">This is the first</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"> <div class="label">This is the second</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"><div class="label">This is the checkbox</div><div class="content"><input type="checkbox" /></div></div></div>';
-        self::assertEmpty(CRM_Appearancemodifier_Service::alterContent($content, CRM_Appearancemodifier_Service::EVENT_TEMPLATES[0], $form));
-        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.CRM_Appearancemodifier_Service::EVENT_TEMPLATES[0].'. '.$content);
+        self::assertEmpty(Service::alterContent($content, Service::EVENT_TEMPLATES[0], $form));
+        self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::EVENT_TEMPLATES[0].'. '.$content);
     }
 }
