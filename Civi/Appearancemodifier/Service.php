@@ -15,6 +15,8 @@ use CRM_Appearancemodifier_ExtensionUtil as E;
 use CRM_Extension_Manager;
 use CRM_Extension_System;
 use CRM_RcBase_Api_Update;
+use DOMElement;
+use DOMText;
 use phpQuery;
 
 class Service
