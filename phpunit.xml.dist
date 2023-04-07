@@ -23,6 +23,7 @@
             <directory>./CRM/Appearancemodifier/BAO</directory>
             <directory>./CRM/Appearancemodifier/DAO</directory>
             <directory>./Civi/Api4</directory>
+            <directory>./api</directory>
             <directory>./xml</directory>
         </exclude>
     </coverage>
