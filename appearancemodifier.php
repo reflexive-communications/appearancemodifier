@@ -89,7 +89,7 @@ function appearancemodifier_civicrm_buildForm($formName, &$form): void
     Service::buildForm($formName, $form);
 }
 
-/*
+/**
  * Implements hook_civicrm_alterContent()
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_alterContent
