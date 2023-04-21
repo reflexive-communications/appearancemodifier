@@ -198,7 +198,7 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * @return TRUE on success
      * @throws Exception
      */
-    public function upgrade_5300(): bool
+    public function upgrade_4010(): bool
     {
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile CHANGE outro additional_note text');
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition CHANGE outro additional_note text');
@@ -212,7 +212,7 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * @return TRUE on success
      * @throws Exception
      */
-    public function upgrade_5301(): bool
+    public function upgrade_4011(): bool
     {
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile ADD COLUMN font_color text');
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN font_color text');
@@ -228,7 +228,7 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * @return TRUE on success
      * @throws Exception
      */
-    public function upgrade_5302(): bool
+    public function upgrade_4012(): bool
     {
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN signers_block_position text');
 
@@ -241,7 +241,7 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      *
      * @throws \CiviCRM_API3_Exception
      */
-    public function upgrade_5303(): bool
+    public function upgrade_4013(): bool
     {
         $limit = 25;
         $offset = 0;
@@ -281,7 +281,7 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
      * @return TRUE on success
      * @throws Exception
      */
-    public function upgrade_5304(): bool
+    public function upgrade_4014(): bool
     {
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_profile ADD COLUMN consent_field_behaviour text');
         CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_appearancemodifier_petition ADD COLUMN consent_field_behaviour text');
