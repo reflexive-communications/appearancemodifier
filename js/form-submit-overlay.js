@@ -3,7 +3,20 @@
  */
 function showOverlay() {
     const overlay = document.getElementById('overlay');
-    overlay.style.display = 'block';
+    let inputs = document.getElementsByTagName('input');
+
+    let hasEmptyRequiredInput = false;
+
+    for (let i = 0; i < inputs.length; i++) {
+        if (inputs[i].classList.contains('required') && (inputs[i].value === '' || inputs[i].value === null)) {
+            hasEmptyRequiredInput = true;
+            break;
+        }
+    }
+
+    if (!hasEmptyRequiredInput) {
+        overlay.style.display = 'block';
+    }
 }
 
 /**
