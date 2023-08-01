@@ -323,6 +323,9 @@ class Service
                 $parameters = $form->getVar('_params');
                 break;
         }
+        if (is_null($id)) {
+            return;
+        }
         if (array_key_exists('consent_field_behaviour', $rules) && $rules['consent_field_behaviour'] !== null) {
             // on case of invert, is used, use the flow that was provided for the invert_consent_fields.
             // on case of apply on submit, the implied consent flow is used.
@@ -332,9 +335,6 @@ class Service
             } elseif ($rules['consent_field_behaviour'] === 'apply_on_submit') {
                 self::impliedConsentForContact($id);
             }
-        }
-        if (is_null($id)) {
-            return;
         }
         self::consentactivityCustomFieldActivities($id, $parameters, $rules);
     }
