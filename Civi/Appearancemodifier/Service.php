@@ -333,6 +333,9 @@ class Service
                 self::impliedConsentForContact($id);
             }
         }
+        if (is_null($id)) {
+            return;
+        }
         self::consentactivityCustomFieldActivities($id, $parameters, $rules);
     }
 
@@ -368,8 +371,8 @@ class Service
 
     /**
      * Create the activities based on the consentactivity configuration.
-     * Only apply the activity if the extenstion is installed.
-     * Also double check that the given fields still appeares in the configurations.
+     * Only apply the activity if the extension is installed.
+     * Also double check that the given fields still appears in the configurations.
      *
      * @param int $contactId
      * @param array $submitValues
