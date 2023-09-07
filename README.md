@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/reflexive-communications/appearancemodifier/actions/workflows/main.yml/badge.svg)](https://github.com/reflexive-communications/appearancemodifier/actions/workflows/main.yml)
 
+**THIS IS A LEGACY EXTENSION. CURRENTLY UNDER FEATURE FREEZE!**
+
 This extension provides an administration interface and functionality to overwrite the layout and basic styles of profile, petition and event forms.
 These forms can be embedded on third party pages (e.g. your homepage). The default style might be different from your site.
 This tool modifies the HTML of the forms and adds further `css` files to be loaded, so forms will have the same appearance as your site and integrate seamlessly into.
