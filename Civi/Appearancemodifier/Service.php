@@ -244,36 +244,42 @@ class Service
      * @throws \API_Exception
      * @throws \Civi\API\Exception\UnauthorizedException
      */
-    public static function buildForm(string $formName, &$form): void
+    public static function buildForm(string $formName, $form): void
     {
-        $eventFormNames = [
-            'CRM_Event_Form_Registration_Register',
-            'CRM_Event_Form_Registration_Confirm',
-            'CRM_Event_Form_Registration_ThankYou',
-        ];
-        $modifiedConfig = null;
-        if ($formName === 'CRM_Campaign_Form_Petition_Signature') {
-            $modifiedConfig = AppearancemodifierPetition::get(false)
-                ->addWhere('survey_id', '=', $form->getVar('_surveyId'))
-                ->execute()
-                ->first();
-            if ($modifiedConfig['layout_handler'] !== null) {
-                $handler = new $modifiedConfig['layout_handler']($formName);
-                $handler->setStyleSheets();
-            }
-        } elseif (array_search($formName, $eventFormNames) !== false) {
-            $modifiedConfig = AppearancemodifierEvent::get(false)
-                ->addWhere('event_id', '=', $form->getVar('_eventId'))
-                ->execute()
-                ->first();
-            if ($modifiedConfig['layout_handler'] !== null) {
-                $handler = new $modifiedConfig['layout_handler']($formName);
-                $handler->setStyleSheets();
-            }
+        switch ($formName) {
+            case 'CRM_Campaign_Form_Petition_Signature':
+                $modifiedConfig = AppearancemodifierPetition::get(false)
+                    ->addWhere('survey_id', '=', $form->getVar('_surveyId'))
+                    ->execute()
+                    ->first();
+                if (!self::isModifierEnabled($modifiedConfig)) {
+                    return;
+                }
+                if ($modifiedConfig['layout_handler'] !== null) {
+                    $handler = new $modifiedConfig['layout_handler']($formName);
+                    $handler->setStyleSheets();
+                }
+                break;
+            case 'CRM_Event_Form_Registration_Register':
+            case 'CRM_Event_Form_Registration_Confirm':
+            case 'CRM_Event_Form_Registration_ThankYou':
+                $modifiedConfig = AppearancemodifierEvent::get(false)
+                    ->addWhere('event_id', '=', $form->getVar('_eventId'))
+                    ->execute()
+                    ->first();
+                if (!self::isModifierEnabled($modifiedConfig)) {
+                    return;
+                }
+                if ($modifiedConfig['layout_handler'] !== null) {
+                    $handler = new $modifiedConfig['layout_handler']($formName);
+                    $handler->setStyleSheets();
+                }
+                break;
+            default:
+                return;
         }
-        if ($modifiedConfig !== null) {
-            self::setupResourcesBasedOnSettings($modifiedConfig);
-        }
+
+        self::setupResourcesBasedOnSettings($modifiedConfig);
         Civi::resources()->addScriptFile(E::LONG_NAME, 'js/form-submit-overlay.js');
     }
 
