@@ -221,6 +221,19 @@
         <add>3.3</add>
         <comment>Custom serialized data for PHP</comment>
     </field>
+    <field>
+        <name>is_active</name>
+        <title>Is active?</title>
+        <type>boolean</type>
+        <required>true</required>
+        <default>1</default>
+        <import>true</import>
+        <export>true</export>
+        <html>
+            <type>CheckBox</type>
+        </html>
+        <comment>Is Appearance-modifier enabled for this petition?</comment>
+    </field>
 
     <primaryKey>
         <name>id</name>

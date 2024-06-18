@@ -86,9 +86,62 @@ class Service
      * form with the additional note block, if that is set.
      *
      * @param string $tplName
+     * @param $form
+     *
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
-    public static function alterTemplateFile(string &$tplName): void
+    public static function alterTemplateFile(string &$tplName, $form): void
     {
+        switch ($tplName) {
+            case 'CRM/Profile/Page/View.tpl':
+            case 'CRM/Profile/Form/Edit.tpl':
+                $modifiedProfile = AppearancemodifierProfile::get(false)
+                    ->addWhere('uf_group_id', '=', (int)$form->getVar('_gid'))
+                    ->execute()
+                    ->first();
+                if (!self::isModifierEnabled($modifiedProfile)) {
+                    return;
+                }
+                break;
+            case 'CRM/Campaign/Form/Petition/Signature.tpl':
+            case 'CRM/Campaign/Page/Petition/ThankYou.tpl':
+                $id = $tplName == 'CRM/Campaign/Form/Petition/Signature.tpl' ? $form->getVar('_surveyId') : $form->getVar('petition')['id'];
+                // if the id is not found, do nothing.
+                if ($id < 1) {
+                    return;
+                }
+
+                $modifiedPetition = AppearancemodifierPetition::get(false)
+                    ->addWhere('survey_id', '=', $id)
+                    ->execute()
+                    ->first();
+                if (!self::isModifierEnabled($modifiedPetition)) {
+                    return;
+                }
+                break;
+            case 'CRM/Event/Page/EventInfo.tpl':
+            case 'CRM/Event/Form/Registration/Register.tpl':
+            case 'CRM/Event/Form/Registration/Confirm.tpl':
+            case 'CRM/Event/Form/Registration/ThankYou.tpl':
+                $id = $tplName == 'CRM/Event/Page/EventInfo.tpl' ? $form->getVar('_id') : $form->getVar('_eventId');
+                // if the id is not found, do nothing.
+                if (is_null($id)) {
+                    return;
+                }
+
+                $modifiedEvent = AppearancemodifierEvent::get(false)
+                    ->addWhere('event_id', '=', $id)
+                    ->execute()
+                    ->first();
+                if (!self::isModifierEnabled($modifiedEvent)) {
+                    return;
+                }
+                break;
+            default:
+                return;
+        }
+
         if (array_key_exists($tplName, self::TEMPLATE_MAP) !== false) {
             $tplName = self::TEMPLATE_MAP[$tplName];
         }
@@ -159,40 +212,53 @@ class Service
      * @throws \API_Exception
      * @throws \Civi\API\Exception\UnauthorizedException
      */
-    public static function pageRun(&$page): void
+    public static function pageRun($page): void
     {
-        $modifiedConfig = null;
-        if ($page->getVar('_name') == 'CRM_Campaign_Page_Petition_ThankYou') {
-            $modifiedConfig = AppearancemodifierPetition::get(false)
-                ->addWhere('survey_id', '=', $page->getVar('petition')['id'])
-                ->execute()
-                ->first();
-            if ($modifiedConfig['layout_handler'] !== null) {
-                $handler = new $modifiedConfig['layout_handler']('CRM_Campaign_Page_Petition_ThankYou');
-                $handler->setStyleSheets();
-            }
-        } elseif ($page->getVar('_name') == 'CRM_Event_Page_EventInfo') {
-            $modifiedConfig = AppearancemodifierEvent::get(false)
-                ->addWhere('event_id', '=', $page->getVar('_id'))
-                ->execute()
-                ->first();
-            if ($modifiedConfig['layout_handler'] !== null) {
-                $handler = new $modifiedConfig['layout_handler']('CRM_Event_Page_EventInfo');
-                $handler->setStyleSheets();
-            }
-        } elseif ($page->getVar('_name') == 'CRM_Profile_Page_View') {
-            $modifiedConfig = AppearancemodifierProfile::get(false)
-                ->addWhere('uf_group_id', '=', $page->getVar('_gid'))
-                ->execute()
-                ->first();
-            if ($modifiedConfig['layout_handler'] !== null) {
-                $handler = new $modifiedConfig['layout_handler']('CRM_Profile_Page_View');
-                $handler->setStyleSheets();
-            }
+        switch ($page->getVar('_name')) {
+            case 'CRM_Campaign_Page_Petition_ThankYou':
+                $modifiedConfig = AppearancemodifierPetition::get(false)
+                    ->addWhere('survey_id', '=', $page->getVar('petition')['id'])
+                    ->execute()
+                    ->first();
+                if (!self::isModifierEnabled($modifiedConfig)) {
+                    return;
+                }
+                if ($modifiedConfig['layout_handler'] !== null) {
+                    $handler = new $modifiedConfig['layout_handler']('CRM_Campaign_Page_Petition_ThankYou');
+                    $handler->setStyleSheets();
+                }
+                break;
+            case 'CRM_Event_Page_EventInfo':
+                $modifiedConfig = AppearancemodifierEvent::get(false)
+                    ->addWhere('event_id', '=', $page->getVar('_id'))
+                    ->execute()
+                    ->first();
+                if (!self::isModifierEnabled($modifiedConfig)) {
+                    return;
+                }
+                if ($modifiedConfig['layout_handler'] !== null) {
+                    $handler = new $modifiedConfig['layout_handler']('CRM_Event_Page_EventInfo');
+                    $handler->setStyleSheets();
+                }
+                break;
+            case 'CRM_Profile_Page_View':
+                $modifiedConfig = AppearancemodifierProfile::get(false)
+                    ->addWhere('uf_group_id', '=', $page->getVar('_gid'))
+                    ->execute()
+                    ->first();
+                if (!self::isModifierEnabled($modifiedConfig)) {
+                    return;
+                }
+                if ($modifiedConfig['layout_handler'] !== null) {
+                    $handler = new $modifiedConfig['layout_handler']('CRM_Profile_Page_View');
+                    $handler->setStyleSheets();
+                }
+                break;
+            default:
+                return;
         }
-        if ($modifiedConfig !== null) {
-            self::setupResourcesBasedOnSettings($modifiedConfig);
-        }
+
+        self::setupResourcesBasedOnSettings($modifiedConfig);
     }
 
     /**
@@ -218,10 +284,15 @@ class Service
         if (is_null($uFGroup)) {
             return;
         }
+
         $modifiedProfile = AppearancemodifierProfile::get(false)
             ->addWhere('uf_group_id', '=', $uFGroup['id'])
             ->execute()
             ->first();
+        if (!self::isModifierEnabled($modifiedProfile)) {
+            return;
+        }
+
         if ($modifiedProfile['layout_handler'] !== null) {
             $handler = new $modifiedProfile['layout_handler']('CRM_Profile_Form_Edit');
             $handler->setStyleSheets();
@@ -239,36 +310,42 @@ class Service
      * @throws \API_Exception
      * @throws \Civi\API\Exception\UnauthorizedException
      */
-    public static function buildForm(string $formName, &$form): void
+    public static function buildForm(string $formName, $form): void
     {
-        $eventFormNames = [
-            'CRM_Event_Form_Registration_Register',
-            'CRM_Event_Form_Registration_Confirm',
-            'CRM_Event_Form_Registration_ThankYou',
-        ];
-        $modifiedConfig = null;
-        if ($formName === 'CRM_Campaign_Form_Petition_Signature') {
-            $modifiedConfig = AppearancemodifierPetition::get(false)
-                ->addWhere('survey_id', '=', $form->getVar('_surveyId'))
-                ->execute()
-                ->first();
-            if ($modifiedConfig['layout_handler'] !== null) {
-                $handler = new $modifiedConfig['layout_handler']($formName);
-                $handler->setStyleSheets();
-            }
-        } elseif (array_search($formName, $eventFormNames) !== false) {
-            $modifiedConfig = AppearancemodifierEvent::get(false)
-                ->addWhere('event_id', '=', $form->getVar('_eventId'))
-                ->execute()
-                ->first();
-            if ($modifiedConfig['layout_handler'] !== null) {
-                $handler = new $modifiedConfig['layout_handler']($formName);
-                $handler->setStyleSheets();
-            }
+        switch ($formName) {
+            case 'CRM_Campaign_Form_Petition_Signature':
+                $modifiedConfig = AppearancemodifierPetition::get(false)
+                    ->addWhere('survey_id', '=', $form->getVar('_surveyId'))
+                    ->execute()
+                    ->first();
+                if (!self::isModifierEnabled($modifiedConfig)) {
+                    return;
+                }
+                if ($modifiedConfig['layout_handler'] !== null) {
+                    $handler = new $modifiedConfig['layout_handler']($formName);
+                    $handler->setStyleSheets();
+                }
+                break;
+            case 'CRM_Event_Form_Registration_Register':
+            case 'CRM_Event_Form_Registration_Confirm':
+            case 'CRM_Event_Form_Registration_ThankYou':
+                $modifiedConfig = AppearancemodifierEvent::get(false)
+                    ->addWhere('event_id', '=', $form->getVar('_eventId'))
+                    ->execute()
+                    ->first();
+                if (!self::isModifierEnabled($modifiedConfig)) {
+                    return;
+                }
+                if ($modifiedConfig['layout_handler'] !== null) {
+                    $handler = new $modifiedConfig['layout_handler']($formName);
+                    $handler->setStyleSheets();
+                }
+                break;
+            default:
+                return;
         }
-        if ($modifiedConfig !== null) {
-            self::setupResourcesBasedOnSettings($modifiedConfig);
-        }
+
+        self::setupResourcesBasedOnSettings($modifiedConfig);
         Civi::resources()->addScriptFile(E::LONG_NAME, 'js/form-submit-overlay.js');
     }
 
@@ -323,9 +400,10 @@ class Service
                 $parameters = $form->getVar('_params');
                 break;
         }
-        if (is_null($id)) {
+        if (is_null($id) || !self::isModifierEnabled($rules)) {
             return;
         }
+
         if (array_key_exists('consent_field_behaviour', $rules) && $rules['consent_field_behaviour'] !== null) {
             // on case of invert, is used, use the flow that was provided for the invert_consent_fields.
             // on case of apply on submit, the implied consent flow is used.
@@ -352,21 +430,23 @@ class Service
      */
     public static function alterContent(&$content, $tplName, &$object): void
     {
-        if (array_search($tplName, self::PROFILE_TEMPLATES) !== false) {
+        if (in_array($tplName, self::PROFILE_TEMPLATES)) {
             self::alterProfileContent($object->getVar('_gid'), $content);
-
-            return;
-        }
-        if (array_search($tplName, self::PETITION_TEMPLATES) !== false) {
+        } elseif (in_array($tplName, self::PETITION_TEMPLATES)) {
             self::alterPetitionContent($tplName, $content, $object);
-
-            return;
-        }
-        if (array_search($tplName, self::EVENT_TEMPLATES) !== false) {
+        } elseif (in_array($tplName, self::EVENT_TEMPLATES)) {
             self::alterEventContent($tplName, $content, $object);
-
-            return;
         }
+    }
+
+    /**
+     * @param array $modifiedConfig
+     *
+     * @return bool
+     */
+    private static function isModifierEnabled(array $modifiedConfig): bool
+    {
+        return $modifiedConfig['is_active'] ?? false;
     }
 
     /**
@@ -498,6 +578,10 @@ class Service
             ->addWhere('uf_group_id', '=', $ufGroupId)
             ->execute()
             ->first();
+        if (!self::isModifierEnabled($modifiedProfile)) {
+            return;
+        }
+
         // add the select all checkbox here and then let the process to do the formatting steps.
         if ($modifiedProfile['custom_settings'] !== null && !empty($modifiedProfile['custom_settings']['add_check_all_checkbox'])) {
             self::addTheSelectAllCheckbox($content, $modifiedProfile['custom_settings']['check_all_checkbox_label']);
@@ -557,10 +641,10 @@ class Service
      * @throws \CiviCRM_API3_Exception
      * @throws \Civi\API\Exception\UnauthorizedException
      */
-    private static function alterPetitionContent($tplName, &$content, &$object): void
+    private static function alterPetitionContent($tplName, &$content, $object): void
     {
         // Get the survey id. If we are on the form, it is in the _surveyId variable,
-        // on the thankyou page it is inside the petition array.
+        // on the thank you page it is inside the petition array.
         $id = null;
         if ($tplName === self::PETITION_TEMPLATES[0]) {
             $id = $object->getVar('_surveyId');
@@ -571,11 +655,16 @@ class Service
         if (is_null($id)) {
             return;
         }
+
         // Apply the changes that is provided by the layout extension.
         $modifiedPetition = AppearancemodifierPetition::get(false)
             ->addWhere('survey_id', '=', $id)
             ->execute()
             ->first();
+        if (!self::isModifierEnabled($modifiedPetition)) {
+            return;
+        }
+
         // If the petition message is set, add it to the relevant field.
         if ($modifiedPetition['petition_message'] !== null) {
             $doc = phpQuery::newDocument($content);
@@ -624,22 +713,22 @@ class Service
      * @throws \CRM_Core_Exception
      * @throws \Civi\API\Exception\UnauthorizedException
      */
-    private static function alterEventContent($tplName, &$content, &$object): void
+    private static function alterEventContent($tplName, &$content, $object): void
     {
-        $id = null;
-        if ($tplName === self::EVENT_TEMPLATES[0]) {
-            $id = $object->getVar('_id');
-        } else {
-            $id = $object->getVar('_eventId');
-        }
+        $id = $tplName === self::EVENT_TEMPLATES[0] ? $object->getVar('_id') : $object->getVar('_eventId');
         // if the id is not found, do nothing.
         if (is_null($id)) {
             return;
         }
+
         $modifiedEvent = AppearancemodifierEvent::get(false)
             ->addWhere('event_id', '=', $id)
             ->execute()
             ->first();
+        if (!self::isModifierEnabled($modifiedEvent)) {
+            return;
+        }
+
         // Handle the social block.
         if ($modifiedEvent['custom_social_box'] !== null) {
             $title = Event::get(false)

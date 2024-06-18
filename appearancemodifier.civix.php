@@ -89,14 +89,12 @@ class CRM_Appearancemodifier_ExtensionUtil
 
 }
 
-use CRM_Appearancemodifier_ExtensionUtil as E;
-
 /**
  * (Delegated) Implements hook_civicrm_config().
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_config
  */
-function _appearancemodifier_civix_civicrm_config(&$config = null)
+function _appearancemodifier_civix_civicrm_config($config = null)
 {
     static $configured = false;
     if ($configured) {
@@ -104,19 +102,32 @@ function _appearancemodifier_civix_civicrm_config(&$config = null)
     }
     $configured = true;
 
-    $template = CRM_Core_Smarty::singleton();
-
     $extRoot = __DIR__.DIRECTORY_SEPARATOR;
-    $extDir = $extRoot.'templates';
-
-    if (is_array($template->template_dir)) {
-        array_unshift($template->template_dir, $extDir);
-    } else {
-        $template->template_dir = [$extDir, $template->template_dir];
-    }
-
     $include_path = $extRoot.PATH_SEPARATOR.get_include_path();
     set_include_path($include_path);
+    // Based on <compatibility>, this does not currently require mixin/polyfill.php.
+}
+
+/**
+ * Implements hook_civicrm_install().
+ *
+ * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_install
+ */
+function _appearancemodifier_civix_civicrm_install()
+{
+    _appearancemodifier_civix_civicrm_config();
+    // Based on <compatibility>, this does not currently require mixin/polyfill.php.
+}
+
+/**
+ * (Delegated) Implements hook_civicrm_enable().
+ *
+ * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_enable
+ */
+function _appearancemodifier_civix_civicrm_enable(): void
+{
+    _appearancemodifier_civix_civicrm_config();
+    // Based on <compatibility>, this does not currently require mixin/polyfill.php.
 }
 
 /**
@@ -136,7 +147,7 @@ function _appearancemodifier_civix_insert_navigation_menu(&$menu, $path, $item)
     if (empty($path)) {
         $menu[] = [
             'attributes' => array_merge([
-                'label' => CRM_Utils_Array::value('name', $item),
+                'label' => $item['name'] ?? null,
                 'active' => 1,
             ], $item),
         ];
@@ -204,31 +215,4 @@ function _appearancemodifier_civix_fixNavigationMenuItems(&$nodes, &$maxNavID, $
             _appearancemodifier_civix_fixNavigationMenuItems($nodes[$origKey]['child'], $maxNavID, $nodes[$origKey]['attributes']['navID']);
         }
     }
-}
-
-/**
- * (Delegated) Implements hook_civicrm_entityTypes().
- * Find any *.entityType.php files, merge their content, and return.
- *
- * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_entityTypes
- */
-function _appearancemodifier_civix_civicrm_entityTypes(&$entityTypes)
-{
-    $entityTypes = array_merge($entityTypes, [
-        'CRM_Appearancemodifier_DAO_AppearancemodifierEvent' => [
-            'name' => 'AppearancemodifierEvent',
-            'class' => 'CRM_Appearancemodifier_DAO_AppearancemodifierEvent',
-            'table' => 'civicrm_appearancemodifier_event',
-        ],
-        'CRM_Appearancemodifier_DAO_AppearancemodifierPetition' => [
-            'name' => 'AppearancemodifierPetition',
-            'class' => 'CRM_Appearancemodifier_DAO_AppearancemodifierPetition',
-            'table' => 'civicrm_appearancemodifier_petition',
-        ],
-        'CRM_Appearancemodifier_DAO_AppearancemodifierProfile' => [
-            'name' => 'AppearancemodifierProfile',
-            'class' => 'CRM_Appearancemodifier_DAO_AppearancemodifierProfile',
-            'table' => 'civicrm_appearancemodifier_profile',
-        ],
-    ]);
 }

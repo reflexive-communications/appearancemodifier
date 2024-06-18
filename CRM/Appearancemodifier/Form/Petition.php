@@ -24,6 +24,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
     ];
 
     private const PETITION_FIELDS = [
+        'is_active',
         'layout_handler',
         'background_color',
         'additional_note',

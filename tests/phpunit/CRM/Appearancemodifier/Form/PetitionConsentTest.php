@@ -19,62 +19,6 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
      * @throws \CiviCRM_API3_Exception
      * @throws \Civi\API\Exception\UnauthorizedException
      */
-    public function testPreProcess()
-    {
-        // Profile
-        $profile = UFGroup::create(false)
-            ->addValue('title', 'Test UFGroup aka Profile')
-            ->addValue('is_active', true)
-            ->execute()
-            ->first();
-        $customField = parent::createNewCustomField();
-        $customFieldOther = parent::createNewCustomField();
-        // setup conset activity configuration
-        $config = new Config('consentactivity');
-        $config->load();
-        $cfg = $config->get();
-        $cfg['custom-field-map'][] = [
-            'custom-field-id' => 'custom_'.$customField['id'],
-            'consent-field-id' => 'do_not_phone',
-            'group-id' => '0',
-        ];
-        $cfg['custom-field-map'][] = [
-            'custom-field-id' => 'custom_'.$customFieldOther['id'],
-            'consent-field-id' => 'do_not_email',
-            'group-id' => '0',
-        ];
-        $config->update($cfg);
-        UFField::create(false)
-            ->addValue('uf_group_id', $profile['id'])
-            ->addValue('field_name', 'custom_'.$customField['id'])
-            ->execute();
-        // Petition
-        $petition = civicrm_api3('Survey', 'create', [
-            'sequential' => 1,
-            'title' => 'Some title',
-            'activity_type_id' => 'Petition',
-        ]);
-        $petition = $petition['values'][0];
-        UFJoin::create(false)
-            ->addValue('module', 'CiviCampaign')
-            ->addValue('entity_table', 'civicrm_survey')
-            ->addValue('entity_id', $petition['id'])
-            ->addValue('uf_group_id', $profile['id'])
-            ->execute();
-        $form = new CRM_Appearancemodifier_Form_Petition();
-        $_REQUEST['pid'] = $petition['id'];
-        $_GET['pid'] = $petition['id'];
-        $_POST['pid'] = $petition['id'];
-        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
-    }
-
-    /**
-     * @return void
-     * @throws \API_Exception
-     * @throws \CRM_Core_Exception
-     * @throws \CiviCRM_API3_Exception
-     * @throws \Civi\API\Exception\UnauthorizedException
-     */
     public function testSetDefaultValuesNoConfig()
     {
         // Profile
@@ -84,7 +28,7 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
             ->execute()
             ->first();
         $customField = parent::createNewCustomField();
-        // setup conset activity configuration
+        // setup consent activity configuration
         $config = new Config('consentactivity');
         $config->load();
         $cfg = $config->get();
@@ -115,7 +59,7 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
         $_REQUEST['pid'] = $petition['id'];
         $_GET['pid'] = $petition['id'];
         $_POST['pid'] = $petition['id'];
-        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        $form->preProcess();
         $defaults = $form->setDefaultValues();
         self::assertSame(1, $defaults['original_color']);
         self::assertSame(1, $defaults['original_font_color']);
@@ -137,7 +81,7 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
             ->execute()
             ->first();
         $customField = parent::createNewCustomField();
-        // setup conset activity configuration
+        // setup consent activity configuration
         $config = new Config('consentactivity');
         $config->load();
         $cfg = $config->get();
@@ -174,61 +118,10 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
         $_GET['pid'] = $petition['id'];
         $_POST['pid'] = $petition['id'];
         $form = new CRM_Appearancemodifier_Form_Petition();
-        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        $form->preProcess();
         $defaults = $form->setDefaultValues();
         self::assertSame(1, $defaults['original_color']);
         self::assertSame(1, $defaults['original_font_color']);
-    }
-
-    /**
-     * @return void
-     * @throws \API_Exception
-     * @throws \CRM_Core_Exception
-     * @throws \CiviCRM_API3_Exception
-     * @throws \Civi\API\Exception\UnauthorizedException
-     */
-    public function testBuildQuickForm()
-    {
-        // Profile
-        $profile = UFGroup::create(false)
-            ->addValue('title', 'Test UFGroup aka Profile')
-            ->addValue('is_active', true)
-            ->execute()
-            ->first();
-        $customField = parent::createNewCustomField();
-        // setup conset activity configuration
-        $config = new Config('consentactivity');
-        $config->load();
-        $cfg = $config->get();
-        $cfg['custom-field-map'][] = [
-            'custom-field-id' => 'custom_'.$customField['id'],
-            'consent-field-id' => 'do_not_phone',
-            'group-id' => '0',
-        ];
-        $config->update($cfg);
-        UFField::create(false)
-            ->addValue('uf_group_id', $profile['id'])
-            ->addValue('field_name', 'custom_'.$customField['id'])
-            ->execute();
-        // Petition
-        $petition = civicrm_api3('Survey', 'create', [
-            'sequential' => 1,
-            'title' => 'Some title',
-            'activity_type_id' => 'Petition',
-        ]);
-        $petition = $petition['values'][0];
-        UFJoin::create(false)
-            ->addValue('module', 'CiviCampaign')
-            ->addValue('entity_table', 'civicrm_survey')
-            ->addValue('entity_id', $petition['id'])
-            ->addValue('uf_group_id', $profile['id'])
-            ->execute();
-        $_REQUEST['pid'] = $petition['id'];
-        $_GET['pid'] = $petition['id'];
-        $_POST['pid'] = $petition['id'];
-        $form = new CRM_Appearancemodifier_Form_Petition();
-        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
-        self::assertEmpty($form->buildQuickForm(), 'buildQuickForm supposed to be empty.');
     }
 
     /**
@@ -247,7 +140,7 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
             ->execute()
             ->first();
         $customField = parent::createNewCustomField();
-        // setup conset activity configuration
+        // setup consent activity configuration
         $config = new Config('consentactivity');
         $config->load();
         $cfg = $config->get();
@@ -279,6 +172,7 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
         $_GET['pid'] = $petition['id'];
         $_POST['pid'] = $petition['id'];
         $form->setVar('_submitValues', [
+            'is_active' => '1',
             'original_color' => '0',
             'original_font_color' => '0',
             'transparent_background' => '1',
@@ -303,8 +197,11 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
             'check_all_checkbox_label' => '',
             'consentactivity_custom_'.$customField['id'] => '1',
         ]);
-        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
-        self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
+
+        $form->preProcess();
+        $form->buildQuickForm();
+        $form->postProcess();
+
         $modifiedPetition = AppearancemodifierPetition::get(false)
             ->addWhere('survey_id', '=', $petition['id'])
             ->execute()

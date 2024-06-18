@@ -85,28 +85,30 @@ abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
      */
     protected function commonBuildQuickForm(array $customOptions): void
     {
-        $this->addRadio('preset_handler', E::ts('Presets'), array_merge(['' => E::ts('Custom')], $customOptions['presets']), [], null, false);
-        $this->add('select', 'layout_handler', E::ts('Form Layout'), array_merge(['' => E::ts('Default')], $customOptions['handlers']), false);
-        $this->add('color', 'background_color', E::ts('Background Color'), [], false);
+        $this->addYesNo('is_active', E::ts('Is Active'), false, true);
+        $this->addRadio('preset_handler', E::ts('Presets'), array_merge(['' => E::ts('Custom')], $customOptions['presets']));
+        $this->add('select', 'layout_handler', E::ts('Form Layout'), array_merge(['' => E::ts('Default')], $customOptions['handlers']));
+        $this->add('color', 'background_color', E::ts('Background Color'), []);
         $this->addRadio(
             'consent_field_behaviour',
             E::ts('Manage Consent Behaviour'),
-            ['default' => E::ts('Default'), 'invert' => E::ts('Invert'), 'apply_on_submit' => E::ts('Submit Implied')],
-            [],
-            null,
-            false
+            [
+                'default' => E::ts('Default'),
+                'invert' => E::ts('Invert'),
+                'apply_on_submit' => E::ts('Submit Implied'),
+            ]
         );
-        $this->add('checkbox', 'original_color', E::ts('Original Background Color'), [], false);
-        $this->add('checkbox', 'transparent_background', E::ts('Transparent Background Color'), [], false);
-        $this->add('checkbox', 'hide_form_labels', E::ts('Hide text input labels'), [], false);
-        $this->add('checkbox', 'add_placeholder', E::ts('Add placeholders'), [], false);
-        $this->add('color', 'font_color', E::ts('Font Color'), [], false);
-        $this->add('checkbox', 'original_font_color', E::ts('Original Font Color'), [], false);
-        $this->add('checkbox', 'hide_form_title', E::ts('Hide form title'), [], false);
-        $this->add('checkbox', 'send_size_when_embedded', E::ts('Send size to parent frame'), [], false);
+        $this->add('checkbox', 'original_color', E::ts('Original Background Color'), []);
+        $this->add('checkbox', 'transparent_background', E::ts('Transparent Background Color'), []);
+        $this->add('checkbox', 'hide_form_labels', E::ts('Hide text input labels'), []);
+        $this->add('checkbox', 'add_placeholder', E::ts('Add placeholders'), []);
+        $this->add('color', 'font_color', E::ts('Font Color'), []);
+        $this->add('checkbox', 'original_font_color', E::ts('Original Font Color'), []);
+        $this->add('checkbox', 'hide_form_title', E::ts('Hide form title'), []);
+        $this->add('checkbox', 'send_size_when_embedded', E::ts('Send size to parent frame'), []);
         $this->add('text', 'send_size_to_when_embedded', E::ts('Parent frame'), [], true);
-        $this->add('checkbox', 'add_check_all_checkbox', E::ts('Add check all checkbox'), [], false);
-        $this->add('text', 'check_all_checkbox_label', E::ts('Checkbox label'), [], false);
+        $this->add('checkbox', 'add_check_all_checkbox', E::ts('Add check all checkbox'), []);
+        $this->add('text', 'check_all_checkbox_label', E::ts('Checkbox label'), []);
         // If the consentactivity extension is installed, the custom consent field -> activity mapping has to be provided
         // defaults for the consentactivity extension related config.
         if (count($this->consentFieldNames) > 0) {

@@ -11,6 +11,7 @@ class DummyPetitionPresetProviderClass
     public static function getPresets(): array
     {
         return [
+            'is_active' => '1',
             'layout_handler' => '',
             'background_color' => '#ffffff',
             'font_color' => '#000000',
@@ -39,7 +40,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
      * @throws \CiviCRM_API3_Exception
      * @throws \Civi\API\Exception\UnauthorizedException
      */
-    public function testPreProcess()
+    public function testPreProcessMissingPetition()
     {
         // Petition
         $petition = civicrm_api3('Survey', 'create', [
@@ -49,16 +50,11 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         ]);
         $petition = $petition['values'][0];
         $form = new CRM_Appearancemodifier_Form_Petition();
-        $_REQUEST['pid'] = $petition['id'];
-        $_GET['pid'] = $petition['id'];
-        $_POST['pid'] = $petition['id'];
-        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
-        // not existing petition
         $_REQUEST['pid'] = $petition['id'] + 1;
         $_GET['pid'] = $petition['id'] + 1;
         $_POST['pid'] = $petition['id'] + 1;
         self::expectException(CRM_Core_Exception::class);
-        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        $form->preProcess();
     }
 
     /**
@@ -80,7 +76,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         $_REQUEST['pid'] = $petition['id'];
         $_GET['pid'] = $petition['id'];
         $_POST['pid'] = $petition['id'];
-        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        $form->preProcess();
         $defaults = $form->setDefaultValues();
         self::assertSame(1, $defaults['original_color']);
         self::assertSame(1, $defaults['original_font_color']);
@@ -109,7 +105,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         $_REQUEST['pid'] = $petition['id'];
         $_GET['pid'] = $petition['id'];
         $_POST['pid'] = $petition['id'];
-        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        $form->preProcess();
         $defaults = $form->setDefaultValues();
         self::assertSame(1, $defaults['transparent_background']);
         self::assertNull($defaults['background_color']);
@@ -139,7 +135,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         $_REQUEST['pid'] = $petition['id'];
         $_GET['pid'] = $petition['id'];
         $_POST['pid'] = $petition['id'];
-        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        $form->preProcess();
         $defaults = $form->setDefaultValues();
         self::assertSame('default', $defaults['consent_field_behaviour']);
     }
@@ -167,32 +163,9 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         $_REQUEST['pid'] = $petition['id'];
         $_GET['pid'] = $petition['id'];
         $_POST['pid'] = $petition['id'];
-        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
+        $form->preProcess();
         $defaults = $form->setDefaultValues();
         self::assertSame('1', $defaults['disable_petition_message_edit']);
-    }
-
-    /**
-     * @return void
-     * @throws \API_Exception
-     * @throws \CRM_Core_Exception
-     * @throws \CiviCRM_API3_Exception
-     * @throws \Civi\API\Exception\UnauthorizedException
-     */
-    public function testBuildQuickForm()
-    {
-        $petition = civicrm_api3('Survey', 'create', [
-            'sequential' => 1,
-            'title' => 'Some title',
-            'activity_type_id' => 'Petition',
-        ]);
-        $petition = $petition['values'][0];
-        $form = new CRM_Appearancemodifier_Form_Petition();
-        $_REQUEST['pid'] = $petition['id'];
-        $_GET['pid'] = $petition['id'];
-        $_POST['pid'] = $petition['id'];
-        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
-        self::assertEmpty($form->buildQuickForm(), 'buildQuickForm supposed to be empty.');
     }
 
     /**
@@ -215,6 +188,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         $_GET['pid'] = $petition['id'];
         $_POST['pid'] = $petition['id'];
         $form->setVar('_submitValues', [
+            'is_active' => '1',
             'original_color' => '1',
             'original_font_color' => '1',
             'layout_handler' => '',
@@ -237,12 +211,16 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
             'add_check_all_checkbox' => '',
             'check_all_checkbox_label' => '',
         ]);
-        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
-        self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
+
+        $form->preProcess();
+        $form->buildQuickForm();
+        $form->postProcess();
+
         $modifiedPetition = AppearancemodifierPetition::get(false)
             ->addWhere('survey_id', '=', $petition['id'])
             ->execute()
             ->first();
+        self::assertTrue($modifiedPetition['is_active']);
         self::assertNull($modifiedPetition['background_color']);
         self::assertSame('My new additional note text', $modifiedPetition['additional_note']);
         self::assertNull($modifiedPetition['font_color']);
@@ -268,6 +246,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         $_GET['pid'] = $petition['id'];
         $_POST['pid'] = $petition['id'];
         $form->setVar('_submitValues', [
+            'is_active' => '1',
             'original_color' => '1',
             'original_font_color' => '0',
             'layout_handler' => '',
@@ -290,8 +269,11 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
             'add_check_all_checkbox' => '',
             'check_all_checkbox_label' => '',
         ]);
-        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
-        self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
+
+        $form->preProcess();
+        $form->buildQuickForm();
+        $form->postProcess();
+
         $modifiedPetition = AppearancemodifierPetition::get(false)
             ->addWhere('survey_id', '=', $petition['id'])
             ->execute()
@@ -322,6 +304,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         $_GET['pid'] = $petition['id'];
         $_POST['pid'] = $petition['id'];
         $form->setVar('_submitValues', [
+            'is_active' => '1',
             'original_color' => '0',
             'original_font_color' => '0',
             'transparent_background' => '1',
@@ -345,8 +328,11 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
             'add_check_all_checkbox' => '',
             'check_all_checkbox_label' => '',
         ]);
-        self::assertEmpty($form->preProcess(), 'PreProcess supposed to be empty.');
-        self::assertEmpty($form->postProcess(), 'postProcess supposed to be empty.');
+
+        $form->preProcess();
+        $form->buildQuickForm();
+        $form->postProcess();
+
         $modifiedPetition = AppearancemodifierPetition::get(false)
             ->addWhere('survey_id', '=', $petition['id'])
             ->execute()

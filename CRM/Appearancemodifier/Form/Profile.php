@@ -24,6 +24,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
     ];
 
     private const PROFILE_FIELDS = [
+        'is_active',
         'layout_handler',
         'background_color',
         'additional_note',
