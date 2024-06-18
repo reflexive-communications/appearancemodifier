@@ -86,9 +86,62 @@ class Service
      * form with the additional note block, if that is set.
      *
      * @param string $tplName
+     * @param $form
+     *
+     * @throws \CRM_Core_Exception
+     * @throws \Civi\API\Exception\UnauthorizedException
      */
-    public static function alterTemplateFile(string &$tplName): void
+    public static function alterTemplateFile(string &$tplName, $form): void
     {
+        switch ($tplName) {
+            case 'CRM/Profile/Page/View.tpl':
+            case 'CRM/Profile/Form/Edit.tpl':
+                $modifiedProfile = AppearancemodifierProfile::get(false)
+                    ->addWhere('uf_group_id', '=', (int)$form->getVar('_gid'))
+                    ->execute()
+                    ->first();
+                if (!self::isModifierEnabled($modifiedProfile)) {
+                    return;
+                }
+                break;
+            case 'CRM/Campaign/Form/Petition/Signature.tpl':
+            case 'CRM/Campaign/Page/Petition/ThankYou.tpl':
+                $id = $tplName == 'CRM/Campaign/Form/Petition/Signature.tpl' ? $form->getVar('_surveyId') : $form->getVar('petition')['id'];
+                // if the id is not found, do nothing.
+                if ($id < 1) {
+                    return;
+                }
+
+                $modifiedPetition = AppearancemodifierPetition::get(false)
+                    ->addWhere('survey_id', '=', $id)
+                    ->execute()
+                    ->first();
+                if (!self::isModifierEnabled($modifiedPetition)) {
+                    return;
+                }
+                break;
+            case 'CRM/Event/Page/EventInfo.tpl':
+            case 'CRM/Event/Form/Registration/Register.tpl':
+            case 'CRM/Event/Form/Registration/Confirm.tpl':
+            case 'CRM/Event/Form/Registration/ThankYou.tpl':
+                $id = $tplName == 'CRM/Event/Page/EventInfo.tpl' ? $form->getVar('_id') : $form->getVar('_eventId');
+                // if the id is not found, do nothing.
+                if (is_null($id)) {
+                    return;
+                }
+
+                $modifiedEvent = AppearancemodifierEvent::get(false)
+                    ->addWhere('event_id', '=', $id)
+                    ->execute()
+                    ->first();
+                if (!self::isModifierEnabled($modifiedEvent)) {
+                    return;
+                }
+                break;
+            default:
+                return;
+        }
+
         if (array_key_exists($tplName, self::TEMPLATE_MAP) !== false) {
             $tplName = self::TEMPLATE_MAP[$tplName];
         }

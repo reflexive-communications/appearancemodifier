@@ -42,10 +42,11 @@ function appearancemodifier_civicrm_links($op, $objectName, $objectId, &$links, 
  * Implements hook_civicrm_alterTemplateFile().
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_alterTemplateFile
+ * @throws CRM_Core_Exception
  */
 function appearancemodifier_civicrm_alterTemplateFile($formName, &$form, $context, &$tplName): void
 {
-    Service::alterTemplateFile($tplName);
+    Service::alterTemplateFile($tplName, $form);
 }
 
 /**

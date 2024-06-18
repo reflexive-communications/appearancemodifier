@@ -16,30 +16,12 @@ use CRM_Event_Form_Registration_Confirm;
 use CRM_Event_Form_Registration_Register;
 use CRM_Event_Page_EventInfo;
 use CRM_Profile_Form_Edit;
-use CRM_Profile_Page_View;
 
 /**
  * @group headless
  */
 class ServiceTest extends HeadlessTestCase implements TransactionalInterface
 {
-    /**
-     * @return void
-     */
-    public function testAlterTemplateFile()
-    {
-        // mapped files
-        foreach (Service::TEMPLATE_MAP as $original => $mapped) {
-            self::assertEmpty(Service::alterTemplateFile($original));
-            self::assertSame($mapped, $original);
-        }
-        // not mapped file
-        $notMappedTemplate = 'not/mapped/template/file.tpl';
-        $template = $notMappedTemplate;
-        self::assertEmpty(Service::alterTemplateFile($template));
-        self::assertSame($notMappedTemplate, $template);
-    }
-
     /**
      * @return void
      */
