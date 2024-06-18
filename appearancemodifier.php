@@ -22,6 +22,7 @@ function appearancemodifier_civicrm_config(&$config): void
  * On case of Event create it also creates the Event entry
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_post
+ * @throws CRM_Core_Exception
  */
 function appearancemodifier_civicrm_post($op, $objectName, $objectId, &$objectRef): void
 {
@@ -53,6 +54,7 @@ function appearancemodifier_civicrm_alterTemplateFile($formName, &$form, $contex
  * Implements hook_civicrm_buildProfile().
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_buildProfile
+ * @throws CRM_Core_Exception
  */
 function appearancemodifier_civicrm_buildProfile($profileName): void
 {
@@ -63,6 +65,7 @@ function appearancemodifier_civicrm_buildProfile($profileName): void
  * Implements hook_civicrm_pageRun().
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_pageRun
+ * @throws CRM_Core_Exception
  */
 function appearancemodifier_civicrm_pageRun(&$page): void
 {
@@ -73,6 +76,7 @@ function appearancemodifier_civicrm_pageRun(&$page): void
  * Implements hook_civicrm_buildForm().
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_buildForm
+ * @throws CRM_Core_Exception
  */
 function appearancemodifier_civicrm_buildForm($formName, &$form): void
 {
@@ -83,6 +87,7 @@ function appearancemodifier_civicrm_buildForm($formName, &$form): void
  * Implements hook_civicrm_alterContent()
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_alterContent
+ * @throws CRM_Core_Exception
  */
 function appearancemodifier_civicrm_alterContent(&$content, $context, $tplName, &$object): void
 {
@@ -93,6 +98,7 @@ function appearancemodifier_civicrm_alterContent(&$content, $context, $tplName, 
  * Implements hook_civicrm_postProcess().
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_postProcess
+ * @throws CRM_Core_Exception
  */
 function appearancemodifier_civicrm_postProcess($formName, $form): void
 {
