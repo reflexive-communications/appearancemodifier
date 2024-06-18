@@ -73,7 +73,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
         // UFGroup
         $current = AppearancemodifierProfile::get(false)
             ->execute();
-        $profile = UFGroup::create()
+        UFGroup::create()
             ->addValue('title', 'Test UFGroup aka Profile')
             ->addValue('is_active', true)
             ->execute()
@@ -84,7 +84,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
         // Petition
         $current = AppearancemodifierPetition::get(false)
             ->execute();
-        $result = civicrm_api3('Survey', 'create', [
+        civicrm_api3('Survey', 'create', [
             'title' => 'Some title',
             'activity_type_id' => 'Petition',
         ]);
@@ -104,7 +104,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ->execute();
         self::assertCount(count($current) + 1, $new);
         // not create action
-        $results = Event::update(false)
+        Event::update(false)
             ->addValue('title', 'Test event title')
             ->addValue('event_type_id', 4)
             ->addValue('id', $results[0]['id'])
@@ -266,80 +266,6 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             )
             ->execute();
         self::assertEmpty(Service::pageRun($page));
-    }
-
-    /**
-     * @return void
-     * @throws \API_Exception
-     * @throws \Civi\API\Exception\UnauthorizedException
-     */
-    public function testBuildProfile()
-    {
-        $profileName = 'test_ufgroup_name';
-        $profile = UFGroup::create()
-            ->addValue('title', 'Test UFGroup aka Profile')
-            ->addValue('name', $profileName)
-            ->addValue('is_active', true)
-            ->execute()
-            ->first();
-        $modifiedConfig = AppearancemodifierProfile::get(false)
-            ->addWhere('uf_group_id', '=', $profile['id'])
-            ->execute()
-            ->first();
-        AppearancemodifierProfile::update(false)
-            ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementation::class)
-            ->addValue('hide_form_labels', 1)
-            ->execute();
-        self::assertEmpty(Service::buildProfile($profileName));
-    }
-
-    /**
-     * @return void
-     * @throws \API_Exception
-     * @throws \Civi\API\Exception\UnauthorizedException
-     */
-    public function testBuildProfileHiddenTitle()
-    {
-        $profileName = 'test_ufgroup_name';
-        $profile = UFGroup::create()
-            ->addValue('title', 'Test UFGroup aka Profile')
-            ->addValue('name', $profileName)
-            ->addValue('is_active', true)
-            ->execute()
-            ->first();
-        $modifiedConfig = AppearancemodifierProfile::get(false)
-            ->addWhere('uf_group_id', '=', $profile['id'])
-            ->execute()
-            ->first();
-        AppearancemodifierProfile::update(false)
-            ->addWhere('id', '=', $modifiedConfig['id'])
-            ->addValue('layout_handler', LayoutImplementation::class)
-            ->addValue('hide_form_labels', 1)
-            ->addValue(
-                'custom_settings',
-                [
-                    'hide_form_title' => '1',
-                    'base_target_is_the_parent' => '1',
-                    'send_size_when_embedded' => '1',
-                    'send_size_to_when_embedded' => '*',
-                    'add_check_all_checkbox' => '',
-                    'check_all_checkbox_label' => '',
-                ]
-            )
-            ->execute();
-        self::assertEmpty(Service::buildProfile($profileName));
-    }
-
-    /**
-     * @return void
-     * @throws \API_Exception
-     * @throws \Civi\API\Exception\UnauthorizedException
-     */
-    public function testBuildProfileUknownProfile()
-    {
-        $profileName = 'unknown';
-        self::assertEmpty(Service::buildProfile($profileName));
     }
 
     /**

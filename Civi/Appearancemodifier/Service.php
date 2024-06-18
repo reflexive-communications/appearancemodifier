@@ -218,10 +218,15 @@ class Service
         if (is_null($uFGroup)) {
             return;
         }
+
         $modifiedProfile = AppearancemodifierProfile::get(false)
             ->addWhere('uf_group_id', '=', $uFGroup['id'])
             ->execute()
             ->first();
+        if (!self::isModifierEnabled($modifiedProfile)) {
+            return;
+        }
+
         if ($modifiedProfile['layout_handler'] !== null) {
             $handler = new $modifiedProfile['layout_handler']('CRM_Profile_Form_Edit');
             $handler->setStyleSheets();
@@ -367,6 +372,16 @@ class Service
 
             return;
         }
+    }
+
+    /**
+     * @param array $modifiedConfig
+     *
+     * @return bool
+     */
+    private static function isModifierEnabled(array $modifiedConfig): bool
+    {
+        return (bool)$modifiedConfig['is_active'];
     }
 
     /**
