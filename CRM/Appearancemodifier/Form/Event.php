@@ -24,6 +24,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
     ];
 
     private const EVENT_FIELDS = [
+        'is_active',
         'layout_handler',
         'background_color',
         'consent_field_behaviour',

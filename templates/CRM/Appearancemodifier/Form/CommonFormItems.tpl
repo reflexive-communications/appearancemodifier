@@ -2,6 +2,12 @@
     <h3>{ts}General Settings{/ts}</h3>
     <table class="form-layout">
         <tr>
+            <td class="label">{$form.is_active.label}</td>
+            <td class="content">{$form.is_active.html}<br/>
+                <span class="description">{ts}Is customization active?{/ts}</span>
+            </td>
+        </tr>
+        <tr>
             <td class="label">{$form.preset_handler.label}</td>
             <td class="content">{$form.preset_handler.html}<br/>
                 <span class="description">{ts}Use the saved settings or customize from scratch.{/ts}</span>
