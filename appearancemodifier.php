@@ -15,17 +15,6 @@ function appearancemodifier_civicrm_config(&$config): void
 }
 
 /**
- * Implements hook_civicrm_entityTypes().
- * Declare entity types provided by this module.
- *
- * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_entityTypes
- */
-function appearancemodifier_civicrm_entityTypes(&$entityTypes): void
-{
-    _appearancemodifier_civix_civicrm_entityTypes($entityTypes);
-}
-
-/**
  * Implements hook_civicrm_post().
  * On case of UFGroup create it also creates the Profile entry.
  * On case of Survey create with activity_type 32 (petition signature)
@@ -93,7 +82,6 @@ function appearancemodifier_civicrm_buildForm($formName, &$form): void
  * Implements hook_civicrm_alterContent()
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_alterContent
- *
  */
 function appearancemodifier_civicrm_alterContent(&$content, $context, $tplName, &$object): void
 {
