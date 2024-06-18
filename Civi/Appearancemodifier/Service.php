@@ -376,20 +376,12 @@ class Service
      */
     public static function alterContent(&$content, $tplName, &$object): void
     {
-        if (array_search($tplName, self::PROFILE_TEMPLATES) !== false) {
+        if (in_array($tplName, self::PROFILE_TEMPLATES)) {
             self::alterProfileContent($object->getVar('_gid'), $content);
-
-            return;
-        }
-        if (array_search($tplName, self::PETITION_TEMPLATES) !== false) {
+        } elseif (in_array($tplName, self::PETITION_TEMPLATES)) {
             self::alterPetitionContent($tplName, $content, $object);
-
-            return;
-        }
-        if (array_search($tplName, self::EVENT_TEMPLATES) !== false) {
+        } elseif (in_array($tplName, self::EVENT_TEMPLATES)) {
             self::alterEventContent($tplName, $content, $object);
-
-            return;
         }
     }
 
@@ -532,6 +524,10 @@ class Service
             ->addWhere('uf_group_id', '=', $ufGroupId)
             ->execute()
             ->first();
+        if (!self::isModifierEnabled($modifiedProfile)) {
+            return;
+        }
+
         // add the select all checkbox here and then let the process to do the formatting steps.
         if ($modifiedProfile['custom_settings'] !== null && !empty($modifiedProfile['custom_settings']['add_check_all_checkbox'])) {
             self::addTheSelectAllCheckbox($content, $modifiedProfile['custom_settings']['check_all_checkbox_label']);
@@ -591,10 +587,10 @@ class Service
      * @throws \CiviCRM_API3_Exception
      * @throws \Civi\API\Exception\UnauthorizedException
      */
-    private static function alterPetitionContent($tplName, &$content, &$object): void
+    private static function alterPetitionContent($tplName, &$content, $object): void
     {
         // Get the survey id. If we are on the form, it is in the _surveyId variable,
-        // on the thankyou page it is inside the petition array.
+        // on the thank you page it is inside the petition array.
         $id = null;
         if ($tplName === self::PETITION_TEMPLATES[0]) {
             $id = $object->getVar('_surveyId');
@@ -605,11 +601,16 @@ class Service
         if (is_null($id)) {
             return;
         }
+
         // Apply the changes that is provided by the layout extension.
         $modifiedPetition = AppearancemodifierPetition::get(false)
             ->addWhere('survey_id', '=', $id)
             ->execute()
             ->first();
+        if (!self::isModifierEnabled($modifiedPetition)) {
+            return;
+        }
+
         // If the petition message is set, add it to the relevant field.
         if ($modifiedPetition['petition_message'] !== null) {
             $doc = phpQuery::newDocument($content);
@@ -658,22 +659,22 @@ class Service
      * @throws \CRM_Core_Exception
      * @throws \Civi\API\Exception\UnauthorizedException
      */
-    private static function alterEventContent($tplName, &$content, &$object): void
+    private static function alterEventContent($tplName, &$content, $object): void
     {
-        $id = null;
-        if ($tplName === self::EVENT_TEMPLATES[0]) {
-            $id = $object->getVar('_id');
-        } else {
-            $id = $object->getVar('_eventId');
-        }
+        $id = $tplName === self::EVENT_TEMPLATES[0] ? $object->getVar('_id') : $object->getVar('_eventId');
         // if the id is not found, do nothing.
         if (is_null($id)) {
             return;
         }
+
         $modifiedEvent = AppearancemodifierEvent::get(false)
             ->addWhere('event_id', '=', $id)
             ->execute()
             ->first();
+        if (!self::isModifierEnabled($modifiedEvent)) {
+            return;
+        }
+
         // Handle the social block.
         if ($modifiedEvent['custom_social_box'] !== null) {
             $title = Event::get(false)

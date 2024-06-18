@@ -592,7 +592,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
         $content = '<div class="message help">MyText</div>';
         $origContent = $content;
         $form = new CRM_Campaign_Form_Petition();
-        self::assertEmpty(Service::alterContent($content, $tplName, $form));
+        Service::alterContent($content, $tplName, $form);
         self::assertSame($origContent, $content);
     }
 
@@ -603,7 +603,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
      * @throws \CiviCRM_API3_Exception
      * @throws \Civi\API\Exception\UnauthorizedException
      */
-    public function testAlterContentProfileAddsPlaceholdersToTextareasWithFlag()
+    public function testAlterContentProfileAddsPlaceholdersToTextareaWithFlag()
     {
         $profile = UFGroup::create()
             ->addValue('title', 'Test UFGroup aka Profile')
@@ -621,7 +621,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             "<div>\n<div class=\"crm-section form-item\">\n<div class=\"label\">This is the first</div>\n<div class=\"content\"><textarea placeholder=\"This is the first\"></textarea></div>\n</div>\n<div class=\"crm-section form-item\"> <div class=\"label\">This is the second</div>\n<div class=\"content\"><textarea placeholder=\"This is the second\"></textarea></div>\n</div>\n</div>";
         $content =
             '<div><div class="crm-section form-item"><div class="label">This is the first</div><div class="content"><textarea></textarea></div></div><div class="crm-section form-item"> <div class="label">This is the second</div><div class="content"><textarea></textarea></div></div></div>';
-        self::assertEmpty(Service::alterContent($content, Service::PROFILE_TEMPLATES[0], $form));
+        Service::alterContent($content, Service::PROFILE_TEMPLATES[0], $form);
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PROFILE_TEMPLATES[0].'. '.$content);
     }
 
@@ -650,7 +650,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             "<div>\n<div class=\"crm-section form-item\">\n<div class=\"label\">This is the first</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the first\"></div>\n</div>\n<div class=\"crm-section form-item\"> <div class=\"label\">This is the second</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the second\"></div>\n</div>\n</div>";
         $content =
             '<div><div class="crm-section form-item"><div class="label">This is the first</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"> <div class="label">This is the second</div><div class="content"><input type="text" /></div></div></div>';
-        self::assertEmpty(Service::alterContent($content, Service::PROFILE_TEMPLATES[0], $form));
+        Service::alterContent($content, Service::PROFILE_TEMPLATES[0], $form);
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PROFILE_TEMPLATES[0].'. '.$content);
     }
 
@@ -680,7 +680,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             "<div>\n<div class=\"crm-section form-item\">\n<div class=\"label hidden-node\">This is the first</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the first\"></div>\n</div>\n<div class=\"crm-section form-item\"> <div class=\"label hidden-node\">This is the second</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the second\"></div>\n</div>\n</div>";
         $content =
             '<div><div class="crm-section form-item"><div class="label">This is the first</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"> <div class="label">This is the second</div><div class="content"><input type="text" /></div></div></div>';
-        self::assertEmpty(Service::alterContent($content, Service::PROFILE_TEMPLATES[0], $form));
+        Service::alterContent($content, Service::PROFILE_TEMPLATES[0], $form);
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PROFILE_TEMPLATES[0].'. '.$content);
     }
 
@@ -714,7 +714,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             "<div>\n<div class=\"crm-section form-item\">\n<div class=\"label hidden-node\">This is the first</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the first\"></div>\n</div>\n<div class=\"crm-section form-item\"> <div class=\"label hidden-node\">This is the second</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the second\"></div>\n</div>\n</div>";
         $content =
             '<div><div class="crm-section form-item"><div class="label">This is the first</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"> <div class="label">This is the second</div><div class="content"><input type="text" /></div></div></div>';
-        self::assertEmpty(Service::alterContent($content, Service::PETITION_TEMPLATES[0], $form));
+        Service::alterContent($content, Service::PETITION_TEMPLATES[0], $form);
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PETITION_TEMPLATES[0].'. '.$content);
     }
 
@@ -748,7 +748,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             "<div>\n<div class=\"crm-section form-item\">\n<div class=\"label hidden-node\">This is the first</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the first\"></div>\n</div>\n<div class=\"crm-section form-item\"> <div class=\"label hidden-node\">This is the second</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the second\"></div>\n</div>\n</div>";
         $content =
             '<div><div class="crm-section form-item"><div class="label">This is the first</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"> <div class="label">This is the second</div><div class="content"><input type="text" /></div></div></div>';
-        self::assertEmpty(Service::alterContent($content, Service::EVENT_TEMPLATES[1], $form));
+        Service::alterContent($content, Service::EVENT_TEMPLATES[1], $form);
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::EVENT_TEMPLATES[1].'. '.$content);
     }
 
@@ -759,7 +759,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
      * @throws \CiviCRM_API3_Exception
      * @throws \Civi\API\Exception\UnauthorizedException
      */
-    public function testAlterContentPetitionThankyouHiddenClassWithFlag()
+    public function testAlterContentPetitionThankYouHiddenClassWithFlag()
     {
         $result = civicrm_api3('Survey', 'create', [
             'sequential' => 1,
@@ -782,7 +782,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             "<div>\n<div class=\"crm-section form-item\">\n<div class=\"label hidden-node\">This is the first</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the first\"></div>\n</div>\n<div class=\"crm-section form-item\"> <div class=\"label hidden-node\">This is the second</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the second\"></div>\n</div>\n</div>";
         $content =
             '<div><div class="crm-section form-item"><div class="label">This is the first</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"> <div class="label">This is the second</div><div class="content"><input type="text" /></div></div></div>';
-        self::assertEmpty(Service::alterContent($content, Service::PETITION_TEMPLATES[1], $form));
+        Service::alterContent($content, Service::PETITION_TEMPLATES[1], $form);
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PETITION_TEMPLATES[1].'. '.$content);
     }
 
@@ -816,7 +816,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ->execute();
         $expectedContent = "<div><div class=\"crm-petition-activity-profile\">\n<textarea>".$defaultMessage."</textarea><textarea></textarea>\n</div></div>";
         $content = '<div><div class="crm-petition-activity-profile"><textarea></textarea><textarea></textarea></div></div>';
-        self::assertEmpty(Service::alterContent($content, Service::PETITION_TEMPLATES[0], $form));
+        Service::alterContent($content, Service::PETITION_TEMPLATES[0], $form);
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PETITION_TEMPLATES[0].'. '.$content);
     }
 
@@ -851,7 +851,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ->execute();
         $expectedContent = "<div><div class=\"crm-petition-activity-profile\">\n<textarea disabled>".$defaultMessage."</textarea><textarea></textarea>\n</div></div>";
         $content = '<div><div class="crm-petition-activity-profile"><textarea></textarea><textarea></textarea></div></div>';
-        self::assertEmpty(Service::alterContent($content, Service::PETITION_TEMPLATES[0], $form));
+        Service::alterContent($content, Service::PETITION_TEMPLATES[0], $form);
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PETITION_TEMPLATES[0].'. '.$content);
     }
 
@@ -888,7 +888,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             "<div id=\"crm-main-content-wrapper\"><div class=\"crm-section crm-socialnetwork\">\n<h2>Please share it</h2>\n<div class=\"appearancemodifier-social-block\">\n<div class=\"social-media-icon\"><a onclick=\"console.log('fb')\" target=\"_blank\" title=\"Share on Facebook\"><div><i aria-hidden=\"true\" class=\"crm-i fa-facebook\"></i></div></a></div>\n<div class=\"social-media-icon\"><a onclick=\"console.log('tw')\" target=\"_blank\" title=\"Share on Twitter\"><div><i aria-hidden=\"true\" class=\"crm-i fa-twitter\"></i></div></a></div>\n</div>\n</div></div>";
         $content =
             '<div id="crm-main-content-wrapper"><div class="crm-socialnetwork"><button id="crm-tw" onclick="console.log(\'tw\')"></button><button id="crm-fb" onclick="console.log(\'fb\')"></button></div></div>';
-        self::assertEmpty(Service::alterContent($content, Service::PETITION_TEMPLATES[0], $form));
+        Service::alterContent($content, Service::PETITION_TEMPLATES[0], $form);
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PETITION_TEMPLATES[0].'. '.$content);
     }
 
@@ -932,7 +932,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ."', '_blank')\" target=\"_blank\" title=\"Share on Twitter\"><div><i aria-hidden=\"true\" class=\"crm-i fa-twitter\"></i></div></a></div>\n</div>\n</div></div>";
         $content =
             '<div id="crm-main-content-wrapper"><div class="crm-socialnetwork"><button id="crm-tw" onclick="console.log(\'tw\')"></button><button id="crm-fb" onclick="console.log(\'fb\')"></button></div></div>';
-        self::assertEmpty(Service::alterContent($content, Service::PETITION_TEMPLATES[1], $form));
+        Service::alterContent($content, Service::PETITION_TEMPLATES[1], $form);
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PETITION_TEMPLATES[1].'. '.$content);
     }
 
@@ -969,7 +969,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             "<div id=\"crm-main-content-wrapper\"><div class=\"crm-section crm-socialnetwork\">\n<h2>Please share it</h2>\n<div class=\"appearancemodifier-social-block\">\n<div class=\"social-media-icon\"><a onclick=\"console.log('fb')\" target=\"_blank\" title=\"Share on Facebook\"><div><i aria-hidden=\"true\" class=\"crm-i fa-facebook\"></i></div></a></div>\n<div class=\"social-media-icon\"><a onclick=\"console.log('tw')\" target=\"_blank\" title=\"Share on Twitter\"><div><i aria-hidden=\"true\" class=\"crm-i fa-twitter\"></i></div></a></div>\n</div>\n</div></div>";
         $content =
             '<div id="crm-main-content-wrapper"><div class="crm-socialnetwork"><button id="crm-tw" onclick="console.log(\'tw\')"></button><button id="crm-fb" onclick="console.log(\'fb\')"></button></div></div>';
-        self::assertEmpty(Service::alterContent($content, Service::EVENT_TEMPLATES[2], $form));
+        Service::alterContent($content, Service::EVENT_TEMPLATES[2], $form);
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::EVENT_TEMPLATES[2].'. '.$content);
     }
 
@@ -980,7 +980,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
      * @throws \CiviCRM_API3_Exception
      * @throws \Civi\API\Exception\UnauthorizedException
      */
-    public function testAlterContentEventCustomSocialContainerBoxThankyouPage()
+    public function testAlterContentEventCustomSocialContainerBoxThankYouPage()
     {
         $results = Event::create(false)
             ->addValue('title', 'Test event title')
@@ -1004,7 +1004,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             "<div id=\"crm-main-content-wrapper\"><div class=\"crm-section crm-socialnetwork\">\n<h2>Please share it</h2>\n<div class=\"appearancemodifier-social-block\">\n<div class=\"social-media-icon\"><a onclick=\"console.log('fb')\" target=\"_blank\" title=\"Share on Facebook\"><div><i aria-hidden=\"true\" class=\"crm-i fa-facebook\"></i></div></a></div>\n<div class=\"social-media-icon\"><a onclick=\"console.log('tw')\" target=\"_blank\" title=\"Share on Twitter\"><div><i aria-hidden=\"true\" class=\"crm-i fa-twitter\"></i></div></a></div>\n</div>\n</div></div>";
         $content =
             '<div id="crm-main-content-wrapper"><div class="crm-socialnetwork"><button id="crm-tw" onclick="console.log(\'tw\')"></button><button id="crm-fb" onclick="console.log(\'fb\')"></button></div></div>';
-        self::assertEmpty(Service::alterContent($content, Service::EVENT_TEMPLATES[0], $form));
+        Service::alterContent($content, Service::EVENT_TEMPLATES[0], $form);
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::EVENT_TEMPLATES[0].'. '.$content);
     }
 
@@ -1046,7 +1046,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ."', '_blank')\" target=\"_blank\" title=\"Share on Twitter\"><div><i aria-hidden=\"true\" class=\"crm-i fa-twitter\"></i></div></a></div>\n</div>\n</div></div>";
         $content =
             '<div id="crm-main-content-wrapper"><div class="crm-socialnetwork"><button id="crm-tw" onclick="console.log(\'tw\')"></button><button id="crm-fb" onclick="console.log(\'fb\')"></button></div></div>';
-        self::assertEmpty(Service::alterContent($content, Service::EVENT_TEMPLATES[0], $form));
+        Service::alterContent($content, Service::EVENT_TEMPLATES[0], $form);
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::EVENT_TEMPLATES[0].'. '.$content);
     }
 
@@ -1080,7 +1080,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             '<div id="crm-main-content-wrapper"><div class="crm-socialnetwork"><button id="crm-tw" onclick="console.log(\'tw\')"></button><button id="crm-fb" onclick="console.log(\'fb\')"></button></div></div>';
         $content =
             '<div id="crm-main-content-wrapper"><div class="crm-socialnetwork"><button id="crm-tw" onclick="console.log(\'tw\')"></button><button id="crm-fb" onclick="console.log(\'fb\')"></button></div></div>';
-        self::assertEmpty(Service::alterContent($content, Service::EVENT_TEMPLATES[0], $form));
+        Service::alterContent($content, Service::EVENT_TEMPLATES[0], $form);
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::EVENT_TEMPLATES[0].'. '.$content);
     }
 
@@ -1113,7 +1113,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ->execute();
         $content = '<div><div class="crm-petition-activity-profile"><textarea></textarea><textarea></textarea></div></div>';
         $expectedContent = $content;
-        self::assertEmpty(Service::alterContent($content, Service::PETITION_TEMPLATES[0], $form));
+        Service::alterContent($content, Service::PETITION_TEMPLATES[0], $form);
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PETITION_TEMPLATES[0].'. '.$content);
     }
 
@@ -1151,7 +1151,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             "<div>\n<div class=\"crm-section form-item\">\n<div class=\"label hidden-node\">This is the first</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the first\"></div>\n</div>\n<div class=\"crm-section form-item\"> <div class=\"label hidden-node\">This is the second</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the second\"></div>\n</div>\n<div id=\"check-all-checkbox\"><div class=\"crm-section form-item\">\n<div class=\"label\"><label for=\"check-all-checkbox-item\">Check All With Me.</label></div>\n<div class=\"edit-value content\"><input class=\"crm-form-checkbox\" type=\"checkbox\" onclick=\"checkAllCheckboxClickHandler(this)\" id=\"check-all-checkbox-item\"></div>\n<div class=\"clear\"></div>\n</div></div>\n<div class=\"crm-section form-item\">\n<div class=\"label\">This is the checkbox</div>\n<div class=\"content\"><input type=\"checkbox\"></div>\n</div>\n</div>";
         $content =
             '<div><div class="crm-section form-item"><div class="label">This is the first</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"> <div class="label">This is the second</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"><div class="label">This is the checkbox</div><div class="content"><input type="checkbox" /></div></div></div>';
-        self::assertEmpty(Service::alterContent($content, Service::PROFILE_TEMPLATES[0], $form));
+        Service::alterContent($content, Service::PROFILE_TEMPLATES[0], $form);
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PROFILE_TEMPLATES[0].'. '.$content);
     }
 
@@ -1189,7 +1189,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             "<div>\n<div class=\"crm-section form-item\">\n<div class=\"label hidden-node\">This is the first</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the first\"></div>\n</div>\n<div class=\"crm-section form-item\"> <div class=\"label hidden-node\">This is the second</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the second\"></div>\n</div>\n<div id=\"check-all-checkbox\"><div class=\"crm-section form-item\">\n<div class=\"label\"><label for=\"check-all-checkbox-item\">Check All With Me.</label></div>\n<div class=\"edit-value content\"><input class=\"crm-form-checkbox\" type=\"checkbox\" onclick=\"checkAllCheckboxClickHandler(this)\" id=\"check-all-checkbox-item\"></div>\n<div class=\"clear\"></div>\n</div></div>\n<div class=\"crm-section form-item\">\n<div class=\"label\">This is the checkbox</div>\n<div class=\"content\"><input type=\"checkbox\"></div>\n</div>\n</div>";
         $content =
             '<div><div class="crm-section form-item"><div class="label">This is the first</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"> <div class="label">This is the second</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"><div class="label">This is the checkbox</div><div class="content"><input type="checkbox" /></div></div></div>';
-        self::assertEmpty(Service::alterContent($content, Service::PETITION_TEMPLATES[0], $form));
+        Service::alterContent($content, Service::PETITION_TEMPLATES[0], $form);
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PETITION_TEMPLATES[0].'. '.$content);
     }
 
@@ -1227,7 +1227,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             "<div>\n<div class=\"crm-section form-item\">\n<div class=\"label hidden-node\">This is the first</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the first\"></div>\n</div>\n<div class=\"crm-section form-item\"> <div class=\"label hidden-node\">This is the second</div>\n<div class=\"content\"><input type=\"text\" placeholder=\"This is the second\"></div>\n</div>\n<div id=\"check-all-checkbox\"><div class=\"crm-section form-item\">\n<div class=\"label\"><label for=\"check-all-checkbox-item\">Check All With Me.</label></div>\n<div class=\"edit-value content\"><input class=\"crm-form-checkbox\" type=\"checkbox\" onclick=\"checkAllCheckboxClickHandler(this)\" id=\"check-all-checkbox-item\"></div>\n<div class=\"clear\"></div>\n</div></div>\n<div class=\"crm-section form-item\">\n<div class=\"label\">This is the checkbox</div>\n<div class=\"content\"><input type=\"checkbox\"></div>\n</div>\n</div>";
         $content =
             '<div><div class="crm-section form-item"><div class="label">This is the first</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"> <div class="label">This is the second</div><div class="content"><input type="text" /></div></div><div class="crm-section form-item"><div class="label">This is the checkbox</div><div class="content"><input type="checkbox" /></div></div></div>';
-        self::assertEmpty(Service::alterContent($content, Service::EVENT_TEMPLATES[0], $form));
+        Service::alterContent($content, Service::EVENT_TEMPLATES[0], $form);
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::EVENT_TEMPLATES[0].'. '.$content);
     }
 }
