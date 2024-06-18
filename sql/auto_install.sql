@@ -48,6 +48,7 @@ CREATE TABLE `civicrm_appearancemodifier_event` (
   `font_color` varchar(15) NULL DEFAULT NULL COMMENT 'Color code of fonts in #ffffff format',
   `consent_field_behaviour` text NULL DEFAULT NULL COMMENT 'Select consent logic operation mode',
   `custom_settings` text NULL DEFAULT NULL COMMENT 'Custom serialized data for PHP',
+  `is_active` tinyint NOT NULL DEFAULT 1 COMMENT 'Is Appearance-modifier enabled for this event?',
   PRIMARY KEY (`id`),
   CONSTRAINT FK_civicrm_appearancemodifier_event_event_id FOREIGN KEY (`event_id`) REFERENCES `civicrm_event`(`id`) ON DELETE CASCADE
 )
@@ -77,6 +78,7 @@ CREATE TABLE `civicrm_appearancemodifier_petition` (
   `signers_block_position` text NULL DEFAULT NULL COMMENT 'Position where the number of petition signers is displayed',
   `consent_field_behaviour` text NULL DEFAULT NULL COMMENT 'Select consent logic operation mode',
   `custom_settings` text NULL DEFAULT NULL COMMENT 'Custom serialized data for PHP',
+  `is_active` tinyint NOT NULL DEFAULT 1 COMMENT 'Is Appearance-modifier enabled for this petition?',
   PRIMARY KEY (`id`),
   CONSTRAINT FK_civicrm_appearancemodifier_petition_survey_id FOREIGN KEY (`survey_id`) REFERENCES `civicrm_survey`(`id`) ON DELETE CASCADE
 )
@@ -101,6 +103,7 @@ CREATE TABLE `civicrm_appearancemodifier_profile` (
   `font_color` varchar(15) NULL DEFAULT NULL COMMENT 'Color code of fonts in #ffffff format',
   `consent_field_behaviour` text NULL DEFAULT NULL COMMENT 'Select consent logic operation mode',
   `custom_settings` text NULL DEFAULT NULL COMMENT 'Custom serialized data for PHP',
+  `is_active` tinyint NOT NULL DEFAULT 1 COMMENT 'Is Appearance-modifier enabled for this profile?',
   PRIMARY KEY (`id`),
   CONSTRAINT FK_civicrm_appearancemodifier_profile_uf_group_id FOREIGN KEY (`uf_group_id`) REFERENCES `civicrm_uf_group`(`id`) ON DELETE CASCADE
 )
