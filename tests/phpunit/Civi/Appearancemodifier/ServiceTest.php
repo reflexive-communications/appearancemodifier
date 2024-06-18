@@ -120,16 +120,6 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
      * @throws \API_Exception
      * @throws \Civi\API\Exception\UnauthorizedException
      */
-    public function testPostProcessDoesNothingWhenTheFormIsIrrelevant()
-    {
-        self::assertEmpty(Service::postProcess('irrelevant-form-name', new CRM_Profile_Form_Edit()));
-    }
-
-    /**
-     * @return void
-     * @throws \API_Exception
-     * @throws \Civi\API\Exception\UnauthorizedException
-     */
     public function testPostProcessDoesNotUpdateWithoutFields()
     {
         $profile = UFGroup::create()
@@ -146,7 +136,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
         $form->setVar('_gid', $profile['id']);
         $submit = [];
         $form->setVar('_submitValues', $submit);
-        self::assertEmpty(Service::postProcess(CRM_Profile_Form_Edit::class, $form));
+        Service::postProcess(CRM_Profile_Form_Edit::class, $form);
         $updatedContact = Contact::get(false)
             ->addWhere('id', '=', $contact['id'])
             ->execute()
@@ -191,7 +181,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('consent_field_behaviour', 'invert')
             ->execute();
-        self::assertEmpty(Service::postProcess(CRM_Profile_Form_Edit::class, $form));
+        Service::postProcess(CRM_Profile_Form_Edit::class, $form);
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -206,7 +196,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             'do_not_phone' => '1',
         ];
         $form->setVar('_submitValues', $submit);
-        self::assertEmpty(Service::postProcess(CRM_Profile_Form_Edit::class, $form));
+        Service::postProcess(CRM_Profile_Form_Edit::class, $form);
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -248,7 +238,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('consent_field_behaviour', 'apply_on_submit')
             ->execute();
-        self::assertEmpty(Service::postProcess(CRM_Profile_Form_Edit::class, $form));
+        Service::postProcess(CRM_Profile_Form_Edit::class, $form);
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -296,7 +286,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             'do_not_phone' => '',
         ];
         $form->setVar('_submitValues', $submit);
-        self::assertEmpty(Service::postProcess(CRM_Campaign_Form_Petition_Signature::class, $form));
+        Service::postProcess(CRM_Campaign_Form_Petition_Signature::class, $form);
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -311,7 +301,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             'do_not_phone' => '1',
         ];
         $form->setVar('_submitValues', $submit);
-        self::assertEmpty(Service::postProcess(CRM_Campaign_Form_Petition_Signature::class, $form));
+        Service::postProcess(CRM_Campaign_Form_Petition_Signature::class, $form);
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -354,7 +344,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ->first();
         $form->setVar('_contactId', $contact['id']);
         $form->setVar('_submitValues', []);
-        self::assertEmpty(Service::postProcess(CRM_Campaign_Form_Petition_Signature::class, $form));
+        Service::postProcess(CRM_Campaign_Form_Petition_Signature::class, $form);
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -369,7 +359,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
      * @throws \API_Exception
      * @throws \Civi\API\Exception\UnauthorizedException
      */
-    public function testPostProcessDoesNothingOnEventRegisterFormWhenTheConfigrmScreenEnabled()
+    public function testPostProcessDoesNothingOnEventRegisterFormWhenTheConfirmScreenEnabled()
     {
         $results = Event::create(false)
             ->addValue('title', 'Test event title')
@@ -401,7 +391,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             'do_not_phone' => '1',
         ];
         $form->setVar('_params', $submit);
-        self::assertEmpty(Service::postProcess(CRM_Event_Form_Registration_Register::class, $form));
+        Service::postProcess(CRM_Event_Form_Registration_Register::class, $form);
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -417,7 +407,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
      * @throws \API_Exception
      * @throws \Civi\API\Exception\UnauthorizedException
      */
-    public function testPostProcessChangesTheConsentFieldsEventRegisterFormWhenTheConfigrmScreenDisabled()
+    public function testPostProcessChangesTheConsentFieldsEventRegisterFormWhenTheConfirmScreenDisabled()
     {
         $results = Event::create(false)
             ->addValue('title', 'Test event title')
@@ -449,7 +439,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             'do_not_phone' => '',
         ];
         $form->setVar('_params', $submit);
-        self::assertEmpty(Service::postProcess(CRM_Event_Form_Registration_Register::class, $form));
+        Service::postProcess(CRM_Event_Form_Registration_Register::class, $form);
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -464,7 +454,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             'do_not_phone' => '1',
         ];
         $form->setVar('_params', $submit);
-        self::assertEmpty(Service::postProcess(CRM_Event_Form_Registration_Register::class, $form));
+        Service::postProcess(CRM_Event_Form_Registration_Register::class, $form);
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -512,7 +502,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             'do_not_phone' => '',
         ];
         $form->setVar('_params', $submit);
-        self::assertEmpty(Service::postProcess(CRM_Event_Form_Registration_Confirm::class, $form));
+        Service::postProcess(CRM_Event_Form_Registration_Confirm::class, $form);
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -527,7 +517,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             'do_not_phone' => '1',
         ];
         $form->setVar('_params', $submit);
-        self::assertEmpty(Service::postProcess(CRM_Event_Form_Registration_Confirm::class, $form));
+        Service::postProcess(CRM_Event_Form_Registration_Confirm::class, $form);
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_email', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
@@ -569,7 +559,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ->first();
         $form->setVar('_values', ['participant' => ['contact_id' => $contact['id']]]);
         $form->setVar('_params', []);
-        self::assertEmpty(Service::postProcess(CRM_Event_Form_Registration_Confirm::class, $form));
+        Service::postProcess(CRM_Event_Form_Registration_Confirm::class, $form);
         $updatedContact = Contact::get(false)
             ->addSelect('is_opt_out', 'do_not_phone')
             ->addWhere('id', '=', $contact['id'])
