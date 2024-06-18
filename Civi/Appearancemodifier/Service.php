@@ -159,40 +159,53 @@ class Service
      * @throws \API_Exception
      * @throws \Civi\API\Exception\UnauthorizedException
      */
-    public static function pageRun(&$page): void
+    public static function pageRun($page): void
     {
-        $modifiedConfig = null;
-        if ($page->getVar('_name') == 'CRM_Campaign_Page_Petition_ThankYou') {
-            $modifiedConfig = AppearancemodifierPetition::get(false)
-                ->addWhere('survey_id', '=', $page->getVar('petition')['id'])
-                ->execute()
-                ->first();
-            if ($modifiedConfig['layout_handler'] !== null) {
-                $handler = new $modifiedConfig['layout_handler']('CRM_Campaign_Page_Petition_ThankYou');
-                $handler->setStyleSheets();
-            }
-        } elseif ($page->getVar('_name') == 'CRM_Event_Page_EventInfo') {
-            $modifiedConfig = AppearancemodifierEvent::get(false)
-                ->addWhere('event_id', '=', $page->getVar('_id'))
-                ->execute()
-                ->first();
-            if ($modifiedConfig['layout_handler'] !== null) {
-                $handler = new $modifiedConfig['layout_handler']('CRM_Event_Page_EventInfo');
-                $handler->setStyleSheets();
-            }
-        } elseif ($page->getVar('_name') == 'CRM_Profile_Page_View') {
-            $modifiedConfig = AppearancemodifierProfile::get(false)
-                ->addWhere('uf_group_id', '=', $page->getVar('_gid'))
-                ->execute()
-                ->first();
-            if ($modifiedConfig['layout_handler'] !== null) {
-                $handler = new $modifiedConfig['layout_handler']('CRM_Profile_Page_View');
-                $handler->setStyleSheets();
-            }
+        switch ($page->getVar('_name')) {
+            case 'CRM_Campaign_Page_Petition_ThankYou':
+                $modifiedConfig = AppearancemodifierPetition::get(false)
+                    ->addWhere('survey_id', '=', $page->getVar('petition')['id'])
+                    ->execute()
+                    ->first();
+                if (!self::isModifierEnabled($modifiedConfig)) {
+                    return;
+                }
+                if ($modifiedConfig['layout_handler'] !== null) {
+                    $handler = new $modifiedConfig['layout_handler']('CRM_Campaign_Page_Petition_ThankYou');
+                    $handler->setStyleSheets();
+                }
+                break;
+            case 'CRM_Event_Page_EventInfo':
+                $modifiedConfig = AppearancemodifierEvent::get(false)
+                    ->addWhere('event_id', '=', $page->getVar('_id'))
+                    ->execute()
+                    ->first();
+                if (!self::isModifierEnabled($modifiedConfig)) {
+                    return;
+                }
+                if ($modifiedConfig['layout_handler'] !== null) {
+                    $handler = new $modifiedConfig['layout_handler']('CRM_Event_Page_EventInfo');
+                    $handler->setStyleSheets();
+                }
+                break;
+            case 'CRM_Profile_Page_View':
+                $modifiedConfig = AppearancemodifierProfile::get(false)
+                    ->addWhere('uf_group_id', '=', $page->getVar('_gid'))
+                    ->execute()
+                    ->first();
+                if (!self::isModifierEnabled($modifiedConfig)) {
+                    return;
+                }
+                if ($modifiedConfig['layout_handler'] !== null) {
+                    $handler = new $modifiedConfig['layout_handler']('CRM_Profile_Page_View');
+                    $handler->setStyleSheets();
+                }
+                break;
+            default:
+                return;
         }
-        if ($modifiedConfig !== null) {
-            self::setupResourcesBasedOnSettings($modifiedConfig);
-        }
+
+        self::setupResourcesBasedOnSettings($modifiedConfig);
     }
 
     /**
