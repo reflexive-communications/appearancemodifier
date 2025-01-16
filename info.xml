@@ -36,9 +36,9 @@
         <psr4 prefix="Civi\" path="Civi"/>
     </classloader>
     <mixins>
-        <mixin>entity-types-php@2.0.0</mixin>
-        <mixin>menu-xml@1.0.0</mixin>
-        <mixin>smarty@1.0.3</mixin>
+        <mixin>entity-types-php@2</mixin>
+        <mixin>menu-xml@1</mixin>
+        <mixin>smarty@1</mixin>
     </mixins>
     <upgrader>CiviMix\Schema\Appearancemodifier\AutomaticUpgrader</upgrader>
     <civix>
