@@ -12,8 +12,11 @@ use Civi\Api4\Event;
 use Civi\Api4\UFGroup;
 use Civi\Consentactivity\Config;
 use CRM_Appearancemodifier_ExtensionUtil as E;
+use CRM_Campaign_Form_Petition_Signature;
+use CRM_Campaign_Page_Petition_ThankYou;
 use CRM_Extension_Manager;
 use CRM_Extension_System;
+use CRM_Profile_Form_Edit;
 use CRM_RcBase_Api_Update;
 use DOMElement;
 use DOMText;
@@ -97,7 +100,7 @@ class Service
             case 'CRM/Profile/Page/View.tpl':
             case 'CRM/Profile/Form/Edit.tpl':
                 $modifiedProfile = AppearancemodifierProfile::get(false)
-                    ->addWhere('uf_group_id', '=', (int)$form->getVar('_gid'))
+                    ->addWhere('uf_group_id', '=', (int)($form instanceof CRM_Profile_Form_Edit ? $form->getUFGroupIDs()[0] ?? 0 : $form->getTemplateVars('groupID')))
                     ->execute()
                     ->first();
                 if (!self::isModifierEnabled($modifiedProfile)) {
@@ -106,7 +109,7 @@ class Service
                 break;
             case 'CRM/Campaign/Form/Petition/Signature.tpl':
             case 'CRM/Campaign/Page/Petition/ThankYou.tpl':
-                $id = $tplName == 'CRM/Campaign/Form/Petition/Signature.tpl' ? $form->getVar('_surveyId') : $form->getVar('petition')['id'];
+                $id = $tplName == 'CRM/Campaign/Form/Petition/Signature.tpl' ? $form->_surveyId : $form->getTemplateVars('survey_id');
                 // if the id is not found, do nothing.
                 if ($id < 1) {
                     return;
@@ -124,7 +127,7 @@ class Service
             case 'CRM/Event/Form/Registration/Register.tpl':
             case 'CRM/Event/Form/Registration/Confirm.tpl':
             case 'CRM/Event/Form/Registration/ThankYou.tpl':
-                $id = $tplName == 'CRM/Event/Page/EventInfo.tpl' ? $form->getVar('_id') : $form->getVar('_eventId');
+                $id = $form->getEventID();
                 // if the id is not found, do nothing.
                 if (is_null($id)) {
                     return;
@@ -214,10 +217,10 @@ class Service
      */
     public static function pageRun($page): void
     {
-        switch ($page->getVar('_name')) {
+        switch (get_class($page)) {
             case 'CRM_Campaign_Page_Petition_ThankYou':
                 $modifiedConfig = AppearancemodifierPetition::get(false)
-                    ->addWhere('survey_id', '=', $page->getVar('petition')['id'])
+                    ->addWhere('survey_id', '=', $page->getTemplateVars('survey_id'))
                     ->execute()
                     ->first();
                 if (!self::isModifierEnabled($modifiedConfig)) {
@@ -230,7 +233,7 @@ class Service
                 break;
             case 'CRM_Event_Page_EventInfo':
                 $modifiedConfig = AppearancemodifierEvent::get(false)
-                    ->addWhere('event_id', '=', $page->getVar('_id'))
+                    ->addWhere('event_id', '=', $page->getEventID())
                     ->execute()
                     ->first();
                 if (!self::isModifierEnabled($modifiedConfig)) {
@@ -243,7 +246,7 @@ class Service
                 break;
             case 'CRM_Profile_Page_View':
                 $modifiedConfig = AppearancemodifierProfile::get(false)
-                    ->addWhere('uf_group_id', '=', $page->getVar('_gid'))
+                    ->addWhere('uf_group_id', '=', $page->getTemplateVars('groupID'))
                     ->execute()
                     ->first();
                 if (!self::isModifierEnabled($modifiedConfig)) {
@@ -315,7 +318,7 @@ class Service
         switch ($formName) {
             case 'CRM_Campaign_Form_Petition_Signature':
                 $modifiedConfig = AppearancemodifierPetition::get(false)
-                    ->addWhere('survey_id', '=', $form->getVar('_surveyId'))
+                    ->addWhere('survey_id', '=', $form->_surveyId)
                     ->execute()
                     ->first();
                 if (!self::isModifierEnabled($modifiedConfig)) {
@@ -330,7 +333,7 @@ class Service
             case 'CRM_Event_Form_Registration_Confirm':
             case 'CRM_Event_Form_Registration_ThankYou':
                 $modifiedConfig = AppearancemodifierEvent::get(false)
-                    ->addWhere('event_id', '=', $form->getVar('_eventId'))
+                    ->addWhere('event_id', '=', $form->getEventID())
                     ->execute()
                     ->first();
                 if (!self::isModifierEnabled($modifiedConfig)) {
@@ -366,38 +369,38 @@ class Service
         switch ($formName) {
             case 'CRM_Profile_Form_Edit':
                 $rules = AppearancemodifierProfile::get(false)
-                    ->addWhere('uf_group_id', '=', $form->getVar('_gid'))
+                    ->addWhere('uf_group_id', '=', $form->getUFGroupIDs()[0] ?? 0)
                     ->execute()
                     ->first();
-                $id = $form->getVar('_id');
-                $parameters = $form->getVar('_submitValues');
+                $id = $form->getContactID();
+                $parameters = $form->_submitValues;
                 break;
             case 'CRM_Campaign_Form_Petition_Signature':
                 $rules = AppearancemodifierPetition::get(false)
-                    ->addWhere('survey_id', '=', $form->getVar('_surveyId'))
+                    ->addWhere('survey_id', '=', $form->_surveyId)
                     ->execute()
                     ->first();
-                $id = $form->getVar('_contactId');
-                $parameters = $form->getVar('_submitValues');
+                $id = $form->_contactId;
+                $parameters = $form->_submitValues;
                 break;
             case 'CRM_Event_Form_Registration_Register':
-                $values = $form->getVar('_values');
+                $values = $form->_values;
                 if (!$values['event']['is_confirm_enabled']) {
                     $rules = AppearancemodifierEvent::get(false)
-                        ->addWhere('event_id', '=', $form->getVar('_eventId'))
+                        ->addWhere('event_id', '=', $form->getEventID())
                         ->execute()
                         ->first();
-                    $id = $form->getVar('_values')['participant']['contact_id'];
-                    $parameters = $form->getVar('_params');
+                    $id = $form->_values['participant']['contact_id'];
+                    $parameters = $form->get('params');
                 }
                 break;
             case 'CRM_Event_Form_Registration_Confirm':
                 $rules = AppearancemodifierEvent::get(false)
-                    ->addWhere('event_id', '=', $form->getVar('_eventId'))
+                    ->addWhere('event_id', '=', $form->getEventID())
                     ->execute()
                     ->first();
-                $id = $form->getVar('_values')['participant']['contact_id'];
-                $parameters = $form->getVar('_params');
+                $id = $form->_values['participant']['contact_id'];
+                $parameters = $form->get('params');
                 break;
         }
         if (is_null($id) || !self::isModifierEnabled($rules)) {
@@ -431,7 +434,7 @@ class Service
     public static function alterContent(&$content, $tplName, &$object): void
     {
         if (in_array($tplName, self::PROFILE_TEMPLATES)) {
-            self::alterProfileContent($object->getVar('_gid'), $content);
+            self::alterProfileContent($object instanceof CRM_Profile_Form_Edit ? $object->getUFGroupIDs()[0] ?? 0 : $object->getTemplateVars('groupID'), $content);
         } elseif (in_array($tplName, self::PETITION_TEMPLATES)) {
             self::alterPetitionContent($tplName, $content, $object);
         } elseif (in_array($tplName, self::EVENT_TEMPLATES)) {
@@ -643,16 +646,14 @@ class Service
      */
     private static function alterPetitionContent($tplName, &$content, $object): void
     {
-        // Get the survey id. If we are on the form, it is in the _surveyId variable,
-        // on the thank you page it is inside the petition array.
-        $id = null;
-        if ($tplName === self::PETITION_TEMPLATES[0]) {
-            $id = $object->getVar('_surveyId');
-        } elseif ($tplName === self::PETITION_TEMPLATES[1]) {
-            $id = $object->getVar('petition')['id'];
+        $id = 0;
+        if (get_class($object) === CRM_Campaign_Form_Petition_Signature::class) {
+            $id = $object->_surveyId;
+        } elseif (get_class($object) === CRM_Campaign_Page_Petition_ThankYou::class) {
+            $id = (int)$object->getTemplateVars('survey_id');
         }
         // if the id is not found, do nothing.
-        if (is_null($id)) {
+        if ($id < 1) {
             return;
         }
 
@@ -694,7 +695,7 @@ class Service
         }
         self::changeConsentActivityFields($content);
         if ($modifiedPetition['layout_handler'] !== null) {
-            $handler = new $modifiedPetition['layout_handler']($object->getVar('_name'));
+            $handler = new $modifiedPetition['layout_handler'](get_class($object));
             $handler->alterContent($content);
         }
     }
@@ -715,9 +716,8 @@ class Service
      */
     private static function alterEventContent($tplName, &$content, $object): void
     {
-        $id = $tplName === self::EVENT_TEMPLATES[0] ? $object->getVar('_id') : $object->getVar('_eventId');
-        // if the id is not found, do nothing.
-        if (is_null($id)) {
+        $id = (int)$object->getEventID();
+        if ($id < 1) {
             return;
         }
 
@@ -747,7 +747,7 @@ class Service
         }
         self::changeConsentActivityFields($content);
         if ($modifiedEvent['layout_handler'] !== null) {
-            $handler = new $modifiedEvent['layout_handler']($object->getVar('_name'));
+            $handler = new $modifiedEvent['layout_handler'](get_class($object));
             $handler->alterContent($content);
         }
     }
