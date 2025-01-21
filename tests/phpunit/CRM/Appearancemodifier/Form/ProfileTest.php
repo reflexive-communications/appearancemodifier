@@ -146,7 +146,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends HeadlessTestCase
         $_POST['pid'] = $profile['id'];
 
         $form = new CRM_Appearancemodifier_Form_Profile();
-        $form->setVar('_submitValues', [
+        $form->_submitValues = [
             'is_active' => '1',
             'original_color' => '1',
             'original_font_color' => '1',
@@ -164,7 +164,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends HeadlessTestCase
             'add_check_all_checkbox' => '',
             'check_all_checkbox_label' => '',
             'base_target_is_the_parent' => '',
-        ]);
+        ];
 
         $form->preProcess();
         $form->buildQuickForm();
@@ -197,7 +197,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends HeadlessTestCase
         $_POST['pid'] = $profile['id'];
 
         $form = new CRM_Appearancemodifier_Form_Profile();
-        $form->setVar('_submitValues', [
+        $form->_submitValues = [
             'is_active' => '1',
             'original_color' => '1',
             'original_font_color' => '1',
@@ -215,7 +215,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends HeadlessTestCase
             'add_check_all_checkbox' => '',
             'check_all_checkbox_label' => '',
             'base_target_is_the_parent' => '',
-        ]);
+        ];
 
         $form->preProcess();
         $form->buildQuickForm();
@@ -249,7 +249,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends HeadlessTestCase
         $_POST['pid'] = $profile['id'];
 
         $form = new CRM_Appearancemodifier_Form_Profile();
-        $form->setVar('_submitValues', [
+        $form->_submitValues = [
             'is_active' => '1',
             'original_color' => '0',
             'original_font_color' => '1',
@@ -268,7 +268,7 @@ class CRM_Appearancemodifier_Form_ProfileTest extends HeadlessTestCase
             'add_check_all_checkbox' => '',
             'check_all_checkbox_label' => '',
             'base_target_is_the_parent' => '',
-        ]);
+        ];
 
         $form->preProcess();
         $form->buildQuickForm();

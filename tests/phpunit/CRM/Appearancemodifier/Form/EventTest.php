@@ -168,7 +168,7 @@ class CRM_Appearancemodifier_Form_EventTest extends HeadlessTestCase
             'add_check_all_checkbox' => '',
             'check_all_checkbox_label' => '',
         ];
-        $form->setVar('_submitValues', $values);
+        $form->_submitValues = $values;
 
         $form->preProcess();
         $form->buildQuickForm();
@@ -222,7 +222,7 @@ class CRM_Appearancemodifier_Form_EventTest extends HeadlessTestCase
             'add_check_all_checkbox' => '',
             'check_all_checkbox_label' => '',
         ];
-        $form->setVar('_submitValues', $values);
+        $form->_submitValues = $values;
 
         $form->preProcess();
         $form->buildQuickForm();

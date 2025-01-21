@@ -4,10 +4,10 @@ namespace Civi\Appearancemodifier;
 
 use Civi\Api4\ActivityContact;
 use Civi\Api4\AppearancemodifierProfile;
-use Civi\Api4\Contact;
-use Civi\Api4\UFField;
-use Civi\Api4\UFGroup;
 use Civi\Consentactivity\Config;
+use Civi\RcBase\ApiWrapper\Create;
+use Civi\RcBase\Utils\PHPUnit;
+use CRM_Core_Controller_Simple;
 use CRM_Profile_Form_Edit;
 
 /**
@@ -23,13 +23,18 @@ class ServiceConsentTest extends HeadlessTestCase
      */
     public function testPostProcessNoConsentActivitySettingsOnTheForm()
     {
-        $profile = UFGroup::create(false)
-            ->addValue('title', 'Test UFGroup aka Profile')
-            ->addValue('is_active', true)
-            ->execute()
-            ->first();
+        $contact_id = PHPUnit::createIndividual();
         $customField = parent::createNewCustomField();
-        // setup conset activity configuration
+        $profile_id = Create::entity('UFGroup', ['title' => 'Test profile']);
+        Create::entity('UFJoin', [
+            'module' => 'Profile',
+            'uf_group_id' => $profile_id,
+        ]);
+        Create::entity('UFField', [
+            'uf_group_id' => $profile_id,
+            'field_name' => 'custom_'.$customField['id'],
+        ]);
+        // setup consent activity configuration
         $config = new Config('consentactivity');
         $config->load();
         $cfg = $config->get();
@@ -39,28 +44,27 @@ class ServiceConsentTest extends HeadlessTestCase
             'group-id' => '0',
         ];
         $config->update($cfg);
-        UFField::create(false)
-            ->addValue('uf_group_id', $profile['id'])
-            ->addValue('field_name', 'custom_'.$customField['id'])
-            ->execute();
+
+        $_REQUEST = [
+            'gid' => $profile_id,
+            'cid' => $contact_id,
+        ];
         $form = new CRM_Profile_Form_Edit();
-        $contact = Contact::create(false)
-            ->addValue('contact_type', 'Individual')
-            ->execute()
-            ->first();
-        $form->setVar('_id', $contact['id']);
-        $form->setVar('_gid', $profile['id']);
-        $submit = ['custom_'.$customField['id'] => [1 => '1']];
-        $form->setVar('_submitValues', $submit);
+        $form->controller = new CRM_Core_Controller_Simple('CRM_Profile_Form_Edit', 'Create Profile');
+        $form->preProcess();
+        $form->_submitValues = ['custom_'.$customField['id'] => [1 => '1']];
+
         $activityContactsBefore = ActivityContact::get()
             ->selectRowCount()
-            ->addWhere('contact_id', '=', $contact['id'])
+            ->addWhere('contact_id', '=', $contact_id)
             ->addWhere('record_type_id', '=', 3)
             ->execute();
-        self::assertEmpty(Service::postProcess(CRM_Profile_Form_Edit::class, $form));
+
+        Service::postProcess(CRM_Profile_Form_Edit::class, $form);
+
         $activityContactsAfter = ActivityContact::get()
             ->selectRowCount()
-            ->addWhere('contact_id', '=', $contact['id'])
+            ->addWhere('contact_id', '=', $contact_id)
             ->addWhere('record_type_id', '=', 3)
             ->execute();
         self::assertCount(count($activityContactsBefore), $activityContactsAfter);
@@ -74,46 +78,50 @@ class ServiceConsentTest extends HeadlessTestCase
      */
     public function testPostProcessNoConsentActivitySettings()
     {
-        $profile = UFGroup::create(false)
-            ->addValue('title', 'Test UFGroup aka Profile')
-            ->addValue('is_active', true)
-            ->execute()
-            ->first();
+        $contact_id = PHPUnit::createIndividual();
         $customField = parent::createNewCustomField();
-        UFField::create(false)
-            ->addValue('uf_group_id', $profile['id'])
-            ->addValue('field_name', 'custom_'.$customField['id'])
-            ->execute();
-        // setup conset activity configuration
+        $profile_id = Create::entity('UFGroup', ['title' => 'Test profile']);
+        Create::entity('UFJoin', [
+            'module' => 'Profile',
+            'uf_group_id' => $profile_id,
+        ]);
+        Create::entity('UFField', [
+            'uf_group_id' => $profile_id,
+            'field_name' => 'custom_'.$customField['id'],
+        ]);
+        // setup consent activity configuration
         $config = new Config('consentactivity');
         $config->load();
         $cfg = $config->get();
         unset($cfg['custom-field-map']);
         $config->update($cfg);
-        $form = new CRM_Profile_Form_Edit();
-        $contact = Contact::create(false)
-            ->addValue('contact_type', 'Individual')
-            ->execute()
-            ->first();
-        $form->setVar('_id', $contact['id']);
-        $form->setVar('_gid', $profile['id']);
-        $submit = ['custom_'.$customField['id'] => [1 => '1']];
-        $form->setVar('_submitValues', $submit);
         AppearancemodifierProfile::update(false)
-            ->addWhere('uf_group_id', '=', $profile['id'])
+            ->addWhere('uf_group_id', '=', $profile_id)
             ->addValue('custom_settings', ['consentactivity' => ['custom_'.$customField['id'] => '1']])
             ->setLimit(1)
             ->execute()
             ->first();
+
+        $_REQUEST = [
+            'gid' => $profile_id,
+            'cid' => $contact_id,
+        ];
+        $form = new CRM_Profile_Form_Edit();
+        $form->controller = new CRM_Core_Controller_Simple('CRM_Profile_Form_Edit', 'Create Profile');
+        $form->preProcess();
+        $form->_submitValues = ['custom_'.$customField['id'] => [1 => '1']];
+
         $activityContactsBefore = ActivityContact::get()
             ->selectRowCount()
-            ->addWhere('contact_id', '=', $contact['id'])
+            ->addWhere('contact_id', '=', $contact_id)
             ->addWhere('record_type_id', '=', 3)
             ->execute();
-        self::assertEmpty(Service::postProcess(CRM_Profile_Form_Edit::class, $form));
+
+        Service::postProcess(CRM_Profile_Form_Edit::class, $form);
+
         $activityContactsAfter = ActivityContact::get()
             ->selectRowCount()
-            ->addWhere('contact_id', '=', $contact['id'])
+            ->addWhere('contact_id', '=', $contact_id)
             ->addWhere('record_type_id', '=', 3)
             ->execute();
         self::assertCount(count($activityContactsBefore), $activityContactsAfter);
@@ -127,13 +135,18 @@ class ServiceConsentTest extends HeadlessTestCase
      */
     public function testPostProcessValueNotSet()
     {
-        $profile = UFGroup::create(false)
-            ->addValue('title', 'Test UFGroup aka Profile')
-            ->addValue('is_active', true)
-            ->execute()
-            ->first();
+        $contact_id = PHPUnit::createIndividual();
         $customField = parent::createNewCustomField();
-        // setup conset activity configuration
+        $profile_id = Create::entity('UFGroup', ['title' => 'Test profile']);
+        Create::entity('UFJoin', [
+            'module' => 'Profile',
+            'uf_group_id' => $profile_id,
+        ]);
+        Create::entity('UFField', [
+            'uf_group_id' => $profile_id,
+            'field_name' => 'custom_'.$customField['id'],
+        ]);
+        // setup consent activity configuration
         $config = new Config('consentactivity');
         $config->load();
         $cfg = $config->get();
@@ -143,34 +156,33 @@ class ServiceConsentTest extends HeadlessTestCase
             'group-id' => '0',
         ];
         $config->update($cfg);
-        UFField::create(false)
-            ->addValue('uf_group_id', $profile['id'])
-            ->addValue('field_name', 'custom_'.$customField['id'])
-            ->execute();
-        $form = new CRM_Profile_Form_Edit();
-        $contact = Contact::create(false)
-            ->addValue('contact_type', 'Individual')
-            ->execute()
-            ->first();
-        $form->setVar('_id', $contact['id']);
-        $form->setVar('_gid', $profile['id']);
-        $submit = ['custom_'.$customField['id'] => [1 => '']];
-        $form->setVar('_submitValues', $submit);
         AppearancemodifierProfile::update(false)
-            ->addWhere('uf_group_id', '=', $profile['id'])
+            ->addWhere('uf_group_id', '=', $profile_id)
             ->addValue('custom_settings', ['consentactivity' => ['custom_'.$customField['id'] => '1']])
             ->setLimit(1)
             ->execute()
             ->first();
+
+        $_REQUEST = [
+            'gid' => $profile_id,
+            'cid' => $contact_id,
+        ];
+        $form = new CRM_Profile_Form_Edit();
+        $form->controller = new CRM_Core_Controller_Simple('CRM_Profile_Form_Edit', 'Create Profile');
+        $form->preProcess();
+        $form->_submitValues = ['custom_'.$customField['id'] => [1 => '']];
+
         $activityContactsBefore = ActivityContact::get()
             ->selectRowCount()
-            ->addWhere('contact_id', '=', $contact['id'])
+            ->addWhere('contact_id', '=', $contact_id)
             ->addWhere('record_type_id', '=', 3)
             ->execute();
-        self::assertEmpty(Service::postProcess(CRM_Profile_Form_Edit::class, $form));
+
+        Service::postProcess(CRM_Profile_Form_Edit::class, $form);
+
         $activityContactsAfter = ActivityContact::get()
             ->selectRowCount()
-            ->addWhere('contact_id', '=', $contact['id'])
+            ->addWhere('contact_id', '=', $contact_id)
             ->addWhere('record_type_id', '=', 3)
             ->execute();
         self::assertCount(count($activityContactsBefore), $activityContactsAfter);
@@ -184,13 +196,18 @@ class ServiceConsentTest extends HeadlessTestCase
      */
     public function testPostProcessValueSet()
     {
-        $profile = UFGroup::create(false)
-            ->addValue('title', 'Test UFGroup aka Profile')
-            ->addValue('is_active', true)
-            ->execute()
-            ->first();
+        $contact_id = PHPUnit::createIndividual();
         $customField = parent::createNewCustomField();
-        // setup conset activity configuration
+        $profile_id = Create::entity('UFGroup', ['title' => 'Test profile']);
+        Create::entity('UFJoin', [
+            'module' => 'Profile',
+            'uf_group_id' => $profile_id,
+        ]);
+        Create::entity('UFField', [
+            'uf_group_id' => $profile_id,
+            'field_name' => 'custom_'.$customField['id'],
+        ]);
+        // setup consent activity configuration
         $config = new Config('consentactivity');
         $config->load();
         $cfg = $config->get();
@@ -200,34 +217,33 @@ class ServiceConsentTest extends HeadlessTestCase
             'group-id' => '0',
         ];
         $config->update($cfg);
-        UFField::create(false)
-            ->addValue('uf_group_id', $profile['id'])
-            ->addValue('field_name', 'custom_'.$customField['id'])
-            ->execute();
-        $form = new CRM_Profile_Form_Edit();
-        $contact = Contact::create(false)
-            ->addValue('contact_type', 'Individual')
-            ->execute()
-            ->first();
-        $form->setVar('_id', $contact['id']);
-        $form->setVar('_gid', $profile['id']);
-        $submit = ['custom_'.$customField['id'] => [1 => '1']];
-        $form->setVar('_submitValues', $submit);
         AppearancemodifierProfile::update(false)
-            ->addWhere('uf_group_id', '=', $profile['id'])
+            ->addWhere('uf_group_id', '=', $profile_id)
             ->addValue('custom_settings', ['consentactivity' => ['custom_'.$customField['id'] => '1']])
             ->setLimit(1)
             ->execute()
             ->first();
+
+        $_REQUEST = [
+            'gid' => $profile_id,
+            'cid' => $contact_id,
+        ];
+        $form = new CRM_Profile_Form_Edit();
+        $form->controller = new CRM_Core_Controller_Simple('CRM_Profile_Form_Edit', 'Create Profile');
+        $form->preProcess();
+        $form->_submitValues = ['custom_'.$customField['id'] => [1 => '1']];
+
         $activityContactsBefore = ActivityContact::get()
             ->selectRowCount()
-            ->addWhere('contact_id', '=', $contact['id'])
+            ->addWhere('contact_id', '=', $contact_id)
             ->addWhere('record_type_id', '=', 3)
             ->execute();
-        self::assertEmpty(Service::postProcess(CRM_Profile_Form_Edit::class, $form));
+
+        Service::postProcess(CRM_Profile_Form_Edit::class, $form);
+
         $activityContactsAfter = ActivityContact::get()
             ->selectRowCount()
-            ->addWhere('contact_id', '=', $contact['id'])
+            ->addWhere('contact_id', '=', $contact_id)
             ->addWhere('record_type_id', '=', 3)
             ->execute();
         self::assertCount(count($activityContactsBefore) + 1, $activityContactsAfter);
@@ -243,7 +259,16 @@ class ServiceConsentTest extends HeadlessTestCase
     public function testAlterContentConsentCheckboxes()
     {
         $customField = parent::createNewCustomField();
-        // setup conset activity configuration
+        $profile_id = Create::entity('UFGroup', ['title' => 'Test profile']);
+        Create::entity('UFJoin', [
+            'module' => 'Profile',
+            'uf_group_id' => $profile_id,
+        ]);
+        Create::entity('UFField', [
+            'uf_group_id' => $profile_id,
+            'field_name' => 'custom_'.$customField['id'],
+        ]);
+        // setup consent activity configuration
         $config = new Config('consentactivity');
         $config->load();
         $cfg = $config->get();
@@ -253,22 +278,21 @@ class ServiceConsentTest extends HeadlessTestCase
             'group-id' => '0',
         ];
         $config->update($cfg);
-        $profile = UFGroup::create(false)
-            ->addValue('title', 'Test UFGroup aka Profile')
-            ->addValue('is_active', true)
-            ->execute()
-            ->first();
-        UFField::create(false)
-            ->addValue('uf_group_id', $profile['id'])
-            ->addValue('field_name', 'custom_'.$customField['id'])
-            ->execute();
+
+        $_REQUEST = [
+            'gid' => $profile_id,
+        ];
         $form = new CRM_Profile_Form_Edit();
-        $form->setVar('_gid', $profile['id']);
+        $form->controller = new CRM_Core_Controller_Simple('CRM_Profile_Form_Edit', 'Create Profile');
+        $form->preProcess();
+
         $expectedContent = "<div><div class=\"crm-section form-item consentactivity\" id=\"editrow-custom_".$customField['id']
             ."\">\n<div class=\"label\"><label>Move me.</label></div>\n<div class=\"content\"><input type=\"checkbox\" id=\"custom_".$customField['id']."_1\"></div>\n</div></div>";
         $content = '<div><div class="crm-section form-item" id="editrow-custom_'.$customField['id']
             .'"><div class="label"><label>Replace me.</label></div><div class="content"><input type="checkbox" id="custom_'.$customField['id'].'_1" /><label>Move me.</label></div></div></div>';
-        self::assertEmpty(Service::alterContent($content, Service::PROFILE_TEMPLATES[0], $form));
+
+        Service::alterContent($content, Service::PROFILE_TEMPLATES[0], $form);
+
         self::assertSame($expectedContent, $content, 'Invalid content has been generated template: '.Service::PROFILE_TEMPLATES[0].'. '.$content);
     }
 }

@@ -187,7 +187,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         $_REQUEST['pid'] = $petition['id'];
         $_GET['pid'] = $petition['id'];
         $_POST['pid'] = $petition['id'];
-        $form->setVar('_submitValues', [
+        $form->_submitValues = [
             'is_active' => '1',
             'original_color' => '1',
             'original_font_color' => '1',
@@ -210,7 +210,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
             'send_size_to_when_embedded' => '*',
             'add_check_all_checkbox' => '',
             'check_all_checkbox_label' => '',
-        ]);
+        ];
 
         $form->preProcess();
         $form->buildQuickForm();
@@ -245,7 +245,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         $_REQUEST['pid'] = $petition['id'];
         $_GET['pid'] = $petition['id'];
         $_POST['pid'] = $petition['id'];
-        $form->setVar('_submitValues', [
+        $form->_submitValues = [
             'is_active' => '1',
             'original_color' => '1',
             'original_font_color' => '0',
@@ -268,7 +268,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
             'send_size_to_when_embedded' => '*',
             'add_check_all_checkbox' => '',
             'check_all_checkbox_label' => '',
-        ]);
+        ];
 
         $form->preProcess();
         $form->buildQuickForm();
@@ -303,7 +303,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
         $_REQUEST['pid'] = $petition['id'];
         $_GET['pid'] = $petition['id'];
         $_POST['pid'] = $petition['id'];
-        $form->setVar('_submitValues', [
+        $form->_submitValues = [
             'is_active' => '1',
             'original_color' => '0',
             'original_font_color' => '0',
@@ -327,7 +327,7 @@ class CRM_Appearancemodifier_Form_PetitionTest extends HeadlessTestCase
             'send_size_to_when_embedded' => '*',
             'add_check_all_checkbox' => '',
             'check_all_checkbox_label' => '',
-        ]);
+        ];
 
         $form->preProcess();
         $form->buildQuickForm();

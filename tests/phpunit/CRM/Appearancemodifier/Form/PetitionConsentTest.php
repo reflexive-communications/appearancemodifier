@@ -171,7 +171,7 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
         $_REQUEST['pid'] = $petition['id'];
         $_GET['pid'] = $petition['id'];
         $_POST['pid'] = $petition['id'];
-        $form->setVar('_submitValues', [
+        $form->_submitValues = [
             'is_active' => '1',
             'original_color' => '0',
             'original_font_color' => '0',
@@ -196,7 +196,7 @@ class CRM_Appearancemodifier_Form_PetitionConsentTest extends HeadlessTestCase
             'add_check_all_checkbox' => '',
             'check_all_checkbox_label' => '',
             'consentactivity_custom_'.$customField['id'] => '1',
-        ]);
+        ];
 
         $form->preProcess();
         $form->buildQuickForm();
