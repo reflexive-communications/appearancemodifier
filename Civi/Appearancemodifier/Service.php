@@ -64,6 +64,7 @@ class Service
         'qs' => 'pid=%%id%%',
         'title' => 'Customize form with The Appearance Modifier Extension.',
         'class' => 'crm-popup',
+        'weight' => 0,
     ];
 
     public const LINK_PETITION = [
@@ -72,6 +73,7 @@ class Service
         'qs' => 'pid=%%id%%',
         'title' => 'Customize form with The Appearance Modifier Extension.',
         'class' => 'crm-popup',
+        'weight' => 0,
     ];
 
     public const LINK_EVENT = [
@@ -80,6 +82,7 @@ class Service
         'qs' => 'eid=%%id%%',
         'title' => 'Customize form with The Appearance Modifier Extension.',
         'class' => 'crm-popup',
+        'weight' => 0,
     ];
 
     /**
