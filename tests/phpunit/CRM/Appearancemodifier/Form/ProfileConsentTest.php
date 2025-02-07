@@ -126,7 +126,7 @@ class CRM_Appearancemodifier_Form_ProfileConsentTest extends HeadlessTestCase
         $_POST['pid'] = $profile['id'];
 
         $form = new CRM_Appearancemodifier_Form_Profile();
-        $form->setVar('_submitValues', [
+        $form->_submitValues = [
             'is_active' => '1',
             'original_color' => '1',
             'original_font_color' => '1',
@@ -145,7 +145,7 @@ class CRM_Appearancemodifier_Form_ProfileConsentTest extends HeadlessTestCase
             'check_all_checkbox_label' => '',
             'base_target_is_the_parent' => '',
             'consentactivity_custom_'.$customField['id'] => '1',
-        ]);
+        ];
 
         $form->preProcess();
         $form->buildQuickForm();

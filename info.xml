@@ -22,11 +22,11 @@
         <url desc="Support">https://github.com/reflexive-communications/appearancemodifier/issues</url>
         <url desc="Licensing">https://www.gnu.org/licenses/agpl-3.0.html</url>
     </urls>
-    <releaseDate>2024-06-18</releaseDate>
-    <version>4.3.0</version>
+    <releaseDate>2025-02-05</releaseDate>
+    <version>4.4.0</version>
     <develStage>stable</develStage>
     <compatibility>
-        <ver>5.45</ver>
+        <ver>5.76</ver>
     </compatibility>
     <requires>
         <ext>rc-base</ext>
@@ -36,13 +36,13 @@
         <psr4 prefix="Civi\" path="Civi"/>
     </classloader>
     <mixins>
-        <mixin>menu-xml@1.0.0</mixin>
-        <mixin>smarty-v2@1.0.1</mixin>
-        <mixin>entity-types-php@1.0.0</mixin>
+        <mixin>entity-types-php@2</mixin>
+        <mixin>menu-xml@1</mixin>
+        <mixin>smarty@1</mixin>
     </mixins>
-    <upgrader>CRM_Appearancemodifier_Upgrader</upgrader>
+    <upgrader>CiviMix\Schema\Appearancemodifier\AutomaticUpgrader</upgrader>
     <civix>
         <namespace>CRM/Appearancemodifier</namespace>
-        <format>23.02.1</format>
+        <format>24.09.1</format>
     </civix>
 </extension>
