@@ -77,6 +77,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
         foreach (self::EVENT_FIELDS as $key) {
             $this->_defaults[$key] = $this->modifiedEvent[$key];
         }
+        $this->_defaults['eid'] = $this->event['id'];
         parent::commondDefaultValues($this->modifiedEvent);
         // default for the custom settings.
         parent::customDefaultValues($this->modifiedEvent, self::DEFAULT_CUSTOM_SETTINGS);
@@ -101,6 +102,7 @@ class CRM_Appearancemodifier_Form_Event extends CRM_Appearancemodifier_Form_Abst
                 'options' => &$layoutOptions,
             ])
         );
+        $this->add('hidden', 'eid');
         $this->add('checkbox', 'custom_social_box', E::ts('Custom social box'), [], false);
         $this->add('text', 'external_share_url', E::ts('External url to share'), [], false);
         parent::commonBuildQuickForm($layoutOptions);

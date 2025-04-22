@@ -82,6 +82,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
         foreach (self::PETITION_FIELDS as $key) {
             $this->_defaults[$key] = $this->modifiedPetition[$key];
         }
+        $this->_defaults['pid'] = $this->petition['id'];
         parent::commondDefaultValues($this->modifiedPetition);
         // default for the custom settings.
         parent::customDefaultValues($this->modifiedPetition, self::DEFAULT_CUSTOM_SETTINGS);
@@ -106,6 +107,7 @@ class CRM_Appearancemodifier_Form_Petition extends CRM_Appearancemodifier_Form_A
                 'options' => &$layoutOptions,
             ])
         );
+        $this->add('hidden', 'pid');
         $this->add('textarea', 'petition_message', E::ts('Petition message'), ['rows' => '4', 'cols' => '60'], false);
         $this->add('checkbox', 'disable_petition_message_edit', E::ts('Disable edit'), [], false);
         $this->add('text', 'target_number_of_signers', E::ts('Target number of signers'), [], false);

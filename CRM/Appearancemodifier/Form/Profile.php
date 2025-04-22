@@ -76,6 +76,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
         foreach (self::PROFILE_FIELDS as $key) {
             $this->_defaults[$key] = $this->modifiedProfile[$key];
         }
+        $this->_defaults['pid'] = $this->ufGroup['id'];
         parent::commondDefaultValues($this->modifiedProfile);
         // default for the custom settings.
         parent::customDefaultValues($this->modifiedProfile, self::DEFAULT_CUSTOM_SETTINGS);
@@ -100,6 +101,7 @@ class CRM_Appearancemodifier_Form_Profile extends CRM_Appearancemodifier_Form_Ab
                 'options' => &$layoutOptions,
             ])
         );
+        $this->add('hidden', 'pid');
         $this->add('wysiwyg', 'additional_note', E::ts('Additional Note Text'), [], false);
         $this->add('checkbox', 'base_target_is_the_parent', E::ts('Open links in parent frame'), [], false);
         parent::commonBuildQuickForm($layoutOptions);
