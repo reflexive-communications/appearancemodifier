@@ -111,8 +111,8 @@ abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
         $this->add('text', 'check_all_checkbox_label', E::ts('Checkbox label'), []);
         // If the consentactivity extension is installed, the custom consent field -> activity mapping has to be provided
         // defaults for the consentactivity extension related config.
+        $consentActivityFieldNames = [];
         if (count($this->consentFieldNames) > 0) {
-            $consentActivityFieldNames = [];
             $labels = Service::customCheckboxFields();
             foreach ($this->consentFieldNames as $field) {
                 $this->add(
@@ -124,8 +124,8 @@ abstract class CRM_Appearancemodifier_Form_AbstractBase extends CRM_Core_Form
                 );
                 $consentActivityFieldNames[] = 'consentactivity_'.$field;
             }
-            $this->assign('consentActivityFieldNames', $consentActivityFieldNames);
         }
+        $this->assign('consentActivityFieldNames', $consentActivityFieldNames);
         // Submit button
         $this->addButtons(
             [
