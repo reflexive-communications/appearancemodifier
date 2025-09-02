@@ -152,6 +152,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ->first();
         AppearancemodifierProfile::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('consent_field_behaviour', 'invert')
             ->execute();
@@ -220,6 +221,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ->first();
         AppearancemodifierProfile::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('consent_field_behaviour', 'apply_on_submit')
             ->execute();
@@ -264,6 +266,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ->first();
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('consent_field_behaviour', 'invert')
             ->execute();
@@ -326,6 +329,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ->first();
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('consent_field_behaviour', 'apply_on_submit')
             ->execute();
@@ -408,6 +412,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ->first();
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('consent_field_behaviour', 'invert')
             ->execute();
@@ -467,6 +472,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ->first();
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('consent_field_behaviour', 'invert')
             ->execute();
@@ -529,6 +535,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ->first();
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('consent_field_behaviour', 'apply_on_submit')
             ->execute();
@@ -582,6 +589,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
         ]);
         AppearancemodifierProfile::update(false)
             ->addWhere('id', '=', $profile_id)
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->execute();
@@ -619,6 +627,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
         ]);
         AppearancemodifierProfile::update(false)
             ->addWhere('id', '=', $profile_id)
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->execute();
@@ -656,6 +665,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
         ]);
         AppearancemodifierProfile::update(false)
             ->addWhere('id', '=', $profile_id)
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
@@ -700,6 +710,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ->first();
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
@@ -737,6 +748,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ->first();
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
@@ -771,6 +783,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ->first();
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
@@ -806,6 +819,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
         $defaultMessage = 'My default message.';
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
@@ -840,6 +854,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
         $defaultMessage = 'My default message.';
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
@@ -875,6 +890,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
         $defaultMessage = 'My default message.';
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
@@ -911,6 +927,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ->first();
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
@@ -960,6 +977,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
         $defaultMessage = 'My default message.';
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
@@ -994,6 +1012,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ->first();
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
@@ -1035,6 +1054,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
             ->first();
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
@@ -1082,6 +1102,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
         $customSettings['check_all_checkbox_label'] = 'Check All With Me.';
         AppearancemodifierProfile::update(false)
             ->addWhere('id', '=', $profile_id)
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
@@ -1130,6 +1151,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
         $customSettings['check_all_checkbox_label'] = 'Check All With Me.';
         AppearancemodifierPetition::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)
@@ -1166,6 +1188,7 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
         $customSettings['check_all_checkbox_label'] = 'Check All With Me.';
         AppearancemodifierEvent::update(false)
             ->addWhere('id', '=', $modifiedConfig['id'])
+            ->addValue('is_active', true)
             ->addValue('layout_handler', LayoutImplementation::class)
             ->addValue('add_placeholder', 1)
             ->addValue('hide_form_labels', 1)

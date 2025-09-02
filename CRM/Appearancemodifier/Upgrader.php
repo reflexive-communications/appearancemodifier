@@ -350,4 +350,19 @@ class CRM_Appearancemodifier_Upgrader extends CRM_Extension_Upgrader_Base
 
         return true;
     }
+
+    /**
+     * Change default value of is_active to false
+     *
+     * @return bool
+     * @throws \Civi\RcBase\Exception\DataBaseException
+     */
+    public function upgrade_4050(): bool
+    {
+        \Civi\RcBase\Utils\DB::query('ALTER TABLE civicrm_appearancemodifier_event MODIFY is_active tinyint NOT NULL DEFAULT 0 COMMENT "Is Appearance-modifier enabled for this event?"');
+        \Civi\RcBase\Utils\DB::query('ALTER TABLE civicrm_appearancemodifier_petition MODIFY is_active tinyint NOT NULL DEFAULT 0 COMMENT "Is Appearance-modifier enabled for this petition?"');
+        \Civi\RcBase\Utils\DB::query('ALTER TABLE civicrm_appearancemodifier_profile MODIFY is_active tinyint NOT NULL DEFAULT 0 COMMENT "Is Appearance-modifier enabled for this profile?"');
+
+        return true;
+    }
 }

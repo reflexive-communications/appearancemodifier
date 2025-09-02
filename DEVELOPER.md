@@ -56,7 +56,7 @@ The form customization is based on additional settings that could be reached fro
 
 ### General settings
 
-- Is Active - Kill switch for the entity.
+- Is Active - Kill switch for the entity. This is off by default, you have to enable it to apply the settings on the form.
 - Form Layout - It is the option for extending the template resources and implementing the alterContent for creating further custom changes on the forms.
 - Background Color - If the Original Background Color is unchecked, this value will be used as background color on the form. If the Original Background Color is unchecked and the Transparent Background Color is checked, then transparent background will be applied on the form (included the text inputs, their background color will be set to white and color to black on case of focus state).
 - Font Color - If the Original Font Color is unchecked, this value will be used as font color on the form.
