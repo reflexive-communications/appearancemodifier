@@ -68,7 +68,7 @@ class CRM_Appearancemodifier_Form_EventTest extends HeadlessTestCase
         $form = new CRM_Appearancemodifier_Form_Event();
         $form->preProcess();
         $defaults = $form->setDefaultValues();
-        self::assertTrue($defaults['is_active']);
+        self::assertFalse($defaults['is_active']);
         self::assertSame(1, $defaults['original_color']);
         self::assertSame(1, $defaults['original_font_color']);
     }
@@ -97,7 +97,7 @@ class CRM_Appearancemodifier_Form_EventTest extends HeadlessTestCase
         $form = new CRM_Appearancemodifier_Form_Event();
         $form->preProcess();
         $defaults = $form->setDefaultValues();
-        self::assertTrue($defaults['is_active']);
+        self::assertFalse($defaults['is_active']);
         self::assertSame(1, $defaults['transparent_background']);
         self::assertNull($defaults['background_color']);
         self::assertSame(1, $defaults['original_font_color']);

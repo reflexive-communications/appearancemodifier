@@ -218,7 +218,7 @@ return [
             'input_type' => 'CheckBox',
             'required' => true,
             'description' => E::ts('Is Appearance-modifier enabled for this petition?'),
-            'default' => true,
+            'default' => false,
             'usage' => [
                 'import',
                 'export',

@@ -219,6 +219,7 @@ class ServiceConsentTest extends HeadlessTestCase
         $config->update($cfg);
         AppearancemodifierProfile::update(false)
             ->addWhere('uf_group_id', '=', $profile_id)
+            ->addValue('is_active', true)
             ->addValue('custom_settings', ['consentactivity' => ['custom_'.$customField['id'] => '1']])
             ->setLimit(1)
             ->execute()
@@ -268,6 +269,10 @@ class ServiceConsentTest extends HeadlessTestCase
             'uf_group_id' => $profile_id,
             'field_name' => 'custom_'.$customField['id'],
         ]);
+        AppearancemodifierProfile::update(false)
+            ->addWhere('uf_group_id', '=', $profile_id)
+            ->addValue('is_active', true)
+            ->execute();
         // setup consent activity configuration
         $config = new Config('consentactivity');
         $config->load();
