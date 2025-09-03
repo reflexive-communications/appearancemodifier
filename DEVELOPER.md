@@ -54,6 +54,23 @@ function hook_civicrm_appearancemodifierEventSettings(&$handlers)
 
 The form customization is based on additional settings that could be reached from a new menu link. The additional settings are stored in managed entities.
 
+Additionally, customization can be enabled/disabled globally for each form type. For this use the following constant settings in `civicrm.settings.php`:
+
+```php
+// Disable Appearance Modifier for petitions but enable for profiles and events
+// Note: the default value is true for all form types
+define('CIVICRM_RC_APPEARANCEMODIFIER_ENABLED', [
+    'profile' => true,
+    'petition' => false,
+    'event' => true,
+]);
+
+// Enabled types can be omitted, as it defaults to true, so the above is equivalent to:
+define('CIVICRM_RC_APPEARANCEMODIFIER_ENABLED', [
+    'petition' => false,
+]);
+```
+
 ### General settings
 
 - Is Active - Kill switch for the entity. This is off by default, you have to enable it to apply the settings on the form.

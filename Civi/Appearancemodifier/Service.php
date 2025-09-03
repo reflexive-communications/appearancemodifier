@@ -11,6 +11,7 @@ use Civi\Api4\Contact;
 use Civi\Api4\Event;
 use Civi\Api4\UFGroup;
 use Civi\Consentactivity\Config;
+use Civi\RcBase\Exception\InvalidArgumentException;
 use CRM_Appearancemodifier_ExtensionUtil as E;
 use CRM_Campaign_Form_Petition_Signature;
 use CRM_Campaign_Page_Petition_ThankYou;
@@ -102,6 +103,9 @@ class Service
         switch ($tplName) {
             case 'CRM/Profile/Page/View.tpl':
             case 'CRM/Profile/Form/Edit.tpl':
+                if (!self::isCustomizationEnabled('profile')) {
+                    return;
+                }
                 $modifiedProfile = AppearancemodifierProfile::get(false)
                     ->addWhere('uf_group_id', '=', (int)($form instanceof CRM_Profile_Form_Edit ? $form->getUFGroupIDs()[0] ?? 0 : $form->getTemplateVars('groupID')))
                     ->execute()
@@ -112,6 +116,9 @@ class Service
                 break;
             case 'CRM/Campaign/Form/Petition/Signature.tpl':
             case 'CRM/Campaign/Page/Petition/ThankYou.tpl':
+                if (!self::isCustomizationEnabled('petition')) {
+                    return;
+                }
                 $id = $tplName == 'CRM/Campaign/Form/Petition/Signature.tpl' ? $form->_surveyId : $form->getTemplateVars('survey_id');
                 // if the id is not found, do nothing.
                 if ($id < 1) {
@@ -130,6 +137,9 @@ class Service
             case 'CRM/Event/Form/Registration/Register.tpl':
             case 'CRM/Event/Form/Registration/Confirm.tpl':
             case 'CRM/Event/Form/Registration/ThankYou.tpl':
+                if (!self::isCustomizationEnabled('event')) {
+                    return;
+                }
                 $id = $form->getEventID();
                 // if the id is not found, do nothing.
                 if (is_null($id)) {
@@ -159,17 +169,28 @@ class Service
      *
      * @param string $op
      * @param array $links
+     *
+     * @throws \Civi\RcBase\Exception\InvalidArgumentException
      */
     public static function links(string $op, array &$links): void
     {
         switch ($op) {
             case 'ufGroup.row.actions':
+                if (!self::isCustomizationEnabled('profile')) {
+                    return;
+                }
                 $links[] = self::LINK_PROFILE;
                 break;
             case 'petition.dashboard.row':
+                if (!self::isCustomizationEnabled('petition')) {
+                    return;
+                }
                 $links[] = self::LINK_PETITION;
                 break;
             case 'event.manage.list':
+                if (!self::isCustomizationEnabled('event')) {
+                    return;
+                }
                 $links[] = self::LINK_EVENT;
                 break;
         }
@@ -222,6 +243,9 @@ class Service
     {
         switch (get_class($page)) {
             case 'CRM_Campaign_Page_Petition_ThankYou':
+                if (!self::isCustomizationEnabled('petition')) {
+                    return;
+                }
                 $modifiedConfig = AppearancemodifierPetition::get(false)
                     ->addWhere('survey_id', '=', $page->getTemplateVars('survey_id'))
                     ->execute()
@@ -235,6 +259,9 @@ class Service
                 }
                 break;
             case 'CRM_Event_Page_EventInfo':
+                if (!self::isCustomizationEnabled('event')) {
+                    return;
+                }
                 $modifiedConfig = AppearancemodifierEvent::get(false)
                     ->addWhere('event_id', '=', $page->getEventID())
                     ->execute()
@@ -248,6 +275,9 @@ class Service
                 }
                 break;
             case 'CRM_Profile_Page_View':
+                if (!self::isCustomizationEnabled('profile')) {
+                    return;
+                }
                 $modifiedConfig = AppearancemodifierProfile::get(false)
                     ->addWhere('uf_group_id', '=', $page->getTemplateVars('groupID'))
                     ->execute()
@@ -278,6 +308,10 @@ class Service
      */
     public static function buildProfile(string $profileName): void
     {
+        if (!self::isCustomizationEnabled('profile')) {
+            return;
+        }
+
         // get the profile id form ufgroup api, then use the id for the AppearancemodifierProfile get.
         $uFGroup = UFGroup::get(false)
             ->addSelect('id')
@@ -320,6 +354,9 @@ class Service
     {
         switch ($formName) {
             case 'CRM_Campaign_Form_Petition_Signature':
+                if (!self::isCustomizationEnabled('petition')) {
+                    return;
+                }
                 $modifiedConfig = AppearancemodifierPetition::get(false)
                     ->addWhere('survey_id', '=', $form->_surveyId)
                     ->execute()
@@ -335,6 +372,9 @@ class Service
             case 'CRM_Event_Form_Registration_Register':
             case 'CRM_Event_Form_Registration_Confirm':
             case 'CRM_Event_Form_Registration_ThankYou':
+                if (!self::isCustomizationEnabled('event')) {
+                    return;
+                }
                 $modifiedConfig = AppearancemodifierEvent::get(false)
                     ->addWhere('event_id', '=', $form->getEventID())
                     ->execute()
@@ -371,6 +411,9 @@ class Service
         $parameters = [];
         switch ($formName) {
             case 'CRM_Profile_Form_Edit':
+                if (!self::isCustomizationEnabled('profile')) {
+                    return;
+                }
                 $rules = AppearancemodifierProfile::get(false)
                     ->addWhere('uf_group_id', '=', $form->getUFGroupIDs()[0] ?? 0)
                     ->execute()
@@ -379,6 +422,9 @@ class Service
                 $parameters = $form->_submitValues;
                 break;
             case 'CRM_Campaign_Form_Petition_Signature':
+                if (!self::isCustomizationEnabled('petition')) {
+                    return;
+                }
                 $rules = AppearancemodifierPetition::get(false)
                     ->addWhere('survey_id', '=', $form->_surveyId)
                     ->execute()
@@ -387,6 +433,9 @@ class Service
                 $parameters = $form->_submitValues;
                 break;
             case 'CRM_Event_Form_Registration_Register':
+                if (!self::isCustomizationEnabled('event')) {
+                    return;
+                }
                 $values = $form->_values;
                 if (!$values['event']['is_confirm_enabled']) {
                     $rules = AppearancemodifierEvent::get(false)
@@ -398,6 +447,9 @@ class Service
                 }
                 break;
             case 'CRM_Event_Form_Registration_Confirm':
+                if (!self::isCustomizationEnabled('event')) {
+                    return;
+                }
                 $rules = AppearancemodifierEvent::get(false)
                     ->addWhere('event_id', '=', $form->getEventID())
                     ->execute()
@@ -437,10 +489,19 @@ class Service
     public static function alterContent(&$content, $tplName, &$object): void
     {
         if (in_array($tplName, self::PROFILE_TEMPLATES)) {
+            if (!self::isCustomizationEnabled('profile')) {
+                return;
+            }
             self::alterProfileContent($object instanceof CRM_Profile_Form_Edit ? $object->getUFGroupIDs()[0] ?? 0 : $object->getTemplateVars('groupID'), $content);
         } elseif (in_array($tplName, self::PETITION_TEMPLATES)) {
+            if (!self::isCustomizationEnabled('petition')) {
+                return;
+            }
             self::alterPetitionContent($tplName, $content, $object);
         } elseif (in_array($tplName, self::EVENT_TEMPLATES)) {
+            if (!self::isCustomizationEnabled('event')) {
+                return;
+            }
             self::alterEventContent($tplName, $content, $object);
         }
     }
@@ -453,6 +514,31 @@ class Service
     private static function isModifierEnabled(array $modifiedConfig): bool
     {
         return $modifiedConfig['is_active'] ?? false;
+    }
+
+    /**
+     * Check whether appearance modifier customization is enabled or not for the given type of forms.
+     *
+     * @param string $type Type of form. One of 'profile', 'petition', 'event'.
+     *
+     * @return bool
+     * @throws \Civi\RcBase\Exception\InvalidArgumentException
+     */
+    private static function isCustomizationEnabled(string $type): bool
+    {
+        if (!in_array($type, ['profile', 'petition', 'event'], true)) {
+            throw new InvalidArgumentException('type', 'must be one of "profile", "petition", "event"');
+        }
+
+        if (!defined('CIVICRM_RC_APPEARANCEMODIFIER_ENABLED')) {
+            define('CIVICRM_RC_APPEARANCEMODIFIER_ENABLED', [
+                'profile' => true,
+                'petition' => true,
+                'event' => true,
+            ]);
+        }
+
+        return CIVICRM_RC_APPEARANCEMODIFIER_ENABLED[$type] ?? true;
     }
 
     /**
