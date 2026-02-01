@@ -117,10 +117,10 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
 
         $_REQUEST = [
             'gid' => $profile_id,
-            'cid' => $contact_id,
         ];
         $form = new CRM_Profile_Form_Edit();
         $form->controller = new CRM_Core_Controller_Simple('CRM_Profile_Form_Edit', 'Create Profile');
+        $form->set('id', $contact_id);
         $form->preProcess();
         $form->_submitValues = [];
 
@@ -159,10 +159,10 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
 
         $_REQUEST = [
             'gid' => $profile_id,
-            'cid' => $contact_id,
         ];
         $form = new CRM_Profile_Form_Edit();
         $form->controller = new CRM_Core_Controller_Simple('CRM_Profile_Form_Edit', 'Create Profile');
+        $form->set('id', $contact_id);
         $form->preProcess();
         $form->_submitValues = [
             'is_opt_out' => '',
@@ -228,10 +228,10 @@ class ServiceTest extends HeadlessTestCase implements TransactionalInterface
 
         $_REQUEST = [
             'gid' => $profile_id,
-            'cid' => $contact_id,
         ];
         $form = new CRM_Profile_Form_Edit();
         $form->controller = new CRM_Core_Controller_Simple('CRM_Profile_Form_Edit', 'Create Profile');
+        $form->set('id', $contact_id);
         $form->preProcess();
         $form->_submitValues = [];
 
