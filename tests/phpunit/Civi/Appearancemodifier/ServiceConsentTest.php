@@ -47,10 +47,10 @@ class ServiceConsentTest extends HeadlessTestCase
 
         $_REQUEST = [
             'gid' => $profile_id,
-            'cid' => $contact_id,
         ];
         $form = new CRM_Profile_Form_Edit();
         $form->controller = new CRM_Core_Controller_Simple('CRM_Profile_Form_Edit', 'Create Profile');
+        $form->set('id', $contact_id);
         $form->preProcess();
         $form->_submitValues = ['custom_'.$customField['id'] => [1 => '1']];
 
@@ -104,10 +104,10 @@ class ServiceConsentTest extends HeadlessTestCase
 
         $_REQUEST = [
             'gid' => $profile_id,
-            'cid' => $contact_id,
         ];
         $form = new CRM_Profile_Form_Edit();
         $form->controller = new CRM_Core_Controller_Simple('CRM_Profile_Form_Edit', 'Create Profile');
+        $form->set('id', $contact_id);
         $form->preProcess();
         $form->_submitValues = ['custom_'.$customField['id'] => [1 => '1']];
 
@@ -165,10 +165,10 @@ class ServiceConsentTest extends HeadlessTestCase
 
         $_REQUEST = [
             'gid' => $profile_id,
-            'cid' => $contact_id,
         ];
         $form = new CRM_Profile_Form_Edit();
         $form->controller = new CRM_Core_Controller_Simple('CRM_Profile_Form_Edit', 'Create Profile');
+        $form->set('id', $contact_id);
         $form->preProcess();
         $form->_submitValues = ['custom_'.$customField['id'] => [1 => '']];
 
@@ -227,10 +227,10 @@ class ServiceConsentTest extends HeadlessTestCase
 
         $_REQUEST = [
             'gid' => $profile_id,
-            'cid' => $contact_id,
         ];
         $form = new CRM_Profile_Form_Edit();
         $form->controller = new CRM_Core_Controller_Simple('CRM_Profile_Form_Edit', 'Create Profile');
+        $form->set('id', $contact_id);
         $form->preProcess();
         $form->_submitValues = ['custom_'.$customField['id'] => [1 => '1']];
 
