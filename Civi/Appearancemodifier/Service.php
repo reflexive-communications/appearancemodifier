@@ -980,6 +980,9 @@ class Service
             }
             if ($modifiedConfig['custom_settings']['send_size_when_embedded'] === '1') {
                 Civi::resources()->addScriptFile(E::LONG_NAME, 'js/size.js');
+                Civi::resources()->addVars('appearancemodifier', [
+                    'allowedMessageReceiver' => $modifiedConfig['custom_settings']['send_size_to_when_embedded'],
+                ]);
             }
             if (isset($modifiedConfig['custom_settings']['base_target_is_the_parent']) && $modifiedConfig['custom_settings']['base_target_is_the_parent'] === '1') {
                 Civi::resources()->addScriptFile(E::LONG_NAME, 'js/base-target.js');
