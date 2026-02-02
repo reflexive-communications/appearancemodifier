@@ -22,8 +22,8 @@
         <url desc="Support">https://github.com/reflexive-communications/appearancemodifier/issues</url>
         <url desc="Licensing">https://www.gnu.org/licenses/agpl-3.0.html</url>
     </urls>
-    <releaseDate>2026-02-01</releaseDate>
-    <version>4.6.2</version>
+    <releaseDate>2026-02-02</releaseDate>
+    <version>4.6.3-alpha</version>
     <develStage>stable</develStage>
     <compatibility>
         <ver>5.76</ver>
