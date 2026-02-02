@@ -110,7 +110,7 @@ class Service
                     ->addWhere('uf_group_id', '=', (int)($form instanceof CRM_Profile_Form_Edit ? $form->getUFGroupIDs()[0] ?? 0 : $form->getTemplateVars('groupID')))
                     ->execute()
                     ->first();
-                if (!self::isModifierEnabled($modifiedProfile)) {
+                if (!self::isModifierEnabled($modifiedProfile ?? [])) {
                     return;
                 }
                 break;
@@ -129,7 +129,7 @@ class Service
                     ->addWhere('survey_id', '=', $id)
                     ->execute()
                     ->first();
-                if (!self::isModifierEnabled($modifiedPetition)) {
+                if (!self::isModifierEnabled($modifiedPetition ?? [])) {
                     return;
                 }
                 break;
@@ -150,7 +150,7 @@ class Service
                     ->addWhere('event_id', '=', $id)
                     ->execute()
                     ->first();
-                if (!self::isModifierEnabled($modifiedEvent)) {
+                if (!self::isModifierEnabled($modifiedEvent ?? [])) {
                     return;
                 }
                 break;
@@ -250,7 +250,7 @@ class Service
                     ->addWhere('survey_id', '=', $page->getTemplateVars('survey_id'))
                     ->execute()
                     ->first();
-                if (!self::isModifierEnabled($modifiedConfig)) {
+                if (!self::isModifierEnabled($modifiedConfig ?? [])) {
                     return;
                 }
                 if ($modifiedConfig['layout_handler'] !== null) {
@@ -266,7 +266,7 @@ class Service
                     ->addWhere('event_id', '=', $page->getEventID())
                     ->execute()
                     ->first();
-                if (!self::isModifierEnabled($modifiedConfig)) {
+                if (!self::isModifierEnabled($modifiedConfig ?? [])) {
                     return;
                 }
                 if ($modifiedConfig['layout_handler'] !== null) {
@@ -282,7 +282,7 @@ class Service
                     ->addWhere('uf_group_id', '=', $page->getTemplateVars('groupID'))
                     ->execute()
                     ->first();
-                if (!self::isModifierEnabled($modifiedConfig)) {
+                if (!self::isModifierEnabled($modifiedConfig ?? [])) {
                     return;
                 }
                 if ($modifiedConfig['layout_handler'] !== null) {
@@ -329,7 +329,7 @@ class Service
             ->addWhere('uf_group_id', '=', $uFGroup['id'])
             ->execute()
             ->first();
-        if (!self::isModifierEnabled($modifiedProfile)) {
+        if (!self::isModifierEnabled($modifiedProfile ?? [])) {
             return;
         }
 
@@ -361,7 +361,7 @@ class Service
                     ->addWhere('survey_id', '=', $form->_surveyId)
                     ->execute()
                     ->first();
-                if (!self::isModifierEnabled($modifiedConfig)) {
+                if (!self::isModifierEnabled($modifiedConfig ?? [])) {
                     return;
                 }
                 if ($modifiedConfig['layout_handler'] !== null) {
@@ -379,7 +379,7 @@ class Service
                     ->addWhere('event_id', '=', $form->getEventID())
                     ->execute()
                     ->first();
-                if (!self::isModifierEnabled($modifiedConfig)) {
+                if (!self::isModifierEnabled($modifiedConfig ?? [])) {
                     return;
                 }
                 if ($modifiedConfig['layout_handler'] !== null) {
@@ -458,7 +458,7 @@ class Service
                 $parameters = $form->get('params');
                 break;
         }
-        if (is_null($id) || !self::isModifierEnabled($rules)) {
+        if (is_null($id) || !self::isModifierEnabled($rules ?? [])) {
             return;
         }
 
@@ -670,7 +670,7 @@ class Service
             ->addWhere('uf_group_id', '=', $ufGroupId)
             ->execute()
             ->first();
-        if (!self::isModifierEnabled($modifiedProfile)) {
+        if (!self::isModifierEnabled($modifiedProfile ?? [])) {
             return;
         }
 
@@ -751,7 +751,7 @@ class Service
             ->addWhere('survey_id', '=', $id)
             ->execute()
             ->first();
-        if (!self::isModifierEnabled($modifiedPetition)) {
+        if (!self::isModifierEnabled($modifiedPetition ?? [])) {
             return;
         }
 
@@ -814,7 +814,7 @@ class Service
             ->addWhere('event_id', '=', $id)
             ->execute()
             ->first();
-        if (!self::isModifierEnabled($modifiedEvent)) {
+        if (!self::isModifierEnabled($modifiedEvent ?? [])) {
             return;
         }
 
