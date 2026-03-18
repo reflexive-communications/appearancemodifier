@@ -29,7 +29,7 @@ function sendResizeMessage() {
         type: 'resize',
         height: bodyElement.offsetHeight,
     };
-    let to = allowedMessageReceiver || '*';
+    let to = CRM.vars.appearancemodifier.allowedMessageReceiver || '*';
     window.self.parent.postMessage(message, to);
 }
 
